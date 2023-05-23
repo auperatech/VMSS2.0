@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message StreamMuxOptions {
+  message Demux {
+    // for receiving rtsp stream, we can choose "udp" or "tcp" transport method
+    string rtsp_transport = 1;
+    // for some situation, say that we want to see the result as soon as
+    // possible, we don't want demux node spending time(1~2s) to calculate actual
+    // fps, then we can specify the fps to demux node
+    float force_fps = 2;
+    // if set to true, then demux node will only send the I frame packet to
+    // decoder, otherwise send all kind of packets
+    bool iframe_extract = 3;
+    // if set to true, then demux node will try to reconnect the input stream
+    // when network is poor or when receive eof
+    bool auto_reconnect = 4;
+  }
+  message Mux {
+    // for sending rtsp stream, we can choose "udp" or "tcp" transport method
+    string rtsp_transport = 1;
+    // if set to true, then mux node will try to reconnect the output stream
+    // when output stream disconnect
+    bool auto_reconnect = 2;
+  }
+  Demux demux = 1;
+  Mux mux = 2;
+}

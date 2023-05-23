@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message BoxClassifierOptions {
+  string classifier_type = 1;
+  bool need_preprocess = 3;
+  bool run_on_letterboxed_img = 4;
+  int32 batch_size = 5;
+  bool return_in_order = 6;
+  int32 classification_threads = 7;
+  bool force_batch_size = 8;
+  uint64 batch_collection_timeout_ms = 9;
+  bool use_detections = 10;
+  bool log_performance = 11;
+  int32 max_classification_lib_q_size = 12;
+  int32 max_frame_cache_size = 13;
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message PlateRecognizerOptions {
+  // Plate Recognizer node runs both a plate detector and a plate recogniztion
+  // For the detector we provide two flavors: xilinx (from model zoo), tinyYoloV3 from Aupera
+  // For the recognizer we provide two flavors: xilinx (from model zoo), yolov2 from aupera
+
+  // confidence threshold based on recognition results. Default 0.1
+  float plate_confidence = 1;
+  // area threshold (w*h) in pixels for the detected plate. Default 50
+  uint32 plate_area_threshold = 2;
+  // detector flavor: acceptable types: "xilinx", "aup". Default aup
+  string detector_type = 3;
+  // recognizer flavor: acceptable types: "xilinx", "aup". Default aup
+  string recog_type = 4;
+  // run checksum for singapore validation. Default true
+  bool run_checksum_valid = 5;
+  // run histogram equalization before passing to recognizer. Default false
+  bool run_preprocessing = 6;
+}

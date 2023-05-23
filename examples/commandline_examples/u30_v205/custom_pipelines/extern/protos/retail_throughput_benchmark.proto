@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+import "box_detector.proto";
+import "box_tracker.proto";
+
+message RetailThroughputBenchmarkOptions {
+    BoxDetectorOptions detector = 1;
+    BoxTrackerOptions tracker = 2;
+    BoxDetectorOptions classifier = 3;
+    string stat_logs_path = 4;
+    bool use_tracker = 5;
+    int32 classifications_cluster_size = 6;
+}

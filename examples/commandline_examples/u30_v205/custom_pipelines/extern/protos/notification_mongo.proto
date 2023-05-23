@@ -1,0 +1,9 @@
+syntax = "proto3";
+package aup.avaf;
+
+message NotificationMongoOptions {
+    string mongodb_address = 1;
+    string database_name = 2;
+    string collection_name = 3;
+    uint32 notification_q_size = 4;
+}

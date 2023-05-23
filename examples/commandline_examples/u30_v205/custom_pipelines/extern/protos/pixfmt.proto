@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+enum PixFmt {
+  PIXFMT_NONE = 0;
+  PIXFMT_NV12 = 1;
+  PIXFMT_I420 = 2;
+  PIXFMT_BGR24 = 3;
+  PIXFMT_RGB24 = 4;
+}

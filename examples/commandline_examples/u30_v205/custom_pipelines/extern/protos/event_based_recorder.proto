@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message EventBasedRecorderOptions {
+  int32 frames_before_event = 1;
+  int32 frames_after_event = 2;
+}

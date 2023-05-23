@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message FileSaverOptions {
+  enum Target
+  {
+    TARGET_DISK = 0;
+    TARGET_FTP = 1;
+    TARGET_MONGODB = 2;
+  }
+  Target target = 1;
+  string directory = 2;
+  bool directory_cleanup = 3;
+}

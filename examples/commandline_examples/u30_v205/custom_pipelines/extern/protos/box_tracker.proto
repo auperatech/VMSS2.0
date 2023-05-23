@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message BoxTrackerOptions {
+    int32 speed_buffer_max_size = 1;
+
+    /* maximum keepalive for an object whose IOU wasn't detected
+     * used for both MOSSE & SORT only
+     * */
+    int32 max_keep_alive = 2;
+
+    int32 min_hits = 3; //used for sort
+
+    /* keep_tracker_iou_thresh is to make sure the tracker update result is right
+     * during correct() process bind_obj_iou_thresh is to bind the detected obj to
+     * the tracking obj during correct() process
+     * */
+    float keep_tracker_iou_thresh = 4; //used for MOSSE
+    float bind_obj_iou_thresh = 5; // used for MOSSE
+    float affinity_threshold = 6; //used for sort
+    float shape_weight = 7;
+    float position_weight = 8;
+    float appearnace_weight = 9;
+    float shape_dist_max = 10;
+    float position_dist_max = 11;
+    bool use_exp_cost = 12; // toggling betweeen either exp cost or weighted sum cost
+    string tracker_type = 13;
+    int32 min_object_area_th = 14;
+}

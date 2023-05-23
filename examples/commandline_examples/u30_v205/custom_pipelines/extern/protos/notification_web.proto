@@ -1,0 +1,8 @@
+syntax = "proto3";
+package aup.avaf;
+
+message NotificationWebOptions {
+    int32 notify_port = 1;
+    string dest_addr = 2;
+    uint32 notification_q_size = 3;
+}

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+import "pixfmt.proto";
+
+message VideoFilterOptions {
+  uint32 roi_x = 1;
+  uint32 roi_y = 2;
+  uint32 roi_w = 3;
+  uint32 roi_h = 4;
+  PixFmt opixfmt = 5;
+  uint32 ow = 6;
+  uint32 oh = 7;
+  float ofps = 8;
+  uint32 queue_size = 9;
+}

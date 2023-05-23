@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message VideoStreamOptions {
+  float playback_fps = 1;
+  string path = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+  bool loop_over = 5;
+  uint32 pool_size = 6;
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package aup.avaf;
+
+import "apl_common.proto";
+
+message AplPeopleCountingOptions {
+    AplCommonOptions common_fields = 1;
+    int32 aggregation_threshold = 2;
+    bool sudden_change_by_count = 3;
+    int32 dispersion_threshold = 4;
+    float sudden_change_threshold = 5;
+    int32 update_interval_seconds = 6;
+    int32 sudden_change_len_in_sec = 7;
+}

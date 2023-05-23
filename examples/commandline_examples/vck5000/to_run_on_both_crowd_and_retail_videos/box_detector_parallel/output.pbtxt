@@ -1,0 +1,2 @@
+output_urls: "rtsp://localhost:8554/parallel-out1"
+output_urls: "rtsp://localhost:8554/parallel-out2"

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message AplCommonOptions {
+    message Point {
+        int32 x = 1;
+        int32 y = 2;
+    }
+
+    message Border {
+    	Point p1 = 1;
+    	Point p2 = 2;
+    	float threshold = 3;
+    }
+
+    message Roi {
+        repeated Point point = 1;
+        repeated float threshold = 2;   
+    }
+
+	int32 max_file_cache = 1;
+	bool debug = 2;
+	bool draw = 3;
+	bool need_output_stream = 4;
+	int32 max_cluster_size = 5;
+	repeated Border border = 6;
+	Roi roi = 7;
+    int32 notification_port = 8;
+}

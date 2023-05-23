@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+import "pixfmt.proto";
+
+message VideoCodecOptions {
+  message Decoder {
+    // decoder name, support u30_dec_h2645 or v205_dec_h2645 or x86_soft_decoder
+    string name = 1;
+    // support multiple output picture streams with different resolution, if set
+    // to 0, then use the same resolution with input stream
+    repeated uint32 ow = 2;
+    repeated uint32 oh = 3;
+    // support multiple output picture streams with different pixel format,
+    // supported: "RGB24" or "BGR24" or "NV12" or "I420", default use NV12 as
+    // output pixel format
+    repeated PixFmt opixfmt = 4;
+    // decoder buffer queue size
+    uint32 queue_size = 5;
+    // decoder enable low_latency or not, it can be true if input stream do not
+    // contain B frame, once enable low_latency mode, decoder will output
+    // pictures ASAP
+    bool low_latency = 6;
+  }
+  message Encoder {
+    enum Type {
+      H264 = 0;
+      H265 = 1;
+      MPEG4 = 2;
+    }
+    Type type = 1;
+    // encoder width and height, if set to 0, then use the same resolution with
+    // input stream
+    uint32 w = 2;
+    uint32 h = 3;
+    float fps = 4;
+    uint32 queue_size = 5;
+    bool b_adapt = 6;
+    uint32 bframes = 7;
+    uint32 gop_size = 8;
+    uint32 bitrate = 9;  // video bitrate, bit/s
+    // support "default", "low-latency-B", "low-latency-P", "dynamic"
+    string gop_mode = 10;
+    string rc_mode = 11;  // support "CBR", "VBR", "CRF"
+    uint32 threads = 12;  // encoding using threads, usually it's a option to
+                          // improve the performance for single stream encoding
+  }
+  Decoder dec = 1;
+  Encoder enc = 2;
+}

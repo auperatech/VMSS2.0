@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message PacketSimulatorOptions {
+  enum OpMode {
+    OP_MODE_ANY = 0;
+    OP_MODE_CLIP_GEN = 1;
+  }
+  OpMode op_mode = 1;
+  message AnyOptions {
+    // number of packets per second in the case that dummy node does not have any inputs (source node)
+    float source_packet_per_second = 1;
+    // amount of processing time required for a packet to be generatd in microseconds
+    uint32 packet_latency_us = 2;
+  }
+  AnyOptions any_options = 2;
+  message ClipGenOptions {
+    uint32 frame_offset = 1;
+    uint32 frame_count = 2;
+    string filename_prefix = 3;
+  }
+  ClipGenOptions clip_gen_options = 3;
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package aup.avaf;
+
+import "apl_common.proto";
+
+message AplCrowdFlowOptions {
+    AplCommonOptions common_fields = 1;
+    int32 update_interval_seconds = 2;
+    int32 initial_entering_count = 3;
+    int32 initial_exiting_count = 4;
+    int32 max_allowed_borders = 5;
+    float default_border_crossing_th = 6;
+    bool use_roi = 7;
+}

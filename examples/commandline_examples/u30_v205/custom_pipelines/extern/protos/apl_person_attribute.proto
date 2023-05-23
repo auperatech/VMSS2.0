@@ -1,0 +1,12 @@
+syntax = "proto3";
+package aup.avaf;
+
+import "apl_common.proto";
+
+message AplPersonAttributeOptions {
+    AplCommonOptions common_fields = 1;
+    float person_cloth_color_conf_th = 2;
+    float person_attrib_color_output_mean_th = 3;
+    int32 person_color_attrib_confident_min_sample_size = 4;
+    int32 tracklet_reporting_interval_in_sec = 5;
+}

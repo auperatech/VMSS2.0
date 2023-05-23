@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+import "stream_mux.proto";
+import "vcodec.proto";
+
+message DemuxDecodeOptions {
+    StreamMuxOptions demux_options = 1;
+    VideoCodecOptions decode_options = 2;
+}

@@ -1,0 +1,2 @@
+e30fe40934dc53873dd1d2fbfa267c5b  plate_num.prototxt
+3bf97df03d8f7248be7eacb925719964  plate_num.xmodel

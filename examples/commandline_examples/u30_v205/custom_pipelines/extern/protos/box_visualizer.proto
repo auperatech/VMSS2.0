@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message BoxVisualizerOptions {
+  message Color {
+    float r = 1;
+    float g = 2;
+    float b = 3;
+  }
+
+  message ClassColor {
+    Color color = 1;
+    int32 label = 2;
+  }
+
+  message Offset {
+    float x = 1;
+    float y = 2;
+  }
+  enum InputType {
+    INPUT_TYPE_DETECTION = 0;
+    INPUT_TYPE_CLASSIFICATION = 1;
+    INPUT_TYPE_LPR = 2;
+  }
+  InputType input_type = 1;
+  Color text_color = 2;
+  Color box_color = 3;
+  repeated ClassColor class_color = 4;
+  Color default_class_color = 5;
+  Offset text_offset = 6;
+  int32 box_thickness = 7;
+  int32 text_size = 8;
+  int32 font = 9;
+  double font_scale = 10;
+  int32 font_thickness = 11;
+  int32 line_type = 12;
+  bool retail_demo = 13;
+  string label_name_file = 14;
+}

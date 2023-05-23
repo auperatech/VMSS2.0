@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message BoxDetectorOptions {
+  message Mean {
+    float r = 1;
+    float g = 2;
+    float b = 3;
+  }
+
+  message Scale {
+    float ch1 = 1;
+    float ch2 = 2;
+    float ch3 = 3;
+  }
+
+  message LabelConfidence {
+    int32 label = 1;
+    float confidence = 2;
+  }
+
+  message InterClassNms {
+    float threshold = 1;
+    repeated int32 labels = 2;
+  }
+
+  int32 detect_interval = 1;
+  string detector_type = 2;
+  string obfuscated_token = 4;
+  bool need_preprocess = 5;
+  Mean mean = 6;
+  Scale scale = 7;
+  // if at least one label_confidence is provided, total classes and default_confidence_threshold is ignored
+  // This means that the detector only considers the labels that label_confidence provide
+  // if there is no label_confidence defined, then detector will use total_classes and default_confidence_thresh
+  // if no label_confidence is defined and total_classes=0, then an error will be returned
+  repeated LabelConfidence label_confidence = 8;
+  uint32 total_classes = 19;
+  float default_confidence_threshold = 20; // default 0.5
+
+  repeated InterClassNms inter_class_nms = 9;
+  bool run_on_letterboxed_img = 10;
+  int32 batch_size = 11;
+  bool return_frames_inorder = 12;
+  int32 detection_threads = 13;
+  bool force_batch_size = 14;
+  int32 batch_collection_timeout_ms = 15;
+  bool ignore_black_frames = 16;
+  bool log_performance = 17;
+  bool log_info = 18;
+  int32 max_detection_lib_q_size = 21;
+}

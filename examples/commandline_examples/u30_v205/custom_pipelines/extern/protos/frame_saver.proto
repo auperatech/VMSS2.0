@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message FrameSaverOptions {
+    string directory = 1;
+    bool directory_cleanup = 2;
+    uint32 save_limit = 3;
+    uint32 save_offset = 4;
+}

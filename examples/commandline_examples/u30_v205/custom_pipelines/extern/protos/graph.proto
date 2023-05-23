@@ -1,0 +1,209 @@
+syntax = "proto3";
+
+package aup.avaf;
+import "google/protobuf/any.proto";
+
+// Describes the topology and function of an avaf Graph.
+message GraphConfig {
+  message Node {
+    /*
+     * this denotes the calculator name
+     * this can be an arbitrary string determined by graph author in order to
+     * uniquely identify the node by.
+     */
+    string name = 1;
+
+    /*
+     * the vendor of the calculator. This determines who/what company wrote the
+     * node this is useful to differentiate same calculators via different
+     * vendors
+     */
+    string vendor = 2;
+
+    /* in avaf, it means processor plugin name. Plugin name is known as
+     * calculator */
+    string calculator = 3;
+
+    /* node input stream name, can be multiple, each stream name should be
+     * unique for current graph
+     */
+    repeated string input_stream = 4;
+
+    enum ContractNoYes {
+      CONTRACT = 0;
+      NO = 1;
+      YES = 2;
+    }
+
+    message InputStreamAttributes {
+      string name = 1;  // input stream name referring to input_stream field
+      /*
+       * InputStreamAttributes:
+       * name: name of input stream
+       * CONTRACT: stream type to be fetched from contract
+       *
+       * SYNCED_IMMUTABLE: stream type is forward. Forward streams are not
+       * allowed to contain loops and they are synced. IMMUTABLE denodes that
+       * the node is not allowed to modify these packets via sync-time-stamp.
+       * the node is not allowed to modify this packet
+       *
+       * SYNCED_MUTABLE: stream type is forward. The different is that this kind
+       * of sink allows the node to modify the packet
+       *
+       * UNSYNCED_IMMUTABLE: is a type of stream that can have any direction
+       * whether forwards or backwards. The packets of these streams are always
+       * immutable meaning that the sink is not allowed to modify it.
+       *
+       * SIDE_PACKET: these streams can have any direction and not synced and
+       * timestamped like UNSYNCED_IMMUTABLE. The difference is that these
+       * streams only keep track of the latest packet as opposed to UNSYNCED
+       * which act as a queue. These streams are useful for communicating
+       * various configurations
+       */
+      enum Type {
+        CONTRACT = 0;
+        SYNCED_IMMUTABLE = 1;
+        SYNCED_MUTABLE = 2;
+        UNSYNCED_IMMUTABLE = 3;
+        SIDE_PACKET = 4;
+      }
+      Type type = 2;
+      /*
+       * This denodes if the sink expects continueable packets. This means
+       * consecutive packets with the same timestamp
+       */
+      ContractNoYes can_continue = 3;
+    }
+
+    // list of attributes for all the input streams
+    repeated InputStreamAttributes input_stream_attributes = 5;
+
+    // node output stream name, can be multiple, each stream should be unique
+    // for current graph
+    repeated string output_stream = 6;
+
+    message OutputStreamAttributes {
+      string name = 1;  // name of input stream
+      /*
+       * This denotes the capacity of the stream. In the case that it is not
+       * defined, global graph capacity will be used for this specific stream
+       * instead
+       */
+      uint32 capacity = 2;
+      /*
+       * This determines the behavior of aup::avaf::Node::enqueue member
+       * function in the case that stream's full capacity is reached
+       *
+       * BLOCK: block the enqueue function call until room is available in the
+       * stream via dequeueing from other nodes
+       *
+       * DROP_FRONT: automatically drop the oldest packet (front of the stream)
+       * to make room for the new packet being enqueued
+       *
+       * FAIL: fail the enqueue call immediately in case that stream is full
+       */
+      enum OnFullAct {
+        BLOCK = 0;
+        DROP_FRONT = 1;
+        FAIL = 2;
+      }
+      OnFullAct on_full_act = 3;
+      /*
+       * same as can_continue in input_stream_attributes. Node that if source is
+       * continuable, all the sinks must be continueable. The reverse is not
+       * true so non-continueable source may be connected to continueable sinks.
+       */
+      ContractNoYes can_continue = 4;
+    }
+
+    repeated OutputStreamAttributes output_stream_attributes = 7;
+
+    message StreamSync {
+      /*
+       * DropStrategy determines the scenario that framework drop the packet in
+       * case that timeout is reached
+       *
+       * CONTRACT: determient the packet dropping strategy from the contract
+       *
+       * DROP_INCOMPLETE_PACKETS: this option will drop the packets in case at
+       * least one of the input streams do not have complete packet sequence at
+       * the timeout time. Complete packet sequence means a single packet for
+       * non-continuable streams. For the case of contiued streams, it means
+       * that the final packet of the continued series of packets is not delivered
+       * before timeout. Any time that drop happens, execute will not be called
+       *
+       * DROP_MISSING_PACKETS: drop if there are any packets in any of the
+       * streams that are completely missing
+       *
+       * NEVER_DROP: never drop packets. if timeout is reached and one synced
+       * input is available
+       */
+      enum DropStrategy {
+        CONTRACT = 0;
+        DROP_INCOMPLETE_PACKETS = 1;
+        DROP_MISSING_PACKETS = 2;
+        NEVER_DROP = 3;
+      }
+      /*
+       * ReuseStrategy: determines how framework should replace the missing
+       * packets in case that
+       *
+       * EMPTY: dont reuse last packets. let them be empty
+       *
+       * REUSE_LAST_COMPLETE_PACKETS: reuse last packets only if they are
+       * complete
+       *
+       * REUSE_LAST_AVAILABLE_PACKETS: reuse any available last packet
+       */
+      // enum ReuseStrategy {
+      //   CONTRACT2 = 0;
+      //   EMPTY = 1;
+      //   REUSE_LAST_COMPLETE_PACKETS = 2;
+      //   REUST_LAST_AVAILABLE_PACKETS = 3;
+      // }
+      enum SyncTimeStampMatch {
+        CONTRACT3 = 0;  // sync based on what is available in the contract
+        EQUAL = 1;      // sync based on sync-time-stamp equality
+      }
+      DropStrategy drop_strategy = 1;
+      //ReuseStrategy reuse_strategy = 2;
+      SyncTimeStampMatch sync_match = 3;
+      int32 timeout_ms = 5;  //  timeout
+    }
+
+    StreamSync stream_sync = 8;
+
+    string ml_model_kernel_name = 12;
+
+    // the private options passing to each node, defined by users
+    repeated google.protobuf.Any node_options = 9;
+    // graph input and graph output. for now assuming a node may have maximum
+    // one graph input/output
+    string graph_input = 10;
+    string graph_output = 11;
+  }
+
+  // The nodes.
+  repeated Node node = 1;
+  int32 control_port = 2;
+  enum SyncTimeStampType { PTS = 0; }
+  SyncTimeStampType sync_timestamp_type = 3;
+  repeated string graph_input = 4;
+  repeated string graph_output = 5;
+
+  message StatisticsCollector
+  {
+    string target_file = 1; // if empty, statistics will be printed to STDOUT
+    uint32 measurement_print_interval_ms = 2; // default value is 1000
+    // framework-level latency
+    string latency_stream_start = 3;
+    string latency_stream_end = 4;
+    // stream throughput
+    repeated string throughput_stream_name = 5;
+    uint32 throughput_ignore_initial_packets_count = 6;
+    // stream size
+    repeated string size_stream_name = 7;
+  }
+
+  repeated StatisticsCollector statistics_collector = 20;
+}

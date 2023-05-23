@@ -1,0 +1,9 @@
+syntax = "proto3";
+package aup.avaf;
+
+
+message JsonStreamOptions {
+  int64 interval_us = 1;
+  string directory = 2;
+  bool loop_over = 3;
+}

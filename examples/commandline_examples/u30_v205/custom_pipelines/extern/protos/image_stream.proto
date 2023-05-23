@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message ImageStreamOptions {
+  float playback_fps = 1;
+  string directory = 2;
+  uint32 width = 3;
+  uint32 height = 4;
+  bool vooya_input = 5;
+  bool loop_over = 6;
+  uint32 pool_size = 7;
+  bool preload_images = 8;
+}

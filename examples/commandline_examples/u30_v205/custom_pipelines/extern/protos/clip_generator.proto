@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message ClipGeneratorOptions {
+  string name_prefix = 1;
+}

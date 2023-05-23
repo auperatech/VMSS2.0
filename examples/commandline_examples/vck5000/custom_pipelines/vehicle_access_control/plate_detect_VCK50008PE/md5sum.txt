@@ -1,0 +1,2 @@
+6ee65895ad53e90e6184f2a097050d3e  plate_detect.prototxt
+34e83583979210f69ab6f29c6acd7f63  plate_detect.xmodel

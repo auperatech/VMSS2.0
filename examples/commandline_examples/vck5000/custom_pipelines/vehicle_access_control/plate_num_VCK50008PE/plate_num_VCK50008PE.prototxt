@@ -1,0 +1,22 @@
+model {
+   name : "plate_num"
+   kernel {
+     name: "plate_num_0"
+     mean: 128.0
+     mean: 128.0
+     mean: 128.0
+     scale: 1
+     scale: 1
+     scale: 1
+   }
+   platenum_param {
+    output_tensor_name: "score1_fixed"
+    output_tensor_name: "score2_fixed"
+    output_tensor_name: "score3_fixed"
+    output_tensor_name: "score4_fixed"
+    output_tensor_name: "score5_fixed"
+    output_tensor_name: "score6_fixed"
+    output_tensor_name: "score7_fixed"
+    output_tensor_name: "score8_fixed"
+   }
+}
