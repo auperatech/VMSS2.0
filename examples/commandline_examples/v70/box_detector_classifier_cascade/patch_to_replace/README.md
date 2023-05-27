@@ -1,0 +1,1 @@
+The contents of this folder need to be copied to their corresponding directories under /usr/share/vitis_ai_library/models/ to replate the original prototxt with the ones given here and to add the label files.

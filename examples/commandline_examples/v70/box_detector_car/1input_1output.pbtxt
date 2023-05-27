@@ -1,0 +1,178 @@
+control_port: 51881
+graph_input: "inStream1"
+graph_output: "outStream1"
+
+node {
+  name: "demux_node"
+  calculator: "stream_demux"
+  graph_input: "inStream1"
+  output_stream: "packetstream1"
+  output_stream: "video_info_side_packet_demux"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+      demux: {
+        rtsp_transport: "tcp"  
+        iframe_extract: false
+        auto_reconnect: true
+      }
+    }
+  }
+}
+
+node {
+  name: "decode_node"
+  calculator: "x86_dec"
+  input_stream: "packetstream1"
+  input_stream: "video_info_side_packet_demux"
+  output_stream: "imgStream1080p"
+  output_stream: "decode_vid_info_side_packet"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+      dec: {
+        ow: 1920
+        oh: 1080
+        opixfmt: PIXFMT_BGR24
+        queue_size: 12
+        low_latency: false
+      }
+    }
+  }
+}
+
+node {
+  name: "detector"
+  calculator: "box_detector"
+  input_stream: "imgStream1080p"
+  output_stream: "detectionsStream"
+  output_stream: "detect_interval_side_packet_dangling"
+  ml_model_kernel_name: "ssd_traffic_pruned_0_9"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
+      detect_interval: 1
+      detector_type: "SSD"
+      need_preprocess: true
+      log_performance: false
+      run_on_letterboxed_img: false
+      batch_size: 1
+      return_frames_inorder: true 
+      batch_collection_timeout_ms: 0
+      ignore_black_frames: false
+      max_detection_lib_q_size: 30
+      mean: {
+        r: 125.319099
+        g: 123.484794
+        b: 120.935805
+      }
+      scale: {
+        ch1: 1
+        ch2: 1
+        ch3: 1
+      }
+      total_classes: 4
+      default_confidence_threshold: 0.5
+    }
+  }
+}
+
+node {
+  name: "visualizer"
+  calculator: "box_visualizer"
+  input_stream: "detectionsStream"
+  input_stream: "imgStream1080p"
+  output_stream: "imgStream1080p_fromVisualizer"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      class_color: {
+        label: 1
+        color: {
+          r: 0
+          g: 0
+          b: 0
+        }
+      }
+      class_color: {
+        label: 2
+        color: {
+          r: 0
+          g: 255
+          b: 0
+        }
+      }
+      text_offset: {
+        x: 0
+        y: 0
+      }
+      font: 1
+      line_type: 0
+      box_thickness: 5
+      text_size: 2
+    }
+  }
+}
+
+########################################################################################
+node {
+  name: "vfilter_node1"
+  calculator: "ff_vfilter"
+  input_stream: "imgStream1080p_fromVisualizer"
+  input_stream: "decode_vid_info_side_packet"
+  output_stream: "imgStream720p_ffOut"
+  output_stream: "video_stream_info_vfilter_node_side_packet"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
+      roi_x: 0
+      roi_y: 0
+      roi_w: 0
+      roi_h: 0
+      opixfmt: PIXFMT_I420
+      ow: 1280
+      oh: 720
+      ofps: 20
+    }
+  }
+}
+
+node {
+  name: "encode_node1"
+  calculator: "x86_enc"
+  input_stream: "imgStream720p_ffOut"
+  input_stream: "video_stream_info_vfilter_node_side_packet"
+  output_stream: "packetStream_fromDecoder"
+  output_stream: "codec_context_side_packet"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+     enc: {
+       type: H264
+       w: 0 
+       h: 0
+       fps: 0
+     }
+    }
+  }
+}
+
+node {
+  name: "mux_node1"
+  calculator: "stream_mux"
+  input_stream: "packetStream_fromDecoder"
+  input_stream: "codec_context_side_packet"
+  graph_output: "outStream1"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+     }
+    }
+  }
+}

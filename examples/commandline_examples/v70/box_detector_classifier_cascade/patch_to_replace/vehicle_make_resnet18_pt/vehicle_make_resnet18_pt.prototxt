@@ -1,0 +1,18 @@
+model {
+   name : "vehicle_make_resnet18_pt"
+   kernel {
+     name: "vehicle_make_resnet18_pt"
+     mean: 0.0
+     mean: 0.0
+     mean: 0.0
+     scale: 0.00392156863
+     scale: 0.00392156863
+     scale: 0.00392156863
+   }
+   model_type : CLASSIFICATION
+   classification_param {
+      top_k : 5
+      label_type : "VEHICLE_MAKE"
+   }
+}
+

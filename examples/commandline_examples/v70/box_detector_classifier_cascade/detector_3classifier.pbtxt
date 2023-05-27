@@ -1,0 +1,361 @@
+control_port: 51881
+graph_input: "inStream1"
+graph_output: "outStream1"
+
+node {
+  name: "demux_node1"
+  calculator: "stream_demux"
+  graph_input: "inStream1"
+  output_stream: "packetstream1"
+  output_stream: "demux_side_packet"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+      demux: {
+        rtsp_transport: "tcp"  
+        iframe_extract: false
+        auto_reconnect: true
+      }
+    }
+  }
+}
+
+node {
+  name: "decode_node1"
+  calculator: "x86_dec"
+  input_stream: "packetstream1"
+  output_stream: "imgStream1080p1"
+  output_stream: "decode_side_packet"
+  input_stream: "demux_side_packet"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+      dec: {
+        ow: 1920
+        oh: 1080
+        opixfmt: PIXFMT_BGR24
+        queue_size: 12
+        low_latency: false
+      }
+    }
+  }
+}
+
+node {
+  name: "detector"
+  calculator: "box_detector"
+  input_stream: "imgStream1080p1"
+  output_stream: "detectionsStream1"
+  output_stream: "detect_interval_dangling"
+  ml_model_kernel_name: "yolov3_adas_pruned_0_9"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
+      detection_threads: 3
+      batch_size: 1
+      force_batch_size: false
+      batch_collection_timeout_ms: 1000000
+      detect_interval: 1
+      detector_type: "YoloV3"
+      need_preprocess: true
+      log_performance: false
+      run_on_letterboxed_img: false
+      return_frames_inorder: true
+      total_classes: 4
+      default_confidence_threshold: 0.5
+    }
+  }
+}
+
+
+node {
+  name: "classifier_color"
+  calculator: "box_classifier"
+  input_stream: "detectionsStream1"
+  input_stream: "imgStream1080p1"
+  output_stream: "classificationStream_color"
+  ml_model_kernel_name: "chen_color_resnet18_pt"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxClassifierOptions]: {
+      classifier_type: "General"
+      need_preprocess: true
+      run_on_letterboxed_img: false
+      batch_size: 1
+      return_in_order: true
+      classification_threads: 1
+      batch_collection_timeout_ms: 0
+      use_detections: true
+      log_performance: false
+      max_classification_lib_q_size: 200
+    }
+  }
+}
+
+node {
+  name: "classifier_make"
+  calculator: "box_classifier"
+  input_stream: "detectionsStream1"
+  input_stream: "imgStream1080p1"
+  output_stream: "classificationStream_make"
+  ml_model_kernel_name: "vehicle_make_resnet18_pt"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxClassifierOptions]: {
+      classifier_type: "General"
+      need_preprocess: true
+      run_on_letterboxed_img: false
+      batch_size: 1
+      return_in_order: true
+      classification_threads: 1
+      batch_collection_timeout_ms: 0
+      use_detections: true
+      log_performance: false
+      max_classification_lib_q_size: 200
+    }
+  }
+}
+
+node {
+  name: "classifier_type"
+  calculator: "box_classifier"
+  input_stream: "detectionsStream1"
+  input_stream: "imgStream1080p1"
+  output_stream: "classificationStream_type"
+  ml_model_kernel_name: "vehicle_type_resnet18_pt"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxClassifierOptions]: {
+      classifier_type: "General"
+      need_preprocess: true
+      run_on_letterboxed_img: false
+      batch_size: 1
+      return_in_order: true
+      classification_threads: 1
+      batch_collection_timeout_ms: 0
+      use_detections: true
+      log_performance: false
+      max_classification_lib_q_size: 200
+    }
+  }
+}
+
+node {
+  name: "visualizer_color"
+  calculator: "box_visualizer"
+  input_stream: "classificationStream_color"
+  input_stream: "imgStream1080p1"
+  output_stream: "visFrame_color"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions] {
+      input_type: INPUT_TYPE_CLASSIFICATION
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      class_color: {
+        label: 1
+        color: {
+          r: 0
+          g: 0
+          b: 0
+        }
+      }
+      class_color: {
+        label: 2
+        color: {
+          r: 0
+          g: 255
+          b: 0
+        }
+      }
+      class_color: {
+        label: 3
+        color: {
+          r: 255
+          g: 0
+          b: 0
+        }
+      }
+      text_offset: {
+        x: 0
+        y: 20
+      }
+      box_thickness: 5
+      text_size: 2
+      font: 0
+      line_type: 0
+    }
+  }
+}
+
+node {
+  name: "visualizer_make"
+  calculator: "box_visualizer"
+  input_stream: "classificationStream_make"
+  input_stream: "visFrame_color"
+  output_stream: "visFrame_make"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions] {
+      input_type: INPUT_TYPE_CLASSIFICATION
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      class_color: {
+        label: 1
+        color: {
+          r: 0
+          g: 0
+          b: 0
+        }
+      }
+      class_color: {
+        label: 2
+        color: {
+          r: 0
+          g: 255
+          b: 0
+        }
+      }
+      class_color: {
+        label: 3
+        color: {
+          r: 255
+          g: 0
+          b: 0
+        }
+      }
+      text_offset: {
+        x: 0
+        y: 40
+      }
+      box_thickness: 5
+      text_size: 2
+      font: 0
+      line_type: 0
+    }
+  }
+}
+
+node {
+  name: "visualizer_type"
+  calculator: "box_visualizer"
+  input_stream: "classificationStream_type"
+  input_stream: "visFrame_make"
+  output_stream: "visFrame_type"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions] {
+      input_type: INPUT_TYPE_CLASSIFICATION
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      class_color: {
+        label: 1
+        color: {
+          r: 0
+          g: 0
+          b: 0
+        }
+      }
+      class_color: {
+        label: 2
+        color: {
+          r: 0
+          g: 255
+          b: 0
+        }
+      }
+      class_color: {
+        label: 3
+        color: {
+          r: 255
+          g: 0
+          b: 0
+        }
+      }
+      text_offset: {
+        x: 0
+        y: 0
+      }
+      box_thickness: 5
+      text_size: 2
+      font: 0
+      line_type: 0
+    }
+  }
+}
+
+node {
+  name: "vfilter_node1"
+  calculator: "ff_vfilter"
+  input_stream: "visFrame_type"
+  input_stream: "decode_side_packet"
+  output_stream: "imgStream720p_ffOut1"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
+      roi_x: 0
+      roi_y: 0
+      roi_w: 0
+      roi_h: 0
+      opixfmt: PIXFMT_I420
+      ow: 1280
+      oh: 720
+      ofps: 25 #this should be 0 to saved the video at normal speed with iframe_extract=true
+    }
+  }
+  output_stream: "vfilter_side_packet"
+}
+
+node {
+  name: "encode_node1"
+  calculator: "x86_enc"
+  input_stream: "imgStream720p_ffOut1"
+  output_stream: "packetStream21"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+     enc: {
+       w: 0 
+       h: 0
+       fps: 0
+     }
+    }
+  }
+  input_stream: "vfilter_side_packet"
+  output_stream: "encode_side_packet"
+}
+
+node {
+  name: "mux_node1"
+  calculator: "stream_mux"
+  input_stream: "packetStream21"
+  graph_output: "outStream1"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+     }
+    }
+  }
+  input_stream: "encode_side_packet"
+}
+console_logging_filter: {
+  enable_all: true
+}
+file_logging_filter: {
+  enable_all: true
+}
