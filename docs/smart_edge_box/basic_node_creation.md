@@ -1,5 +1,6 @@
 # Installing SDK
-1. Run `install_and_update_sdk.sh` inside the docker to setup SDK environment for device side development
+1. Setup and run Smart Edge Box docker by extracting the package and following instructions. Earliest package supporting this is [here](https://auperatechvancouver.sharepoint.com/:f:/g/ElCmSpIrAHNGk2JZ317ArrwBn2eYwJEc3nmaNpgOkP_9_w?e=a9Apoj)
+2. Run `install_and_update_sdk.sh` inside the docker to setup SDK environment for device side development
 
 Note that for building anything on host side, you should NOT run `setenv_device_devel`. For anything that needs running on device side you NEED TO run `setenv_device_devel`. This procedure sets up environment variable `$STAGING_DIR`.
 
