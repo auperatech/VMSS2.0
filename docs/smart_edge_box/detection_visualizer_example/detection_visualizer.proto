@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message DetectionVisualizerOptions {
+  message Color {
+    float r = 1;
+    float g = 2;
+    float b = 3;
+  }
+  message ClassColor {
+    Color color = 1;
+    int32 label = 2;
+  }
+  message Offset {
+    float x = 1;
+    float y = 2;
+  }
+  Color text_color = 1;
+  Color box_color = 2;
+  repeated ClassColor class_color = 3;
+  Color default_class_color = 4;
+  Offset text_offset = 5;
+  int32 box_thickness = 6;
+  int32 text_size = 7;
+  int32 font = 8;
+  double font_scale = 9;
+  int32 font_thickness = 10;
+  int32 line_type = 11;
+  string label_name_file = 12;
+  float overlay_opacity = 13;
+}
