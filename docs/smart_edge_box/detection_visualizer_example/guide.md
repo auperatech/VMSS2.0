@@ -48,7 +48,7 @@ The following files will be generated considering ():
 -rw-rw-rw- 1 nobody root 1.3K Dec 11 19:37 detection_visualizer.cc
 ```
 
-At this point you need to implement the functions defined in the boilerplate. (See the implemented boilerplate here)[detection_visualizer.cc]:
+At this point you need to implement the functions defined in the boilerplate. [See the implemented code here](detection_visualizer.cc):
 1. `fill_contract` sets the input and output packet types of the node. Input 0 is of type JSON packet, input 1 is of type ImagePacket. Output of 0 is of type image packet.
-1. `initialize` needs to initialize the node. For this case, there are no initialization so just modify the return value.
-1. `execute` runs on every frame or every time there are inputs available for the node
+2. `initialize` needs to initialize the node. For this case, there are no initialization so just modify the return value.
+3. `execute` runs on every frame or every time there are inputs available for the node
