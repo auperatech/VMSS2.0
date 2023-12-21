@@ -10,14 +10,14 @@
 
 
 ### Table of Content
-1. [Signing Up for Aupera VMSS2.0 On Web Application](#1-signing-up-for-aupera-vmss2.0-on-web-application)
-2. [Running Aupera's Proprietary Pipelines](#2-running-aupera's-proprietary-pipelines)
-    1. [Running Aupera's Crowd Flow Application](#2.1-running-aupera's-crowd-flow-application)
-    2. [Running Aupera's License Plate Recognition Applications](#2.2-running-aupera's-license-plate-recognition-applications)
-3. [Building Your Own (Custom) Pipelines](#3-building-your-own-(custom)-pipelines)
+1. [Signing Up for Aupera VMSS2.0 On Web Application](#1-signing-up-for-aupera-vmss20-on-web-applicationn)
+2. [Running Aupera's Proprietary Pipelines](#2-running-auperas-proprietary-pipelines)
+    1. [Running Aupera's Crowd Flow Application](#21-running-auperas-crowd-flow-application)
+    2. [Running Aupera's License Plate Recognition Applications](#22-running-auperas-license-plate-recognition-lpr-application)
+3. [Building Your Own (Custom) Pipelines](#3-building-your-own-custom-pipelines)
 4. [Model Zoo Evaluation](#4-model-zoo-evaluation)
-5. [Running Your Own (Custom) Pipeline](#5-running-your-own-(custom)-pipeline)
-6. [Using Video Streams to Add New Stream, Play Videos, or Change Snapshots](#6-using-video-streams-to-add-new-stream,-play-videos,-or-change-snapshots)
+5. [Running Your Own (Custom) Pipeline](#5-running-your-own-custom-pipeline)
+6. [Using Video Streams to Add New Stream, Play Videos, or Change Snapshots](#6-using-video-streams-to-add-new-stream-play-videos-or-change-snapshots)
 7. [AI Hosts Page](#7-ai-hosts-page)
 8. [Useful Tools](#8-useful-tools)
 
