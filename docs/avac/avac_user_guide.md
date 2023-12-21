@@ -160,6 +160,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
     2. ***Start/Stop Time*** – counting will be started and stopped at the given time every day;
     3. It is recommended to set ***Sensitivity*** to the default value of 0.05;
 <br>
+
 7. **Advanced AI Parameters** can significantly affect the results for a particular task, it is recommended to not change those until recommended by Aupera.
     <div align="center">
         <img 
@@ -172,6 +173,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
 
 8. To start the task, click the Submit button. After that, a pop-up message will notify you that the task was successfully launched. If the pop-up message reports an error, try launching the task with default parameters or check the settings.
 <br>
+
 9. If the task was launched, the task will appear in the task table on the left side of the screen
     <div align="center">
         <img 
@@ -268,6 +270,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
     
     2. **Crop ROI** – Limits the input frame for the detection model, that improves performance and accuracy, especially with small objects, like license plates. If no Crop ROI specified, then the whole frame will be used. To draw this ROI, click the corresponding button, then move mouse to the point where you would like to start it. The ROI is rectangular, so you need to specify just two points. Hold left-click and move a cursor to the opposite corner or a rectangle you are drawing. Once the ROI has desirable size, release the mouse button. Note, that current version supports just an upper-left and a bottom-right corners of the ROI as starting points. In next version, an upper-right and a bottom-left starting points will be supported as well. Crop ROI has the minimal size, so refer to the overlay help on top of the frame which show the size of the area you drawn and a minimal ROI size required.
 <br>
+
 6. LPR task can be started without changing any parameters, but in case you would like to change some, like enable the MLOps mode, click the “Change Task Parameters” button. Note that changing any parameters can significantly affect the results received. Some parameters which can be set up there are:
     1. **Switch Model By Time** – toggle this checkbox to set up the daytime interval, that can improve LP detection during a nighttime in some situations.
     2. **Auto Crop Detection Area** – automatically crop the frame to fit the Detection ROI you specified;
@@ -285,6 +288,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
 
 7. To start the task, click the Submit button. After that, a pop-up message will notify you that the task was successfully launched. If the pop-up message reports an error, try launching the task with default parameters or check the settings.
 <br>
+
 8. If the task was launched, the task will appear in the task table on the left side of the screen
 
     <div align="center">
@@ -310,6 +314,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
     1. **Stop Task** button stops LPR task. Stop LPR Task confirmation will notify that the current task will be stopped. To proceed deleting the task, click ***OK*** button. To undo stop task, click ***Cancel*** button.
     2. **Configure LPR Task** button updates LPR task set up. Click ***Configure LPR Task*** button, then the LPR Task Setup window will appear. Any parameter of the running task can be changed. See Figure 2.2.4 to see more details in LPR Task set up. After completing the changes to LPR Task setup, click ***Update*** button to save changes. Updating task does not reset results.
 <br>
+
 10. To view results, click the Results button on the specific task row on the table. The right panel will load the result of the specific task selected.
 
     <div align="center">
@@ -441,6 +446,7 @@ To return to running tasks click the same button, which will say **Switch to Act
 1. After completing building the custom pipeline either from scratch or model zoo, you can start running the pipeline. Before submitting the task, you can use the output URL automatically generated or enter your own Output RTSP URL (this value needs to follow a specific format of rtsp://vmss.auperatechnologies.com:554/<user_specifcied _name>). Click Submit to start the Custom Pipeline task.
 <span class="important">NOTE:</span> <user_specifcied_name> can be any arbitrary name that the user chooses.  
 <br>
+
 2. After submitting the task, if there are missing models, there will be a popup displayed informing which model is missing. Click **OK** to download model, or **Cancel** to download later.
     <div align="center">
         <img 
@@ -643,6 +649,7 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
 
     Click **OK** button to update the snapshot or **Cancel** button to cancel updating the snapshot.
 <br>
+
 4. To view four video streams in the same screen, click the ***four rectangle icon*** located on the top right corner of the screen. To play video on a specific Video Player, choose a video frame by clicking directly on the video frame and select a video to play from Video Stream List, or use the Play button at the bottom right corner of each video frame to play or stop video play.
     <div align="center">
         <img 
@@ -689,6 +696,7 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
 During Check AI Host, AI host URL can be modified at any time. Then user can click **Check AI Host** button again if modification of URL is needed. 
 After clicking the **Submit** button, the new added AI host will appear in the AI Host list and ready to use throughout the entire web application.
 <br>
+
 5. To delete an AI host, click on the **X** button on the specific AI host that are intended to be deleted on the AI host list. Then select **OK** on the delete AI host confirmation popup
 <span class="important">NOTE:</span> If there is no AI Host added to the web application, the user will not be able to access any task related functions. Therefore, users will not be able to access AI Tasks tab if there is no AI host added. To access and start tasks, make sure there is at least one AI host added, otherwise the AI Tasks tab will be blocked. (If you don't have a hardware, you can request one by emailing us at [info@auperatech.com](mailto:info@auperatech.com))
     <div align="center">
