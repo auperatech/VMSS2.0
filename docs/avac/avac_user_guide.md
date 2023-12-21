@@ -592,6 +592,7 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
         >
         <p ><strong>Figure 5.7. Aupera web application page – custom pipeline task result of model zoo pipeline pbtxt</strong></p>
     </div>
+
     **NOTE:** After the Custom Pipeline Task started, it may take up to a few seconds before an output video stream starts. “Video failed to load” error may occur when checking custom pipeline result right after the task is started. Wait a few seconds and click the refresh button to try displaying the output video again.
     <div align="center">
         <img 
@@ -609,7 +610,9 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
         >
         <p ><strong>Figure 5.9. Aupera web application page – custom pipeline task result page (output video not yet available)</strong></p>
     </div>
+
     **NOTE:** Refresh the page if Custom Pipeline task result failed to load after running the task for a long time.
+    
 <br>
 
 8. To stop the task, click **Stop** Task in the Custom Pipeline control component.
