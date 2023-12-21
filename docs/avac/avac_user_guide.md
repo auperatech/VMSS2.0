@@ -31,6 +31,7 @@ In this section, we will introduce the steps to sign-up for an account with Aupe
 
 
 Sign up for an account at: [https://auperatechnologies.com](https://auperatechnologies.com/)
+
 Click the **Sign In** button on the top right corner of the page, and select **Sign Up** tab to sign up for an account.
 
 <div align="center">
@@ -42,8 +43,9 @@ Click the **Sign In** button on the top right corner of the page, and select **S
     <p ><strong>Figure 1.1. Aupera Website sign up page</strong></p>
 </div>
 
-<span class="important">NOTE:</span> After signing up, you need to check your email to verify your account for full access.
-<span class="important">NOTE2:</span> This guide assumes that you already own a hardware with Aupera's VMSS AI inference engine installed on it. If you don't have a hardware, you can request one by emailing us at [info@auperatech.com](mailto:info@auperatech.com)
+**NOTE:**After signing up, you need to check your email to verify your account for full access.
+
+**NOTE2:**This guide assumes that you already own a hardware with Aupera's VMSS AI inference engine installed on it. If you don't have a hardware, you can request one by emailing us at [info@auperatech.com](mailto:info@auperatech.com)
 
 After signing into VMSS2.0, you will be asked to add a video stream. Click **Add Stream** button to add video stream. Here are a few demo video streams you can try out:
 
@@ -52,7 +54,7 @@ After signing into VMSS2.0, you will be asked to add a video stream. Click **Add
 * rtsp://avac.auperatechnologies.com:554/retail
 
 Enter a **Stream URL** of your choice, give it an arbitrary and click **Save** to proceed.
-###### {#add-new-stream-popup}
+
 <div align="center">
     <img 
         width="80%"
@@ -384,7 +386,9 @@ To return to running tasks click the same button, which will say **Switch to Act
     </div>
 
     **Insert Node** button above the editor contains node tool kit dropdown. You can click on the input field where you want the node to be inserted or select a portion of the text where you want the it to be replaced, then select a ndoe to insert/replace from the dropdown.
+
     **Example Pipeline** button above the editor contains a dropdown of pre-built pipelines. The input will be entirely replaced with the example pipeline you choose from this dropdown.
+
     **Model Zoo** button will open a popup window which contains all the available models you can use. The input will also be entirely replaced when item is selected. Please refer to the below section for more detail on Model Zoo.
 <br>
 <br>
@@ -435,16 +439,19 @@ To return to running tasks click the same button, which will say **Switch to Act
     </div>
 
     The option **Throughput PBTXT** will run on images. It loads images that are pre-resized to match the machine learning network input size requirements into memory and loops over them. The output result of throughput PBTXT will just contain JSON/text notification.
+
     The option **Pipeline PBTXT** will also contain transcoding or visualization.
     For more information about the results of the custom pipeline, refer to the next section.
-    <span class="important">NOTE:</span> Before using Insert Node/Example Pipelines/Model Zoo, make sure that the machine has internet access.
+
+    **NOTE:**Before using Insert Node/Example Pipelines/Model Zoo, make sure that the machine has internet access.
 <br>
 <br>
 
 ## 5 RUNNING YOUR OWN (CUSTOM) PIPELINE
 
 1. After completing building the custom pipeline either from scratch or model zoo, you can start running the pipeline. Before submitting the task, you can use the output URL automatically generated or enter your own Output RTSP URL (this value needs to follow a specific format of rtsp://vmss.auperatechnologies.com:554/<user_specifcied _name>). Click Submit to start the Custom Pipeline task.
-<span class="important">NOTE:</span> <user_specifcied_name> can be any arbitrary name that the user chooses.  
+
+**NOTE:**<user_specifcied_name> can be any arbitrary name that the user chooses.  
 <br>
 
 2. After submitting the task, if there are missing models, there will be a popup displayed informing which model is missing. Click **OK** to download model, or **Cancel** to download later.
@@ -585,7 +592,7 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
         >
         <p ><strong>Figure 5.7. Aupera web application page – custom pipeline task result of model zoo pipeline pbtxt</strong></p>
     </div>
-    <span class="important"> NOTE:</span> After the Custom Pipeline Task started, it may take up to a few seconds before an output video stream starts. “Video failed to load” error may occur when checking custom pipeline result right after the task is started. Wait a few seconds and click the refresh button to try displaying the output video again.
+    **NOTE:**After the Custom Pipeline Task started, it may take up to a few seconds before an output video stream starts. “Video failed to load” error may occur when checking custom pipeline result right after the task is started. Wait a few seconds and click the refresh button to try displaying the output video again.
     <div align="center">
         <img 
             width="35%"
@@ -602,7 +609,7 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
         >
         <p ><strong>Figure 5.9. Aupera web application page – custom pipeline task result page (output video not yet available)</strong></p>
     </div>
-    <span class="important">NOTE:</span> Refresh the page if Custom Pipeline task result failed to load after running the task for a long time.
+    **NOTE:**Refresh the page if Custom Pipeline task result failed to load after running the task for a long time.
 <br>
 
 8. To stop the task, click **Stop** Task in the Custom Pipeline control component.
@@ -634,7 +641,7 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
 
     The video can also be played and stopped by clicking the ***stop*** and ***play*** button located in the bottom right corner of the video play.
 
-    <span class="important">NOTE:</span> Video player should start playing shortly after the play button is clicked. If the video player does not start playing after clicking the play button for 10 – 15 seconds, click the stop button and play button again to restart the video play.
+    **NOTE:**Video player should start playing shortly after the play button is clicked. If the video player does not start playing after clicking the play button for 10 – 15 seconds, click the stop button and play button again to restart the video play.
 <br>
 
 3. Video stream preview will be taken automatically in several seconds after the stream is played for the first time. To change the snapshot, click the ***camera*** button beside the play button while the video is playing.
@@ -683,7 +690,8 @@ If you used the model zoo feature and submitted a pipeline pbtxt, both video res
         <p ><strong>Figure 7.2. Aupera web application page – AI Host Page, AI Host Info</strong></p>
     </div>
 3. To Add a new AI host, click on Add New AI Host button and a popup (same as Figure 1.3 will appear for user to check the AI host url to be added)
-<span class="important">NOTE:</span> If you need help in this step, click **Help** button for more details about each input field and the next steps.
+
+**NOTE:**If you need help in this step, click **Help** button for more details about each input field and the next steps.
     <div align="center">
         <img 
             width="80%"
@@ -698,7 +706,7 @@ After clicking the **Submit** button, the new added AI host will appear in the A
 <br>
 
 5. To delete an AI host, click on the **X** button on the specific AI host that are intended to be deleted on the AI host list. Then select **OK** on the delete AI host confirmation popup
-<span class="important">NOTE:</span> If there is no AI Host added to the web application, the user will not be able to access any task related functions. Therefore, users will not be able to access AI Tasks tab if there is no AI host added. To access and start tasks, make sure there is at least one AI host added, otherwise the AI Tasks tab will be blocked. (If you don't have a hardware, you can request one by emailing us at [info@auperatech.com](mailto:info@auperatech.com))
+**NOTE:**If there is no AI Host added to the web application, the user will not be able to access any task related functions. Therefore, users will not be able to access AI Tasks tab if there is no AI host added. To access and start tasks, make sure there is at least one AI host added, otherwise the AI Tasks tab will be blocked. (If you don't have a hardware, you can request one by emailing us at [info@auperatech.com](mailto:info@auperatech.com))
     <div align="center">
         <img 
             width="80%"
