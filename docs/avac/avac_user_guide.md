@@ -10,16 +10,16 @@
 
 
 ### Table of Content
-1. [Signing Up for Aupera VMSS2.0 On Web Application](#1-signing-up-for-aupera-vmss20-on-web-applicationn)
-2. [Running Aupera's Proprietary Pipelines](#2-running-auperas-proprietary-pipelines)
-    1. [Running Aupera's Crowd Flow Application](#21-running-auperas-crowd-flow-application)
-    2. [Running Aupera's License Plate Recognition Applications](#22-running-auperas-license-plate-recognition-lpr-application)
-3. [Building Your Own (Custom) Pipelines](#3-building-your-own-custom-pipelines)
-4. [Model Zoo Evaluation](#4-model-zoo-evaluation)
-5. [Running Your Own (Custom) Pipeline](#5-running-your-own-custom-pipeline)
-6. [Using Video Streams to Add New Stream, Play Videos, or Change Snapshots](#6-using-video-streams-to-add-new-stream-play-videos-or-change-snapshots)
-7. [AI Hosts Page](#7-ai-hosts-page)
-8. [Useful Tools](#8-useful-tools)
+- [1 SIGNING UP FOR AUPERA VMSS2.0 ON WEB APPLICATION](#1-signing-up-for-aupera-vmss20-on-web-application)
+- [2 RUNNING AUPERA'S PROPRIETARY PIPELINES](#2-running-auperas-proprietary-pipelines)
+  - [2.1 Running Aupera’s Crowd Flow Application](#21-running-auperas-crowd-flow-application)
+  - [2.2 Running Aupera’s License Plate Recognition (LPR) Application](#22-running-auperas-license-plate-recognition-lpr-application)
+- [3 BUILDING YOUR OWN (CUSTOM) PIPELINES](#3-building-your-own-custom-pipelines)
+- [4 MODEL ZOO EVALUATION](#4-model-zoo-evaluation)
+- [5 RUNNING YOUR OWN (CUSTOM) PIPELINE](#5-running-your-own-custom-pipeline)
+- [6 USING VIDEO STREAMS TO ADD NEW STREAM, PLAY VIDEOS OR CHANGE SNAPSHOTS](#6-using-video-streams-to-add-new-stream-play-videos-or-change-snapshots)
+- [7 AI HOSTS PAGE](#7-ai-hosts-page)
+- [8 USEFUL TOOLS](#8-useful-tools)
 
 <br>
 <br>
@@ -49,9 +49,9 @@ Click the **Sign In** button on the top right corner of the page, and select **S
 
 After signing into VMSS2.0, you will be asked to add a video stream. Click **Add Stream** button to add video stream. Here are a few demo video streams you can try out:
 
-* rtsp://avac.auperatechnologies.com:554/car
-* rtsp://avac.auperatechnologies.com:554/crowd
-* rtsp://avac.auperatechnologies.com:554/retail
+* rtsp://vmss.auperatechnologies.com:554/car
+* rtsp://vmss.auperatechnologies.com:554/crowd
+* rtsp://vmss.auperatechnologies.com:554/retail
 
 Enter a **Stream URL** of your choice, give it an arbitrary and click **Save** to proceed.
 
@@ -128,7 +128,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.1.4. Aupera web application page – AI Tasks Hub Page, Application Selected</strong></p>
     </div>
 
-4. After Stream, Application, and AI Hosts are selected, the Crowd Flow Task Setup window will appear. (This is the right panel of the AI Tasks page extended, collapsing this window by clicking **Task List** or **Cancel** button. This will return to the previous page)
+4. After Stream, Application, and AI Hosts are selected, the Crowd Flow Task Setup window will appear. If you want to return to the AI Tasks page, click the **Cancel** button or the **Task List** bar on the left side of the page.
     <div align="center">
         <img 
             width="80%"
@@ -138,7 +138,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.1.5. Aupera web application page – crowd flow task creation</strong></p>
     </div>
 
-5. You need to draw a line to indicate a border for people crossing. When a person’s head crosses the line, IN/OUT count will reflect this event. These border lines may consist of up to a maximum of 14 segments, a less segmented line provides more accurate results. In and Out directions are determined by the way a line was drawn. If line is drawn from left to right, Movement from top to bottom will be registered as “IN”, bottom to top - “OUT”.
+1. You need to draw a line to indicate a border for people crossing. When a person’s head crosses the line, IN/OUT count will reflect this event. These border lines may consist of up to a maximum of 14 segments, a less segmented line provides more accurate results. In and Out directions are determined by the way a line was drawn. If line is drawn from left to right, Movement from top to bottom will be registered as “IN”, bottom to top - “OUT”.
     1. To start drawing, click the Draw Line button, the cursor will change to a cross.
     2. Left-click and hold the mouse button on the place where you would like to start the line.
     3. Drag the Line to the place where you want to finish the first segment, then release the mouse button.
@@ -157,13 +157,13 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.1.6. Aupera web application page – crowd flow task lines drawing example</strong></p>
     </div> 
 
-6. Changing Basic Parameters is not required to start the task, you can keep default values.
+2. Changing Basic Parameters is not required to start the task, you can keep default values.
     1. ***Direction*** – Count people going “In”, “Out” (“Entering” / “Exiting”) or both directions
     2. ***Start/Stop Time*** – counting will be started and stopped at the given time every day;
     3. It is recommended to set ***Sensitivity*** to the default value of 0.05;
 <br>
 
-7. **Advanced AI Parameters** can significantly affect the results for a particular task, it is recommended to not change those until recommended by Aupera.
+1. **Advanced AI Parameters** can significantly affect the results for a particular task, it is recommended to not change those until recommended by Aupera.
     <div align="center">
         <img 
             width="50%"
@@ -173,10 +173,10 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.1.7. Aupera web application page – crowd flow task advanced AI parameters</strong></p>
     </div>
 
-8. To start the task, click the Submit button. After that, a pop-up message will notify you that the task was successfully launched. If the pop-up message reports an error, try launching the task with default parameters or check the settings.
+2. To start the task, click the Submit button. After that, a pop-up message will notify you that the task was successfully launched. If the pop-up message reports an error, try launching the task with default parameters or check the settings.
 <br>
 
-9. If the task was launched, the task will appear in the task table on the left side of the screen
+1. If the task was launched, the task will appear in the task table on the left side of the screen
     <div align="center">
         <img 
             width="80%"
@@ -186,7 +186,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.1.8 Aupera web application page – AI Tasks Page, Crowd Flow task started</strong></p>
     </div>
 
-10. Select a task in the task list or click control button on the row of the task to show the Crowd Flow Control on the right side of the screen.
+2.  Select a task in the task list or click control button on the row of the task to show the Crowd Flow Control on the right side of the screen.
 
     <div align="center">
         <img 
@@ -210,7 +210,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
             <p ><strong>Figure 2.1.10. Aupera web application page – crowd flow task AI pipeline graph</strong></p>
         </div>
 
-11. To view results, click the result button on the specific task row on the table. The right panel will load the result of the specific task selected.
+3.  To view results, click the result button on the specific task row on the table. The right panel will load the result of the specific task selected.
     <div align="center">
         <img 
             width="80%"
@@ -276,8 +276,8 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
 6. LPR task can be started without changing any parameters, but in case you would like to change some, like enable the MLOps mode, click the “Change Task Parameters” button. Note that changing any parameters can significantly affect the results received. Some parameters which can be set up there are:
     1. **Switch Model By Time** – toggle this checkbox to set up the daytime interval, that can improve LP detection during a nighttime in some situations.
     2. **Auto Crop Detection Area** – automatically crop the frame to fit the Detection ROI you specified;
-    3. **MLOps Mode** – toggle this checkbox will send almost all raw MLOps data as results, thus allowing you to perform data labeling in the results section.
-    4. **Notification Server** and **MLOps Results Sever** parameters can specify urls to which LPR detection results and MLOps data will be sent correspondingly. Note, that if default values are changed, web client will not receive any results, so viewing, data labeling, and downloading could not be performed.
+    3. **MLOps Mode** – toggle this checkbox to collect raw detection data for monitoring accuracy of results and retraining purposes. Turning MLOps mode on will allow you to see the raw results and do data cleaning and labeling.
+    4. **Notification Server** and **MLOps Results Server** parameters can specify urls to which LPR detection results and MLOps data will be sent correspondingly. Note, that if default values are changed, web client will not receive any results, so viewing, data labeling, and downloading could not be performed.
 
         <div align="center">
             <img 
