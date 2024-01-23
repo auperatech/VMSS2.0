@@ -44,7 +44,7 @@ cd vmss_final_package/
 
 ```
 cd ~/
-git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
+git clone https://github.com/Xilinx/kria-apps-firmware.git
 cd kria-apps-firmware
 sudo make -C boards/ install
 ```
