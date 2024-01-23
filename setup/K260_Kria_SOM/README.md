@@ -44,6 +44,7 @@ cd vmss_final_package/
 
 ```
 cd ~/
+sudo apt install bootgen-xlnx
 git clone https://github.com/Xilinx/kria-apps-firmware.git
 cd kria-apps-firmware
 sudo make -C boards/ install
