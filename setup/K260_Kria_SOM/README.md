@@ -105,8 +105,15 @@ avaser -i input.pbtxt -o output.pbtxt -c 1input_1output.pbtxt
 
 Open VLC player on your computer and type the URL you passed to avaser as your `output.pbtxt` entry in VLC under `Media->Open Network Stream...`. You should be able to see bounding boxes overlayed around the cars in the scene. 
 
-To illustrate the pipeline your just ran, please refer to the the following diagram: ![following diagram](box_detector_visualizer.png):
+To illustrate the pipeline your just ran, please refer to the the following diagram: 
+<div align="center">
+![following diagram](box_detector_visualizer.png):
+<div>
 
-In brief, all of the calculators used in your pipeline are shown above. All of these calculators can be reused to run different pipelines. For the users who may not be familiar with mux/demux, encode/decode, and filtering, to simply this further, you may think of the above diagram as a pipeline shown below where you can just copy and past the components that are summarized as `video_in` and `video_out` in any pipeline to achieve your goal.![simplified diagaram](simplified_graph.png):
+In brief, all of the calculators used in your pipeline are shown above. All of these calculators can be reused to run different pipelines. For the users who may not be familiar with mux/demux, encode/decode, and filtering, to simply this further, you may think of the above diagram as a pipeline shown below where you can just copy and past the components that are summarized as `video_in` and `video_out` in any pipeline to achieve your goal.
+<div align="center">
+![simplified diagaram](simplified_graph.png):
+<div>
+
 
 
