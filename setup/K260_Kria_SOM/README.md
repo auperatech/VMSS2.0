@@ -28,13 +28,14 @@ sudo reboot
 Download the VMSS package for Ubuntu 22.04 using wget:
 
 ```
-wget https://amd.vmaccel.com/object-store/v1/aup_releases/vmss_avaf3.2.0_k260_ubuntu22_md5sum927de12d5f5aeefd1224b72d0e052956.tar.gz
+wget https://amd.vmaccel.com/object-store/v1/aup_releases/vmss_avaf3.2.0_k260_ubuntu22_md5sum337e11a578c678046545571bc2c4f8ee.tar.gz
 ```
 
 Once the download is complete check `md5sum` of downloaded package to match the number provided in the package name to ensure the download process was successful, then extract the package:
 
 ```
-tar -xzvf vmss_k260_ubuntu22_vai2.5_md5sum4705079acb2d31979864a8c34d9a0e47.tar.gz vmss_final_package/
+tar -xzvf vmss_avaf3.2.0_k260_ubuntu22_md5sum337e11a578c678046545571bc2c4f8ee.tar.gz 
+vmss_final_package/
 cd vmss_final_package/
 ./install.sh
 ```
