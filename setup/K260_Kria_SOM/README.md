@@ -42,10 +42,14 @@ cd vmss_final_package/
 
 ### 3. Install Xilinx bootgen Tool and Verify DPU Availability
 
+Install bootgen tool by running this command:
+```
+sudo apt install bootgen-xlnx
+```
+
 ```
 cd ~/
-sudo apt install bootgen-xlnx
-git clone https://github.com/Xilinx/kria-apps-firmware.git
+git clone --branch release-2021.1 https://github.com/Xilinx/kria-apps-firmware.git
 cd kria-apps-firmware
 sudo make -C boards/ install
 ```

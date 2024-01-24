@@ -19,9 +19,18 @@ VMSS 2.0 allows packets to be synchronized across multiple streams, enabling str
 
 ## How to access VMSS 2.0?
 
-You can access VMSS 2.0 immediately by signing up for a demo account via our partner VMAccel by visiting our Web site and clicking on [VMSS2.0 here](https://vmaccel.com/vmssdemo/).
+VMSS 2.0 has been tested on the following list of hardware:
+* KV260/KR260 (AMD)
+* VCK5000 (AMD)
+* U50 (AMD)
+* V70 (AMD)
+* SBC EdgeAI Box X7 (Planet Spark)
+* V205 (Aupera)
 
-You can also request the latest versions of our VMSS 2.0 through our [website](https://auperatechnologies.com/).
+If you have access to one of devices mentioned above, you may find the appropiate setup guide under [setup](https://github.com/auperatech/VMSS2.0/tree/main/docs)
+
+  
+If you don't have a compatible hardware, you can access VMSS 2.0 by signing up for a demo account via our website [VMSS2.0 here](https://vmss.auperatechnologies.com/).
 
 # How to evaluate VMSS 2.0?
 
