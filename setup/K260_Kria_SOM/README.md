@@ -5,7 +5,7 @@ This guide provides step-by-step instructions for installing VMSS 2.0 on the KV2
 ## Prerequisites
 
 - Kria SOM (KV260 or KR260) with Kria Ubuntu Desktop 22.04 LTS Image.
-- 128GB SanDisk Extreme PLUS 200MB/s Read SD card.
+- 16GB or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card.)
 - Follow the initial setup instructions from Xilinx: [Setting up the SD Card Image](https://www.xilinx.com/products/som/kria/kv260-vision-starter-kit/kv260-getting-started-ubuntu/setting-up-the-sd-card-image.html).
 
 ## Installation Steps
@@ -16,9 +16,13 @@ Start by updating your system packages. Open a terminal and run:
    sudo apt update
    sudo apt upgrade
    ```
-***NOTE: This step takes several minutes. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process.***  
+***NOTE: This step takes several minutes. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here***
 
-### Reboot System
+<div align="center">
+  <img src="kernel_update.jpg" alt="kernel_update">
+</div>
+
+#### Reboot System
 After updating, reboot your system to ensure all updates are applied.
 ```
 sudo reboot
