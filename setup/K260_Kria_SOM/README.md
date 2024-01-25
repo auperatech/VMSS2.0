@@ -53,7 +53,7 @@ sudo apt install bootgen-xlnx
 
 ```
 cd ~/
-git clone --branch release-2021.1 https://github.com/Xilinx/kria-apps-firmware.git
+git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
 cd kria-apps-firmware
 sudo make -C boards/ install
 ```
