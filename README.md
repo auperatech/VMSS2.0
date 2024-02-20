@@ -1,3 +1,16 @@
+# Announcement: Aupera VMSS 2.0 - Free for AMD Contest Participants
+
+We're excited to announce that Aupera is offering VMSS 2.0, our cutting-edge Video Machine-Learning Streaming Server, for **free** to developers participating in the [AMD Pervasive AI Developer Contest](https://www.hackster.io/contests/amd2023#challengeNav). This developer version enables both development and runtime environments to quickly build complex Video AI applications with no code required. 
+
+Leverage VMSS 2.0 to:
+- Utilize available nodes for rapid pipeline construction.
+- Get notifications via SMS, Email, HTTP API, MongoDB, and more.
+- Create custom logic to process output data exactly as you need.
+- Access over 100+ models from AMD's Model Zoo for a wide range of applications.
+
+For a sneak peek before our end-of-February release, check out our [introductory video](https://youtu.be/KbzXKMxWZOw?si=rOYsU1yYClq-Pokr).
+
+
 - [What is VMSS 2.0?](#what-is-vmss-20)
   - [How to access VMSS 2.0?](#how-to-access-vmss-20)
 - [How to evaluate VMSS 2.0?](#how-to-evaluate-vmss-20)
