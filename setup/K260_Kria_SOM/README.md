@@ -1,78 +1,79 @@
-# VMSS 2.0 Installation Guide for KV260/KR260 Kria SOM with Ubuntu 22.04
+# VMSS 2.0 Docker Installation Guide for KV260/KR260 Kria SOM with Ubuntu 22.04
 
-This guide provides step-by-step instructions for installing VMSS 2.0 on the KV260 or KR260 Kria SOM, using the Kria Ubuntu Desktop 22.04 LTS Image. This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
+This guide provides step-by-step instructions for installing VMSS 2.0 Docker for K26 on KV260 or KR260 Kria SOM, using the Kria Ubuntu Desktop 22.04 LTS Image. This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
 
-## Prerequisites
+## Hardware/OS requirements
 
 - Kria SOM (KV260 or KR260) with Kria Ubuntu Desktop 22.04 LTS Image.
-- 16GB or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card.)
+- 32GB or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card.)
 - Follow the initial setup instructions from Xilinx: [Setting up the SD Card Image](https://www.xilinx.com/products/som/kria/kv260-vision-starter-kit/kv260-getting-started-ubuntu/setting-up-the-sd-card-image.html).
 
 ## Installation Steps
 
-### 1. System Update
-Start by updating your system packages. Open a terminal and run:
+### 1. System update
+It is recommended to have the latest upgraded Ubuntu:
    ```bash
-   sudo apt update
-   sudo apt upgrade
+   sudo apt-get update
+   sudo apt-get upgrade
    ```
-***NOTE: This step takes several minutes. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here***
+***NOTE: This step may take several minutes. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here***
 
 <div align="center">
   <img src="kernel_update.jpg" alt="kernel_update">
 </div>
 
-#### Reboot System
-After updating, reboot your system to ensure all updates are applied.
-```
+After these steps, make sure that you perform a reboot on the system:
+```bash
 sudo reboot
 ```
 
-### 2. Download, Extract, & Install VMSS Package
-Download the VMSS package for Ubuntu 22.04 using wget:
+### 2. Install Docker Image dependencies
 
-```
-wget https://amd.vmaccel.com/object-store/v1/aup_releases/vmss_avaf3.2.0_k260_ubuntu22_md5sum337e11a578c678046545571bc2c4f8ee.tar.gz
-```
+VMSS 2.0 Docker Image requires the following dependencies to be installed on the host OS: `vitis-ai-runtime`, `bootgen-xlnx` as well as `kria-firmware-app`. Here is how you install these dependencies on the OS:
 
-Once the download is complete check `md5sum` of downloaded package to match the number provided in the package name to ensure the download process was successful, then extract the package:
+   ```bash
+   sudo add-apt-repository -y ppa:xilinx-apps/ppa
+   sudo apt-get install -y vitis-ai-runtime bootgen-xlnx
+   cd ~/
+   git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
+   cd kria-apps-firmware
+   sudo make -C boards/ install
+   cd ~/
+   rm -rf kria-apps-firmware
+   ```
 
-```
-tar -xzvf vmss_avaf3.2.0_k260_ubuntu22_md5sum337e11a578c678046545571bc2c4f8ee.tar.gz 
-vmss_final_package/
-cd vmss_final_package/
-./install.sh
-```
+You would also need to install docker engine. The following docker engine installation guide follows the guide [mentioned here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
-### 3. Install Xilinx bootgen Tool and Verify DPU Availability
+#### Setup docker repository
 
-Install bootgen tool by running this command:
-```
-sudo apt install bootgen-xlnx
-```
+   ```bash
+   # Add Docker's official GPG key:
+   sudo apt-get update
+   sudo apt-get install ca-certificates curl
+   sudo install -m 0755 -d /etc/apt/keyrings
+   sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+   sudo chmod a+r /etc/apt/keyrings/docker.asc
+   
+   # Add the repository to Apt sources:
+   echo \
+     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   sudo apt-get update
+   ```
 
-```
-cd ~/
-git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
-cd kria-apps-firmware
-sudo make -C boards/ install
-```
+#### Install docker packages
+   ```bash
+   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   ```
 
-Now it's time to load one of the Apps you just installed using `xmutil` to load DPU drivers and get access to DPU. For our package we have included a model from AMD model zoo that was compiled for DPU `fingerprint = 0x101000016010407` , therefore, we will load the appropriate app that matches this DPU. To do so run the following commands:
-```
-sudo xmutil unloadapp
-sudo xmutil loadapp kv260-benchmark-b4096
-show_dpu
-```
+#### Verify docker installation
+   ```bash
+   sudo docker run hello-world
+   ```
 
-The `show_dpu` command should give you the following output:
-```
-device_core_id=0 device= 0 core = 0 fingerprint = 0x101000016010407 batch = 1 full_cu_name=DPUCZDX8G:DPUCZDX8G_1
-```
-
-*****NOTE:***** You may use any of the available K260 apps to use VMSS. VMSS does not depend on any specific DPU design. To run inference with VMSS, you must have your models compiled for the appropriate DPU that you have loaded in this step.
-
-
+### 3. Pull Docker image
+VMSS is available throught the public docker repository `auperastor/kria-som-dev:latest`. You can pull the latest docker by `sudo docker pull auperastor/kria-som-dev:latest` on your Kria SOM device.
 
 ### 4. Run VMSS Example
 
