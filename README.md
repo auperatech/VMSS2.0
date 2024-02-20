@@ -5,7 +5,7 @@ We're excited to announce that Aupera is offering VMSS 2.0, our cutting-edge Vid
 Leverage VMSS 2.0 to:
 - Utilize available nodes for rapid pipeline construction.
 - Get notifications via SMS, Email, HTTP API, MongoDB, and more.
-- Create custom logic to process output data exactly as you need.
+- Create custom logic to process data within the pipeline exactly as you need.
 - Access over 100+ models from AMD's Model Zoo for a wide range of applications.
 
 For a sneak peek before our end-of-February release, check out our [introductory video](https://youtu.be/KbzXKMxWZOw?si=rOYsU1yYClq-Pokr).
