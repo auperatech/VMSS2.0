@@ -75,15 +75,45 @@ You would also need to install docker engine. The following docker engine instal
 ### 3. Pull Docker image
 VMSS is available throught the public docker repository `auperastor/kria-som-dev:latest`. You can pull the latest docker by `sudo docker pull auperastor/kria-som-dev:latest` on your Kria SOM device.
 
-### 4. Run VMSS Example
+### 4. Start Docker
 
-VMSS framework runs a `Video Pipeline or Graph` that is described in your `pbtxt` file. Eeach pipeline/graph consits of a set of nodes that we refer to as `calculators`. You must have the calculator files that you need for your pipeline/graph available under the `/tmp/`. This utility script will create symbolic link that links your available calculators to the `/tmp` directory. Plesae make sure that all the required calculators are available before runnign `avaser` which runs your pipeline/graph. All the calculators in our pacakge should be available under `/opt/aupera/vmss/nodes/` now using this command you can choose to link `all` or a specific calculator. Let's link all the calculators by running the followinc command:
+This docker ideally starts with a shared directory on host OS and the docker. For this reason first go the shared directory and then start the docker. Here is how:
 
+```bash
+cd <SHARED-DIR>;
+sudo docker run \
+    --env="DISPLAY" \
+    -h "aupera-docker" \
+    --env="XDG_SESSION_TYPE" \
+    --cap-add sys_admin \
+    --cap-add NET_ADMIN \
+    --cap-add NET_RAW \
+    --network=host \
+    --privileged=true \
+    --hostname=general \
+    --volume="$HOME/.Xauthority:/root/.Xauthority:rw" \
+    -v /tmp:/tmp \
+    -v /dev:/dev \
+    -v /sys:/sys \
+    -v /etc/vart.conf:/etc/vart.conf \
+    -v /lib/firmware/xilinx:/lib/firmware/xilinx \
+    -v /run:/run \
+    -v `pwd`:`pwd` \
+    -w `pwd` \
+    -e NFS_ABS_PATH=`pwd` \
+    --name=<DOCKER-NAME> \
+    -dit auperastor/kria-som-dev:latest bash
 ```
-link_calculator all
+
+Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker that you want to create. Now you can enter the docker:
+
+```bash
+sudo docker container exec -ti <DOCKER-NAME> bash
 ```
 
-Now before running the test pipeline, let's understand what we are about to run. `avaser` is VMMS's command that runs a graph/pipeline that you provide via `-c` argument. There are 3 pbtxt files that are required to pass to `avaser`: 
+### 5. Execute Pipelines
+
+Now before running the test pipeline, let's understand what we are about to run. `avaser` is VMMS's command that runs a graph/pipeline that you provide via `-c` argument. There are 3 pbtxt files that are required to pass to `avaser`:
 
 ##### Input `-i` : 
     comes after `-i` parameter and contains the same number of RTSP streams as the input_streams contained in your pipeline.pbtxt. 
@@ -98,6 +128,8 @@ To learn more about VMSS please refer to our [user guide available here](https:/
 
 It's time to run a test pipeline that runs a vehicle detector on a test RTSP video stream and watch the results on VLC(or any Video player that can run RTSP streams). First, let's navigate to the test directoy, then run the following command.
 
+
+# TODO Update from here
 ```
 cd /opt/aupera/vmss/test/box_detector_car/
 ```
