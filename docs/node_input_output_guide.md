@@ -3,13 +3,25 @@
 - [box\_classifier](#box_classifier)
 - [box\_detector](#box_detector)
 - [box\_segmentor](#box_segmentor)
+- [box\_tracker](#box_tracker)
 - [box\_visualizer](#box_visualizer)
 - [ff\_vfilter](#ff_vfilter)
+- [frame\_saver](#frame_saver)
+- [host\_sink](#host_sink)
+- [host\_source](#host_source)
+- [image\_stream](#image_stream)
+- [image\_stream\_device](#image_stream_device)
+- [json\_stream](#json_stream)
 - [landmark\_predictor](#landmark_predictor)
 - [notification\_mongo](#notification_mongo)
 - [notification\_web](#notification_web)
+- [packet\_simulator](#packet_simulator)
+- [statistics\_reader](#statistics_reader)
 - [stream\_demux](#stream_demux)
 - [stream\_mux](#stream_mux)
+- [subgraph](#subgraph)
+- [to\_json](#to_json)
+- [u30\_dec\_device](#u30_dec_device)
 - [x86\_dec](#x86_dec)
 - [x86\_enc](#x86_enc)
 
@@ -56,6 +68,15 @@
 - **output stream i \< N:** Segmentations
 
 
+## box_tracker
+
+### Input Stream (size 2): <!-- omit from toc -->
+- **input stream 0** DetectionPacket
+- **input stream 1** UInt64Packet - side packet containing detect interval
+
+### Output Stream (size 2): <!-- omit from toc -->
+- **output stream 0** TrackPacket
+
 ## box_visualizer
 
 **Conditions:**
@@ -84,6 +105,82 @@
 - **output stream 0:** ImagePacket
 - **output stream 1:** VideoStreamInfoPacket
 
+
+## frame_saver
+
+**Conditions:**
+- This node has no output streams
+
+### Input Stream (size 1): <!-- omit from toc -->
+- **input stream 0:** ImagePacket
+
+
+## host_sink
+
+**Conditions:**
+- This node has no output streams, rather the stream is passed to the output of the subgraph node (see [subgraph](#subgraph)) by setting the node_options->index to the index of the corresponding subgraph output stream
+- NOTE: there must be one sink for each stream that is passed back out of the subgraph
+- The input stream packet can be one of the following types depending on the values specified in the corresponding [subgraph](#subgraph) node_options-\>output_attrs[]-\>type field:
+  - PACKET_TYPE_DETECTIONS_OR_TRACKS: DetectionPacket
+  - PACKET_TYPE_CLASSIFICATIONS: Classifications
+  - PACKET_TYPE_IMAGE: ImagePacket
+  - PACKET_TYPE_UINT64: UInt64Packet
+  - PACKET_TYPE_VIDEO_STREAM_INFO: VideoStreamInfoPacket
+  - PACKET_TYPE_JSON: JsonPacket
+
+TODO check on logic:
+(is_fast_sink = !dynamic_cast<packet::IDeviceToHostPacketComm*>(packet.get())) && !dynamic_packet_cast<PacketBasePTS>(packet)
+
+### Input Stream (size 1): <!-- omit from toc -->
+- **input stream 0:** one of DetectionPacket, Classifications, ImagePacket, UInt64Packet, VideoStreamInfoPacket, JsonPacket
+
+
+## host_source
+
+**Conditions:**
+- This node has no input streams, rather a stream is passed to the input of the subgraph node (see [subgraph](#subgraph)) by setting the node_options->index to the index of the corresponding subgraph input stream
+- NOTE: there must be one source for each stream that is passed into the subgraph
+- The output stream packet can be one of the following types depending on the values specified in the corresponding [subgraph](#subgraph) node_options-\>input_attrs[]-\>type field:
+  - PACKET_TYPE_DETECTIONS_OR_TRACKS: DetectionPacket
+  - PACKET_TYPE_CLASSIFICATIONS: Classifications
+  - PACKET_TYPE_IMAGE: ImagePacket
+  - PACKET_TYPE_UINT64: UInt64Packet
+  - PACKET_TYPE_VIDEO_STREAM_INFO: VideoStreamInfoPacket
+  - PACKET_TYPE_JSON: JsonPacket
+
+TODO check on logic:
+(is_fast_source = !dynamic_cast<packet::IHostToDevicePacketComm*>(packet.get())) && !dynamic_packet_cast<PacketBasePTS>(packet)
+
+### Output Stream (size 1): <!-- omit from toc -->
+- **output stream 0:** one of DetectionPacket, Classifications, ImagePacket, UInt64Packet, VideoStreamInfoPacket, JsonPacket
+
+## image_stream
+
+**Conditions:**
+- This node has no input streams, rather the node_options-\>directory must be the path of a valid folder containing images
+
+### Output Stream (size 2): <!-- omit from toc -->
+- **output stream 0:** ImagePacket
+- **output stream 1:** VideoStreamInfoPacket
+
+
+## image_stream_device
+
+**Conditions:**
+- This node has no input streams, rather the node_options-\>directory must be the path of a valid folder containing images
+
+### Output Stream (size 2): <!-- omit from toc -->
+- **output stream 0:** ImagePacket
+- **output stream 1:** VideoStreamInfoPacket
+
+
+## json_stream
+
+**Conditions:**
+- This node has no input streams, rather the node_options-\>directory must be the path of a valid folder containing .json files
+
+### Output Stream (size 1): <!-- omit from toc -->
+- **output stream 0:** JsonPacket
 
 ## landmark_predictor
 
@@ -120,6 +217,35 @@
 - **input stream 0:** JsonPacket
 
 
+## packet_simulator
+
+**Conditions:**
+- if node_options-\>op_mode is OP_MODE_ANY (0) then can have any number of input streams and output streams
+- if node_options-\>op_mode is OP_MODE_CLIP_GEN (1) then must have one input stream and one output stream
+
+### Input Stream when op_mode is OP_MODE_ANY (size N, N is number of input streams): <!-- omit from toc -->
+- **input stream i \< N:** PacketBase
+
+### Output Stream when op_mode is OP_MODE_ANY (size M, M is number of output streams): <!-- omit from toc -->
+- **input stream i \< N:** PacketBase
+
+### Input Stream when op_mode is OP_MODE_CLIP_GEN (size 1): <!-- omit from toc -->
+- **input stream i \< N:** ImagePacket
+
+### Output Stream when op_mode is OP_MODE_CLIP_GEN (size 1): <!-- omit from toc -->
+- **input stream i \< N:** ClipGeneratorCommandPacket
+
+TODO check on this
+
+## statistics_reader
+
+**Conditions:**
+- this node does not have any inputs, but rather the node_options-\>input_path must be the path to a valid file or directory, depending on whether node_options-\>input_type is DIRECTORY (0) or FILE (1)
+
+### Output Stream (size 1): <!-- omit from toc -->
+- **output stream 0:** JsonPacket
+
+
 ## stream_demux
 
 **Conditions:**
@@ -140,6 +266,53 @@
 ### Input Stream (size 2): <!-- omit from toc -->
 - **input stream 0:** VideoPacket
 - **input stream 1:** AVCodecContextPacket - side packet
+
+
+## subgraph
+
+**Conditions:**
+- number of input streams cannot be more than 127, and likewise, number of output streams cannot be more than 127
+- number of input streams must be equal to number of node_options-\>input_attrs entries specified
+- number of output streams must be equal to number of node_options-\>output_attrs entries specified
+- if an entry of node_options-\>input_attrs has has_packet_on_init not equal to 0, then corresponding pool_size must be 1
+- if an entry of node_options-\>output_attrs has has_packet_on_init not equal to 0, then corresponding pool_size must be 1
+- the input and output stream packet types must be one of the following depending on the corresponding node_options-\>output_attrs-\>type or node_options-\>input_attrs-\>type entry:
+    PACKET_TYPE_IMAGE (8): ImagePacket
+    PACKET_TYPE_VIDEO (11): VideoPacket
+    PACKET_TYPE_VIDEO_STREAM_INFO (12): VideoStreamInfoPacket
+
+### Input Stream (size N, N is number of input streams specified by input_attrs): <!-- omit from toc -->
+- **input stream i \< N>:** one of ImagePacket, VideoPacket, VideoStreamInfoPacket
+
+### Output Stream (size M, M is number of output streams specified by output_attrs): <!-- omit from toc -->
+- **output stream i \< M:** one of ImagePacket, VideoPacket, VideoStreamInfoPacket
+
+TODO confirm available packet types (doesn't match pbtxt examples)
+
+## to_json
+
+**Conditions:**
+- The input stream packet type can be one of the following, but must match the corresponding entry of node_options-\>input_type:
+  - PACKET_TYPE_CLASSIFICATIONS (1): Classifications
+  - PACKET_TYPE_DETECTIONS_OR_TRACKS (2): DetectionPacket
+  - PACKET_TYPE_SEGMENTATIONS (4): Segmentations
+
+### Input Stream (size 1): <!-- omit from toc -->
+- **input stream 0:** one of Classifications, DetectionPacket, Segmentations
+
+### Output Stream (size 1): <!-- omit from toc -->
+- **output stream 0:** JsonPacket
+
+
+## u30_dec_device
+
+### Input Stream (size 2): <!-- omit from toc -->
+- **input stream 0:** VideoPacket
+- **input stream 1:** VideoStreamInfoPacket - side packet
+
+### Output Stream (size 2): <!-- omit from toc -->
+- **output stream 0:** ImagePacket
+- **output stream 1:** VideoStreamInfoPacket
 
 
 ## x86_dec 
