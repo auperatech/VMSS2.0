@@ -1,29 +1,82 @@
-# Input and Output Packet Configurations for Each Node <!-- omit from toc -->
+- [Input and Output Packet Configurations for Each Node](#input-and-output-packet-configurations-for-each-node)
+  - [apl\_crowd\_flow](#apl_crowd_flow)
+  - [apl\_vehicle\_reid](#apl_vehicle_reid)
+  - [box\_classifier](#box_classifier)
+  - [box\_detector](#box_detector)
+  - [box\_segmentor](#box_segmentor)
+  - [box\_tracker](#box_tracker)
+  - [box\_visualizer](#box_visualizer)
+  - [clip\_generator](#clip_generator)
+  - [event\_based\_recorder](#event_based_recorder)
+  - [ff\_vfilter](#ff_vfilter)
+  - [file\_saver](#file_saver)
+  - [frame\_saver](#frame_saver)
+  - [host\_sink](#host_sink)
+  - [host\_source](#host_source)
+  - [image\_stream](#image_stream)
+  - [image\_stream\_device](#image_stream_device)
+  - [json\_stream](#json_stream)
+  - [landmark\_predictor](#landmark_predictor)
+  - [notification\_mongo](#notification_mongo)
+  - [notification\_web](#notification_web)
+  - [packet\_simulator](#packet_simulator)
+  - [statistics\_reader](#statistics_reader)
+  - [stream\_demux](#stream_demux)
+  - [stream\_mux](#stream_mux)
+  - [subgraph](#subgraph)
+  - [to\_json](#to_json)
+  - [u30\_dec\_device](#u30_dec_device)
+  - [x86\_dec](#x86_dec)
+  - [x86\_enc](#x86_enc)
+- [Packet Types and Conversion Options](#packet-types-and-conversion-options)
 
-- [box\_classifier](#box_classifier)
-- [box\_detector](#box_detector)
-- [box\_segmentor](#box_segmentor)
-- [box\_tracker](#box_tracker)
-- [box\_visualizer](#box_visualizer)
-- [ff\_vfilter](#ff_vfilter)
-- [frame\_saver](#frame_saver)
-- [host\_sink](#host_sink)
-- [host\_source](#host_source)
-- [image\_stream](#image_stream)
-- [image\_stream\_device](#image_stream_device)
-- [json\_stream](#json_stream)
-- [landmark\_predictor](#landmark_predictor)
-- [notification\_mongo](#notification_mongo)
-- [notification\_web](#notification_web)
-- [packet\_simulator](#packet_simulator)
-- [statistics\_reader](#statistics_reader)
-- [stream\_demux](#stream_demux)
-- [stream\_mux](#stream_mux)
-- [subgraph](#subgraph)
-- [to\_json](#to_json)
-- [u30\_dec\_device](#u30_dec_device)
-- [x86\_dec](#x86_dec)
-- [x86\_enc](#x86_enc)
+# Input and Output Packet Configurations for Each Node
+
+
+## apl_crowd_flow
+
+**Conditions:** 
+- Number of input streams N must be 3 or 4
+- Number of output streams M must be less 
+
+### Input Stream when input streams N = 3 (size 3): <!-- omit from toc -->
+- **input stream 0:** TrackPacket
+- **input stream 1:** VideoStreamInfoPacket - side packet
+- **input stream 2:** UInt64Packet - side packet containing detect interval
+
+### Input Stream when input streams N = 4 (size 4): <!-- omit from toc -->
+- **input stream 0:** TrackPacket
+- **input stream 1:** ImagePacket
+- **input stream 2:** VideoStreamInfoPacket - side packet
+- **input stream 3:** UInt64Packet - side packet containing detect interval
+
+### Output Stream (size 1 - 3): <!-- omit from toc -->
+- **input stream 0:** JsonPacket
+- **input stream 1 (optional):** ImagePacket
+- **input stream 2 (optional):** JsonPacket
+
+
+## apl_vehicle_reid
+
+**Conditions:** 
+- Number of input streams N must be 3 or 4
+- Number of output streams M must be less 
+
+### Input Stream when input streams N = 3 (size 3): <!-- omit from toc -->
+- **input stream 0:** TrackPacket
+- **input stream 1:** VideoStreamInfoPacket - side packet
+- **input stream 2:** UInt64Packet - side packet containing detect interval
+
+### Input Stream when input streams N = 4 (size 4): <!-- omit from toc -->
+- **input stream 0:** TrackPacket
+- **input stream 1:** ImagePacket
+- **input stream 2:** VideoStreamInfoPacket - side packet
+- **input stream 3:** UInt64Packet - side packet containing detect interval
+
+### Output Stream (size 1 - 3): <!-- omit from toc -->
+- **input stream 0:** JsonPacket
+- **input stream 1 (optional):** ImagePacket
+- **input stream 2 (optional):** JsonPacket
 
 
 ## box_classifier
@@ -39,7 +92,7 @@
 ### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
 - **input stream i \< N:** ImagePacket
 
-### Output Stream when (size N, N is number of outputs): <!-- omit from toc -->
+### Output Stream (size N, N is number of outputs): <!-- omit from toc -->
 - **output stream i \< N:** Classifications
 
 
@@ -59,7 +112,7 @@
 ## box_segmentor
 
 **Conditions:**
-- Number of inputs N must match output size
+- Number of input streams N must match number of output streams
 
 ### Input Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
 - **input stream i \< N:** ImagePacket
@@ -95,6 +148,27 @@
 - **input stream 0:** ImagePacket
 
 
+## clip_generator
+
+### Input Stream (size 2): <!-- omit from toc -->
+- **input stream 0:** ClipGeneratorCommandPacket
+- **input stream 1:** ImagePacket
+
+### Output Stream (size 1): <!-- omit from toc -->
+- **output stream 0:** FilePacket
+
+
+## event_based_recorder
+
+### Input Stream (size 2): <!-- omit from toc -->
+- **input stream 0:** DetectionPacket
+- **input stream 1:** ImagePacket
+
+### Output Stream (size 2): <!-- omit from toc -->
+- **output stream 0:** ClipGeneratorCommandPacket
+- **output stream 1:** ImagePacket
+
+
 ## ff_vfilter
 
 ### Input Stream (size 2): <!-- omit from toc -->
@@ -106,10 +180,23 @@
 - **output stream 1:** VideoStreamInfoPacket
 
 
+## file_saver
+
+**Conditions:**
+- Node outputs to path specified in node_options-\>directory
+- Number of output streams N must be greater than 0 (?? TODO)
+
+### Input Stream (size 1): <!-- omit from toc -->
+- **input stream 0:** FilePacket
+
+### Output Stream (size N, N > 0, N is number of output streams): <!-- omit from toc -->
+TODO: confirm this sizing, does not appear to put anything into output streams
+
+
 ## frame_saver
 
 **Conditions:**
-- This node has no output streams
+- This node has no output streams, instead the node outputs to path specified in node_options-\>directory
 
 ### Input Stream (size 1): <!-- omit from toc -->
 - **input stream 0:** ImagePacket
@@ -195,7 +282,7 @@ TODO check on logic:
 ### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
 - **input stream i \< N:** ImagePacket
 
-### Output Stream when (size N, N is number of outputs): <!-- omit from toc -->
+### Output Stream (size N, N is number of outputs): <!-- omit from toc -->
 - **output stream i \< N:** LandmarksPacket
 
 
@@ -253,7 +340,7 @@ TODO check on this
 - input can be set by providing a url through node_options-\>demux-\>input_url
 - this node can have 1 or 2 outputs, the second output is optional and will contain video stream information
 
-### Output Stream (size 2): <!-- omit from toc -->
+### Output Stream (size 1 or 2): <!-- omit from toc -->
 - **output stream 0:** VideoPacket
 - **output stream 1 (optional):** VideoStreamInfoPacket
 
@@ -318,7 +405,7 @@ TODO confirm available packet types (doesn't match pbtxt examples)
 ## x86_dec 
 
 **Conditions:** 
-- Output size N must match the number of pixel formats specified in node_options-\>dec-\>opixfmt, which supports multiple output picture streams with different pixel format, supported: "RGB24" or "BGR24" or "NV12" or "I420"
+- Number of output streams N must match the number of pixel formats specified in node_options-\>dec-\>opixfmt, which supports multiple output picture streams with different pixel format, supported: "RGB24" or "BGR24" or "NV12" or "I420"
 
 ### Input Stream (size 2): <!-- omit from toc -->
 - **input stream 0:** VideoPacket
@@ -342,3 +429,6 @@ TODO confirm available packet types (doesn't match pbtxt examples)
 ### Output Stream (size 2): <!-- omit from toc -->
 - **output stream 0:** VideoPacket
 - **output stream 1:** AVCodecContextPacket
+
+
+# Packet Types and Conversion Options
