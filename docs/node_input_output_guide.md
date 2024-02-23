@@ -109,62 +109,48 @@
 
 ## box_segmentor
 
+**Description:** Performs box segmentation on an image stream.
+
+**Basic Node IO:** This node in its base form takes in an input video stream of type `ImagePacket` and produces a corresponding segmentation stream of type `Segmentations`. It is able to take in multiple input streams at a time and produces corresponding segmentation streams for each, for example 3 input streams of type `ImagePacket` and 3 output streams of type `Segmentations`. The output streams order will correspond to the input streams order.
+
 **Conditions:**
-- Number of input streams N must match number of output streams
-
-### Input Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
-- **output stream i \< N:** Segmentations
+- Number of input streams must match number of output streams
 
 
 ## box_tracker
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0** DetectionPacket
-- **input stream 1** UInt64Packet - side packet containing detect interval
+**Description:** Identifies object for tracking through a video stream.
 
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0** TrackPacket
+**Basic Node IO:** This node has two input streams, the first stream takes in `DetectionPacket` objects, and the second stream takes in `UInt64Packet` objects which specify the detection interval of the detection node. This node has one output streams which produces `TrackPacket` objects.
+
 
 ## box_visualizer
 
+**Description:** Renders boxes within images provided through the image stream and returns the updated images. Receives a packet containing detected bounding box information, which may be one of `DetectionPacket`, `Classifications`, `PlateRecognitions`, `Segmentations`, `LandmarksPacket`. 
+
+**Basic Node IO:** This node has two input streams, the first stream takes in a packet object containing bounding boxes (see conditions) and the second stream takes in `ImagePacket` objects. This node only has one output stream, which produces `ImagePacket` objects.
+
 **Conditions:**
-- the type of input stream 0 must be one of the following and must match the corresponding value of node_options-\>input_type:
+- the packet type of the first input stream 0 must be one of the following and must match the corresponding value set in `node_options->input_type`:
   - INPUT_TYPE_DETECTION (0): DetectionPacket
   - INPUT_TYPE_CLASSIFICATION (1): Classifications
   - INPUT_TYPE_LPR (2): PlateRecognitions
   - INPUT_TYPE_SEGMENTATION (3): Segmentations
   - INPUT_TYPE_LANDMARK (4): LandmarksPacket
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** one of DetectionPacket, Classifications, PlateRecognitions, Segmentations, LandmarksPacket
-- **input stream 1:** ImagePacket
-
-### Output Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** ImagePacket
-
 
 ## clip_generator
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** ClipGeneratorCommandPacket
-- **input stream 1:** ImagePacket
+**Description:** Records and saves a clips generated from incoming image packets. Receives ClipGeneratorCommandPacket entries which tell it to start or stop recording.
 
-### Output Stream (size 1): <!-- omit from toc -->
-- **output stream 0:** FilePacket
+**Basic Node IO:** This node has two input streams, the first input takes `ClipGeneratorCommandPacket` objects, and the second input takes in `ImagePacket` objects. This node only has one output stream, which produces `FilePacket` objects each time a clip is saved.
 
 
 ## event_based_recorder
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** DetectionPacket
-- **input stream 1:** ImagePacket
+**Description:** Produces frames and commands for a [`clip_generator`](#clip_generator) node based on the results of an object detection node. Gives frames to a `clip_generator` and tells it when to start or stop recording.
 
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** ClipGeneratorCommandPacket
-- **output stream 1:** ImagePacket
+**Basic Node IO:** This node has two input streams, the first input takes `DetectionPacket` objects, and the second input takes in `ImagePacket` objects. This node has two output streams, the first output produces `ClipGeneratorCommandPacket` objects, and the second produces `ImagePacket` objects.
 
 
 ## ff_vfilter
