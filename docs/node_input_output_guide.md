@@ -14,7 +14,6 @@
   - [host\_sink](#host_sink)
   - [host\_source](#host_source)
   - [image\_stream](#image_stream)
-  - [image\_stream\_device](#image_stream_device)
   - [json\_stream](#json_stream)
   - [landmark\_predictor](#landmark_predictor)
   - [notification\_mongo](#notification_mongo)
@@ -25,7 +24,6 @@
   - [stream\_mux](#stream_mux)
   - [subgraph](#subgraph)
   - [to\_json](#to_json)
-  - [u30\_dec\_device](#u30_dec_device)
   - [x86\_dec](#x86_dec)
   - [x86\_enc](#x86_enc)
 - [Packet Types and Conversion Options](#packet-types-and-conversion-options)
@@ -251,16 +249,6 @@ TODO check on logic:
 - **output stream 1:** VideoStreamInfoPacket
 
 
-## image_stream_device
-
-**Conditions:**
-- This node has no input streams, rather the node_options-\>directory must be the path of a valid folder containing images
-
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** ImagePacket
-- **output stream 1:** VideoStreamInfoPacket
-
-
 ## json_stream
 
 **Conditions:**
@@ -389,17 +377,6 @@ TODO confirm available packet types (doesn't match pbtxt examples)
 
 ### Output Stream (size 1): <!-- omit from toc -->
 - **output stream 0:** JsonPacket
-
-
-## u30_dec_device
-
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** VideoPacket
-- **input stream 1:** VideoStreamInfoPacket - side packet
-
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** ImagePacket
-- **output stream 1:** VideoStreamInfoPacket
 
 
 ## x86_dec 
