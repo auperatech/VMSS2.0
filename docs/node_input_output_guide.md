@@ -1,46 +1,34 @@
 # Input and Output Packet Configurations for Each Node <!-- omit from toc -->
 
-- [x86\_dec](#x86_dec)
-- [x86\_enc](#x86_enc)
+- [box\_classifier](#box_classifier)
 - [box\_detector](#box_detector)
+- [box\_segmentor](#box_segmentor)
 - [box\_visualizer](#box_visualizer)
 - [ff\_vfilter](#ff_vfilter)
-- [stream\_demux](#stream_demux)
-- [stream\_mux](#stream_mux)
+- [landmark\_predictor](#landmark_predictor)
 - [notification\_mongo](#notification_mongo)
 - [notification\_web](#notification_web)
-- [box\_classifier](#box_classifier)
-- [box\_segmentor](#box_segmentor)
-- [landmark\_predictor](#landmark_predictor)
+- [stream\_demux](#stream_demux)
+- [stream\_mux](#stream_mux)
+- [x86\_dec](#x86_dec)
+- [x86\_enc](#x86_enc)
 
 
-## x86_dec 
+## box_classifier
 
-**Conditions:** 
-- Output size N must match the number of pixel formats specified in node_options-\>dec-\>opixfmt, which supports multiple output picture streams with different pixel format, supported: "RGB24" or "BGR24" or "NV12" or "I420"
+**Conditions:**
+- when using detections (node_options-\>use_detections is not zero), number of inputs must be exactly twice the number of outputs N, with input of N detection packets and N image packets
+- when not using detections, number of inputs must be equal to number of outputs N
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** VideoPacket
-- **input stream 1:** VideoStreamInfoPacket
+### Input Stream when USING detections (size 2N, N is number of outputs): <!-- omit from toc -->
+- **input stream i \< N:** DetectionPacket
+- **input stream N <\= i \< 2N:** ImagePacket
 
-### Output Stream (size 2xN, N \> 0, N is number of pixel formats): <!-- omit from toc -->
-- **output stream i \< N:** ImagePacket
-- **output stream N <\= i \< 2N:** VideoStreamInfoPacket
+### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
+- **input stream i \< N:** ImagePacket
 
-
-## x86_enc
-
-**Conditions:** 
- - If encoder w, h, and fps are set to non-zero, then the number of inputs must be 1
- - If encoder w, h, and fps are set to 0, then the number of inputs must be 2
-
-### Input Stream (size 1 or 2): <!-- omit from toc -->
-- **input stream 0:** ImagePacket
-- **input stream 1 (if w, h, fps are 0):** VideoStreamInfoPacket - side packet
-
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** VideoPacket
-- **output stream 1:** AVCodecContextPacket
+### Output Stream when (size N, N is number of outputs): <!-- omit from toc -->
+- **output stream i \< N:** Classifications
 
 
 ## box_detector
@@ -54,6 +42,18 @@
 ### Output Stream (size N + 1, N is number of inputs): <!-- omit from toc -->
 - **output stream i \< N:** DetectionPacket
 - **output stream N + 1:** UInt64Packet - side packet storing detect_interval
+
+
+## box_segmentor
+
+**Conditions:**
+- Number of inputs N must match output size
+
+### Input Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
+- **input stream i \< N:** ImagePacket
+
+### Output Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
+- **output stream i \< N:** Segmentations
 
 
 ## box_visualizer
@@ -85,6 +85,41 @@
 - **output stream 1:** VideoStreamInfoPacket
 
 
+## landmark_predictor
+
+**Conditions:**
+- when using detections (node_options-\>use_detections is not zero), number of inputs must be exactly twice the number of outputs N, with input of N detection packets and N image packets
+- when not using detections, number of inputs must be equal to number of outputs N
+
+### Input Stream when USING detections (size 2N, N is number of outputs): <!-- omit from toc -->
+- **input stream i \< N:** DetectionPacket
+- **input stream N <\= i \< 2N:** ImagePacket
+
+### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
+- **input stream i \< N:** ImagePacket
+
+### Output Stream when (size N, N is number of outputs): <!-- omit from toc -->
+- **output stream i \< N:** LandmarksPacket
+
+
+## notification_mongo
+
+**Conditions:**
+- this node does not have any outputs
+
+### Input Stream (size 1): <!-- omit from toc -->
+- **input stream 0:** JsonPacket
+
+
+## notification_web
+
+**Conditions:**
+- this node does not have any outputs
+
+### Input Stream (size 1): <!-- omit from toc -->
+- **input stream 0:** JsonPacket
+
+
 ## stream_demux
 
 **Conditions:**
@@ -107,65 +142,30 @@
 - **input stream 1:** AVCodecContextPacket - side packet
 
 
-## notification_mongo
+## x86_dec 
 
-**Conditions:**
-- this node does not have any outputs
+**Conditions:** 
+- Output size N must match the number of pixel formats specified in node_options-\>dec-\>opixfmt, which supports multiple output picture streams with different pixel format, supported: "RGB24" or "BGR24" or "NV12" or "I420"
 
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** JsonPacket
+### Input Stream (size 2): <!-- omit from toc -->
+- **input stream 0:** VideoPacket
+- **input stream 1:** VideoStreamInfoPacket
 
-
-## notification_web
-
-**Conditions:**
-- this node does not have any outputs
-
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** JsonPacket
+### Output Stream (size 2xN, N \> 0, N is number of pixel formats): <!-- omit from toc -->
+- **output stream i \< N:** ImagePacket
+- **output stream N <\= i \< 2N:** VideoStreamInfoPacket
 
 
-## box_classifier
+## x86_enc
 
-**Conditions:**
-- when using detections (node_options-\>use_detections is not zero), number of inputs must be exactly twice the number of outputs N, with input of N detection packets and N image packets
-- when not using detections, number of inputs must be equal to number of outputs N
+**Conditions:** 
+ - If encoder w, h, and fps are set to non-zero, then the number of inputs must be 1
+ - If encoder w, h, and fps are set to 0, then the number of inputs must be 2
 
-### Input Stream when USING detections (size 2N, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** DetectionPacket
-- **input stream N <\= i \< 2N:** ImagePacket
+### Input Stream (size 1 or 2): <!-- omit from toc -->
+- **input stream 0:** ImagePacket
+- **input stream 1 (if w, h, fps are 0):** VideoStreamInfoPacket - side packet
 
-### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream when (size N, N is number of outputs): <!-- omit from toc -->
-- **output stream i \< N:** Classifications
-
-
-## box_segmentor
-
-**Conditions:**
-- Number of inputs N must match output size
-
-### Input Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
-- **output stream i \< N:** Segmentations
-
-
-## landmark_predictor
-
-**Conditions:**
-- when using detections (node_options-\>use_detections is not zero), number of inputs must be exactly twice the number of outputs N, with input of N detection packets and N image packets
-- when not using detections, number of inputs must be equal to number of outputs N
-
-### Input Stream when USING detections (size 2N, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** DetectionPacket
-- **input stream N <\= i \< 2N:** ImagePacket
-
-### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream when (size N, N is number of outputs): <!-- omit from toc -->
-- **output stream i \< N:** LandmarksPacket
+### Output Stream (size 2): <!-- omit from toc -->
+- **output stream 0:** VideoPacket
+- **output stream 1:** AVCodecContextPacket
