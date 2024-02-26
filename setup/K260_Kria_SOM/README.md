@@ -16,11 +16,14 @@ It is recommended to have the latest upgraded Ubuntu:
    sudo apt-get update
    sudo apt-get upgrade
    ```
-***NOTE: This step may take several minutes. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here***
+**_NOTE: This step may take several minutes. After some time you might see the following on the screen. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here_**
 
-<div align="center">
-  <img src="kernel_update.jpg" alt="kernel_update">
-</div>
+
+![](kernel_update.jpg)
+
+**_NOTE: You may see an error that looks like the following image during the `upgrade` prcoess. In the case that this happens please upgrade the kept back packages using `sudo apt-get --with-new-packages argument_**
+
+![]
 
 After these steps, make sure that you perform a reboot on the system:
 ```bash
@@ -77,7 +80,16 @@ VMSS is available throught the public docker repository `auperastor/kria-som-dev
 
 ### 4. Start Docker
 
-This docker ideally starts with a shared directory on host OS and the docker. For this reason first go the shared directory and then start the docker. Here is how:
+Before starting the docker, make sure to load the correct app via `xmutil`. Note that the `desktop` commands may case the terminal to freeze for a couple of seconds.
+
+```bash
+sudo xmutil unloadapp
+sudo xmutil loadapp kv260-smartcam
+sudo xmutil desktop_disable
+sudo xmutil desktop_enable
+```
+
+At this point you're ready to load the docker. This docker ideally starts with a shared directory on host OS and the docker. For this reason first go the shared directory and then start the docker. Here is how:
 
 ```bash
 cd <SHARED-DIR>;
