@@ -1,3 +1,7 @@
+# Table of Contents <!-- omit from toc -->
+- [Introduction: Streams and Packets](#introduction-streams-and-packets)
+  - [Stream Types](#stream-types)
+  - [Packet Conversion](#packet-conversion)
 - [Input and Output Packet Configurations for Kria SOM Nodes](#input-and-output-packet-configurations-for-kria-som-nodes)
   - [apl\_crowd\_flow](#apl_crowd_flow)
   - [box\_detector](#box_detector)
@@ -28,11 +32,36 @@
   - [packet\_simulator](#packet_simulator)
   - [subgraph](#subgraph)
   - [to\_json](#to_json)
-- [Packet Types and Conversion Options](#packet-types-and-conversion-options)
+
+
+# Introduction: Streams and Packets
+
+All nodes in VMSS have inputs and outputs which consist of streams that move packets of information from one node to the next. In a `*.pbtxt` file, these streams are specified by the node options `input_stream` or `output_stream` entries. Generally, a node will only accept a certain number of input and output streams of a particular packet type. It is up to the user building a `*.pbtxt` file to ensure that connected streams from one node to the next have compatible packet types, and that a node has been set up with the correct number of input and output streams. The remainder of this document details the available input and output streams for each node and the available packet types for each.
+
+## Stream Types
+
+A stream which moves packets may be one of the following types:
+- SYNCED_IMMUTABLE
+- SYNCED_MUTABLE
+- UNSYNCED_IMMUTABLE
+- SIDE_PACKET
+
+**Mutability:** If a stream is mutable, then content in the packets may be modified, such as editing the image in an `ImagePacket` object. This is generally doo save space on the device as large packets are passed around. 
+
+**Synchronization:** If a stream is synced, that means that packets in parallel streams are tagged with a timestamp and must be processed together, which will cause a node to wait until it receives the required packets before beginning execution on them.
+
+**Side Packets:** A side packet is a stream that is intended to pass a single, constant, value. When a stream is treated as a side packet, a node will take the first packet arriving from that stream and store it for later use, ensuring it remains constant. If a side packet stream is re-initialized, it will overwrite the previous stored packet with the new most recent packet from that stream.
+
+## Packet Conversion
+
+A stream must have packet type that is compatible with the input stream packet type for a node. For instance, a stream on which `ImagePacket` objects are being produced cannot be passed to a node input requiring `VideoPacket` objects. 
+
+There are two exceptions to this rule:
+- Nodes taking an input of `DetectionPacket` can also take `TrackPacket` objects, however nodes taking an input of `TrackPacket` may not take `DetectionPacket` objects
+- Nodes taking an input of `PacketBase` objects can take any packet as input
+
 
 # Input and Output Packet Configurations for Kria SOM Nodes
-
-notification_message
 
 ## apl_crowd_flow
 
@@ -175,7 +204,7 @@ This node in its base configuration has 1 output stream, which produces `JsonPac
 
 **Description:** Identifies object for tracking through a video stream.
 
-**Basic Node IO:** This node has two input streams, the first stream takes in `DetectionPacket` objects, and the second stream takes in `UInt64Packet` objects which specify the detection interval of the detection node. This node has one output streams which produces `TrackPacket` objects.
+**Basic Node IO:** This node has two input streams, the first stream takes in `DetectionPacket` objects, and the second stream takes in `UInt64Packet` objects which specify the detection interval of the detection node. This node has one output stream which produces `TrackPacket` objects.
 
 
 ## clip_generator
@@ -322,5 +351,3 @@ TODO confirm available packet types (doesn't match pbtxt examples)
 
 TODO check the above
 
-
-# Packet Types and Conversion Options
