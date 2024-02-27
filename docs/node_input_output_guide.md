@@ -33,78 +33,44 @@
 
 ## apl_crowd_flow
 
+**Description:** Custom node to count people crossing a border line or region of interest.
+
+**Basic Node IO:** This node in its base configuration has 3 input streams. In this configuration, the first input stream takes `TrackPacket` objects, the second input stream takes `VideoStreamInfoPacket` objects which are treated as side packets, and the third input stream takes `UInt64Packet` objects which contain the detect interval and which are treated as side packets. This node can optionally have 4 input streams to provide a video stream, with the first input stream remaining the same, the *second input stream* taking `ImagePacket` objects, and the third and fourth streams taking `VideoStreamInfoPacket` and `UInt64Packet` objects respectively, similarly to the 3-input configuration.
+
+This node in its base configuration has 1 output stream, which produces `JsonPacket` objects. It optionally has two additional output streams so that the total number of output streams can also be 2 or 3. The second *optional* output stream produces `ImagePacket` objects, and the third *optional* output stream produces `JsonPacket` objects containing the same content as the first stream.
+
 **Conditions:** 
-- Number of input streams N must be 3 or 4
-- Number of output streams M must be less 
-
-### Input Stream when input streams N = 3 (size 3): <!-- omit from toc -->
-- **input stream 0:** TrackPacket
-- **input stream 1:** VideoStreamInfoPacket - side packet
-- **input stream 2:** UInt64Packet - side packet containing detect interval
-
-### Input Stream when input streams N = 4 (size 4): <!-- omit from toc -->
-- **input stream 0:** TrackPacket
-- **input stream 1:** ImagePacket
-- **input stream 2:** VideoStreamInfoPacket - side packet
-- **input stream 3:** UInt64Packet - side packet containing detect interval
-
-### Output Stream (size 1 - 3): <!-- omit from toc -->
-- **input stream 0:** JsonPacket
-- **input stream 1 (optional):** ImagePacket
-- **input stream 2 (optional):** JsonPacket
+- The number of input streams N must be 3 or 4
+- The number of output streams M must be between 1 and 3
 
 
 ## apl_vehicle_reid
 
-**Conditions:** 
-- Number of input streams N must be 3 or 4
-- Number of output streams M must be less 
+**Description:** Re-identifies cars in a video stream.
 
-### Input Stream when input streams N = 3 (size 3): <!-- omit from toc -->
-- **input stream 0:** TrackPacket
-- **input stream 1:** VideoStreamInfoPacket - side packet
-- **input stream 2:** UInt64Packet - side packet containing detect interval
+**Basic Node IO:** This node in its base configuration has 3 input streams. In this configuration, the first input stream takes `TrackPacket` objects, the second input stream takes `VideoStreamInfoPacket` objects which are treated as side packets, and the third input stream takes `UInt64Packet` objects which contain the detect interval and which are treated as side packets. This node can optionally have 4 input streams to provide a video stream, with the first input stream remaining the same, the *second input stream* taking `ImagePacket` objects, and the third and fourth streams taking `VideoStreamInfoPacket` and `UInt64Packet` objects respectively, similarly to the 3-input configuration.
 
-### Input Stream when input streams N = 4 (size 4): <!-- omit from toc -->
-- **input stream 0:** TrackPacket
-- **input stream 1:** ImagePacket
-- **input stream 2:** VideoStreamInfoPacket - side packet
-- **input stream 3:** UInt64Packet - side packet containing detect interval
-
-### Output Stream (size 1 - 3): <!-- omit from toc -->
-- **input stream 0:** JsonPacket
-- **input stream 1 (optional):** ImagePacket
-- **input stream 2 (optional):** JsonPacket
+This node in its base configuration has 1 output stream, which produces `JsonPacket` objects. It optionally has two additional output streams so that the total number of output streams can also be 2 or 3. The second *optional* output stream produces `ImagePacket` objects, and the third *optional* output stream produces `JsonPacket` objects containing the same content as the first stream.
 
 
 ## box_classifier
 
+**Description:** Performs object classification on an image cropped by a bounding box.
+
+**Basic Node IO:** This node in its base form takes in an input video stream of type `ImagePacket` and produces an output stream of type `Classifications`. It is able to take in multiple input streams at a time and produces corresponding classification streams for each, for example 3 input streams of type `ImagePacket` and 3 output streams of type `Classifications`. The output streams order will correspond to the input streams order.
+
+**IO With Detections** If `node_options->use_detections` is not zero, the node can use detections to help with classification. In this case, the node has two input streams for every output stream. For example, with 2 inputs and 1 output, the first input takes `DetectionPacket` objects and the second input takes `ImagePacket` objects, and there would be one output stream producing `Classifications` objects. We can also have multiple input video streams and corresponding output streams. For instance, in the case of two video streams, with 4 total input streams, the first two input streams would be `DetectionPacket` streams, and the second two input streams would be `ImagePacket` streams, and there would be two `Classifications` output streams. The first `DetectionPacket` input stream would correspond to the first `ImagePacket` input stream and the first `Classifications` output stream, and so on.
+
 **Conditions:**
-- when using detections (node_options-\>use_detections is not zero), number of inputs must be exactly twice the number of outputs N, with input of N detection packets and N image packets
-- when not using detections, number of inputs must be equal to number of outputs N
-
-### Input Stream when USING detections (size 2N, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** DetectionPacket
-- **input stream N <\= i \< 2N:** ImagePacket
-
-### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream (size N, N is number of outputs): <!-- omit from toc -->
-- **output stream i \< N:** Classifications
+- If `node_options->use_detections` is zero, the number of input streams and output streams must be equal
+- If `node_options->use_detections` is non-zero, the number of input streams must be twice the number of output streams
 
 
 ## box_detector
 
-**Conditions:**
-- number of outputs must be equal to number of inputs + 1
+**Description:** Uses a ML model to find objects in an image, producing bounding boxes for each.
 
-### Input Stream (size N, N \> 0, N is number of inputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream (size N + 1, N is number of inputs): <!-- omit from toc -->
-- **output stream i \< N:** DetectionPacket
-- **output stream N + 1:** UInt64Packet - side packet storing detect_interval
+**Basic Node IO:** In its base configuration, this node has one input stream and two output streams. The input stream takes `ImagePacket` objects. The first output stream produces `DetectionPacket` objects, and the second output stream produces `UInt64Packet` which are intended to be treated as side packets containing the detection interval. This node can be scaled to receive multiple input video streams, in which case the number of output streams should be one more than the number of input streams. For instance, with 3 input video streams, there would be 3 input streams taking `ImagePacket` objects, and 4 output streams, with the first 3 output streams producing `DetectionPacket` objects, and the 4th output stream producing `UInt64Packet` objects containing the detection interval. The first `ImagePacket` input stream would correspond to the first `DetectionPacket` output stream, and so on.
 
 
 ## box_segmentor
@@ -155,43 +121,33 @@
 
 ## ff_vfilter
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** ImagePacket
-- **input stream 1:** VideoStreamInfoPacket - side packet
+**Description:** Applies video filters to a video stream and outputs the result.
 
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** ImagePacket
-- **output stream 1:** VideoStreamInfoPacket
+**Basic Node IO:** This node has two input streams, the first input takes `ImagePacket` objects, and the second input takes in `VideoStreamInfoPacket` objects, which are treated as side packets. This node has two output streams, the first input produces `ImagePacket` objects, and the second produces `VideoStreamInfoPacket` objects.
 
 
 ## file_saver
 
-**Conditions:**
-- Node outputs to path specified in node_options-\>directory
-- Number of output streams N must be greater than 0 (?? TODO)
+**Description:** Saves files from a file stream to a directory.
 
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** FilePacket
-
-### Output Stream (size N, N > 0, N is number of output streams): <!-- omit from toc -->
-TODO: confirm this sizing, does not appear to put anything into output streams
+**Basic Node IO:** This node has one input stream, which takes `FilePacket` objects. This node has no output streams, rather the files are saved to the path specified in `node_options->directory`.
 
 
 ## frame_saver
 
-**Conditions:**
-- This node has no output streams, instead the node outputs to path specified in node_options-\>directory
+**Description:** Saves frames from a video stream to a directory.
 
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** ImagePacket
+**Basic Node IO:** This node has one input stream, which takes `ImagePacket` objects. This node has no output streams, rather the files are saved to the path specified in `node_options->directory`.
 
 
 ## host_sink
 
+**Description:** This node takes input streams which exist on a device (see [`subgraph`](#subgraph)) and moves them out of the subgraph to be accessed on the host. As a result, it has no output stream. However, each instance of host_sink must have a corresponding output_attrs entry in the relevant subgraph, and likewise each output_attrs entry in the subgraph must have a corresponding host_sink (refer to [`subgraph`](#subgraph) for more information).
+
+**Basic Node IO:** This node has one input stream, which can be any of the allowed device packet objects (see conditions). This node has no output streams, rather the stream will be passed through the subgraph and be available on the host from the subgraph node.
+
 **Conditions:**
-- This node has no output streams, rather the stream is passed to the output of the subgraph node (see [subgraph](#subgraph)) by setting the node_options->index to the index of the corresponding subgraph output stream
-- NOTE: there must be one sink for each stream that is passed back out of the subgraph
-- The input stream packet can be one of the following types depending on the values specified in the corresponding [subgraph](#subgraph) node_options-\>output_attrs[]-\>type field:
+- The input stream packet can be one of the following types depending on the values specified in the corresponding [subgraph](#subgraph) `node_options->output_attrs->type field`:
   - PACKET_TYPE_DETECTIONS_OR_TRACKS: DetectionPacket
   - PACKET_TYPE_CLASSIFICATIONS: Classifications
   - PACKET_TYPE_IMAGE: ImagePacket
@@ -200,18 +156,17 @@ TODO: confirm this sizing, does not appear to put anything into output streams
   - PACKET_TYPE_JSON: JsonPacket
 
 TODO check on logic:
-(is_fast_sink = !dynamic_cast<packet::IDeviceToHostPacketComm*>(packet.get())) && !dynamic_packet_cast<PacketBasePTS>(packet)
-
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** one of DetectionPacket, Classifications, ImagePacket, UInt64Packet, VideoStreamInfoPacket, JsonPacket
+`is_fast_sink = !dynamic_cast<packet::IDeviceToHostPacketComm*>(packet.get())) && !dynamic_packet_cast<PacketBasePTS>(packet)`
 
 
 ## host_source
 
+**Description:** This node takes streams which are passed in a subgraph from the host (see [`subgraph`](#subgraph)) and moves them into the subgraph to be accessed on a device. As a result, it has no input stream. However, each instance of host_source must have a corresponding input_attrs entry in the relevant subgraph, and likewise each input_attrs entry in the subgraph must have a corresponding host_sink (refer to [`subgraph`](#subgraph) for more information).
+
+**Basic Node IO:** This node has no input streams, rather the stream will be passed through the subgraph and be available on the device from the subgraph node. This node has one output stream, which can be any of the allowed device packet objects (see conditions). 
+
 **Conditions:**
-- This node has no input streams, rather a stream is passed to the input of the subgraph node (see [subgraph](#subgraph)) by setting the node_options->index to the index of the corresponding subgraph input stream
-- NOTE: there must be one source for each stream that is passed into the subgraph
-- The output stream packet can be one of the following types depending on the values specified in the corresponding [subgraph](#subgraph) node_options-\>input_attrs[]-\>type field:
+- The output stream packet can be one of the following types depending on the values specified in the corresponding [subgraph](#subgraph) `node_options->input_attrs->type field`:
   - PACKET_TYPE_DETECTIONS_OR_TRACKS: DetectionPacket
   - PACKET_TYPE_CLASSIFICATIONS: Classifications
   - PACKET_TYPE_IMAGE: ImagePacket
@@ -220,137 +175,106 @@ TODO check on logic:
   - PACKET_TYPE_JSON: JsonPacket
 
 TODO check on logic:
-(is_fast_source = !dynamic_cast<packet::IHostToDevicePacketComm*>(packet.get())) && !dynamic_packet_cast<PacketBasePTS>(packet)
+`is_fast_source = !dynamic_cast<packet::IHostToDevicePacketComm*>(packet.get())) && !dynamic_packet_cast<PacketBasePTS>(packet)`
 
-### Output Stream (size 1): <!-- omit from toc -->
-- **output stream 0:** one of DetectionPacket, Classifications, ImagePacket, UInt64Packet, VideoStreamInfoPacket, JsonPacket
 
 ## image_stream
 
-**Conditions:**
-- This node has no input streams, rather the node_options-\>directory must be the path of a valid folder containing images
+**Description:** This node generates a video stream based on a directory containing a series of images.
 
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** ImagePacket
-- **output stream 1:** VideoStreamInfoPacket
+**Basic Node IO:** This node has no input streams, rather the images are loaded from the path specified in `node_options->directory`. This node has two output streams, the first output produces `ImagePacket` objects, and the second output produces `VideoStreamInfoPacket` objects.
 
 
 ## json_stream
 
-**Conditions:**
-- This node has no input streams, rather the node_options-\>directory must be the path of a valid folder containing .json files
+**Description:** This node generates a stream of json packets based on a directory containing a series of json files.
 
-### Output Stream (size 1): <!-- omit from toc -->
-- **output stream 0:** JsonPacket
+**Basic Node IO:** This node has no input streams, rather the images are loaded from the path specified in `node_options->directory`. This node has one output stream, which produces `JsonPacket` objects.
+
 
 ## landmark_predictor
 
+**Description:** Calls a ML model to find landmarks within an image
+
+**Basic Node IO:** This node in its base form takes in an input video stream of type `ImagePacket` and produces an output stream of type `LandmarksPacket`. It is able to take in multiple input streams at a time and produces corresponding landmark streams for each, for example 3 input streams of type `ImagePacket` and 3 output streams of type `LandmarksPacket`. The output streams order will correspond to the input streams order.
+
+**IO With Detections** If `node_options->use_detections` is not zero, the node can use detections to help with landmark predictions. In this case, the node has two input streams for every output stream. For example, with 2 inputs and 1 output, the first input takes `DetectionPacket` objects and the second input takes `ImagePacket` objects, and there would be one output stream producing `LandmarksPacket` objects. We can also have multiple input video streams and corresponding output streams. For instance, in the case of two video streams, with 4 total input streams, the first two input streams would be `DetectionPacket` streams, and the second two input streams would be `ImagePacket` streams, and there would be two `LandmarksPacket` output streams. The first `DetectionPacket` input stream would correspond to the first `ImagePacket` input stream and the first `LandmarksPacket` output stream, and so on.
+
 **Conditions:**
-- when using detections (node_options-\>use_detections is not zero), number of inputs must be exactly twice the number of outputs N, with input of N detection packets and N image packets
-- when not using detections, number of inputs must be equal to number of outputs N
-
-### Input Stream when USING detections (size 2N, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** DetectionPacket
-- **input stream N <\= i \< 2N:** ImagePacket
-
-### Input Stream when NOT USING detections (size N, N \> 0, N is number of outputs): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream (size N, N is number of outputs): <!-- omit from toc -->
-- **output stream i \< N:** LandmarksPacket
+- If `node_options->use_detections` is zero, the number of input streams and output streams must be equal
+- If `node_options->use_detections` is non-zero, the number of input streams must be twice the number of output streams
 
 
 ## notification_mongo
 
-**Conditions:**
-- this node does not have any outputs
+**Description:** Sends a notification via MongoDB
 
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** JsonPacket
+**Basic Node IO:** This node has one input stream, which takes `JsonPacket` objects. This node does not have any output streams.
 
 
 ## notification_web
 
-**Conditions:**
-- this node does not have any outputs
+**Description:** Sends a notification via the web
 
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** JsonPacket
+**Basic Node IO:** This node has one input stream, which takes `JsonPacket` objects. This node does not have any output streams.
 
 
 ## packet_simulator
 
-**Conditions:**
-- if node_options-\>op_mode is OP_MODE_ANY (0) then can have any number of input streams and output streams
-- if node_options-\>op_mode is OP_MODE_CLIP_GEN (1) then must have one input stream and one output stream
+**Description:** This node simulates the generation and receipt of packets.
 
-### Input Stream when op_mode is OP_MODE_ANY (size N, N is number of input streams): <!-- omit from toc -->
-- **input stream i \< N:** PacketBase
+**Basic Node IO:** In its base configuration (`node_options->op_mode` is OP_MODE_ANY (0)), this node can have any number of input streams, which must take packet objects that inherit from `PacketBase` (TODO see packets). This node can also have any number of output streams, which will produce `PacketBase` objects.
 
-### Output Stream when op_mode is OP_MODE_ANY (size M, M is number of output streams): <!-- omit from toc -->
-- **input stream i \< N:** PacketBase
+**IO in Clip Gen Mode:** If `node_options->op_mode` is OP_MODE_CLIP_GEN (1), then this Node will be in Clip Gen mode. In this mode, the node has one input stream which takes `ImagePacket` objects, and one output stream which produces `ClipGeneratorCommandPacket` objects.
 
-### Input Stream when op_mode is OP_MODE_CLIP_GEN (size 1): <!-- omit from toc -->
-- **input stream i \< N:** ImagePacket
-
-### Output Stream when op_mode is OP_MODE_CLIP_GEN (size 1): <!-- omit from toc -->
-- **input stream i \< N:** ClipGeneratorCommandPacket
-
-TODO check on this
 
 ## statistics_reader
 
-**Conditions:**
-- this node does not have any inputs, but rather the node_options-\>input_path must be the path to a valid file or directory, depending on whether node_options-\>input_type is DIRECTORY (0) or FILE (1)
+**Description:** Loads statistics in the form of json files in a directory.
 
-### Output Stream (size 1): <!-- omit from toc -->
-- **output stream 0:** JsonPacket
+**Basic Node IO:** This node has no input streams, rather the statistics are loaded from the path specified in `node_options->input_path`. This node has one output stream, which produces `JsonPacket` objects.
 
 
 ## stream_demux
 
-**Conditions:**
-- this node does not have any input streams
-- input can be set by providing a url through node_options-\>demux-\>input_url
-- this node can have 1 or 2 outputs, the second output is optional and will contain video stream information
+**Description:** Demultiplexes a video stream.
 
-### Output Stream (size 1 or 2): <!-- omit from toc -->
-- **output stream 0:** VideoPacket
-- **output stream 1 (optional):** VideoStreamInfoPacket
+**Basic Node IO:** This node has no input streams, rather the input is set by providing a url through `node_options->demux->input_url` (TODO check that this is the only way). This node can have 1 or 2 output streams: the first input stream produces `VideoPacket` objects, while the second *optional* stream produces `VideoStreamInfoPacket` objects.
 
 
 ## stream_mux 
 
-**Conditions:**
-- this node does not have any outputs
+**Description:** Multiplexes a video stream.
 
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** VideoPacket
-- **input stream 1:** AVCodecContextPacket - side packet
+**Basic Node IO:** This node has two input streams, the first takes `VideoPacket` objects, and the second takes `AVCodecContextPacket` objects, which are treated as side packets. This node has no output streams, rather the output is set by providing a url through `node_options->demux->output_url` (TODO check that this is the only way). 
 
 
 ## subgraph
 
+**Description:** The subgraph allows defining a node graph that will run on a device rather than on the host. It manages the passing of packets and streams from the host to the device and vice versa. 
+
+**Basic Node IO:** In a subgraph, input streams correspond to streams passed from the device to the host, while output streams correspond to streams passed from the host to the device. The subgraph has a unique approach for setting up input and output streams:
+- Each input stream must have a corresponding `node_options->input_attrs` entry (see TODO link to example) and must have a corresponding [`host_source`](#host_source) node defined within the subgraph
+- Each output stream must have a corresponding `node_options->output_attrs` entry (see TODO link to example) and must have a corresponding [`host_sink`](#host_sink) node defined within the subgraph
+
+Each `input_attrs` or `output_attrs` entry must have a `type` subfield which specifies the type of packet being passed to an input stream or produced by an output stream (see conditions for available types)
+
 **Conditions:**
 - number of input streams cannot be more than 127, and likewise, number of output streams cannot be more than 127
-- number of input streams must be equal to number of node_options-\>input_attrs entries specified
-- number of output streams must be equal to number of node_options-\>output_attrs entries specified
-- if an entry of node_options-\>input_attrs has has_packet_on_init not equal to 0, then corresponding pool_size must be 1
-- if an entry of node_options-\>output_attrs has has_packet_on_init not equal to 0, then corresponding pool_size must be 1
-- the input and output stream packet types must be one of the following depending on the corresponding node_options-\>output_attrs-\>type or node_options-\>input_attrs-\>type entry:
-    PACKET_TYPE_IMAGE (8): ImagePacket
-    PACKET_TYPE_VIDEO (11): VideoPacket
-    PACKET_TYPE_VIDEO_STREAM_INFO (12): VideoStreamInfoPacket
-
-### Input Stream (size N, N is number of input streams specified by input_attrs): <!-- omit from toc -->
-- **input stream i \< N>:** one of ImagePacket, VideoPacket, VideoStreamInfoPacket
-
-### Output Stream (size M, M is number of output streams specified by output_attrs): <!-- omit from toc -->
-- **output stream i \< M:** one of ImagePacket, VideoPacket, VideoStreamInfoPacket
+- if an entry of `node_options->input_attrs` or `node_options->output_attrs` has has_packet_on_init not equal to 0, then corresponding pool_size must be 1
+- the input and output stream packet types must be one of the following depending on the corresponding `node_options->output_attrs->type` or `node_options->input_attrs->type` entry:
+  - PACKET_TYPE_IMAGE (8): ImagePacket
+  - PACKET_TYPE_VIDEO (11): VideoPacket
+  - PACKET_TYPE_VIDEO_STREAM_INFO (12): VideoStreamInfoPacket
 
 TODO confirm available packet types (doesn't match pbtxt examples)
 
+
 ## to_json
+
+**Description:** Converts packets of various types to json format.
+
+**Basic Node IO:** This node has one input stream, which takes in a valid packet object type (see conditions). This node has one output stream, which produces `JsonPacket` objects.
 
 **Conditions:**
 - The input stream packet type can be one of the following, but must match the corresponding entry of node_options-\>input_type:
@@ -358,40 +282,28 @@ TODO confirm available packet types (doesn't match pbtxt examples)
   - PACKET_TYPE_DETECTIONS_OR_TRACKS (2): DetectionPacket
   - PACKET_TYPE_SEGMENTATIONS (4): Segmentations
 
-### Input Stream (size 1): <!-- omit from toc -->
-- **input stream 0:** one of Classifications, DetectionPacket, Segmentations
-
-### Output Stream (size 1): <!-- omit from toc -->
-- **output stream 0:** JsonPacket
+TODO check the above
 
 
 ## x86_dec 
 
+**Description:** Decodes a video stream.
+
+**Basic Node IO:** This node has two input streams, the first input takes `VideoPacket` objects, the second input takes `VideoStreamInfoPacket` objects. In its base configuration, this node has two output streams, the first output produces `ImagePacket` objects and the second output produces `VideoStreamInfoPacket` objects. However, it is able to produce multiple video output streams at a time using different pixel formats. For example, with 3 pixel formats, there would be 3 output streams of type `ImagePacket` followed by 3 output streams of type `VideoStreamInfoPacket`. The first `ImagePacket` output stream would correspond to the first `VideoStreamInfoPacket` output stream, and so on. These order of these streams  corresponds to the order of entries in `node_options->dec->opixfmt` which lists the requested video formats.
+
 **Conditions:** 
-- Number of output streams N must match the number of pixel formats specified in node_options-\>dec-\>opixfmt, which supports multiple output picture streams with different pixel format, supported: "RGB24" or "BGR24" or "NV12" or "I420"
-
-### Input Stream (size 2): <!-- omit from toc -->
-- **input stream 0:** VideoPacket
-- **input stream 1:** VideoStreamInfoPacket
-
-### Output Stream (size 2xN, N \> 0, N is number of pixel formats): <!-- omit from toc -->
-- **output stream i \< N:** ImagePacket
-- **output stream N <\= i \< 2N:** VideoStreamInfoPacket
+- Number of output streams N must be twice the number of pixel formats specified in node_options-\>dec-\>opixfmt, which supports multiple output picture streams with different pixel format, supported: "RGB24" or "BGR24" or "NV12" or "I420"
 
 
 ## x86_enc
 
+**Description:** Encodes a video stream.
+
+**Basic Node IO:** This node can have 1 or 2 input streams depending on the entries of `node_options->enc` (see conditions). The first input stream produces `ImagePacket` objects, while the second *optional* stream produces `VideoStreamInfoPacket` objects, which are treated as side packets. This node has two output streams, the first produces `VideoPacket` objects and the second produces `AVCodecContextPacket` packets.
+
 **Conditions:** 
- - If encoder w, h, and fps are set to non-zero, then the number of inputs must be 1
- - If encoder w, h, and fps are set to 0, then the number of inputs must be 2
-
-### Input Stream (size 1 or 2): <!-- omit from toc -->
-- **input stream 0:** ImagePacket
-- **input stream 1 (if w, h, fps are 0):** VideoStreamInfoPacket - side packet
-
-### Output Stream (size 2): <!-- omit from toc -->
-- **output stream 0:** VideoPacket
-- **output stream 1:** AVCodecContextPacket
+ - If the w, h, and fps subfields of `node_options->enc` are set to non-zero, then the number of inputs must be 1
+ - If the w, h, and fps subfields of `node_options->enc` are all set to zero, then the number of inputs must be 2
 
 
 # Packet Types and Conversion Options
