@@ -27,7 +27,7 @@
 1. go to an empty directory that you would like to save your source code in
 2. use init_vmss_node.sh script to generate the boiler plate of the code
    ```bash
-   ./init_vmss_node.sh --vendor aupera --name-snake box_empty --name-camel BoxEmpty --options-type BoxEmptyOptions --options-header box_empty.pb.h
+   init_vmss_node.sh --vendor aupera --name-snake box_empty --name-camel BoxEmpty --options-type BoxEmptyOptions --options-header box_empty.pb.h
    ```
    at this state the content of the folder will look like following
    ```bash
