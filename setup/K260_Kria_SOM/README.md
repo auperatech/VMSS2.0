@@ -1,79 +1,77 @@
 # VMSS 2.0 Docker Installation Guide for KV260/KR260 Kria SOM with Ubuntu 22.04
 
-This guide provides step-by-step instructions for installing VMSS 2.0 Docker for K26 on KV260 or KR260 Kria SOM, using the Kria Ubuntu Desktop 22.04 LTS Image. This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
+This guide provides step-by-step instructions for installing VMSS 2.0 Docker for K26 on KV260 or KR260 Kria SOM, using the [Kria Ubuntu Desktop 22.04 LTS Image](https://ubuntu.com/download/amd). This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
 
 ## Hardware/OS requirements
 
 - Kria SOM (KV260 or KR260) with Kria Ubuntu Desktop 22.04 LTS Image.
-- 32GB or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card.)
+- 32GB storage or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card).
 - Follow the initial setup instructions from Xilinx: [Setting up the SD Card Image](https://www.xilinx.com/products/som/kria/kv260-vision-starter-kit/kv260-getting-started-ubuntu/setting-up-the-sd-card-image.html).
 
 ## Installation Steps
 
-### 1. System update
-It is recommended to have the latest upgraded Ubuntu:
+### 1. Update system packages
+It is recommended to update the list of packages:
    ```bash
    sudo apt-get update
-   sudo apt-get upgrade
    ```
-**_NOTE: This step may take several minutes. After some time you might see the following on the screen. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here_**
 
 
-![](kernel_update.jpg)
+<!-- ![](kernel_update.jpg) -->
 
-**_NOTE: You may see an error that looks like the following image during the `upgrade` prcoess. In the case that this happens please upgrade the kept back packages using `sudo apt-get --with-new-packages argument_**
-
-![]
-
-After these steps, make sure that you perform a reboot on the system:
-```bash
-sudo reboot
-```
-
-### 2. Install Docker Image dependencies
-
-VMSS 2.0 Docker Image requires the following dependencies to be installed on the host OS: `vitis-ai-runtime`, `bootgen-xlnx` as well as `kria-firmware-app`. Here is how you install these dependencies on the OS:
+### 2. Installing `bootgen`
+Add the Xilinx's PPA to the list of your sources and install the `bootgen`:
 
    ```bash
    sudo add-apt-repository -y ppa:xilinx-apps/ppa
-   sudo apt-get install -y vitis-ai-runtime bootgen-xlnx
-   cd ~/
-   git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
-   cd kria-apps-firmware
-   sudo make -C boards/ install
-   cd ~/
-   rm -rf kria-apps-firmware
+   sudo apt-get install bootgen-xlnx
    ```
 
-You would also need to install docker engine. The following docker engine installation guide follows the guide [mentioned here](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
-#### Setup docker repository
+### 3. Installing kria starter kit application firmware
+We need to clone the starte kit repository and install it, follow these:
 
-   ```bash
-   # Add Docker's official GPG key:
-   sudo apt-get update
-   sudo apt-get install ca-certificates curl
-   sudo install -m 0755 -d /etc/apt/keyrings
-   sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-   sudo chmod a+r /etc/apt/keyrings/docker.asc
-   
-   # Add the repository to Apt sources:
-   echo \
-     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-   sudo apt-get update
-   ```
+```bash
+git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
+cd kria-apps-firmware/
+sudo make -C boards/ install
+```
 
-#### Install docker packages
-   ```bash
-   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-   ```
+### 4. Load the required application
+Using `xmutil` we are going to load the `kv260-benchmark-b4096` on the DPU:
 
-#### Verify docker installation
+```bash
+sudo xmutil listapps
+sudo xmutil unloadapp
+sudo xmutil loadapp kv260-benchmark-b4096
+```
+At this stage, we need to install the follwing dependencies:  
+
+```bash
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
+```
+
+### 5. Preparing and installing the docker engine
+Before pulling the docker image, follow these steps:
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo   "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+       https://download.docker.com/linux/ubuntu \
+       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+
+
+#### 6. Verify docker installation
+The `hello-world` is a famous image availabe on `docker-hub`, the docker engine will automatically pull it for you:
    ```bash
    sudo docker run hello-world
    ```
+
+<!-- 
 
 ### 3. Pull Docker image
 VMSS is available throught the public docker repository `auperastor/kria-som-dev:latest`. You can pull the latest docker by `sudo docker pull auperastor/kria-som-dev:latest` on your Kria SOM device.
@@ -211,5 +209,5 @@ In brief, all of the calculators used in your pipeline are shown above. All of t
   <img src="simplified_graph.png" alt="simplified diagram">
 </div>
 
-
+-->
 
