@@ -377,7 +377,7 @@ This node is able to produce multiple video output streams at a time from the sa
 - The third output stream produces `VideoStreamInfoPacket` objects associated with the first output stream
 - The fourth output stream produces `VideoStreamInfoPacket` objects associated with the second output stream
 
-The order of the output streams corresponds to the order of entries in `node_options->dec->opixfmt` which lists the requested video formats. Additionally, the number of output streams for this node should match the number of entries in `opixfmt`.
+The order of the output streams corresponds to the order of entries in `node_options->dec->opixfmt` which lists the requested video formats. Additionally, the number of output streams for this node should match the number of entries in `node_options->dec->opixfmt`.
 
 *NOTE:* The input streams remain the same as in the basic IO configuration.
 
