@@ -270,8 +270,8 @@ Options for the crowd flow calculator
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| common_fields | [AplCommonOptions](#aup-avaf-AplCommonOptions) |  | REQUIRED. At least one border (2 points) or RoI (3 points) should be defined in the common_fields. General application config parameters |
-| update_interval_seconds | [int32](#int32) |  | REQUIRED. The expected value range is &gt; 0. The interval length in terms of seconds for information update and sending notification |
+| common_fields | [AplCommonOptions](#aup-avaf-AplCommonOptions) |  | __**REQUIRED**__. At least one border (2 points) or RoI (3 points) should be defined in the common_fields. General application config parameters |
+| update_interval_seconds | [int32](#int32) |  | __**REQUIRED**__. The expected value range is &gt; 0. The interval length in terms of seconds for information update and sending notification |
 | initial_entering_count | [int32](#int32) |  | The initial count for entering people |
 | initial_exiting_count | [int32](#int32) |  | The initial count for exiting people |
 | max_allowed_borders | [int32](#int32) |  | The maximum number of borders |
@@ -580,7 +580,7 @@ and performance logging options.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| classifier_type | [string](#string) |  | REQUIRED. The expected value is "General". The type of classifier to use. |
+| classifier_type | [string](#string) |  | _**REQUIRED**_. The expected value is "General". The type of classifier to use. |
 | need_preprocess | [bool](#bool) |  | Indicates if preprocessing is required before classification. |
 | run_on_letterboxed_img | [bool](#bool) |  | Specifies if the classifier should run on letterboxed images. |
 | batch_size | [int32](#int32) |  | The size of batches for classification. Larger batches may increase performance but require more memory. |
@@ -662,8 +662,8 @@ OBoxDetectorOptionsptions for detector calculator mean substraction
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| detect_interval | [int32](#int32) |  | REQUIRED. The expected value range is &gt; 0. Interval between detections. |
-| detector_type | [string](#string) |  | REQUIRED. The expected value should be one of: "SSD","YoloV2","YoloV3","YoloVX","TinyYolo","OFAYolo", "RefineDet", "FaceDetectDenseBox", and "EfficientDetD2".Type of the detection model. |
+| detect_interval | [int32](#int32) |  | _**REQUIRED**_. The expected value range is &gt; 0. Interval between detections. |
+| detector_type | [string](#string) |  | _**REQUIRED**_. The expected value should be one of: "SSD","YoloV2","YoloV3","YoloVX","TinyYolo","OFAYolo", "RefineDet", "FaceDetectDenseBox", and "EfficientDetD2".Type of the detection model. |
 | obfuscated_token | [string](#string) |  | Token for obfuscation purposes, unused. |
 | need_preprocess | [bool](#bool) |  | Indicates if preprocessing is needed. This is false if the user is passing preprocessed images |
 | mean | [BoxDetectorOptions.Mean](#aup-avaf-BoxDetectorOptions-Mean) |  | Mean values for preprocessing. (Optional as typically this is available in model prototxt) |
@@ -861,7 +861,7 @@ BoxSegmentorOptions configures the box segmentor with various operational parame
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| segmentor_type | [string](#string) |  | REQUIRED. The expected value is either "Segmentation2D" or "Solo". Specifies the type of segmentor to use. |
+| segmentor_type | [string](#string) |  | _**REQUIRED**_. The expected value is either "Segmentation2D" or "Solo". Specifies the type of segmentor to use. |
 | need_preprocess | [bool](#bool) |  | Indicates if input images require preprocessing before segmentation. |
 | run_on_letterboxed_img | [bool](#bool) |  | If true, processes letterboxed images to maintain aspect ratio. |
 | batch_size | [int32](#int32) |  | Determines the number of images to process in a single batch. |
@@ -933,18 +933,18 @@ Options for the tracker calculator
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| max_keep_alive | [int32](#int32) |  | REQUIRED. The expected value range is &gt;= 0. The max detect_interval used to keep the track alive |
-| min_hits | [int32](#int32) |  | REQUIRED. The expected value is 1. The minimum number of detections for initializing tracking |
+| max_keep_alive | [int32](#int32) |  | _**REQUIRED**_. The expected value range is &gt;= 0. The max detect_interval used to keep the track alive |
+| min_hits | [int32](#int32) |  | _**REQUIRED**_. The expected value is 1. The minimum number of detections for initializing tracking |
 | min_object_area_th | [int32](#int32) |  | Ignore detections smaller than this area threshold |
-| affinity_threshold | [double](#double) |  | REQUIRED. The expected value range is [0, 1). The affinity threshold between detections and tracklets |
-| shape_weight | [float](#float) |  | REQUIRED. The expected value range is &gt;= 0. The weight of shape cost between a detection rectengle and a traclet |
-| position_weight | [float](#float) |  | REQUIRED. The expected value range is &gt;= 0. The weight of position cost between a detection rectengle and a traclet |
-| appearance_weight | [float](#float) |  | REQUIRED. The expected value range is &gt;= 0. The weight of appearanr cost between a detection and a traclet |
-| shape_dist_max | [float](#float) |  | REQUIRED. The expected value range is &gt; 0. The maximum value of the shape cost |
-| position_dist_max | [float](#float) |  | REQUIRED. The expected value range is &gt; 0. The maximum value of the position cost |
+| affinity_threshold | [double](#double) |  | _**REQUIRED**_. The expected value range is [0, 1). The affinity threshold between detections and tracklets |
+| shape_weight | [float](#float) |  | _**REQUIRED**_. The expected value range is &gt;= 0. The weight of shape cost between a detection rectengle and a traclet |
+| position_weight | [float](#float) |  | _**REQUIRED**_. The expected value range is &gt;= 0. The weight of position cost between a detection rectengle and a traclet |
+| appearance_weight | [float](#float) |  | _**REQUIRED**_. The expected value range is &gt;= 0. The weight of appearanr cost between a detection and a traclet |
+| shape_dist_max | [float](#float) |  | _**REQUIRED**_. The expected value range is &gt; 0. The maximum value of the shape cost |
+| position_dist_max | [float](#float) |  | _**REQUIRED**_. The expected value range is &gt; 0. The maximum value of the position cost |
 | use_exp_cost | [bool](#bool) |  | If use the exponential formula to calculate the matching cost |
 | disable_tracker_update | [bool](#bool) |  | If disable the kalman filter to predict tracklet bounding boxes |
-| tracker_type | [string](#string) |  | REQUIRED. The expected value is either "SORT&#43;&#43;" or "DEEPSORT". The tracker type |
+| tracker_type | [string](#string) |  | _**REQUIRED**_. The expected value is either "SORT&#43;&#43;" or "DEEPSORT". The tracker type |
 | max_object_area_th | [int32](#int32) |  | Ignore detections greater than this threshold |
 | fixed_box_size | [BoxTrackerOptions.Size](#aup-avaf-BoxTrackerOptions-Size) |  | Compute the position cost with a fixed box size instead of the detected ones |
 
@@ -1735,7 +1735,7 @@ Options for the landmark predictor
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| landmark_predictor_type | [string](#string) |  | REQUIRED. The expected value should be one of: "Movenet", "FaceLandmark", "Hourglass", "Openpose", and "RetinaFace". The type of the landmark prediction model. |
+| landmark_predictor_type | [string](#string) |  | _**REQUIRED**_. The expected value should be one of: "Movenet", "FaceLandmark", "Hourglass", "Openpose", and "RetinaFace". The type of the landmark prediction model. |
 | need_preprocess | [bool](#bool) |  | Indicates if preprocessing is required before landmark prediction |
 | run_on_letterboxed_img | [bool](#bool) |  | Specifies if the landmark predictor should run on letterboxed images. |
 | batch_size | [int32](#int32) |  | The size of batches for landmark prediction. Larger batches may increase performance but require more memory. |
@@ -1779,13 +1779,13 @@ Options for the notification_mongo calculator
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | message_type | [NotificationMessageOptions.MessageType](#aup-avaf-NotificationMessageOptions-MessageType) |  | The expected value is EMAIL or SMS, the default value is EMAIL. |
-| server_url | [string](#string) |  | REQUIRED. The expected value is a string. If send email notification, this is email SMTP URL, eg: "smtps://mail.auperatech.com:465" If send SMS notification, this is SMS gateway API URL, eg: "https://api.twilio.com/2010-04-01/Accounts/&lt;Account-SID&gt;/Messages.json" |
-| sender | [string](#string) |  | REQUIRED. The expected value is a string. / If send notification via email, the value should be an email address; if send notification via SMS, the value should be a phone number. |
-| receiver | [string](#string) | repeated | REQUIRED. The expected value is an array of strings. / If send notification via email, the value should be an array of email address; if send notification via SMS, the value should be an array of phone number. |
-| sender_username | [string](#string) |  | REQUIRED. The expected value is a string. / The credentials or authentications for connecting the server url / If send email notification, username and password are sender&#39;s email credentials / If send SMS notification, username and password are account&#39;s ID and token for authentications |
+| server_url | [string](#string) |  | _**REQUIRED**_. The expected value is a string. If send email notification, this is email SMTP URL, eg: "smtps://mail.auperatech.com:465" If send SMS notification, this is SMS gateway API URL, eg: "https://api.twilio.com/2010-04-01/Accounts/&lt;Account-SID&gt;/Messages.json" |
+| sender | [string](#string) |  | _**REQUIRED**_. The expected value is a string. / If send notification via email, the value should be an email address; if send notification via SMS, the value should be a phone number. |
+| receiver | [string](#string) | repeated | _**REQUIRED**_. The expected value is an array of strings. / If send notification via email, the value should be an array of email address; if send notification via SMS, the value should be an array of phone number. |
+| sender_username | [string](#string) |  | _**REQUIRED**_. The expected value is a string. / The credentials or authentications for connecting the server url / If send email notification, username and password are sender&#39;s email credentials / If send SMS notification, username and password are account&#39;s ID and token for authentications |
 | sender_password | [string](#string) |  |  |
 | notification_q_size | [uint32](#uint32) |  | The expected value is a number &gt; 0, suggest range is [1, 4]. The size of the queue for holding pending notifications before they are sent. |
-| trigger | [NotificationMessageOptions.Trigger](#aup-avaf-NotificationMessageOptions-Trigger) | repeated | REQUIRED. The expected value is user-defiend trigger object as listed in example / The jq trigger to select and filter messages sent |
+| trigger | [NotificationMessageOptions.Trigger](#aup-avaf-NotificationMessageOptions-Trigger) | repeated | _**REQUIRED**_. The expected value is user-defiend trigger object as listed in example / The jq trigger to select and filter messages sent |
 
 
 
@@ -1802,8 +1802,8 @@ Triggers to specify user-defiend notifications and jq filters.
 | ----- | ---- | ----- | ----------- |
 | trigger_type | [NotificationMessageOptions.Trigger.Type](#aup-avaf-NotificationMessageOptions-Trigger-Type) |  | The expected value is PACKET or JQ, the default value is PACKET. Device if apply jq_query_string to filter the packet; otherwise we keep the packet as is. |
 | jq_query_string | [string](#string) |  | REQUIRED when trigger_type is JQ. The expected value is a string. The jq string to filter the contents, eg: "jq &#39;.detections | any(.[]; (.h * .w &gt; 200) and .class == \"bear\")&#39; example.json" |
-| trigger_consecutive_packet | [uint32](#uint32) |  | REQUIRED. The expected value is a number &gt; 0. Sent notification when the previously received packet numbers meet the trigger_consecutive_packet value. |
-| notification_title | [string](#string) |  | REQUIRED. The expected value is a string. User-defined notification_title. |
+| trigger_consecutive_packet | [uint32](#uint32) |  | _**REQUIRED**_. The expected value is a number &gt; 0. Sent notification when the previously received packet numbers meet the trigger_consecutive_packet value. |
+| notification_title | [string](#string) |  | _**REQUIRED**_. The expected value is a string. User-defined notification_title. |
 | notification_body | [string](#string) |  | The expected value is a string. User-defined notification_body. |
 | attach_json | [bool](#bool) |  | The expected value is a boolean and it defaults to false. Choose to attach the packets into the notification or not. |
 
@@ -1877,9 +1877,9 @@ Options for the notification_mongo calculator
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| mongodb_address | [string](#string) |  | REQUIRED. The expected value is a string. The address of the MongoDB server. |
-| database_name | [string](#string) |  | REQUIRED. The expected value is a string. The name of the database within MongoDB to use. |
-| collection_name | [string](#string) |  | REQUIRED. The expected value is a string. The name of the collection within the database to use for storing notifications. |
+| mongodb_address | [string](#string) |  | _**REQUIRED**_. The expected value is a string. The address of the MongoDB server. |
+| database_name | [string](#string) |  | _**REQUIRED**_. The expected value is a string. The name of the database within MongoDB to use. |
+| collection_name | [string](#string) |  | _**REQUIRED**_. The expected value is a string. The name of the collection within the database to use for storing notifications. |
 | notification_q_size | [uint32](#uint32) |  | The expected value is a number &gt; 0, suggest range is [1, 4]. The size of the queue for holding pending notifications before they are written to the database. |
 
 
@@ -1927,7 +1927,7 @@ Options for the notification_web calculator
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| notification_url | [string](#string) |  | REQUIRED. The expected value is a string. The URL to which notifications will be sent. |
+| notification_url | [string](#string) |  | _**REQUIRED**_. The expected value is a string. The URL to which notifications will be sent. |
 | protocol_type | [NotificationWebOptions.ProtocolType](#aup-avaf-NotificationWebOptions-ProtocolType) |  | The expected value is HTTP or UDP, the default value is HTTP. The type of protocol to use for sending notifications (HTTP or UDP). |
 | notification_q_size | [uint32](#uint32) |  | The expected value is a number &gt; 0, suggest range is [1, 4]. The size of the queue for holding pending notifications before they are sent. |
 | https_username | [string](#string) |  | The expected value is a string. The username for authentication if using HTTPS. |
@@ -2142,9 +2142,9 @@ Options for the statistics_reader calculator
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| interval_us | [int64](#int64) |  | REQUIRED. The expected value is a number, suggest 1000000. The time interval in microseconds between reading statistics. |
-| input_path | [string](#string) |  | REQUIRED. The expected value is a string. The path to the file or directory containing statistical data. |
-| loop_over | [bool](#bool) |  | REQUIRED. The expected value is a boolean value. Whether to loop over the input source when the end is reached. |
+| interval_us | [int64](#int64) |  | _**REQUIRED**_. The expected value is a number, suggest 1000000. The time interval in microseconds between reading statistics. |
+| input_path | [string](#string) |  | _**REQUIRED**_. The expected value is a string. The path to the file or directory containing statistical data. |
+| loop_over | [bool](#bool) |  | _**REQUIRED**_. The expected value is a boolean value. Whether to loop over the input source when the end is reached. |
 | only_send_throughput | [bool](#bool) |  | The expected value is a boolean value. Whether to only send throughput-related statistics and ignore others. |
 | input_type | [StatisticsReaderOptions.InputType](#aup-avaf-StatisticsReaderOptions-InputType) |  | The expected value is DIRECTORY or FILE, the default value is DIRECTORY. The type of input source being used (directory or file). |
 
@@ -2357,9 +2357,9 @@ It is specifically tailored for converting DetectionPacket types.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| input_type | [PacketType](#aup-avaf-PacketType) |  | REQUIRED. The expected value is one of the PacketType listed above. Specifies the type of input packet to be converted. Should be set to DetectionPacket for these options. |
-| label_name_file | [string](#string) |  | REQUIRED. The expected value is a string. The path to the file containing labels or names for detected objects. Applicable only when input_type is DetectionPacket. |
-| network | [string](#string) |  | REQUIRED. The expected value is a string. Specifies the network configuration or type that was used for detection. Applicable only when input_type is DetectionPacket. |
+| input_type | [PacketType](#aup-avaf-PacketType) |  | _**REQUIRED**_. The expected value is one of the PacketType listed above. Specifies the type of input packet to be converted. Should be set to DetectionPacket for these options. |
+| label_name_file | [string](#string) |  | _**REQUIRED**_. The expected value is a string. The path to the file containing labels or names for detected objects. Applicable only when input_type is DetectionPacket. |
+| network | [string](#string) |  | _**REQUIRED**_. The expected value is a string. Specifies the network configuration or type that was used for detection. Applicable only when input_type is DetectionPacket. |
 
 
 
