@@ -1,29 +1,34 @@
-# Table of Contents <!-- omit from toc -->
+# Guide on VMSS Nodes
+
 - [Introduction](#introduction)
   - [Streams and Packets](#streams-and-packets)
-  - [Side Packets:](#side-packets)
+  - [Side Packets](#side-packets)
   - [Packet Conversion](#packet-conversion)
   - [Graph IO](#graph-io)
-- [Node Configuration](#node-configuration)
-  - [apl\_crowd\_flow](#apl_crowd_flow)
-  - [box\_classifier](#box_classifier)
-  - [box\_detector](#box_detector)
-  - [box\_segmentor](#box_segmentor)
-  - [box\_tracker](#box_tracker)
-  - [box\_visualizer](#box_visualizer)
-  - [ff\_vfilter](#ff_vfilter)
-  - [frame\_saver](#frame_saver)
-  - [landmark\_predictor](#landmark_predictor)
-  - [notification\_message](#notification_message)
-  - [notification\_mongo](#notification_mongo)
-  - [notification\_web](#notification_web)
-  - [statistics\_reader](#statistics_reader)
-  - [stream\_demux](#stream_demux)
-  - [stream\_mux](#stream_mux)
-  - [video\_source](#video_source)
-  - [x86\_dec](#x86_dec)
-  - [x86\_enc](#x86_enc)
 
+# Node Table
+
+| Node Name | Description |
+| ----- | ---- |
+| [apl\_crowd\_flow](#apl_crowd_flow) | Custom node to count people crossing a border line or region of interest |
+| [box\_classifier](#box_classifier) | Performs object classification on an image cropped by a bounding box |
+| [box\_detector](#box_detector) | Uses a ML model to find objects in an image, producing bounding boxes for each |
+| [box\_segmentor](#box_segmentor) | Performs box segmentation on an image stream (!!! TODO !!!) |
+| [box\_tracker](#box_tracker) | Identifies objects to be tracked through a video stream |
+| [box\_visualizer](#box_visualizer) | Renders boxes within images provided through the image stream and returns the updated images |
+| [ff\_vfilter](#ff_vfilter) | Applies video filters to a video stream |
+| [frame\_saver](#frame_saver) | Saves frames from a video stream to a directory |
+| [landmark\_predictor](#landmark_predictor) | Calls a ML model to find landmarks within an image (!!! TODO !!!) |
+| [notification\_message](#notification_message) | Sends a notification via SMS or email |
+| [notification\_mongo](#notification_mongo) | Sends a notification via MongoDB |
+| [notification\_web](#notification_web) | Sends a notification via the web |
+| [statistics\_reader](#statistics_reader) | Loads statistics in the form of json files in a directory |
+| [stream\_demux](#stream_demux) | Demultiplexes an incoming video stream |
+| [stream\_mux](#stream_mux) | Multiplexes an outgoing video stream |
+| [to\_json](#to_json) |   |
+| [video\_source](#video_source) | Loads video from a camera device, such as USB |
+| [x86\_dec](#x86_dec) | Decodes an incoming video stream |
+| [x86\_enc](#x86_enc) | Encodes an outgoing video stream |
 
 # Introduction
 
@@ -329,7 +334,7 @@ This node has one output stream
 **Specifying the Output:** This node has no input streams, rather the input is set either by providing a url through `node_options->demux->input_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
 
 
-## stream_mux 
+## stream_mux
 
 **Description:** Multiplexes a video stream.
 
@@ -340,6 +345,22 @@ This node has one output stream
 - The second input stream takes `AVCodecContextPacket` objects, which are treated as [side packets](#side-packets)
 
 **Specifying the Output:** This node has no output streams, rather the output is set either by providing a url through `node_options->demux->output_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
+
+
+## to_json
+
+**Description:** Converts packets of various types to json format.
+
+**Basic Node IO:** 
+
+This node has one input stream and one output stream:
+- The input stream takes takes in a valid packet object type (see conditions)
+- The output stream produces `JsonPacket` objects
+
+**Available Packet Types:** The input stream packet type can be one of the following, but must match the corresponding entry of `node_options->input_type`:
+ - PACKET_TYPE_CLASSIFICATIONS (1): Classifications
+ - PACKET_TYPE_DETECTIONS_OR_TRACKS (2): DetectionPacket
+ - PACKET_TYPE_SEGMENTATIONS (4): Segmentations
 
 
 ## video_source
@@ -355,7 +376,7 @@ This node has one output stream
 **Specifying the Input:** This node has no input streams, rather the camera device is specified by `node_options->path`.
 
 
-## x86_dec 
+## x86_dec
 
 **Description:** Decodes a video stream.
 
