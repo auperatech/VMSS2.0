@@ -1,7 +1,7 @@
 # Table of Contents <!-- omit from toc -->
 - [Introduction](#introduction)
   - [Streams and Packets](#streams-and-packets)
-  - [Special Packet Types](#special-packet-types)
+  - [Side Packets:](#side-packets)
   - [Packet Conversion](#packet-conversion)
   - [Graph IO](#graph-io)
 - [Node Configuration](#node-configuration)
@@ -31,9 +31,7 @@
 
 All nodes in VMSS have inputs and outputs which consist of streams that move packets of information from one node to the next. In a `*.pbtxt` file, these streams are specified by the node options `input_stream` or `output_stream` entries. Generally, a node will only accept a certain number of input and output streams of a particular packet type. It is up to the user building a `*.pbtxt` file to ensure that connected streams from one node to the next have compatible packet types, and that a node has been set up with the correct number of input and output streams. The remainder of this document details the available input and output streams for each node and the available packet types for each.
 
-## Special Packet Types
-
-### Side Packets: <!-- omit from toc -->
+## Side Packets:
 
 A side packet is a stream that is intended to pass a single, constant, value. When a stream is treated as a side packet, a node will take the first packet arriving from that stream and store it for later use, ensuring it remains constant. If a side packet stream is re-initialized, it will overwrite the previous stored packet with the new most recent packet from that stream.
 
@@ -130,7 +128,7 @@ In its base configuration, this node has one input stream and two output streams
 - The input stream takes `ImagePacket` objects
 - The first output stream produces `DetectionPacket` objects
 - The second output stream produces `UInt64Packet` which are intended to be treated as [side packets](#side-packets) containing the detection interval
-
+s
 This node can be scaled to receive multiple input video streams, in which case the number of output streams should be one more than the number of input streams. For instance, with 2 input video streams, there would be 2 input streams and 3 output streams:
 - The first input stream takes `ImagePacket` objects
 - The second input stream takes `ImagePacket` objects
