@@ -5,6 +5,8 @@
   - [Side Packets](#side-packets)
   - [Packet Conversion](#packet-conversion)
   - [Graph IO](#graph-io)
+- [Node Table](#node-table)
+- [Packet Table](#packet-table)
 
 # Node Table
 
@@ -30,6 +32,22 @@
 | [x86\_dec](#x86_dec) | Decodes an incoming video stream |
 | [x86\_enc](#x86_enc) | Encodes an outgoing video stream |
 
+# Packet Table
+
+| Packet Type | Produced by | Consumed by |
+| ----- | ---- | ---- |
+| AVCodecContextPacket | [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux) |
+| Classifications | [box\_classifier](#box_classifier) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
+| DetectionPacket | [box\_detector](#box_detector) | [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json) |
+| ImagePacket | [apl\_crowd\_flow](#apl_crowd_flow), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [video\_source](#video_source), [x86\_dec](#x86_dec) | [box\_classifier](#box_classifier), [box\_detector](#box_detector), [box\_segmentor](#box_segmentor), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [frame\_saver](#frame_saver), [landmark\_predictor](#landmark_predictor), [x86\_enc](#x86_enc) |
+| JsonPacket | [apl\_crowd\_flow](#apl_crowd_flow) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web), [statistics\_reader](#statistics_reader), [to\_json](#to_json) |
+| LandmarksPacket | [landmark\_predictor](#landmark_predictor) | [box\_visualizer](#box_visualizer) |
+| Segmentations | [box\_segmentor](#box_segmentor) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
+| TrackPacket | [box\_tracker](#box_tracker) | [apl\_crowd\_flow](#apl_crowd_flow) |
+| UInt64Packet | [box\_detector](#box_detector) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_tracker](#box_tracker) |
+| VideoPacket | [stream\_demux](#stream_demux), [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux), [x86\_dec](#x86_dec) |
+| VideoStreamInfoPacket | [ff\_vfilter](#ff_vfilter), [stream\_demux](#stream_demux), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [ff\_vfilter](#ff_vfilter), [x86\_dec](#x86_dec), [x86\_enc](#x86_enc) |
+
 # Introduction
 
 ## Streams and Packets
@@ -46,7 +64,6 @@ A stream must have packet type that is compatible with the input stream packet t
 
 There are two exceptions to this rule:
 - Nodes taking an input of `DetectionPacket` can also take `TrackPacket` objects, however nodes taking an input of `TrackPacket` may not take `DetectionPacket` objects
-- Nodes taking an input of `PacketBase` objects can take any packet as input
 
 ## Graph IO
 
@@ -93,7 +110,7 @@ This node can optionally have 4 input streams to provide a video stream:
 
 This node in its base form has one input stream and one output stream:
 - The input stream takes in `ImagePacket` objects
-- The output stream prdocues `Classifications` objects
+- The output stream produces `Classifications` objects
 
 This node can be scaled to receive multiple input video streams, e.g. for 2 video streams:
 - The first input stream takes in `ImagePacket` objects
@@ -133,7 +150,7 @@ In its base configuration, this node has one input stream and two output streams
 - The input stream takes `ImagePacket` objects
 - The first output stream produces `DetectionPacket` objects
 - The second output stream produces `UInt64Packet` which are intended to be treated as [side packets](#side-packets) containing the detection interval
-s
+
 This node can be scaled to receive multiple input video streams, in which case the number of output streams should be one more than the number of input streams. For instance, with 2 input video streams, there would be 2 input streams and 3 output streams:
 - The first input stream takes `ImagePacket` objects
 - The second input stream takes `ImagePacket` objects
@@ -422,7 +439,7 @@ NOTE: this is only the case if the `w`, `h`, and `fps` subfields of `node_option
 
 If *any* of the w, h, and fps subfields of `node_options->enc` are unset (e.g. equal to zero), then the node must be provided an info stream. In this case, the node has two input streams:
  - The first input stream takes `ImagePacket` objects
- - The second *optional* input stream produces `VideoStreamInfoPacket` objects, which are treated as [side packets](#side-packets)
+ - The second *optional* input stream takes `VideoStreamInfoPacket` objects, which are treated as [side packets](#side-packets)
 
 *NOTE:* The output streams remain the same as in the basic IO configuration.
 
