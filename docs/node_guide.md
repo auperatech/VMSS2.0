@@ -11,6 +11,8 @@
 - [Node Table](#node-table)
 - [Packet Table](#packet-table)
 
+<a name="node_table_top"></a>
+
 # Node Table
 
 | Node Name | Description |
@@ -89,6 +91,8 @@ There are two exceptions to this rule:
 
 # Node Configuration
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## apl_crowd_flow
 
 **Description:** Custom node to count people crossing a border line or region of interest.
@@ -118,6 +122,9 @@ This node can optionally have 4 input streams to provide a video stream:
 - The fourth input stream takes `UInt64Packet` objects which contain the detect interval and which are treated as [side packets](#side-packets).
 
 *NOTE:* The output streams remain the same as in the basic IO configuration.
+
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## box_classifier
 
@@ -159,6 +166,8 @@ We can also have multiple input video streams and corresponding output streams. 
 *NOTE:* In this case, the number of input streams must be twice the number of output streams
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## box_detector
 
 **Description:** Uses a ML model to find objects in an image, producing bounding boxes for each.
@@ -184,6 +193,8 @@ This node can be scaled to receive multiple input video streams, in which case t
 *NOTE:* For multiple input video streams, the number of output streams must be one more than the number of input streams to account for the extra `UInt64Packet` output stream
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## box_segmentor
 
 **Description:** Performs box segmentation on an image stream.
@@ -207,6 +218,8 @@ This node can be scaled to receive multiple input streams at a time and produces
 *NOTE:* The Number of input streams must match the number of output streams
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## box_tracker
 
 **Description:** Identifies object for tracking through a video stream.
@@ -221,6 +234,8 @@ This node has two input streams and one output stream:
 - The second input stream takes in `UInt64Packet` objects that specify the detection interval of the detection node, which are treated as [side packets](#side-packets)
 - The output stream produces `TrackPacket` objects
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## box_visualizer
 
@@ -244,6 +259,8 @@ This node has two input streams and one output stream:
   - INPUT_TYPE_LANDMARK (3): LandmarksPacket
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## ff_vfilter
 
 **Description:** Applies video filters to a video stream and outputs the result.
@@ -261,6 +278,8 @@ This node has two input streams and two output streams:
 - The second output stream produces `VideoStreamInfoPacket` objects
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## frame_saver
 
 **Description:** Saves frames from a video stream to a directory.
@@ -276,6 +295,8 @@ This node has one input stream:
 
 **Specifying the Output:** This node has no output streams, rather the files are saved to the path specified in `node_options->directory`.
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## landmark_predictor
 
@@ -317,6 +338,8 @@ We can also have multiple input video streams and corresponding output streams. 
 *NOTE:* In this case, the number of input streams must be twice the number of output streams
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## notification_message
 
 **Description:** Sends a notification via SMS or email.
@@ -332,6 +355,8 @@ This node has one input stream:
 
 *NOTE:* This node does not have any output streams.
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## notification_mongo
 
@@ -349,6 +374,8 @@ This node has one input stream:
 *NOTE:* This node does not have any output streams.
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## notification_web
 
 **Description:** Sends a notification via the web
@@ -362,6 +389,8 @@ This node has one input stream:
 
 *NOTE:* This node does not have any output streams.
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## statistics_reader
 
@@ -379,6 +408,8 @@ This node has one output stream
 **Specifying the Input:** This node has no input streams, rather the statistics are loaded from the path specified in `node_options->input_path`.
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## stream_demux
 
 **Description:** Demultiplexes a video stream.
@@ -394,6 +425,8 @@ This node has one output stream
 **Specifying the Output:** This node has no input streams, rather the input is set either by providing a url through `node_options->demux->input_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## stream_mux
 
 **Description:** Multiplexes a video stream.
@@ -408,6 +441,8 @@ This node has one output stream
 
 **Specifying the Output:** This node has no output streams, rather the output is set either by providing a url through `node_options->demux->output_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## to_json
 
@@ -429,6 +464,8 @@ This node has one input stream and one output stream:
  - PACKET_TYPE_SEGMENTATIONS (4): Segmentations
 
 
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
+
 ## video_source
 
 **Description:** Loads video from a camera device, such as USB.
@@ -443,6 +480,8 @@ This node has one input stream and one output stream:
 
 **Specifying the Input:** This node has no input streams, rather the camera device is specified by `node_options->path`.
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## x86_dec
 
@@ -472,6 +511,8 @@ The order of the output streams corresponds to the order of entries in `node_opt
 
 *NOTE:* The input streams remain the same as in the basic IO configuration.
 
+
+<p align="right"><a href="#node_table_top">Back to Node Table</a></p>
 
 ## x86_enc
 
