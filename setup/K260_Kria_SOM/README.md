@@ -133,6 +133,45 @@ Now you can enter the docker:
 sudo docker container exec -ti <DOCKER-NAME> bash
 ```
 
+## Play with Aupera Web Cloud
+
+VMSS2.0 utility consists of two major modules, Aupera Video AI Server(AVAS) and Aupera Video AI Client(AVAC). AVAS is the server that runs and manages various AI tasks, and AVAC is a web cloud application that allows users to use a friendly GUI to connect to AVAS. It only takes several simple steps to launch AVAS inside the docker and play with our AVAC after the docker is successfully built. Let's play!
+
+**_NOTE: The following section assumes that you already entered the docker by the command listed above._**
+
+**First, please run a single script to start AVAS.**
+
+```bash
+start.sh skip_check
+```
+
+**Then, with a single command to get the unique serial number(sn) of your device that we prepared.**
+
+```bash
+cat /opt/aupera/avas/etc/kria_som_sn.txt
+```
+
+**Next, create your own account and sign in to our Web Cloud.**
+
+Sign up for an account at: [https://auperatechnologies.com](https://auperatechnologies.com/). 
+Once you sign in with your new account, you will be asked to add a video stream. Please click the **Add Stream** button to add video streams you would like to use, or you could directly use the demo video streams we prepared for testing as listed below: 
+
+```
+rtsp://vmss.auperatechnologies.com:554/crowd
+rtsp://vmss.auperatechnologies.com:554/car
+rtsp://vmss.auperatechnologies.com:554/retail
+```
+
+**Last, add the device with the unique serial number and start running tasks.**
+
+Go to the **AI Hosts** tab in the navigation bar. Click the **Add AI Host** button to add a host. 
+Choose the **Add by Serial Number** tab, enter an AI Host Name of your choice, and enter the unique serial number from the last step in AI Host S/N input.
+
+After device verification and the device is successful, you can go to the **AI Tasks** section to create your tasks and start to play!
+
+**_NOTE: For a video and more detailed document to guide you through AVAC and creating tasks, please refer to_** 
+[video guide](../../docs/avac/avac_user_guide.md)
+[avac user guide document](../../docs/avac/avac_user_guide.md)
 
 <!-- 
 
