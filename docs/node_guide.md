@@ -1,5 +1,3 @@
-video_source frame_saver
-
 # Table of Contents <!-- omit from toc -->
 - [Introduction](#introduction)
   - [Streams and Packets](#streams-and-packets)
@@ -60,10 +58,27 @@ asdf `<TODO>`
 
 **[Node Options](avap_doc.md#aplcrowdflowoptions)**
 
-**Basic Node IO:** This node in its base configuration has 3 input streams. In this configuration, the first input stream takes `TrackPacket` objects, the second input stream takes `VideoStreamInfoPacket` objects which are treated as [side packets](#side-packets), and the third input stream takes `UInt64Packet` objects which contain the detect interval and which are treated as [side packets](#side-packets). This node can optionally have 4 input streams to provide a video stream, with the first input stream remaining the same, the *second input stream* taking `ImagePacket` objects, and the third and fourth streams taking `VideoStreamInfoPacket` and `UInt64Packet` objects respectively, similarly to the 3-input configuration.
+**Basic Node IO:** 
 
-This node in its base configuration has 1 output stream, which produces `JsonPacket` objects. It optionally has two additional output streams so that the total number of output streams can also be 2 or 3. The second *optional* output stream produces `ImagePacket` objects, and the third *optional* output stream produces `JsonPacket` objects containing the same content as the first stream.
+This node in its base configuration has 3 input streams:
+- The first input stream takes `TrackPacket` objects
+- The second input stream takes `VideoStreamInfoPacket` objects which are treated as [side packets](#side-packets)
+- The third input stream takes `UInt64Packet` objects which contain the detect interval and which are treated as [side packets](#side-packets). 
 
+This node in its base configuration has 1 output stream. It optionally has two additional output streams so that the total number of output streams can also be 2 or 3:
+- The first output stream produces `JsonPacket` objects
+- The second *optional* output stream produces `ImagePacket` objects
+- The third *optional* output stream produces `JsonPacket` objects containing the same content as the first stream
+
+**Node IO with Video Stream:**
+
+This node can optionally have 4 input streams to provide a video stream:
+- The first input stream takes `TrackPacket` objects
+- The *second input stream* takes `ImagePacket` objects
+- The third input stream takes `VideoStreamInfoPacket` objects which are treated as [side packets](#side-packets)
+- The fourth input stream takes `UInt64Packet` objects which contain the detect interval and which are treated as [side packets](#side-packets).
+
+*NOTE:* The output streams remain the same as in the basic IO configuration.
 
 ## box_classifier
 
@@ -71,13 +86,36 @@ This node in its base configuration has 1 output stream, which produces `JsonPac
 
 **[Node Options](avap_doc.md#boxclassifieroptions)**
 
-**Basic Node IO:** This node in its base form takes in an input video stream of type `ImagePacket` and produces an output stream of type `Classifications`. It is able to take in multiple input streams at a time and produces corresponding classification streams for each, for example 3 input streams of type `ImagePacket` and 3 output streams of type `Classifications`. The output streams order will correspond to the input streams order.
+**Basic Node IO:** 
 
-**IO With Detections** If `node_options->use_detections` is not zero, the node can use detections to help with classification. In this case, the node has two input streams for every output stream. For example, with 2 inputs and 1 output, the first input takes `DetectionPacket` objects and the second input takes `ImagePacket` objects, and there would be one output stream producing `Classifications` objects. We can also have multiple input video streams and corresponding output streams. For instance, in the case of two video streams, with 4 total input streams, the first two input streams would be `DetectionPacket` streams, and the second two input streams would be `ImagePacket` streams, and there would be two `Classifications` output streams. The first `DetectionPacket` input stream would correspond to the first `ImagePacket` input stream and the first `Classifications` output stream, and so on.
+This node in its base form has one input stream and one output stream:
+- The input stream takes in `ImagePacket` objects
+- The output stream prdocues `Classifications` objects
 
-NOTE: If `node_options->use_detections` is zero, the number of input streams and output streams must be equal
+This node can be scaled to receive multiple input video streams, e.g. for 2 video streams:
+- The first input stream takes in `ImagePacket` objects
+- The second input stream takes in `ImagePacket` objects
+- The first output stream produces `Classifications` objects associated with the first input stream
+- The second output stream produces `Classifications` objects associated with the second input stream
 
-NOTE: If `node_options->use_detections` is non-zero, the number of input streams must be twice the number of output streams
+*NOTE:* This case is only if `node_options->use_detections` is not zero
+
+**IO With Detections**
+
+If `node_options->use_detections` is not zero, the node can use detections to help with classification. In this case, the node has two input streams for every output stream. For example, with 2 inputs and 1 output:
+- The first input stream takes `DetectionPacket` objects 
+- The second input takes `ImagePacket` objects
+- The output stream produces `Classifications` objects
+
+We can also have multiple input video streams and corresponding output streams. For instance, in the case of two video streams, with 4 total input streams:
+- The first input stream takes `DetectionPacket` objects
+- The second input stream takes `DetectionPacket` objects
+- The third input takes `ImagePacket` objects associated with the first input stream
+- The fourth input takes `ImagePacket` objects associated with the second input stream
+- The first output stream produces `Classifications` objects associated with the first input stream
+- The second output stream produces `Classifications` objects associated with the second input stream
+
+*NOTE:* In this case, the number of input streams must be twice the number of output streams
 
 
 ## box_detector
@@ -86,9 +124,21 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#boxdetectoroptions)**
 
-**Basic Node IO:** In its base configuration, this node has one input stream and two output streams. The input stream takes `ImagePacket` objects. The first output stream produces `DetectionPacket` objects, and the second output stream produces `UInt64Packet` which are intended to be treated as [side packets](#side-packets) containing the detection interval. This node can be scaled to receive multiple input video streams, in which case the number of output streams should be one more than the number of input streams. For instance, with 3 input video streams, there would be 3 input streams taking `ImagePacket` objects, and 4 output streams, with the first 3 output streams producing `DetectionPacket` objects, and the 4th output stream producing `UInt64Packet` objects containing the detection interval. The first `ImagePacket` input stream would correspond to the first `DetectionPacket` output stream, and so on.
+**Basic Node IO:** 
 
-NOTE: The number of output streams must be one more than the number of input streams to account for the extra `UInt64Packet` output stream
+In its base configuration, this node has one input stream and two output streams:
+- The input stream takes `ImagePacket` objects
+- The first output stream produces `DetectionPacket` objects
+- The second output stream produces `UInt64Packet` which are intended to be treated as [side packets](#side-packets) containing the detection interval
+
+This node can be scaled to receive multiple input video streams, in which case the number of output streams should be one more than the number of input streams. For instance, with 2 input video streams, there would be 2 input streams and 3 output streams:
+- The first input stream takes `ImagePacket` objects
+- The second input stream takes `ImagePacket` objects
+- The first output stream produces `DetectionPacket` objects associated with the first input stream
+- The second output stream produces `DetectionPacket` objects associated with the second input stream
+- The third output stream produces `UInt64Packet` which are intended to be treated as [side packets](#side-packets) containing the detection interval
+
+*NOTE:* For multiple input video streams, the number of output streams must be one more than the number of input streams to account for the extra `UInt64Packet` output stream
 
 
 ## box_segmentor
@@ -97,9 +147,19 @@ NOTE: The number of output streams must be one more than the number of input str
 
 **[Node Options](avap_doc.md#boxsegmentoroptions)**
 
-**Basic Node IO:** This node in its base form takes in an input video stream of type `ImagePacket` and produces a corresponding segmentation stream of type `Segmentations`. It is able to take in multiple input streams at a time and produces corresponding segmentation streams for each, for example 3 input streams of type `ImagePacket` and 3 output streams of type `Segmentations`. The output streams order will correspond to the input streams order.
+**Basic Node IO:** 
 
-NOTE: The Number of input streams must match the number of output streams
+In its base configuration, this node has one input stream and one output stream:
+- The input stream takes `ImagePacket` objects
+- The output stream produces `Segmentations` objects
+
+This node can be scaled to receive multiple input streams at a time and produces corresponding segmentation streams for each, for example with 2 input streams there would be 2 output streams:
+- The first input stream takes `ImagePacket` objects
+- The second input stream takes `ImagePacket` objects
+- The first output stream produces `Segmentations` objects associated with the first input stream
+- The second output stream produces `Segmentations` objects associated with the second input stream
+
+*NOTE:* The Number of input streams must match the number of output streams
 
 
 ## box_tracker
@@ -108,16 +168,25 @@ NOTE: The Number of input streams must match the number of output streams
 
 **[Node Options](avap_doc.md#boxtrackeroptions)**
 
-**Basic Node IO:** This node has two input streams, the first stream takes in `DetectionPacket` objects, and the second stream takes in `UInt64Packet` objects which specify the detection interval of the detection node. This node has one output stream which produces `TrackPacket` objects.
+**Basic Node IO:** 
+This node has two input streams and one output stream:
+- The first input stream takes in `DetectionPacket` objects
+- The second input stream takes in `UInt64Packet` objects that specify the detection interval of the detection node, which are treated as [side packets](#side-packets)
+- The output stream produces `TrackPacket` objects
 
 
 ## box_visualizer
 
-**Description:** Renders boxes within images provided through the image stream and returns the updated images. Receives a packet containing detected bounding box information, which may be one of `DetectionPacket`, `Classifications`, `PlateRecognitions`, `Segmentations`, `LandmarksPacket`. 
+**Description:** Renders boxes within images provided through the image stream and returns the updated images. Receives a packet containing detected bounding box information, which may be one of `DetectionPacket`, `Classifications`, `Segmentations`, `LandmarksPacket`. 
 
 **[Node Options](avap_doc.md#boxvisualizeroptions)**
 
-**Basic Node IO:** This node has two input streams, the first stream takes in a packet object containing bounding boxes (see Available Packet Types) and the second stream takes in `ImagePacket` objects. This node only has one output stream, which produces `ImagePacket` objects.
+**Basic Node IO:** 
+
+This node has two input streams and one output stream:
+- The first input stream takes in a packet object containing bounding boxes (see Available Packet Types) 
+- The second input stream takes in `ImagePacket` objects
+- The output stream produces `ImagePacket` objects
 
 **Available Packet Types:** the packet type of the first input stream 0 must be one of the following and must match the corresponding value set in `node_options->input_type`:
   - INPUT_TYPE_DETECTION (0): DetectionPacket
@@ -132,7 +201,13 @@ NOTE: The Number of input streams must match the number of output streams
 
 **[Node Options](avap_doc.md#videofilteroptions)**
 
-**Basic Node IO:** This node has two input streams, the first input takes `ImagePacket` objects, and the second input takes in `VideoStreamInfoPacket` objects, which are treated as [side packets](#side-packets). This node has two output streams, the first input produces `ImagePacket` objects, and the second produces `VideoStreamInfoPacket` objects.
+**Basic Node IO:** 
+
+This node has two input streams and two output streams:
+- The first input stream takes `ImagePacket` objects
+- The second input stream takes in `VideoStreamInfoPacket` objects, which are treated as [side packets](#side-packets)
+- The first output stream produces `ImagePacket` objects
+- The second output stream produces `VideoStreamInfoPacket` objects
 
 
 ## frame_saver
@@ -141,7 +216,12 @@ NOTE: The Number of input streams must match the number of output streams
 
 **[Node Options](avap_doc.md#framesaveroptions)**
 
-**Basic Node IO:** This node has one input stream, which takes `ImagePacket` objects. This node has no output streams, rather the files are saved to the path specified in `node_options->directory`.
+**Basic Node IO:** 
+
+This node has one input stream:
+- The input stream takes `ImagePacket` objects
+
+**Specifying the Output:** This node has no output streams, rather the files are saved to the path specified in `node_options->directory`.
 
 
 ## landmark_predictor
@@ -150,13 +230,36 @@ NOTE: The Number of input streams must match the number of output streams
 
 **[Node Options](avap_doc.md#landmarkpredictoroptions)**
 
-**Basic Node IO:** This node in its base form takes in an input video stream of type `ImagePacket` and produces an output stream of type `LandmarksPacket`. It is able to take in multiple input streams at a time and produces corresponding landmark streams for each, for example 3 input streams of type `ImagePacket` and 3 output streams of type `LandmarksPacket`. The output streams order will correspond to the input streams order.
+**Basic Node IO:** 
 
-**IO With Detections** If `node_options->use_detections` is not zero, the node can use detections to help with landmark predictions. In this case, the node has two input streams for every output stream. For example, with 2 inputs and 1 output, the first input takes `DetectionPacket` objects and the second input takes `ImagePacket` objects, and there would be one output stream producing `LandmarksPacket` objects. We can also have multiple input video streams and corresponding output streams. For instance, in the case of two video streams, with 4 total input streams, the first two input streams would be `DetectionPacket` streams, and the second two input streams would be `ImagePacket` streams, and there would be two `LandmarksPacket` output streams. The first `DetectionPacket` input stream would correspond to the first `ImagePacket` input stream and the first `LandmarksPacket` output stream, and so on.
+This node in its base form has one input stream and one output stream:
+- The input stream takes in `ImagePacket` objects
+- The output stream prdocues `LandmarksPacket` objects
 
-NOTE: If `node_options->use_detections` is zero, the number of input streams and output streams must be equal
+This node can be scaled to receive multiple input video streams, e.g. for 2 video streams:
+- The first input stream takes in `ImagePacket` objects
+- The second input stream takes in `ImagePacket` objects
+- The first output stream produces `LandmarksPacket` objects associated with the first input stream
+- The second output stream produces `LandmarksPacket` objects associated with the second input stream
 
-NOTE: If `node_options->use_detections` is non-zero, the number of input streams must be twice the number of output streams
+*NOTE:* This case is only if `node_options->use_detections` is not zero
+
+**IO With Detections**
+
+If `node_options->use_detections` is not zero, the node can use detections to help with landmark predictions. In this case, the node has two input streams for every output stream. For example, with 2 inputs and 1 output:
+- The first input stream takes `DetectionPacket` objects 
+- The second input takes `ImagePacket` objects
+- The output stream produces `LandmarksPacket` objects
+
+We can also have multiple input video streams and corresponding output streams. For instance, in the case of two video streams, with 4 total input streams:
+- The first input stream takes `DetectionPacket` objects
+- The second input stream takes `DetectionPacket` objects
+- The third input takes `ImagePacket` objects associated with the first input stream
+- The fourth input takes `ImagePacket` objects associated with the second input stream
+- The first output stream produces `LandmarksPacket` objects associated with the first input stream
+- The second output stream produces `LandmarksPacket` objects associated with the second input stream
+
+*NOTE:* In this case, the number of input streams must be twice the number of output streams
 
 
 ## notification_message
@@ -165,7 +268,12 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **Node Options** `<TODO>`
 
-**Basic Node IO:** This node has one input stream, which takes `JsonPacket` objects. This node does not have any output streams.
+**Basic Node IO:** 
+
+This node has one input stream:
+- The input stream takes `JsonPacket` objects
+
+*NOTE:* This node does not have any output streams.
 
 
 ## notification_mongo
@@ -174,7 +282,12 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#notificationmongooptions)**
 
-**Basic Node IO:** This node has one input stream, which takes `JsonPacket` objects. This node does not have any output streams.
+**Basic Node IO:**
+
+This node has one input stream:
+- The input stream takes `JsonPacket` objects
+
+*NOTE:* This node does not have any output streams.
 
 
 ## notification_web
@@ -183,7 +296,12 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#notificationweboptions)**
 
-**Basic Node IO:** This node has one input stream, which takes `JsonPacket` objects. This node does not have any output streams.
+**Basic Node IO:** 
+
+This node has one input stream:
+- The input stream takes `JsonPacket` objects
+
+*NOTE:* This node does not have any output streams.
 
 
 ## statistics_reader
@@ -192,8 +310,12 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#statisticsreaderoptions)**
 
-**Basic Node IO:** This node has no input streams, rather the statistics are loaded from the path specified in `node_options->input_path`. This node has one output stream, which produces `JsonPacket` objects.
+**Basic Node IO:**
 
+This node has one output stream
+- The output stream produces `JsonPacket` objects
+
+**Specifying the Input:** This node has no input streams, rather the statistics are loaded from the path specified in `node_options->input_path`.
 
 
 ## stream_demux
@@ -202,7 +324,11 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#streammuxoptions)**
 
-**Basic Node IO:** This node has no input streams, rather the input is set either by providing a url through `node_options->demux->input_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)). This node can have 1 or 2 output streams: the first input stream produces `VideoPacket` objects, while the second *optional* stream produces `VideoStreamInfoPacket` objects.
+**Basic Node IO:** This node can have 1 or 2 output streams: 
+- The first output stream produces `VideoPacket` objects
+- The second *optional* output stream produces `VideoStreamInfoPacket` objects
+
+**Specifying the Output:** This node has no input streams, rather the input is set either by providing a url through `node_options->demux->input_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
 
 
 ## stream_mux 
@@ -211,7 +337,11 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#streammuxoptions)**
 
-**Basic Node IO:** This node has two input streams, the first takes `VideoPacket` objects, and the second takes `AVCodecContextPacket` objects, which are treated as [side packets](#side-packets). This node has no output streams, rather the output is set either by providing a url through `node_options->demux->output_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
+**Basic Node IO:** This node has two input streams:
+- The first input stream takes `VideoPacket` objects
+- The second input stream takes `AVCodecContextPacket` objects, which are treated as [side packets](#side-packets)
+
+**Specifying the Output:** This node has no output streams, rather the output is set either by providing a url through `node_options->demux->output_url` or by providing a `graph_input` field at the top of the `*.pbtxt` file (see [Graph IO](#graph-io)).
 
 
 ## video_source
@@ -220,7 +350,11 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **Node Options** `<TODO>`
 
-**Basic Node IO:** This node has no input streams, rather the camera device is specified by `node_options->path`. This node has two output streams, the first output stream produces `ImagePacket` objects, the second output stream produces `VideoStreamInfoPacket` objects.
+**Basic Node IO:** This node has two output streams:
+- The first output stream produces `ImagePacket` objects
+- The second output stream produces `VideoStreamInfoPacket` objects
+
+**Specifying the Input:** This node has no input streams, rather the camera device is specified by `node_options->path`.
 
 
 ## x86_dec 
@@ -229,9 +363,25 @@ NOTE: If `node_options->use_detections` is non-zero, the number of input streams
 
 **[Node Options](avap_doc.md#videocodecoptions)**
 
-**Basic Node IO:** This node has two input streams, the first input takes `VideoPacket` objects, the second input takes `VideoStreamInfoPacket` objects. In its base configuration, this node has two output streams, the first output produces `ImagePacket` objects and the second output produces `VideoStreamInfoPacket` objects. However, it is able to produce multiple video output streams at a time using different pixel formats. For example, with 3 pixel formats, there would be 3 output streams of type `ImagePacket` followed by 3 output streams of type `VideoStreamInfoPacket`. The first `ImagePacket` output stream would correspond to the first `VideoStreamInfoPacket` output stream, and so on. These order of these streams  corresponds to the order of entries in `node_options->dec->opixfmt` which lists the requested video formats.
+**Basic Node IO:** 
 
-NOTE: There may be multiple entries in `node_options->dec->opixfmt` to support multiple output picture streams with different pixel format. In this case, the number of output streams for this node should match the number of entries in `opixfmt`.
+This node in its base configuration has two input streams and two output streams:
+- The first input stream takes `VideoPacket` objects
+- The second input stream takes `VideoStreamInfoPacket` objects
+- The first output stream produces `ImagePacket` objects
+- The second output stream produces `VideoStreamInfoPacket` objects
+
+**Node IO with Multiple Pixel Formats**
+
+This node is able to produce multiple video output streams at a time from the same input video stream but for different pixel formats. This is configured by the entries in `node_options->dec->opixfmt`. For example, with 2 pixel format entries in `node_options->dec->opixfmt`, there would be 4 output streams:
+- The first output stream produces `ImagePacket` objects
+- The second output stream produces `ImagePacket` objects
+- The third output stream produces `VideoStreamInfoPacket` objects associated with the first output stream
+- The fourth output stream produces `VideoStreamInfoPacket` objects associated with the second output stream
+
+The order of the output streams corresponds to the order of entries in `node_options->dec->opixfmt` which lists the requested video formats. Additionally, the number of output streams for this node should match the number of entries in `opixfmt`.
+
+*NOTE:* The input streams remain the same as in the basic IO configuration.
 
 
 ## x86_enc
@@ -240,9 +390,20 @@ NOTE: There may be multiple entries in `node_options->dec->opixfmt` to support m
 
 **[Node Options](avap_doc.md#videocodecoptions)**
 
-**Basic Node IO:** This node can have 1 or 2 input streams depending on the entries of `node_options->enc` (see conditions). The first input stream produces `ImagePacket` objects, while the second *optional* stream produces `VideoStreamInfoPacket` objects, which are treated as [side packets](#side-packets). This node has two output streams, the first produces `VideoPacket` objects and the second produces `AVCodecContextPacket` packets.
+**Basic Node IO:** 
 
-**Conditions:** 
- - If the w, h, and fps subfields of `node_options->enc` are set to non-zero, then the node has one input stream
- - If the w, h, and fps subfields of `node_options->enc` are all set to zero, then the node has two input streams
+This node in its base configuration has one input stream and two output streams:
+ - The first input stream takes `ImagePacket` objects
+ - The first output stream produces `VideoPacket` objects
+ - The second output stream produces `AVCodecContextPacket` objects
+
+NOTE: this is only the case if the `w`, `h`, and `fps` subfields of `node_options->enc` are *all* set (e.g. non-zero)
+
+**Providing an Info Stream:**
+
+If *any* of the w, h, and fps subfields of `node_options->enc` are unset (e.g. equal to zero), then the node must be provided an info stream. In this case, the node has two input streams:
+ - The first input stream takes `ImagePacket` objects
+ - The second *optional* input stream produces `VideoStreamInfoPacket` objects, which are treated as [side packets](#side-packets)
+
+*NOTE:* The output streams remain the same as in the basic IO configuration.
 
