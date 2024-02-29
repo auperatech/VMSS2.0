@@ -1,10 +1,13 @@
 # Guide on VMSS Nodes
 
 - [Introduction](#introduction)
+  - [Nodes](#nodes)
+  - [Config `.pbtxt` Files](#config-pbtxt-files)
+  - [Node Options](#node-options)
+  - [Graph IO](#graph-io)
   - [Streams and Packets](#streams-and-packets)
   - [Side Packets](#side-packets)
   - [Packet Conversion](#packet-conversion)
-  - [Graph IO](#graph-io)
 - [Node Table](#node-table)
 - [Packet Table](#packet-table)
 
@@ -50,11 +53,29 @@
 
 # Introduction
 
+## Nodes
+
+Nodes are the building blocks of a video pipeline in VMSS. Each node has a unique functionality that it performs on one or more streams of data, usually producing another stream of processed data as a result. Nodes are modular and may be hooked up to one another by connecting their input and output streams to form a graph. VMSS is the engine that turns this graph into a set of steps that are followed on an inference device to process video in real time.
+
+## Config `.pbtxt` Files
+
+`.pbtxt` files are configuration files in which a graph is specified by declaring inputs, outputs, nodes, connecting streams between nodes, and options for the nodes. This file is then parsed by our server `avas` or the command-line runnable version `avaser` to build the graph into a fully-functional video-processing pipeline on the runtime device. 
+
+## Node Options
+
+Each node is configurable with a set of options which allow customization of their function, such as the number of input and output streams they will support, the types of information packets that can be passed to each input or output stream, and other unique options. These options are specified in the `.pbtxt` file for a node under the `node_options` entry for that node (TODO see example). In this document, each node has a link to the documentation concerning the options available for that node. Refer to this for a list of required options which must be set for the node to function.
+
+## Graph IO
+
+Every graph has a set of input and output streams that take raw video and pass it to the internal streams of the connected nodes. There are two ways to pass the input and output streams of a graph:
+ - Provide a url for a video stream to the `node_options->demux->input_url` option of a [stream_demux](#stream_demux) node and provide a url for the output video stream to the `node_options->mux->input_url` option of a [stream_mux](#stream_mux) node
+ - Provide entries at the top of the `.pbtxt` file specifying a `graph_input: "<input stream name>"` entry and a `graph_output: "<input stream name>"` entry (TODO see example). This will require making associated input `.pbtxt` and output `.pbtxt` files and then passing them to `avaser`, and as such is only recommended if running from the command line.
+
 ## Streams and Packets
 
 All nodes in VMSS have inputs and outputs which consist of streams that move packets of information from one node to the next. In a `*.pbtxt` file, these streams are specified by the node options `input_stream` or `output_stream` entries. Generally, a node will only accept a certain number of input and output streams of a particular packet type. It is up to the user building a `*.pbtxt` file to ensure that connected streams from one node to the next have compatible packet types, and that a node has been set up with the correct number of input and output streams. The remainder of this document details the available input and output streams for each node and the available packet types for each.
 
-## Side Packets:
+## Side Packets
 
 A side packet is a stream that is intended to pass a single, constant, value. When a stream is treated as a side packet, a node will take the first packet arriving from that stream and store it for later use, ensuring it remains constant. If a side packet stream is re-initialized, it will overwrite the previous stored packet with the new most recent packet from that stream.
 
@@ -64,10 +85,6 @@ A stream must have packet type that is compatible with the input stream packet t
 
 There are two exceptions to this rule:
 - Nodes taking an input of `DetectionPacket` can also take `TrackPacket` objects, however nodes taking an input of `TrackPacket` may not take `DetectionPacket` objects
-
-## Graph IO
-
-asdf `<TODO>`
 
 
 # Node Configuration
