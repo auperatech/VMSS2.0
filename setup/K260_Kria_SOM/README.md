@@ -37,6 +37,7 @@ We need to clone the starter kit repository and install it, follow these:
 git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
 cd kria-apps-firmware/
 sudo make -C boards/ install
+cd ..
 ```
 
 ### 4. Load the required application
@@ -61,11 +62,10 @@ sudo apt-get install apt-transport-https ca-certificates curl software-propertie
 Before pulling the docker image, follow these steps:
 
 ```bash
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo   "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
-       https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
+https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
@@ -80,9 +80,9 @@ sudo docker run hello-world
 
 
 ### 7. Pull the docker image
-VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `v0.1.4` so you can pull the latest docker by running the following command on your Kria SOM device:
+VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `v0.1.5` so you can pull the latest docker by running the following command on your Kria SOM device:
 ```bash
-sudo docker pull auperastor/kria-som-dev:v0.1.4
+sudo docker pull auperastor/kria-som-dev:v0.1.5
 ```
 After pulling the image, you should be able to find it in the docker images list:
 
@@ -118,7 +118,7 @@ sudo docker run \
     -w `pwd` \
     -e NFS_ABS_PATH=`pwd` \
     --name=<DOCKER-NAME> \
-    -dit auperastor/kria-som-dev:v0.1.4 bash
+    -dit auperastor/kria-som-dev:v0.1.5 bash
 ```
 
 Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker container that you want to create. You can verify that you have created and started a container, by running the following command:  
