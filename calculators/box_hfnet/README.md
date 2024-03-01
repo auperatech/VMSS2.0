@@ -113,7 +113,7 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
             return ErrorCode::OK;
         }
         ```
-4. Add the depended objects and more dependencies to the `Makefile`
+4. Add the depended objects and libraries to the `Makefile`
     ```Makefile
     CALCULATOR = box_hfnet
     VENDOR = customvendor
@@ -121,6 +121,7 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
     include VERSION.mk
 
     OBJS = hfnet.o
+    LDLIBS += -lvitis_ai_library-math -lvitis_ai_library-dpu_task
 
     include /opt/aupera/Calculator.mk
     ```
