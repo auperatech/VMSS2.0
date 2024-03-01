@@ -3,6 +3,7 @@ This document is a guide to creating a custom calculator with a model provided i
 
 Specifically, as a minimum example for this purposes, the calculator `box_hfnet` logs the number of keypoints predicted by a [HFNet](https://github.com/ethz-asl/hfnet/tree/master) model from input images. 
 
+### Steps
 0. Download the [model](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo/model-list/tf_HFNet_mixed_960_960_20.09G_2.5) from the [model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo) and extract it.
 1. As instructed in [basic_node_creation.md](../../docs/kria_som/basic_node_creation.md)
     1. define configurable options in a PROTO file
