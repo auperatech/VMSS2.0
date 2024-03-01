@@ -32,7 +32,20 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
         ```
 3. Referring to the [example](https://github.com/Xilinx/Vitis-AI/tree/2.5/examples/Vitis-AI-Library/samples/dpu_task/hfnet) provided by Vitis-AI 
     1. Implement a utility class as the `HFNet` in the Vitis-AI example
-    2. Define the input and output streams of the calculator in `fill_contract()` function, e.g., 
+    2. Defining private members, e.g.,
+        ```cpp
+        class BoxHFNetCalculator : public CalculatorBase<BoxHFNetOptions>
+        {
+        ...
+        private:
+            // pointer to the model 
+            std::unique_ptr<vitis::ai::HFnet> model;
+
+            // vector for model input images
+            std::vector<cv::Mat> imgs;
+        };
+        ``` 
+    3. Define the input and output streams of the calculator in `fill_contract()` function, e.g., 
         ```cpp
         ErrorCode fill_contract(std::shared_ptr<Contract>& contract,
                                 std::string& err_str) override
@@ -71,7 +84,7 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
         }
 
         ```
-    3. Call the HFNet in the `execute()` function, e.g.,
+    4. Call the HFNet in the `execute()` function, e.g.,
         ```cpp
         ErrorCode execute()
         {
