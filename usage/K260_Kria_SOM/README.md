@@ -115,7 +115,7 @@ Note that you can get the suitable `manifest.json` file using the following comm
 
 ```bash
 cd /usr/share/vitis_ai_library/models
-wget https://github.com/auperatech/VMSS2.0_Documentation/blob/3.5/manifest.json#L4485-L5268
+wget https://raw.githubusercontent.com/auperatech/VMSS2.0_Documentation/3.5/manifest.json
 ```
 
 As a suggestion, you can use the following bash script to get all the models for you (make sure you have `jq` installed and have the `manifest.json` file downloaded):
