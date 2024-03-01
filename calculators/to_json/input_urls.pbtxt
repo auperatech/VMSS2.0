@@ -1,0 +1,4 @@
+#input_urls: "rtsp://108.160.220.169:8554/retail"
+input_urls: "rtsp://avac.auperatechnologies.com:554/retail"
+#input_urls: "/home/aupera/Aupera/smart_edge_box/corst2/SharedFiles/videos/retail.mp4"
+
