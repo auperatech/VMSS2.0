@@ -52,7 +52,7 @@ Here are some key resources to get started with our VMSS 2.0 release for K260 Kr
 
 * **Running Examples:**  Learn to run examples through the VMSS 2.0 command-line interface with [this document](usage/K260_Kria_SOM/README.md).
 
-* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/kria_som/basic_node_creation.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [box_hfnet](calculators/box_hfnet) examples like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
+* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/kria_som/basic_node_creation.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [box_hfnet](calculators/box_hfnet) or examples like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
 
 * **Cloud-Based UI Demo:**  Explore the capabilities of our cloud-based user interface for running RTSP-based examples [here](). 
 
