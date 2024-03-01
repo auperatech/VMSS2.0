@@ -79,9 +79,9 @@ sudo docker run hello-world
 
 
 ### 7. Pull the docker image
-VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `v0.1.5` so you can pull the latest docker by running the following command on your Kria SOM device:
+VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `latest` so you can pull the latest docker by running the following command on your Kria SOM device:
 ```bash
-sudo docker pull auperastor/kria-som-dev:v0.1.5
+sudo docker pull auperastor/kria-som-dev:latest
 ```
 After pulling the image, you should be able to find it in the docker images list:
 
@@ -117,7 +117,7 @@ sudo docker run \
     -w `pwd` \
     -e NFS_ABS_PATH=`pwd` \
     --name=<DOCKER-NAME> \
-    -dit auperastor/kria-som-dev:v0.1.5 bash
+    -dit auperastor/kria-som-dev:latest bash
 ```
 
 Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker container that you want to create. You can verify that you have created and started a container, by running the following command:  
