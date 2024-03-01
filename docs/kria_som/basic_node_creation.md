@@ -141,8 +141,8 @@
      node_options: {
        [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
          dec: {
-           ow: 1920,
-           oh: 1080,
+           ow: 1920
+           oh: 1080
            opixfmt: PIXFMT_BGR24
            queue_size: 12
            low_latency: false
