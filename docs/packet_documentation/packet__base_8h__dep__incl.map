@@ -1,0 +1,15 @@
+<map id="framework/include/aup/avaf/packets/packet_base.h" name="framework/include/aup/avaf/packets/packet_base.h">
+<area shape="rect" id="node2" href="$av__codec__context__packet_8h.html" title="framework/include/aup\l/avaf/packets/av_codec\l_context_packet.h" alt="" coords="5,109,167,165"/>
+<area shape="rect" id="node3" href="$classification__packet_8h.html" title="framework/include/aup\l/avaf/packets/classification\l_packet.h" alt="" coords="191,109,373,165"/>
+<area shape="rect" id="node4" href="$clip__generator__command__packet_8h.html" title="framework/include/aup\l/avaf/packets/clip_generator\l_command_packet.h" alt="" coords="397,109,583,165"/>
+<area shape="rect" id="node5" href="$file__packet_8h.html" title="framework/include/aup\l/avaf/packets/file_packet.h" alt="" coords="607,117,786,158"/>
+<area shape="rect" id="node6" href="$image__packet_8h.html" title="framework/include/aup\l/avaf/packets/image_packet.h" alt="" coords="810,117,1007,158"/>
+<area shape="rect" id="node7" href="$json__packet_8h.html" title="framework/include/aup\l/avaf/packets/json_packet.h" alt="" coords="1031,117,1218,158"/>
+<area shape="rect" id="node10" href="$landmark__packet_8h.html" title="framework/include/aup\l/avaf/packets/landmark\l_packet.h" alt="" coords="1243,109,1401,165"/>
+<area shape="rect" id="node11" href="$segmentation__packet_8h.html" title="framework/include/aup\l/avaf/packets/segmentation\l_packet.h" alt="" coords="1425,109,1608,165"/>
+<area shape="rect" id="node12" href="$uint64__packet_8h.html" title="framework/include/aup\l/avaf/packets/uint64\l_packet.h" alt="" coords="1632,109,1785,165"/>
+<area shape="rect" id="node13" href="$video__packet_8h.html" title="framework/include/aup\l/avaf/packets/video_packet.h" alt="" coords="1809,117,2003,158"/>
+<area shape="rect" id="node14" href="$video__stream__info__packet_8h.html" title="framework/include/aup\l/avaf/packets/video_stream\l_info_packet.h" alt="" coords="2027,109,2209,165"/>
+<area shape="rect" id="node8" href="$detection__packet_8h.html" title="framework/include/aup\l/avaf/packets/detection\l_packet.h" alt="" coords="1045,213,1204,269"/>
+<area shape="rect" id="node9" href="$track__packet_8h.html" title="framework/include/aup\l/avaf/packets/track_packet.h" alt="" coords="1029,317,1220,359"/>
+</map>

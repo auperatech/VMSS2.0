@@ -1,0 +1,5 @@
+<map id="aup::avaf::DetectionPacket" name="aup::avaf::DetectionPacket">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1PacketBase.html" title="PacketBase: packet base class inherited by all other packets. " alt="" coords="23,5,178,32"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1packet_1_1IDeviceToHostPacketComm.html" title="aup::avaf::packet::\lIDeviceToHostPacketComm" alt="" coords="5,57,196,98"/>
+<area shape="rect" id="node4" href="$classaup_1_1avaf_1_1packet_1_1IToJsonPacket.html" title="aup::avaf::packet::\lIToJsonPacket" alt="" coords="35,122,166,163"/>
+</map>

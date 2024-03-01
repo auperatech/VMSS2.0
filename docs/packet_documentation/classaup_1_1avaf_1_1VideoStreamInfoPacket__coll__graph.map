@@ -1,0 +1,5 @@
+<map id="aup::avaf::VideoStreamInfoPacket" name="aup::avaf::VideoStreamInfoPacket">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1PacketBase.html" title="PacketBase: packet base class inherited by all other packets. " alt="" coords="23,5,178,32"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1packet_1_1IHostToDevicePacketComm.html" title="aup::avaf::packet::\lIHostToDevicePacketComm" alt="" coords="5,57,196,98"/>
+<area shape="rect" id="node4" href="$classaup_1_1avaf_1_1packet_1_1IDeviceToHostPacketComm.html" title="aup::avaf::packet::\lIDeviceToHostPacketComm" alt="" coords="5,122,196,163"/>
+</map>

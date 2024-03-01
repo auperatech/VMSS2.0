@@ -1,0 +1,4 @@
+<map id="aup::avaf::packet::IHostToDevicePacketCommFast" name="aup::avaf::packet::IHostToDevicePacketCommFast">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory&#45;life&#45;cycle and allow for cross&#45;image memory h..." alt="" coords="5,95,167,121"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1VideoPacket.html" title="aup::avaf::VideoPacket" alt="" coords="191,95,349,121"/>
+</map>
