@@ -78,7 +78,6 @@ sudo docker run hello-world
 ```
 
 
-
 ### 7. Pull the docker image
 VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `v0.1.5` so you can pull the latest docker by running the following command on your Kria SOM device:
 ```bash
@@ -132,6 +131,7 @@ Now you can enter the docker:
 ```bash
 sudo docker container exec -ti <DOCKER-NAME> bash
 ```
+
 
 ## Play with Aupera Web Cloud
 
