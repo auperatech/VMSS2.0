@@ -17,25 +17,25 @@
 
 | Node Name | Description |
 | ----- | ---- |
-| [apl\_crowd\_flow](#apl_crowd_flow) | Custom node to count people crossing a border line or region of interest |
-| [box\_classifier](#box_classifier) | Performs object classification on an image cropped by a bounding box |
-| [box\_detector](#box_detector) | Uses a ML model to find objects in an image, producing bounding boxes for each |
-| [box\_segmentor](#box_segmentor) | Performs box segmentation on an image stream (!!! TODO !!!) |
-| [box\_tracker](#box_tracker) | Identifies objects to be tracked through a video stream |
-| [box\_visualizer](#box_visualizer) | Renders boxes within images provided through the image stream and returns the updated images |
-| [ff\_vfilter](#ff_vfilter) | Applies video filters to a video stream |
+| [apl\_crowd\_flow](#apl_crowd_flow) | Custom node to count detected objects crossing a border line or region of interest |
+| [box\_classifier](#box_classifier) | Performs object classification either on an entire image or a cropped image region if cascaded with a box_detector |
+| [box\_detector](#box_detector) | Uses a ML model to find objects in an image, producing bounding boxes for each along with their predicted class |
+| [box\_segmentor](#box_segmentor) | Performs semantic segmentation on an image stream classifying each pixel of the input image |
+| [box\_tracker](#box_tracker) | Tracks detected objects coming from a detector, assigning a unique ID to each |
+| [box\_visualizer](#box_visualizer) | Renders boxes and classification results within images provided through the image stream and returns the updated images |
+| [ff\_vfilter](#ff_vfilter) | Applies color space conversion, sets frame rate, and sets resolution of a video stream |
 | [frame\_saver](#frame_saver) | Saves frames from a video stream to a directory |
-| [landmark\_predictor](#landmark_predictor) | Calls a ML model to find landmarks within an image (!!! TODO !!!) |
+| [landmark\_predictor](#landmark_predictor) | Calls a ML model to find supported face or body/pose landmarks within an image |
 | [notification\_message](#notification_message) | Sends a notification via SMS or email |
-| [notification\_mongo](#notification_mongo) | Sends a notification via MongoDB |
+| [notification\_mongo](#notification_mongo) | Sends customized notifications to a user-specified MongoDB server |
 | [notification\_web](#notification_web) | Sends a notification via the web |
 | [statistics\_reader](#statistics_reader) | Loads statistics in the form of json files in a directory |
 | [stream\_demux](#stream_demux) | Demultiplexes an incoming video stream |
 | [stream\_mux](#stream_mux) | Multiplexes an outgoing video stream |
 | [to\_json](#to_json) | Converts packets of various types to json format |
 | [video\_source](#video_source) | Loads video from a camera device, such as USB |
-| [x86\_dec](#x86_dec) | Decodes an incoming video stream |
-| [x86\_enc](#x86_enc) | Encodes an outgoing video stream |
+| [x86\_dec](#x86_dec) | Decodes an incoming video stream using CPU |
+| [x86\_enc](#x86_enc) | Encodes an outgoing video stream using CPU |
 
 # Packet Table
 
@@ -45,7 +45,7 @@
 | <a name="Classifications" /> Classifications | [box\_classifier](#box_classifier) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
 | <a name="DetectionPacket" /> DetectionPacket | [box\_detector](#box_detector) | [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json) |
 | <a name="ImagePacket" /> ImagePacket | [apl\_crowd\_flow](#apl_crowd_flow), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [video\_source](#video_source), [x86\_dec](#x86_dec) | [box\_classifier](#box_classifier), [box\_detector](#box_detector), [box\_segmentor](#box_segmentor), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [frame\_saver](#frame_saver), [landmark\_predictor](#landmark_predictor), [x86\_enc](#x86_enc) |
-| <a name="JsonPacket" /> JsonPacket | [apl\_crowd\_flow](#apl_crowd_flow) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web), [statistics\_reader](#statistics_reader), [to\_json](#to_json) |
+| <a name="JsonPacket" /> JsonPacket | [apl\_crowd\_flow](#apl_crowd_flow), [statistics\_reader](#statistics_reader) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web), [to\_json](#to_json) |
 | <a name="LandmarksPacket" /> LandmarksPacket | [landmark\_predictor](#landmark_predictor) | [box\_visualizer](#box_visualizer) |
 | <a name="Segmentations" /> Segmentations | [box\_segmentor](#box_segmentor) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
 | <a name="TrackPacket" /> TrackPacket | [box\_tracker](#box_tracker) | [apl\_crowd\_flow](#apl_crowd_flow), (through implicit conversion to DetectionPacket: [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json)) |
@@ -95,7 +95,7 @@ There are two exceptions to this rule:
 
 ## apl_crowd_flow
 
-**Description:** Custom node to count people crossing a border line or region of interest.
+**Description:** Custom node to count detected objects crossing a border line or region of interest.
 
 **Node Options:** [AplCrowdFlowOptions](avap_doc.md#aplcrowdflowoptions)
 
@@ -128,7 +128,7 @@ This node can optionally have 4 input streams to provide a video stream:
 
 ## box_classifier
 
-**Description:** Performs object classification on an image cropped by a bounding box.
+**Description:** Performs object classification either on an entire image or a cropped image region if cascaded with a box_detector
 
 **Node Options:** [BoxClassifierOptions](avap_doc.md#boxclassifieroptions)
 
@@ -170,7 +170,7 @@ We can also have multiple input video streams and corresponding output streams. 
 
 ## box_detector
 
-**Description:** Uses a ML model to find objects in an image, producing bounding boxes for each.
+**Description:** Uses a ML model to find objects in an image, producing bounding boxes for each along with their predicted class.
 
 **Node Options** [BoxDetectorOptions](avap_doc.md#boxdetectoroptions)
 
@@ -197,7 +197,7 @@ This node can be scaled to receive multiple input video streams, in which case t
 
 ## box_segmentor
 
-**Description:** Performs box segmentation on an image stream.
+**Description:** Performs semantic segmentation on an image stream classifying each pixel of the input image.
 
 **Node Options:** [BoxSegmentorOptions](avap_doc.md#boxsegmentoroptions)
 
@@ -222,7 +222,7 @@ This node can be scaled to receive multiple input streams at a time and produces
 
 ## box_tracker
 
-**Description:** Identifies object for tracking through a video stream.
+**Description:** Tracks detected objects coming from a detector, assigning a unique ID to each.
 
 **Node Options:** [BoxTrackerOptions](avap_doc.md#boxtrackeroptions)
 
@@ -239,7 +239,7 @@ This node has two input streams and one output stream:
 
 ## box_visualizer
 
-**Description:** Renders boxes within images provided through the image stream and returns the updated images. Receives a packet containing detected bounding box information, which may be one of <a href="#DetectionPacket">`DetectionPacket`</a>, <a href="#Classifications">`Classifications`</a>, <a href="#Segmentations">`Segmentations`</a>, <a href="#LandmarksPacket">`LandmarksPacket`</a>. 
+**Description:** Renders boxes and classification results within images provided through the image stream and returns the updated images. Receives a packet containing detected bounding box information, which may be one of <a href="#DetectionPacket">`DetectionPacket`</a>, <a href="#Classifications">`Classifications`</a>, <a href="#Segmentations">`Segmentations`</a>, <a href="#LandmarksPacket">`LandmarksPacket`</a>. 
 
 **Node Options:** [BoxVisualizerOptions](avap_doc.md#boxvisualizeroptions)
 
@@ -263,7 +263,7 @@ This node has two input streams and one output stream:
 
 ## ff_vfilter
 
-**Description:** Applies video filters to a video stream and outputs the result.
+**Description:** Applies color space conversion, sets frame rate, and sets resolution of a video stream.
 
 **Node Options:** [VideoFilterOptions](avap_doc.md#videofilteroptions)
 
@@ -300,7 +300,7 @@ This node has one input stream:
 
 ## landmark_predictor
 
-**Description:** Calls a ML model to find landmarks within an image
+**Description:** Calls a ML model to find supported face or body/pose landmarks within an image.
 
 **Node Options:** [LandmarkPredictorOptions](avap_doc.md#landmarkpredictoroptions)
 
@@ -360,7 +360,7 @@ This node has one input stream:
 
 ## notification_mongo
 
-**Description:** Sends a notification via MongoDB
+**Description:** Sends customized notifications to a user-specified MongoDB server.
 
 **Node Options** [NotificationMongoOptions](avap_doc.md#notificationmongooptions)
 
@@ -485,7 +485,7 @@ This node has one input stream and one output stream:
 
 ## x86_dec
 
-**Description:** Decodes a video stream.
+**Description:** Decodes an incoming video stream using CPU.
 
 **Node Options:** [VideoCodecOptions](avap_doc.md#videocodecoptions)
 
@@ -516,7 +516,7 @@ The order of the output streams corresponds to the order of entries in `node_opt
 
 ## x86_enc
 
-**Description:** Encodes a video stream.
+**Description:** Encodes an outgoing video stream using CPU.
 
 **Node Options:** [VideoCodecOptions](avap_doc.md#videocodecoptions)
 
