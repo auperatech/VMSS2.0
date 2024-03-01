@@ -1,0 +1,47 @@
+control_port: 51881
+node {
+    name: "demux_node"
+    calculator: "stream_demux"
+    output_stream: "packet_stream"
+    output_stream: "video_info_side_packet_demux"
+    node_options: {
+        [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+            demux: {
+            rtsp_transport: "tcp"
+            iframe_extract: false
+            auto_reconnect: true
+            input_url: "rtsp://avac.auperatechnologies.com:554/retail"
+            }
+        }
+    }
+}
+node {
+    name: "decode_node"
+    calculator: "x86_dec"
+    input_stream: "packet_stream"
+    input_stream: "video_info_side_packet_demux"
+    output_stream: "image_stream"
+    output_stream: "video_info_side_packet_decode"
+    node_options: {
+        [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+            dec: {
+            ow: 1920
+            oh: 1080
+            opixfmt: PIXFMT_BGR24
+            queue_size: 12
+            low_latency: false
+            }
+        }
+    }
+}
+node {
+    name: "hfnet_node"
+    calculator: "box_hfnet"
+    input_stream: "image_stream"
+    vendor: "customvendor"
+    node_options: {
+        [type.googleapis.com/aup.avaf.BoxHFNetOptions]: {
+            model: "./hfnet_tf/hfnet_tf.xmodel"
+        }
+    }
+}
