@@ -111,7 +111,14 @@ tar -xvzf <DOWNLOADED-FILE.tar.gz>
 rm <DOWNLOADED-FILE.tar.gz>
 ```
 
-As a suggestion, you can use the following bash script to get all the models for you (make sure you have `jq` installed):
+Note that you can get the suitable `manifest.json` file using the following command:
+
+```bash
+cd /usr/share/vitis_ai_library/models
+wget https://github.com/auperatech/VMSS2.0_Documentation/blob/3.5/manifest.json#L4485-L5268
+```
+
+As a suggestion, you can use the following bash script to get all the models for you (make sure you have `jq` installed and have the `manifest.json` file downloaded):
 
 ```
 #!/bin/bash
