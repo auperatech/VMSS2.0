@@ -1,0 +1,6 @@
+<map id="aup::avaf::TrackPacket" name="aup::avaf::TrackPacket">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1DetectionPacket.html" title="DetectionPacket: packet to contain detections determined from an image. This includes the bounding bo..." alt="" coords="244,64,425,91"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1PacketBase.html" title="PacketBase: packet base class inherited by all other packets. " alt="" coords="23,5,178,32"/>
+<area shape="rect" id="node4" href="$classaup_1_1avaf_1_1packet_1_1IDeviceToHostPacketComm.html" title="aup::avaf::packet::\lIDeviceToHostPacketComm" alt="" coords="5,57,196,98"/>
+<area shape="rect" id="node5" href="$classaup_1_1avaf_1_1packet_1_1IToJsonPacket.html" title="aup::avaf::packet::\lIToJsonPacket" alt="" coords="35,122,166,163"/>
+</map>

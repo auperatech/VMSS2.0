@@ -1,0 +1,5 @@
+<map id="aup::avaf::PacketBasePTS" name="aup::avaf::PacketBasePTS">
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory&#45;life&#45;cycle and allow for cross&#45;image memory h..." alt="" coords="5,155,167,181"/>
+<area shape="rect" id="node4" href="$classaup_1_1avaf_1_1VideoPacket.html" title="aup::avaf::VideoPacket" alt="" coords="191,155,349,181"/>
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1PacketBase.html" title="PacketBase: packet base class inherited by all other packets. " alt="" coords="101,5,255,32"/>
+</map>

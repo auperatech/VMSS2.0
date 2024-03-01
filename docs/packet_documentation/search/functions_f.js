@@ -1,0 +1,5 @@
+var searchData=
+[
+  ['videopacket',['VideoPacket',['../classaup_1_1avaf_1_1VideoPacket.html#a38487d24d97cbf830180d0012ece3e7b',1,'aup::avaf::VideoPacket::VideoPacket()'],['../classaup_1_1avaf_1_1VideoPacket.html#a41b5e5f034e2c8166014a5c5d1e33e75',1,'aup::avaf::VideoPacket::VideoPacket(timestamp_t sync_timestamp, timestamp_t dts, uint32_t size, bool &amp;success)'],['../classaup_1_1avaf_1_1VideoPacket.html#acbe5aecf6d49aaf30adc8870edd90395',1,'aup::avaf::VideoPacket::VideoPacket(timestamp_t sync_timestamp, timestamp_t dts, uint32_t size, uint8_t *pBuf)']]],
+  ['videostreaminfopacket',['VideoStreamInfoPacket',['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a771c0a653d672854e07fdd062c703465',1,'aup::avaf::VideoStreamInfoPacket::VideoStreamInfoPacket()'],['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a551c6b19d05805e21f3d225ac4e71e7b',1,'aup::avaf::VideoStreamInfoPacket::VideoStreamInfoPacket(const VideoStreamInfoPacket &amp;)=default'],['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#aefe99be3b6f008a64de847db38654fa0',1,'aup::avaf::VideoStreamInfoPacket::VideoStreamInfoPacket(VideoStreamInfoPacket &amp;&amp;)=default']]]
+];

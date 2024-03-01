@@ -1,0 +1,16 @@
+<map id="aup::avaf::PacketBase" name="aup::avaf::PacketBase">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1AVCodecContextPacket.html" title="aup::avaf::AVCodecContext\lPacket" alt="" coords="209,5,396,47"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1Classifications.html" title="Classifications: packet to contain classifications determined from an image. This includes the boundi..." alt="" coords="217,71,388,98"/>
+<area shape="rect" id="node4" href="$classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html" title="aup::avaf::ClipGenerator\lCommandPacket" alt="" coords="221,123,385,164"/>
+<area shape="rect" id="node5" href="$classaup_1_1avaf_1_1DetectionPacket.html" title="DetectionPacket: packet to contain detections determined from an image. This includes the bounding bo..." alt="" coords="212,189,393,215"/>
+<area shape="rect" id="node7" href="$classaup_1_1avaf_1_1FilePacket.html" title="aup::avaf::FilePacket" alt="" coords="229,239,376,266"/>
+<area shape="rect" id="node8" href="$classaup_1_1avaf_1_1JsonPacket.html" title="aup::avaf::JsonPacket" alt="" coords="226,290,379,317"/>
+<area shape="rect" id="node9" href="$classaup_1_1avaf_1_1LandmarksPacket.html" title="LandmarksPacket: packet to contain landmark predictions determined from an image. This includes the i..." alt="" coords="208,341,397,367"/>
+<area shape="rect" id="node10" href="$classaup_1_1avaf_1_1PacketBasePTS.html" title="PacketBasePTS: base packet that contains a PTS (presentation time stamp) " alt="" coords="212,391,393,418"/>
+<area shape="rect" id="node13" href="$classaup_1_1avaf_1_1Segmentations.html" title="Segmentations: packet to contain a segmentation determined from an image. " alt="" coords="217,442,388,469"/>
+<area shape="rect" id="node14" href="$classaup_1_1avaf_1_1UInt64Packet.html" title="aup::avaf::UInt64Packet" alt="" coords="221,493,385,519"/>
+<area shape="rect" id="node15" href="$classaup_1_1avaf_1_1VideoStreamInfoPacket.html" title="aup::avaf::VideoStreamInfo\lPacket" alt="" coords="212,544,393,585"/>
+<area shape="rect" id="node6" href="$classaup_1_1avaf_1_1TrackPacket.html" title="TrackPacket: packet to contain objects being tracked through a video stream. " alt="" coords="447,189,605,215"/>
+<area shape="rect" id="node11" href="$classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory&#45;life&#45;cycle and allow for cross&#45;image memory h..." alt="" coords="445,366,607,393"/>
+<area shape="rect" id="node12" href="$classaup_1_1avaf_1_1VideoPacket.html" title="aup::avaf::VideoPacket" alt="" coords="447,417,605,443"/>
+</map>

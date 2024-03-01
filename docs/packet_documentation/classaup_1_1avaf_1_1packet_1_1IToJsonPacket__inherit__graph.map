@@ -1,0 +1,4 @@
+<map id="aup::avaf::packet::IToJsonPacket" name="aup::avaf::packet::IToJsonPacket">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1DetectionPacket.html" title="DetectionPacket: packet to contain detections determined from an image. This includes the bounding bo..." alt="" coords="5,95,187,121"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1TrackPacket.html" title="TrackPacket: packet to contain objects being tracked through a video stream. " alt="" coords="17,169,175,196"/>
+</map>

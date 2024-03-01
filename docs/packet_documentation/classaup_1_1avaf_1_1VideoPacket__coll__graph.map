@@ -1,0 +1,5 @@
+<map id="aup::avaf::VideoPacket" name="aup::avaf::VideoPacket">
+<area shape="rect" id="node2" href="$classaup_1_1avaf_1_1PacketBasePTS.html" title="PacketBasePTS: base packet that contains a PTS (presentation time stamp) " alt="" coords="5,87,187,114"/>
+<area shape="rect" id="node3" href="$classaup_1_1avaf_1_1PacketBase.html" title="PacketBase: packet base class inherited by all other packets. " alt="" coords="19,5,173,32"/>
+<area shape="rect" id="node4" href="$classaup_1_1avaf_1_1packet_1_1IHostToDevicePacketCommFast.html" title="aup::avaf::packet::\lIHostToDevicePacketCommFast" alt="" coords="211,80,427,121"/>
+</map>
