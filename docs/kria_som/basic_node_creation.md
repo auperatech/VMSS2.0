@@ -112,7 +112,7 @@
    ```
 
 # Create Config and run pipeline
-1. Create a config. Lets call it `config.pbtxt`
+1. Create a config. Let's call it `config.pbtxt`
    ```
    control_port: 51881
    node {
@@ -141,8 +141,8 @@
      node_options: {
        [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
          dec: {
-           ow: 1920
-           oh: 1080
+           ow: 1920,
+           oh: 1080,
            opixfmt: PIXFMT_BGR24
            queue_size: 12
            low_latency: false
@@ -159,10 +159,10 @@
        }
      }
    }
-  ```
+   ```
+
 2. Run with the following command
    ```bash
    avaser -c config.pbtxt
    ```
-
 You can also add this node inside a subgraph
