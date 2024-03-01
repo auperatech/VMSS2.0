@@ -14,4 +14,4 @@ Here are some resources that you can use to use our VMSS2.0 release for K260 Kri
 - In order to run examples through command line interface of VMSS2.0, check out [this document](usage/K260_Kria_SOM/README.md)
 - If you wish to create your own custom logic and integrate it with VMSS2.0. Follow [these instructions](docs/kria_som/basic_node_creation.md)
    - Also, you can find open sourced example of [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
-   - To leverage our cloud-based user interface to run examples, check out [this document]()
+- To see the showcase of our cloud-based user interface to run examples, check out [this document]()
