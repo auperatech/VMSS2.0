@@ -16,6 +16,8 @@ It is recommended to update the list of packages:
    sudo apt-get update
    ```
 
+Make sure to not use `sudo apt-get upgrade` after that, upgrading all the packages might casue some issues.
+
 
 <!-- ![](kernel_update.jpg) -->
 
@@ -29,12 +31,13 @@ Add the Xilinx's PPA to the list of your sources and install the `bootgen`:
 
 
 ### 3. Installing kria starter kit application firmware
-We need to clone the starte kit repository and install it, follow these:
+We need to clone the starter kit repository and install it, follow these:
 
 ```bash
 git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
 cd kria-apps-firmware/
 sudo make -C boards/ install
+cd ..
 ```
 
 ### 4. Load the required application
@@ -44,7 +47,11 @@ Using `xmutil` we are going to load the `kv260-benchmark-b4096` on the DPU:
 sudo xmutil listapps
 sudo xmutil unloadapp
 sudo xmutil loadapp kv260-benchmark-b4096
+sudo xmutil desktop_disable
+sudo xmutil desktop_enable
 ```
+Note that the `desktop` commands may cause the terminal to freeze for a couple of seconds. 
+
 At this stage, we need to install the follwing dependencies:  
 
 ```bash
@@ -57,19 +64,73 @@ Before pulling the docker image, follow these steps:
 ```bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo   "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
-       https://download.docker.com/linux/ubuntu \
-       $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
+https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
 
-#### 6. Verify docker installation
+### 6. Verify docker installation
 The `hello-world` is a famous image availabe on `docker-hub`, the docker engine will automatically pull it for you:
-   ```bash
-   sudo docker run hello-world
-   ```
+```bash
+sudo docker run hello-world
+```
+
+
+### 7. Pull the docker image
+VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `latest` so you can pull the latest docker by running the following command on your Kria SOM device:
+```bash
+sudo docker pull auperastor/kria-som-dev:latest
+```
+After pulling the image, you should be able to find it in the docker images list:
+
+```bash
+sudo docker images
+```
+
+### 8. Start docker container
+
+Now we have the image and it is time to start a `container` using it.  
+
+This docker container ideally starts with a shared directory between the host OS and the docker. For this reason, first choose or create a directory and go there and then start the docker. Here is how:
+
+```bash
+cd <SHARED-DIR> && \
+sudo docker run \
+    --env="DISPLAY" \
+    -h "aupera-docker" \
+    --env="XDG_SESSION_TYPE" \
+    --cap-add sys_admin \
+    --cap-add NET_ADMIN \
+    --cap-add NET_RAW \
+    --network=host \
+    --privileged=true \
+    --hostname=general \
+    -v /tmp:/tmp \
+    -v /dev:/dev \
+    -v /sys:/sys \
+    -v /etc/vart.conf:/etc/vart.conf \
+    -v /lib/firmware/xilinx:/lib/firmware/xilinx \
+    -v /run:/run \
+    -v `pwd`:`pwd` \
+    -w `pwd` \
+    -e NFS_ABS_PATH=`pwd` \
+    --name=<DOCKER-NAME> \
+    -dit auperastor/kria-som-dev:latest bash
+```
+
+Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker container that you want to create. You can verify that you have created and started a container, by running the following command:  
+
+```bash
+sudo docker ps -a
+```
+
+Now you can enter the docker:
+
+```bash
+sudo docker container exec -ti <DOCKER-NAME> bash
+```
 
 
 ## Play with Aupera Web Cloud
@@ -81,13 +142,13 @@ VMSS2.0 utility consists of two major modules, Aupera Video AI Server(AVAS) and 
 **First, please run a single script to start AVAS.**
 
 ```bash
-   start.sh skip_check
+start.sh skip_check
 ```
 
 **Then, with a single command to get the unique serial number(sn) of your device that we prepared.**
 
 ```bash
-   cat /opt/aupera/avas/etc/kria_som_sn.txt
+cat /opt/aupera/avas/etc/kria_som_sn.txt
 ```
 
 **Next, create your own account and sign in to our Web Cloud.**
@@ -114,59 +175,7 @@ After device verification and the device is successful, you can go to the **AI T
 
 <!-- 
 
-### 3. Pull Docker image
-VMSS is available throught the public docker repository `auperastor/kria-som-dev:latest`. You can pull the latest docker by `sudo docker pull auperastor/kria-som-dev:latest` on your Kria SOM device.
-
-### 4. Start Docker
-
-Before starting the docker, make sure to load the correct app via `xmutil`. Note that the `desktop` commands may case the terminal to freeze for a couple of seconds.
-
-```bash
-sudo xmutil unloadapp
-sudo xmutil loadapp kv260-smartcam
-sudo xmutil desktop_disable
-sudo xmutil desktop_enable
-```
-
-At this point you're ready to load the docker. This docker ideally starts with a shared directory on host OS and the docker. For this reason first go the shared directory and then start the docker. Here is how:
-
-```bash
-cd <SHARED-DIR>;
-sudo docker run \
-    --env="DISPLAY" \
-    -h "aupera-docker" \
-    --env="XDG_SESSION_TYPE" \
-    --cap-add sys_admin \
-    --cap-add NET_ADMIN \
-    --cap-add NET_RAW \
-    --network=host \
-    --privileged=true \
-    --hostname=general \
-    --volume="$HOME/.Xauthority:/root/.Xauthority:rw" \
-    -v /tmp:/tmp \
-    -v /dev:/dev \
-    -v /sys:/sys \
-    -v /etc/vart.conf:/etc/vart.conf \
-    -v /lib/firmware/xilinx:/lib/firmware/xilinx \
-    -v /run:/run \
-    -v `pwd`:`pwd` \
-    -w `pwd` \
-    -e NFS_ABS_PATH=`pwd` \
-    --name=<DOCKER-NAME> \
-    -dit auperastor/kria-som-dev:latest bash
-```
-
-Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker that you want to create. Now you can enter the docker:
-
-```bash
-sudo docker container exec -ti <DOCKER-NAME> bash
-```
-
-
-
-
-
-## Execute Command Pipelines
+### 5. Execute Pipelines
 
 Now before running the test pipeline, let's understand what we are about to run. `avaser` is VMMS's command that runs a graph/pipeline that you provide via `-c` argument. There are 3 pbtxt files that are required to pass to `avaser`:
 
