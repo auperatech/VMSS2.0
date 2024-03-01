@@ -39,6 +39,8 @@
 
 # Packet Table
 
+For in-depth implementation of packets for custom node developers [refer here](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
+
 | Packet Type | Produced by | Consumed by |
 | ----- | ---- | ---- |
 | <a name="AVCodecContextPacket" /> AVCodecContextPacket | [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux) |
