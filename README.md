@@ -22,7 +22,7 @@ VMSS 2.0 allows packets to be synchronized across multiple streams, enabling str
 
 With VMSS installed on your target device, you can immediately leverage the available nodes to construct complex pipelines without any coding required. As illustrated below, nodes are categorized into Input, Logic/Apps (for ML Inference), Post Processing, and Output. Depending on your input source, a specific set of nodes is required to forward the appropriate packets to your logic node(s). Similarly, your output preferences determine the combination of nodes needed.
 
-_**IMPORTANT NOTE!:**_ It's important to note that for C++ developers**, there's the option to create custom nodes for any category, offering unparalleled flexibility in pipeline customization.
+_**IMPORTANT NOTE!:**_ It's important to note that for C++ developers, there's the option to create custom nodes for any category, offering unparalleled flexibility in pipeline customization.
 
 <div align="center">
   <img src="visualizer.png" alt="vmss nodes sequence">
