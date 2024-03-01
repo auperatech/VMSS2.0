@@ -2,7 +2,7 @@
 
 This guide provides step-by-step instructions for installing VMSS 2.0 Docker for K26 on KV260 or KR260 Kria SOM, using the [Kria Ubuntu Desktop 22.04 LTS Image](https://ubuntu.com/download/amd). This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
 
-## Hardware/OS requirements
+## Hardware/OS Requirements
 
 - Kria SOM (KV260 or KR260) with Kria Ubuntu Desktop 22.04 LTS Image.
 - 32GB storage or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card).
@@ -10,7 +10,7 @@ This guide provides step-by-step instructions for installing VMSS 2.0 Docker for
 
 ## Installation Steps
 
-### 1. Update system packages
+### 1. Update System Packages
 It is recommended to update the list of packages:
    ```bash
    sudo apt-get update
@@ -30,7 +30,7 @@ Add the Xilinx's PPA to the list of your sources and install the `bootgen`:
    ```
 
 
-### 3. Installing kria starter kit application firmware
+### 3. Installing Kria Starter Kit Application Firmware
 We need to clone the starter kit repository and install it, follow these:
 
 ```bash
@@ -40,11 +40,10 @@ sudo make -C boards/ install
 cd ..
 ```
 
-### 4. Load the required application
+### 4. Load the Required Application
 Using `xmutil` we are going to load the `kv260-benchmark-b4096` on the DPU:
 
 ```bash
-sudo xmutil listapps
 sudo xmutil unloadapp
 sudo xmutil loadapp kv260-benchmark-b4096
 ```
@@ -55,7 +54,7 @@ At this stage, we need to install the follwing dependencies:
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
 ```
 
-### 5. Preparing and installing the docker engine
+### 5. Preparing and Installing the Docker Engine
 Before pulling the docker image, follow these steps:
 
 ```bash
@@ -67,15 +66,7 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-
-### 6. Verify docker installation
-The `hello-world` is a famous image availabe on `docker-hub`, the docker engine will automatically pull it for you:
-```bash
-sudo docker run hello-world
-```
-
-
-### 7. Pull the docker image
+### 6. Pull the Docker Image
 VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `latest` so you can pull the latest docker by running the following command on your Kria SOM device:
 ```bash
 sudo docker pull auperastor/kria-som-dev:latest
@@ -86,7 +77,7 @@ After pulling the image, you should be able to find it in the docker images list
 sudo docker images
 ```
 
-### 8. Start docker container
+### 7. Start Docker Container
 
 Now we have the image and it is time to start a `container` using it.  
 
