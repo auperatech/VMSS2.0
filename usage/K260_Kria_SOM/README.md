@@ -70,3 +70,91 @@ In summary, all of the calculators used in your pipeline are shown above. All of
   <img src="simplified_graph.png" alt="simplified diagram">
 </div>
 
+___
+
+# Using USB Camera as input
+
+## 1. Config files
+
+In order to use a usb camera stream as input for the `avaser`, you first need to have suitable custom pipelines for that purpose.  
+First, check whether the configuration files exist there. Follow these commands inside the docker container:
+
+```bash
+cd /opt/aupera/examples
+ls . | grep usb_cam
+```
+You should be able see some config files there like this:
+<div align="center">
+  <img src="example-usb-cam.png" alt="example-usb-cam-config">
+</div>
+
+## 2. Choosing a Camera
+In case that you have connected more than one camera to your device, you might want to add the following line to your config `(.pbtxt)` file:
+
+```bash
+"path: /dev/video2"
+```
+It will probably look like this:
+<div align="center">
+  <img src="usb-cam-path.png" alt="usb-cam-path">
+</div>
+
+Note that you should enter the correct path based on your system configuration.
+
+## 3. Making sure that you have the required models
+The infromation (including download links) about required models for `KV260` are availabe on a `manifest.json` file provided by Aupera. The manifest file is based on the information in the [Xilinx Vitis-AI repository](https://github.com/Xilinx/Vitis-AI/blob/2.5/model_zoo). Basically, you need to choose a model based on the `hardware_type` field (which should be equal to `xilinx_kria_som_1` in our case) and copy the `download_link`, then you can follow these steps:
+
+```bash
+cd /usr/share/vitis_ai_library/models
+wget <MODEL-LINK-YOU-COPIED>
+tar -xvzf <DOWNLOADED-FILE.tar.gz>
+rm <DOWNLOADED-FILE.tar.gz>
+```
+
+As a suggestion, you can use the following bash script to get all the models for you (make sure you have `jq` installed):
+
+```
+#!/bin/bash
+
+# Path to the JSON file
+json_file="manifest.json"
+
+# Check if jq is installed
+if ! command -v jq &> /dev/null
+then
+    echo "jq could not be found. Please install jq to run this script."
+    exit 1
+fi
+
+# Read each model from the JSON file
+jq -c '.models[]' "$json_file" | while read -r model; do
+  # Extract the hardware_type and download_link
+  hardware_type=$(echo "$model" | jq -r '.hardware_type')
+  download_link=$(echo "$model" | jq -r '.download_link')
+
+  # Check if the hardware_type is what we're looking for and the download_link is not empty
+  if [[ "$hardware_type" == "xilinx_kria_som_1" ]] && [[ -n "$download_link" ]]; then
+    # Use wget to download the file
+    wget "$download_link"
+
+    # Extract the file name from the download link
+    file_name=$(basename "$download_link")
+
+    # Assuming the file is a tar.gz archive, extract it
+    tar -xvzf "$file_name"
+
+    # Remove the archive file
+    rm -rf "$file_name"
+  fi
+done
+```
+
+## 4. Running the avaser
+Now we are ready to run the avaser, note that you should not give an input file `-i` to avaser. So you run it like this (assuming that you have a sample `output.pbtxt` file in your working directory):
+
+```bash
+cd /opt/aupera/examples
+avaser -c <CONFIG-FILE.pbtxt> -o Output.pbtxt
+```
+
+When the avaser is running, you can use the URL inside `Output.pbtxt` and give it to the VLC player as has been discussed earlier to see the visual output.
