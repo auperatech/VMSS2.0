@@ -982,7 +982,121 @@ Represents a rectangle size
 <p align="right"><a href="#top">Top</a></p>
 
 ## aup/avap/box_visualizer.proto
+The visualizer calculator displays bounding boxes and classification results in the image. 
+It can take detection results, classification results, segmentation results, and landmark results.
 
+Example with detections:
+```
+ node {
+   name: "visualizer"
+   calculator: "box_visualizer"
+   input_stream: "detections_stream"
+   input_stream: "image_stream_decode"
+   output_stream: "image_stream_viz"
+   stream_sync: {
+     drop_strategy: DROP_INCOMPLETE_PACKETS
+     timeout_ms: 5000
+   }
+   node_options: {
+     [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+       input_type: INPUT_TYPE_DETECTION
+       # enum InputType {
+       #   INPUT_TYPE_DETECTION = 0; // Visualize object detection bounding boxes.
+       #   INPUT_TYPE_CLASSIFICATION = 1; // Visualize classification results.
+       #   INPUT_TYPE_SEGMENTATION = 2; // Visualize segmentation maps.
+       #   INPUT_TYPE_LANDMARK = 3; // Visualize landmarks
+       # }
+       text_color: {
+         r: 255
+         g: 0
+         b: 0
+       }
+       box_color: {
+         r: 255
+         g: 0
+         b: 0
+       }
+       class_color: {
+         label: 1
+         color: {
+           r: 0
+           g: 255
+           b: 0
+         }
+       }
+       default_class_color: {
+           r: 0
+           g: 0
+           b: 0
+       }
+       text_offset: {
+         x: 0
+         y: 0
+       }
+       font: 0 
+       font_scale: 0.6
+       font_thickness: 2
+       line_type: 0
+       box_thickness: 2
+       text_size: 2
+       label_name_file: ""
+       overlay_opacity: 0.5
+     }
+   }
+ }
+```
+Example with classifications:
+```
+ node {
+   name: "visualizer"
+   calculator: "box_visualizer"
+   input_stream: "classification_stream"
+   input_stream: "image_stream_decode"
+   output_stream: "image_stream_viz"
+   stream_sync: {
+     drop_strategy: DROP_INCOMPLETE_PACKETS
+     timeout_ms: 5000
+   }
+   node_options: {
+     [type.googleapis.com/aup.avaf.BoxVisualizerOptions] {
+       input_type: INPUT_TYPE_CLASSIFICATION
+       text_color: {
+         r: 255
+         g: 0
+         b: 0
+       }
+       text_offset: {
+         x: 0
+         y: 0
+       }
+       font_thickness: 4
+       font_scale: 1.4
+       font: 0
+       line_type: 0
+     }
+   }
+ }
+```
+Example with segmentations:
+```
+ node {
+   name: "visualizer"
+   calculator: "box_visualizer"
+   input_stream: "segmentation_stream"
+   input_stream: "image_stream_decode"
+   output_stream: "image_stream_viz"
+   stream_sync: {
+     drop_strategy: DROP_INCOMPLETE_PACKETS
+     timeout_ms: 5000
+   }
+   node_options: {
+     [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+       input_type: INPUT_TYPE_SEGMENTATION
+       overlay_opacity: 0.5
+     }
+   }
+ }
+```
 
 
 <a name="aup-avaf-BoxVisualizerOptions"></a>
@@ -1766,7 +1880,33 @@ Options for the landmark predictor
 <p align="right"><a href="#top">Top</a></p>
 
 ## aup/avap/notification_message.proto
-
+The notification_message calculator is designed to send customized notifications to users through emails or SMS messages. 
+Example:
+```
+node {
+ name: "email_notification"
+ calculator: "notification_message"
+ input_stream: "json_notification"
+ node_options: {
+   [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
+     sender: "xxxxxx@auperatech.com"
+     receiver: ["xxxxxxx1@gmail.com", "xxxxxxx2@gmail.com"]
+     notification_q_size: 2
+     sender_username: "xxxxxxxxxxxx"
+     sender_password: "xxxxxxxxxxxxx"
+     server_url: "smtps://mail.auperatech.com:465"
+     trigger: {
+       trigger_type: JQ
+       trigger_consecutive_packet: 3
+       jq_query_string: "&#39;select(.total_persons_entering &gt; 10 and .interval_persons_entering % 2 == 1)&#39;"
+       notification_title: "email_notification_test"
+       notification_body: "xxxxxxxxxxxxxxxxxx"
+       attach_json: true
+     }
+   }
+ }
+}
+```
 
 
 <a name="aup-avaf-NotificationMessageOptions"></a>
@@ -2344,7 +2484,23 @@ IOAttributes defines the attributes for input or output packets of the subgraph.
 <p align="right"><a href="#top">Top</a></p>
 
 ## aup/avap/to_json.proto
-
+This is a calculator to convert meta data packets like DetectionPacket into JSON packet
+Here is an example
+node {
+```
+  name: "to_json"
+  calculator: "to_json"
+  input_stream: "detection_stream"
+  output_stream: "json_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.ToJsonOptions]: {
+      label_name_file: "/opt/aupera/avas/label_files/dk_tiny_yolo.txt"
+      network: "tinyyolov3"
+      input_type: PACKET_TYPE_DETECTIONS
+    }
+  }
+}
+```
 
 
 <a name="aup-avaf-ToJsonOptions"></a>

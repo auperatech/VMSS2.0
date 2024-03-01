@@ -346,7 +346,7 @@ We can also have multiple input video streams and corresponding output streams. 
 
 **Node Options** [NotificationMessageOptions](avap_doc.md#notificationmessageoptions)
 
-**Example `.pbtxt`:** [notification_message](avap_doc.md#aupavapnotification_messageproto) # TODO this needs example
+**Example `.pbtxt`:** [notification_message](avap_doc.md#aupavapnotification_messageproto)
 
 **Basic Node IO:** 
 
@@ -450,7 +450,7 @@ This node has one output stream
 
 **Node Options:** [ToJsonOptions](avap_doc.md#tojsonoptions)
 
-**Example `.pbtxt`:** [to_json](avap_doc.md#aupavapto_jsonproto) # TODO needs example
+**Example `.pbtxt`:** [to_json](avap_doc.md#aupavapto_jsonproto)
 
 **Basic Node IO:** 
 
