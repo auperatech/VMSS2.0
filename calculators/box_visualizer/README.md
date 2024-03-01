@@ -37,3 +37,16 @@ The calculator is initialized with a set of options provided in a protocol buffe
 
 4. **Output**: The modified image, with the visualizations applied, is then passed downstream for further processing or output.
 
+### Modifying the source code for your purpose
+
+1. Here the proto file is given here as the file [box_visualizer.proto](box_visualizer.proto). Make your modifications to it
+2. Copy the file to `/opt/aupera/protos/aup/avap/` and rebuild AVAP with 
+    ```bash
+    cd /opt/aupera/protos
+    make clean
+    make -j2
+    make install
+    ```
+3. Modify the source code for [box_visualizer.cc](box_visualizer.cc) and [box_visualizer.h](box_visualizer.h) as necessary
+4. run `make -j3 && make install` in the calculator folder.
+

@@ -1,3 +1,4 @@
+
 # ToJsonCalculator Documentation
 
 This node is provided as an available node for you to use. But in order to shed light on the detailed implementation of it and allow the user to customize based on their need, the source code is shared.
@@ -31,4 +32,17 @@ The calculator is initialized with options provided in a protocol buffer format.
 3. **Conversion to JSON**: The received packet is converted into a JSON format, incorporating labels if specified, and adding additional context such as the network name and timestamp offsets.
 
 4. **Output**: The resulting JSON object is then passed downstream for further processing, storage, or analysis.
+
+### Modifying the source code for your purpose
+
+1. Here the proto file is given here as the file [to_json.proto](to_json.proto). Make your modifications to it
+2. Copy the file to `/opt/aupera/protos/aup/avap/` and rebuild AVAP with 
+    ```bash
+    cd /opt/aupera/protos
+    make clean
+    make -j2
+    make install
+    ```
+3. Modify the source code for [to_json.cc](to_json.cc) and [to_json.h](to_json.h) as necessary
+4. run `make -j3 && make install` in the calculator folder.
 
