@@ -92,7 +92,7 @@ Collaboration diagram for aup::avaf::AVCodecContextPacket:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5374b35add5f188cff86ed7d2f847cc1"><td class="memItemLeft" align="right" valign="top">virtual const std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1AVCodecContextPacket.html#a5374b35add5f188cff86ed7d2f847cc1">get_packet_type</a> () const override</td></tr>
-<tr class="memdesc:a5374b35add5f188cff86ed7d2f847cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine the packet type via a string. its purpose is.  <a href="#a5374b35add5f188cff86ed7d2f847cc1">More...</a><br /></td></tr>
+<tr class="memdesc:a5374b35add5f188cff86ed7d2f847cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the packet type object.  <a href="#a5374b35add5f188cff86ed7d2f847cc1">More...</a><br /></td></tr>
 <tr class="separator:a5374b35add5f188cff86ed7d2f847cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b772d1f89f1654aa73cff81ec72c192"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1AVCodecContextPacket.html#a3b772d1f89f1654aa73cff81ec72c192">AVCodecContextPacket</a> ()</td></tr>
 <tr class="separator:a3b772d1f89f1654aa73cff81ec72c192"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,12 +213,8 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Determine the packet type via a string. its purpose is. </p>
-<ul>
-<li>Give a concise and human readable packet type</li>
-<li>Allow the framework to check the packet type When you override this class to define a packet type, you would need to set this function to return a string uniquely indicating its type Example: for the case of a packet denoting an image, we may use "AUP:IMAGE" In order to standardize and avoid conflicts, prefix your return value with &lt;vendor&gt;:</li>
-</ul>
-<dl class="section return"><dt>Returns</dt><dd>const std::string </dd></dl>
+<p>Get the packet type object. </p>
+<dl class="section return"><dt>Returns</dt><dd>const std::string returning <code>"AV_CODEC_CONTEXT"</code> as the type of this packet </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classaup_1_1avaf_1_1PacketBase.html#aa3e91fd595c59246cb5743bfc6acdc23">aup::avaf::PacketBase</a>.</p>
 

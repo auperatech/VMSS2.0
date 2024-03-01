@@ -84,6 +84,7 @@ Inheritance diagram for aup::avaf::packet::IToJsonPacket:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ab689edfca6c52abaace435bb540e3d10"><td class="memItemLeft" align="right" valign="top">virtual ErrorCode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1packet_1_1IToJsonPacket.html#ab689edfca6c52abaace435bb540e3d10">to_json_packet</a> (PacketPtr&lt; <a class="el" href="classaup_1_1avaf_1_1JsonPacket.html">JsonPacket</a> &gt; &amp;packet) const =0</td></tr>
+<tr class="memdesc:ab689edfca6c52abaace435bb540e3d10"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <code>to_json_packet</code> function is designed to be overridden by derived classes that implement the <code><a class="el" href="classaup_1_1avaf_1_1packet_1_1IToJsonPacket.html">IToJsonPacket</a></code> interface. Implementing classes are expected to serialize their relevant data into a JSON format and store or manipulate this data using the packet parameter, adhering to the <code><a class="el" href="classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. ">JsonPacket</a></code> structure or format. The function will return an ErrorCode indicating the success or failure of the serialization operation.  <a href="#ab689edfca6c52abaace435bb540e3d10">More...</a><br /></td></tr>
 <tr class="separator:ab689edfca6c52abaace435bb540e3d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -110,6 +111,15 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>The <code>to_json_packet</code> function is designed to be overridden by derived classes that implement the <code><a class="el" href="classaup_1_1avaf_1_1packet_1_1IToJsonPacket.html">IToJsonPacket</a></code> interface. Implementing classes are expected to serialize their relevant data into a JSON format and store or manipulate this data using the packet parameter, adhering to the <code><a class="el" href="classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. ">JsonPacket</a></code> structure or format. The function will return an ErrorCode indicating the success or failure of the serialization operation. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">packet</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ErrorCode </dd></dl>
 
 <p>Implemented in <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a82d125e00c4afa6471230b47ee9018d2">aup::avaf::DetectionPacket</a>.</p>
 

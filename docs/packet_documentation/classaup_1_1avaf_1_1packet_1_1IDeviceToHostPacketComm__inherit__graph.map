@@ -1,8 +1,8 @@
 <map id="aup::avaf::packet::IDeviceToHostPacketComm" name="aup::avaf::packet::IDeviceToHostPacketComm">
 <area shape="rect" id="node2" href="$classaup_1_1avaf_1_1Classifications.html" title="Classifications: packet to contain classifications determined from an image. This includes the boundi..." alt="" coords="249,5,420,32"/>
 <area shape="rect" id="node3" href="$classaup_1_1avaf_1_1DetectionPacket.html" title="DetectionPacket: packet to contain detections determined from an image. This includes the bounding bo..." alt="" coords="244,56,425,83"/>
-<area shape="rect" id="node5" href="$classaup_1_1avaf_1_1JsonPacket.html" title="aup::avaf::JsonPacket" alt="" coords="258,107,411,133"/>
-<area shape="rect" id="node6" href="$classaup_1_1avaf_1_1UInt64Packet.html" title="aup::avaf::UInt64Packet" alt="" coords="253,157,417,184"/>
-<area shape="rect" id="node7" href="$classaup_1_1avaf_1_1VideoStreamInfoPacket.html" title="aup::avaf::VideoStreamInfo\lPacket" alt="" coords="244,209,425,250"/>
+<area shape="rect" id="node5" href="$classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. " alt="" coords="258,107,411,133"/>
+<area shape="rect" id="node6" href="$classaup_1_1avaf_1_1UInt64Packet.html" title="The class UInt64Packet is a packet that holds a value of type uint64_t. " alt="" coords="253,157,417,184"/>
+<area shape="rect" id="node7" href="$classaup_1_1avaf_1_1VideoStreamInfoPacket.html" title="VideoStreamInfoPacket, is designed to encapsulate information about a video stream, inheriting from PacketBase and implementing two interfaces for communication: packet::IHostToDevicePacketComm and packet::IDeviceToHostPacketComm. The class serves as a data structure for holding video stream metadata and potentially facilitating communication about video stream configurations between a host and a device. " alt="" coords="244,209,425,250"/>
 <area shape="rect" id="node4" href="$classaup_1_1avaf_1_1TrackPacket.html" title="TrackPacket: packet to contain objects being tracked through a video stream. " alt="" coords="473,56,632,83"/>
 </map>
