@@ -1,6 +1,6 @@
 # Announcement: Aupera VMSS 2.0 - Free for AMD Contest Participants
 
-We're excited to announce that Aupera is offering VMSS 2.0, our cutting-edge Video Machine-Learning Streaming Server, for **free** to developers participating in the [AMD Pervasive AI Developer Contest](https://www.hackster.io/contests/amd2023#challengeNav). This developer version enables both development and runtime environments to quickly build complex Video AI applications with no code required. 
+Participants in the the [AMD Pervasive AI Developer Contest](https://www.hackster.io/contests/amd2023#challengeNav) can now access Aupera's powerful Video Machine-Learning Streaming Server (VMSS 2.0) completely for **free**! This developer version empowers you to rapidly build complex Video AI applications without writing any code. 
 
 VMSS is a software application that functions as a **V**ideo **M**achine-Learning **S**treaming **S**erver. Its primary purpose is to provide video analytic services to multiple video streams while efficiently utilizing multiple FPGA resources on a server system.
 
@@ -8,19 +8,26 @@ The latest version, VMSS 2.0, offers several features to create flexible ML pipe
 
 VMSS 2.0 allows packets to be synchronized across multiple streams, enabling stream-aware processing. Users can try any of the models on Xilinx Model Zoo (currently box detector and classifier models) with just a few mouse clicks. Additionally, VMSS 2.0 provides hardware abstraction to run ML pipelines on different platforms, allowing for quick adoption of new hardware. A web-application serves as the visual GUI for the server.
 
-Leverage VMSS 2.0 to:
-- Utilize available nodes for rapid pipeline construction.
-- Get notifications via SMS, Email, HTTP API, MongoDB, and more.
-- Create custom logic to process data within the pipeline exactly as you need.
-- Access over 100+ models from AMD's Model Zoo for a wide range of applications.
+**Leverage VMSS 2.0 to:**
 
-Here are some resources that you can use to use our VMSS2.0 release for K260 Kria SOM
-- For a sneak peek before our end-of-February release, check out [our introductory video](https://youtu.be/KbzXKMxWZOw?si=rOYsU1yYClq-Pokr).
-- For setting up VMSS2.0 docker on SOM that can leverage both command-line and our cloud AVAC, please follow [these instructions](setup/K260_Kria_SOM/README.md)
-- In order to run examples through command line interface of VMSS2.0, check out [this document](usage/K260_Kria_SOM/README.md)
-- If you wish to create your own custom logic and integrate it with VMSS2.0. Follow [these instructions](docs/kria_som/basic_node_creation.md)
-   - Also, you can find open sourced example of [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
-- To see the showcase of our cloud-based user interface to run examples based on RTSP, check out [this document]()
+* Utilize available nodes for rapid pipeline construction.
+* Get notifications via SMS, Email, HTTP API, MongoDB, and more.
+* Create custom logic to process data within the pipeline exactly as you need.
+* Access over 100+ models from AMD's Model Zoo for a wide range of applications.
+
+## **Resources**
+
+Here are some key resources to get started with our VMSS 2.0 release for K260 Kria SOM:
+
+* **Sneak Peek:** Get a first look at VMSS 2.0 in action with [our introductory video](https://youtu.be/KbzXKMxWZOw?si=rOYsU1yYClq-Pokr).
+
+* **Setup:** Follow [these instructions](setup/K260_Kria_SOM/README.md) to set up the VMSS 2.0 docker on your SOM and leverage both the command line and our cloud AVAC.
+
+* **Running Examples:**  Learn to run examples through the VMSS 2.0 command-line interface with [this document](usage/K260_Kria_SOM/README.md).
+
+* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/kria_som/basic_node_creation.md). Also, check out open-sourced examples like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
+
+* **Cloud-Based UI Demo:**  Explore the capabilities of our cloud-based user interface for running RTSP-based examples [here](). 
 
 ## Other supported platforms for VMSS2.0
 
