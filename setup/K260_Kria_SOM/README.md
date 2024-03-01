@@ -47,10 +47,7 @@ Using `xmutil` we are going to load the `kv260-benchmark-b4096` on the DPU:
 sudo xmutil listapps
 sudo xmutil unloadapp
 sudo xmutil loadapp kv260-benchmark-b4096
-sudo xmutil desktop_disable
-sudo xmutil desktop_enable
 ```
-Note that the `desktop` commands may cause the terminal to freeze for a couple of seconds. 
 
 At this stage, we need to install the follwing dependencies:  
 
