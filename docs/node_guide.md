@@ -71,7 +71,77 @@ Each node is configurable with a set of options which allow customization of the
 
 Every graph has a set of input and output streams that take raw video and pass it to the internal streams of the connected nodes. There are two ways to pass the input and output streams of a graph:
  - Provide a url for a video stream to the `node_options->demux->input_url` option of a [stream_demux](#stream_demux) node and provide a url for the output video stream to the `node_options->mux->input_url` option of a [stream_mux](#stream_mux) node
- - Provide entries at the top of the `.pbtxt` file specifying a `graph_input: "<input stream name>"` entry and a `graph_output: "<input stream name>"` entry (TODO see example). This will require making associated input `.pbtxt` and output `.pbtxt` files and then passing them to `avaser`, and as such is only recommended if running from the command line.
+ - Provide entries at the top of the `.pbtxt` file specifying a `graph_input: "<input stream name>"` entry and a `graph_output: "<input stream name>"` entry (see example below). This will require making associated input `.pbtxt` and output `.pbtxt` files and then passing them to `avaser`, and as such is only recommended if running from the command line.
+
+*NOTE:* If using the web client, only the first option (i.e. setting `node_options->demux->input_url`) will be available
+
+**Running with graph inputs/outputs**
+
+Configuring a `.pbtxt` to take graph inputs and outputs, which can be run with:
+
+`avaser -c <path to config.pbtxt file> -i <path to input.pbtxt file> -o <path to output.pbtxt file>`
+```
+# Start of config.pbtxt file
+
+control_port: 51881
+graph_input: "graph_input1"
+graph_output: "graph_output1"
+
+node {
+  name: "demux_node"
+  calculator: "stream_demux"
+  vendor: "Aupera"
+  graph_input: "graph_input1"
+  output_stream: "packet_stream_demux"
+  output_stream: "video_stream_info_demux"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+      demux: {
+        rtsp_transport: "tcp"
+        iframe_extract: false
+        auto_reconnect: true
+      }
+    }
+  }
+}
+
+...
+
+node {
+  name: "mux_node"
+  calculator: "stream_mux"
+  vendor: "Aupera"
+  input_stream: "packet_stream_encode"
+  input_stream: "codec_context_stream"
+  graph_output: "graph_output1"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+     }
+    }
+  }
+}
+```
+```
+# Start of input.pbtxt file
+
+# To take in a file as input we do:
+input_urls:"/tmp/aup_cicd_u7GVwvp7/retail.mp4"
+
+# or if we wanted a url, we could do:
+# input_urls:"rtsp://avac.auperatechnologies.com:554/crowd"
+```
+```
+# Start of output.pbtxt file
+
+# To produce a file as output we do:
+output_urls:"/tmp/aup_cicd_u7GVwvp7/vid-out-1.mp4"
+
+# or if we wanted an output url, we could do:
+# output_urls:"rtsp://avac.auperatechnologies.com:554/crowd_out"
+```
 
 ## Streams and Packets
 
@@ -243,7 +313,7 @@ This node has two input streams and one output stream:
 
 **Node Options:** [BoxVisualizerOptions](avap_doc.md#boxvisualizeroptions)
 
-**Example `.pbtxt`:** [box_visualizer](avap_doc.md#aupavapbox_visualizerproto) # TODO needs example
+**Example `.pbtxt`:** [box_visualizer](avap_doc.md#aupavapbox_visualizerproto)
 
 **Basic Node IO:** 
 
