@@ -1,0 +1,3 @@
+# output_urls: "rtsp://108.160.221.169:8554/pose-output-r1ys51"
+output_urls: "/tmp/output.mp4"
+

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+// BoxVisualizerOptions configures the visual aspects of bounding boxes and classifications on video frames.
+message BoxVisualizerOptions {
+  
+  // Color defines the RGB color components with floating-point numbers.
+  message Color {
+    float r = 1; // Red component of color, range 0-1.
+    float g = 2; // Green component of color, range 0-1.
+    float b = 3; // Blue component of color, range 0-1.
+  }
+
+  // ClassColor associates a Color with a class label for differentiated visualization.
+  message ClassColor {
+    Color color = 1; // The color to use for the class label.
+    int32 label = 2; // The label id corresponding to a class.
+  }
+
+  // Offset represents the x and y displacement values.
+  message Offset {
+    float x = 1; // Horizontal offset.
+    float y = 2; // Vertical offset.
+  }
+  
+  // InputType enumerates the types of inputs that can be visualized.
+  enum InputType {
+    INPUT_TYPE_DETECTION = 0; // Visualize object detection bounding boxes.
+    INPUT_TYPE_CLASSIFICATION = 1; // Visualize classification results.
+    INPUT_TYPE_SEGMENTATION = 2; // Visualize segmentation maps.
+    INPUT_TYPE_LANDMARK = 3; // Visualize landmarks
+  }
+
+  InputType input_type = 1; // Defines the type of input to be visualized.
+  Color text_color = 2; // Color for text (class names, labels).
+  Color box_color = 3; // Color for bounding box.
+  repeated ClassColor class_color = 4; // Specific colors for different classes.
+  Color default_class_color = 5; // Default color for classes without a specified ClassColor.
+  Offset text_offset = 6; // Position offset for the text from the top left corner of the bounding box.
+  int32 box_thickness = 7; // Thickness of the bounding box lines.
+  int32 text_size = 8; // Size of the text.
+  int32 font = 9; // Font type of the text.
+  double font_scale = 10; // Scale of the font used for text.
+  int32 font_thickness = 11; // Thickness of the font.
+  int32 line_type = 12; // The type of the line used for drawing boxes and text.
+  string label_name_file = 13; // Path to file containing label names for classes.
+  float overlay_opacity = 14; // Opacity of the overlay on the video frame.
+  bool connect_landmarks = 15; // When set to true, this feature is activated for Movenet, Hourglass, and Openpose models where it connects detected landmark points in a predefined order.
+  string apply_filter_on_landmarks = 16; // Option for application of various filters (options include "mask", "bbox", "hat") on a detected face landmark
+  string arm_raise_check = 17; // Supplementary feature for apply_filter_on_landmarks in conjunction with human pose estimators (options include "angles" and "height" to determine if an arm is raised), which applies the filter to the face if either or both arms are detected as raised.
+}

@@ -1,88 +1,180 @@
-# VMSS 2.0 Installation Guide for KV260/KR260 Kria SOM with Ubuntu 22.04
+# VMSS 2.0 Docker Installation Guide for KV260/KR260 Kria SOM with Ubuntu 22.04
 
-This guide provides step-by-step instructions for installing VMSS 2.0 on the KV260 or KR260 Kria SOM, using the Kria Ubuntu Desktop 22.04 LTS Image. This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
+This guide provides step-by-step instructions for installing VMSS 2.0 Docker for K26 on KV260 or KR260 Kria SOM, using the [Kria Ubuntu Desktop 22.04 LTS Image](https://ubuntu.com/download/amd). This tutorial has been tested on both KV260 and KR260 with the image flashed using Balena Etcher on a Windows 11 machine.
 
-## Prerequisites
+## Hardware/OS requirements
 
 - Kria SOM (KV260 or KR260) with Kria Ubuntu Desktop 22.04 LTS Image.
-- 16GB or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card.)
+- 32GB storage or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card).
 - Follow the initial setup instructions from Xilinx: [Setting up the SD Card Image](https://www.xilinx.com/products/som/kria/kv260-vision-starter-kit/kv260-getting-started-ubuntu/setting-up-the-sd-card-image.html).
 
 ## Installation Steps
 
-### 1. System Update
-Start by updating your system packages. Open a terminal and run:
+### 1. Update system packages
+It is recommended to update the list of packages:
    ```bash
-   sudo apt update
-   sudo apt upgrade
+   sudo apt-get update
    ```
-***NOTE: This step takes several minutes. Follow the on-screen instructions, update kernels as required, and restart impacted services by selecting the corresponding checkboxes during the process. Specifically, for the on-screen prompt shown below, please select the option shown here***
 
-<div align="center">
-  <img src="kernel_update.jpg" alt="kernel_update">
-</div>
+Make sure to not use `sudo apt-get upgrade` after that, upgrading all the packages might casue some issues.
 
-#### Reboot System
-After updating, reboot your system to ensure all updates are applied.
-```
-sudo reboot
-```
 
-### 2. Download, Extract, & Install VMSS Package
-Download the VMSS package for Ubuntu 22.04 using wget:
+<!-- ![](kernel_update.jpg) -->
 
-```
-wget https://amd.vmaccel.com/object-store/v1/aup_releases/vmss_avaf3.2.0_k260_ubuntu22_md5sum337e11a578c678046545571bc2c4f8ee.tar.gz
-```
+### 2. Installing `bootgen`
+Add the Xilinx's PPA to the list of your sources and install the `bootgen`:
 
-Once the download is complete check `md5sum` of downloaded package to match the number provided in the package name to ensure the download process was successful, then extract the package:
+   ```bash
+   sudo add-apt-repository -y ppa:xilinx-apps/ppa
+   sudo apt-get install bootgen-xlnx
+   ```
 
-```
-tar -xzvf vmss_avaf3.2.0_k260_ubuntu22_md5sum337e11a578c678046545571bc2c4f8ee.tar.gz 
-vmss_final_package/
-cd vmss_final_package/
-./install.sh
-```
 
-### 3. Install Xilinx bootgen Tool and Verify DPU Availability
+### 3. Installing kria starter kit application firmware
+We need to clone the starter kit repository and install it, follow these:
 
-Install bootgen tool by running this command:
-```
-sudo apt install bootgen-xlnx
-```
-
-```
-cd ~/
+```bash
 git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
-cd kria-apps-firmware
+cd kria-apps-firmware/
 sudo make -C boards/ install
+cd ..
 ```
 
-Now it's time to load one of the Apps you just installed using `xmutil` to load DPU drivers and get access to DPU. For our package we have included a model from AMD model zoo that was compiled for DPU `fingerprint = 0x101000016010407` , therefore, we will load the appropriate app that matches this DPU. To do so run the following commands:
-```
+### 4. Load the required application
+Using `xmutil` we are going to load the `kv260-benchmark-b4096` on the DPU:
+
+```bash
+sudo xmutil listapps
 sudo xmutil unloadapp
 sudo xmutil loadapp kv260-benchmark-b4096
-show_dpu
 ```
 
-The `show_dpu` command should give you the following output:
-```
-device_core_id=0 device= 0 core = 0 fingerprint = 0x101000016010407 batch = 1 full_cu_name=DPUCZDX8G:DPUCZDX8G_1
-```
+At this stage, we need to install the follwing dependencies:  
 
-*****NOTE:***** You may use any of the available K260 apps to use VMSS. VMSS does not depend on any specific DPU design. To run inference with VMSS, you must have your models compiled for the appropriate DPU that you have loaded in this step.
-
-
-
-### 4. Run VMSS Example
-
-VMSS framework runs a `Video Pipeline or Graph` that is described in your `pbtxt` file. Eeach pipeline/graph consits of a set of nodes that we refer to as `calculators`. You must have the calculator files that you need for your pipeline/graph available under the `/tmp/`. This utility script will create symbolic link that links your available calculators to the `/tmp` directory. Plesae make sure that all the required calculators are available before runnign `avaser` which runs your pipeline/graph. All the calculators in our pacakge should be available under `/opt/aupera/vmss/nodes/` now using this command you can choose to link `all` or a specific calculator. Let's link all the calculators by running the followinc command:
-
-```
-link_calculator all
+```bash
+sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
 ```
 
-Now before running the test pipeline, let's understand what we are about to run. `avaser` is VMMS's command that runs a graph/pipeline that you provide via `-c` argument. There are 3 pbtxt files that are required to pass to `avaser`: 
+### 5. Preparing and installing the docker engine
+Before pulling the docker image, follow these steps:
+
+```bash
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo   "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
+https://download.docker.com/linux/ubuntu \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+```
+
+
+### 6. Verify docker installation
+The `hello-world` is a famous image availabe on `docker-hub`, the docker engine will automatically pull it for you:
+```bash
+sudo docker run hello-world
+```
+
+
+### 7. Pull the docker image
+VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `latest` so you can pull the latest docker by running the following command on your Kria SOM device:
+```bash
+sudo docker pull auperastor/kria-som-dev:latest
+```
+After pulling the image, you should be able to find it in the docker images list:
+
+```bash
+sudo docker images
+```
+
+### 8. Start docker container
+
+Now we have the image and it is time to start a `container` using it.  
+
+This docker container ideally starts with a shared directory between the host OS and the docker. For this reason, first choose or create a directory and go there and then start the docker. Here is how:
+
+```bash
+cd <SHARED-DIR> && \
+sudo docker run \
+    --env="DISPLAY" \
+    -h "aupera-docker" \
+    --env="XDG_SESSION_TYPE" \
+    --cap-add sys_admin \
+    --cap-add NET_ADMIN \
+    --cap-add NET_RAW \
+    --network=host \
+    --privileged=true \
+    --hostname=general \
+    -v /tmp:/tmp \
+    -v /dev:/dev \
+    -v /sys:/sys \
+    -v /etc/vart.conf:/etc/vart.conf \
+    -v /lib/firmware/xilinx:/lib/firmware/xilinx \
+    -v /run:/run \
+    -v `pwd`:`pwd` \
+    -w `pwd` \
+    -e NFS_ABS_PATH=`pwd` \
+    --name=<DOCKER-NAME> \
+    -dit auperastor/kria-som-dev:latest bash
+```
+
+Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker container that you want to create. You can verify that you have created and started a container, by running the following command:  
+
+```bash
+sudo docker ps -a
+```
+
+Now you can enter the docker:
+
+```bash
+sudo docker container exec -ti <DOCKER-NAME> bash
+```
+
+
+## Play with Aupera Web Cloud
+
+VMSS2.0 utility consists of two major modules, Aupera Video AI Server(AVAS) and Aupera Video AI Client(AVAC). AVAS is the server that runs and manages various AI tasks, and AVAC is a web cloud application that allows users to use a friendly GUI to connect to AVAS. It only takes several simple steps to launch AVAS inside the docker and play with our AVAC after the docker is successfully built. Let's play!
+
+**_NOTE: The following section assumes that you already entered the docker by the command listed above._**
+
+**First, please run a single script to start AVAS.**
+
+```bash
+start.sh skip_check
+```
+
+**Then, with a single command to get the unique serial number(sn) of your device that we prepared.**
+
+```bash
+cat /opt/aupera/avas/etc/kria_som_sn.txt
+```
+
+**Next, create your own account and sign in to our Web Cloud.**
+
+Sign up for an account at: [https://auperatechnologies.com](https://auperatechnologies.com/). 
+Once you sign in with your new account, you will be asked to add a video stream. Please click the **Add Stream** button to add video streams you would like to use, or you could directly use the demo video streams we prepared for testing as listed below: 
+
+```
+rtsp://vmss.auperatechnologies.com:554/crowd
+rtsp://vmss.auperatechnologies.com:554/car
+rtsp://vmss.auperatechnologies.com:554/retail
+```
+
+**Last, add the device with the unique serial number and start running tasks.**
+
+Go to the **AI Hosts** tab in the navigation bar. Click the **Add AI Host** button to add a host. 
+Choose the **Add by Serial Number** tab, enter an AI Host Name of your choice, and enter the unique serial number from the last step in AI Host S/N input.
+
+After device verification and the device is successful, you can go to the **AI Tasks** section to create your tasks and start to play!
+
+**_NOTE: For a video and more detailed document to guide you through AVAC and creating tasks, please refer to_** 
+[video guide](../../docs/avac/avac_user_guide.md)
+[avac user guide document](../../docs/avac/avac_user_guide.md)
+
+<!-- 
+
+### 5. Execute Pipelines
+
+Now before running the test pipeline, let's understand what we are about to run. `avaser` is VMMS's command that runs a graph/pipeline that you provide via `-c` argument. There are 3 pbtxt files that are required to pass to `avaser`:
 
 ##### Input `-i` : 
     comes after `-i` parameter and contains the same number of RTSP streams as the input_streams contained in your pipeline.pbtxt. 
@@ -97,6 +189,8 @@ To learn more about VMSS please refer to our [user guide available here](https:/
 
 It's time to run a test pipeline that runs a vehicle detector on a test RTSP video stream and watch the results on VLC(or any Video player that can run RTSP streams). First, let's navigate to the test directoy, then run the following command.
 
+
+# TODO Update from here
 ```
 cd /opt/aupera/vmss/test/box_detector_car/
 ```
@@ -124,5 +218,5 @@ In brief, all of the calculators used in your pipeline are shown above. All of t
   <img src="simplified_graph.png" alt="simplified diagram">
 </div>
 
-
+-->
 

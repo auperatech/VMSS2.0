@@ -1,0 +1,52 @@
+/**
+ * This is a calculator to convert meta data packets like DetectionPacket into JSON packet
+ * Here is an example
+ * node {
+ * ```
+ *   name: "to_json"
+ *   calculator: "to_json"
+ *   input_stream: "detection_stream"
+ *   output_stream: "json_stream"
+ *   node_options: {
+ *     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
+ *       label_name_file: "/opt/aupera/avas/label_files/dk_tiny_yolo.txt"
+ *       network: "tinyyolov3"
+ *       input_type: PACKET_TYPE_DETECTIONS
+ *     }
+ *   }
+ * }
+ * ```
+ */
+
+syntax = "proto3";
+package aup.avaf;
+
+import "aup/avap/packet_type.proto";
+/* The PacketType list
+*enum PacketType {
+*    PACKET_TYPE_NONE = 0; // Indicates no specific packet type or the type is not applicable.
+*    PACKET_TYPE_CLASSIFICATIONS = 1; // Packet contains classification results.
+*    PACKET_TYPE_DETECTIONS_OR_TRACKS = 2; // Packet contains object detection or tracking information.
+*    PACKET_TYPE_PLATE_RECOGNITIONS = 3; // Packet contains license plate recognition data.
+*    PACKET_TYPE_SEGMENTATIONS = 4; // Packet contains image segmentation data.
+*    PACKET_TYPE_AV_CODEC_CONTEXT = 5; // Packet contains audio/video codec context or parameters.
+*    PACKET_TYPE_CLIP_GENERATOR_COMMAND = 6; // Packet contains commands or data for a clip generator.
+*    PACKET_TYPE_FILE = 7; // Packet represents a file or file data.
+*    PACKET_TYPE_IMAGE = 8; // Packet contains image data.
+*    PACKET_TYPE_JSON = 9; // Packet contains data in JSON format.
+*    PACKET_TYPE_UINT64 = 10; // Packet contains data of type uint64.
+*    PACKET_TYPE_VIDEO = 11; // Packet contains video data.
+*    PACKET_TYPE_VIDEO_STREAM_INFO = 12; // Packet contains video stream information or metadata.
+*    PACKET_TYPE_ANY = 13; // Packet can be of any type, used for generic purposes.
+*    PACKET_TYPE_MAX = 14; // Represents the maximum value in the enumeration for bounds checking.
+*/
+
+
+/// Options for the to_json calculator
+// Provides configuration settings for a node that converts various types of packets to a JSON format.
+// It is specifically tailored for converting DetectionPacket types.
+message ToJsonOptions {
+  PacketType input_type = 1; /// _**REQUIRED**_. The expected value is one of the PacketType listed above. Specifies the type of input packet to be converted. Should be set to DetectionPacket for these options.
+  string label_name_file = 2; /// _**REQUIRED**_. The expected value is a string. The path to the file containing labels or names for detected objects. Applicable only when input_type is DetectionPacket.
+  string network = 3; /// _**REQUIRED**_. The expected value is a string. Specifies the network configuration or type that was used for detection. Applicable only when input_type is DetectionPacket.
+}

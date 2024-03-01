@@ -1,0 +1,300 @@
+# The recommended video for this pipeline is retail.
+
+control_port: 51881
+
+graph_input: "graph_input"
+graph_output: "graph_output"
+
+node {
+  name: "demux_node"
+  calculator: "stream_demux"
+  graph_input: "graph_input"
+  output_stream: "packet_stream"
+  output_stream: "video_info_side_packet_demux"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+      demux: {
+        rtsp_transport: "tcp"  
+        iframe_extract: false
+        auto_reconnect: true
+      }
+    }
+  }
+}
+node {
+  name: "decode_node"
+  calculator: "x86_dec"
+  input_stream: "packet_stream"
+  input_stream: "video_info_side_packet_demux"
+  output_stream: "image_stream"
+  output_stream: "video_info_side_packet_decode"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+      dec: {
+        ow: 1920
+        oh: 1080
+        opixfmt: PIXFMT_BGR24
+        queue_size: 12
+        low_latency: false
+      }
+    }
+  }
+}
+
+node {
+  name: "subgraph"
+  calculator: "subgraph"
+  input_stream: "image_stream"
+  output_stream: "detection_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.SubgraphOptions]: {
+      input_attrs: {
+        type: PACKET_TYPE_IMAGE
+        pool_sz: 2
+        entry_sz_kb: 6080
+      }
+      output_attrs: {
+        type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+        pool_sz: 2
+        entry_sz_kb: 64
+      }
+      subgraph_config: {
+        node {
+          name: "host_source_image_stream"
+          calculator: "host_source"
+          output_stream: "image_stream"
+          node_options: {
+            [type.googleapis.com/aup.avaf.HostSourceSinkOptions]: {
+              index: 0
+            }
+          }
+        }
+        node {
+          name: "detector"
+          calculator: "box_detector"
+          input_stream: "image_stream"
+          output_stream: "detection_stream"
+          output_stream: "detect_interval_side_packet_dangling"
+          ml_model_kernel_name: "dk_tiny-yolov3_416_416_5.46G_2.0"      
+          node_options: {
+            [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
+              detect_interval: 1
+              detector_type: "TinyYolo"
+              need_preprocess: true
+              log_performance: false
+              run_on_letterboxed_img: false
+              batch_size: 1
+              return_frames_inorder: true 
+              batch_collection_timeout_ms: 0
+              ignore_black_frames: false
+              max_detection_lib_q_size: 30
+              label_confidence: {
+                label: 0
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 1
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 2
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 3
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 4
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 5
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 6
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 7
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 8
+                confidence: 0.5
+              }
+              label_confidence: {
+                label: 9
+                confidence: 0.1
+              }
+            }
+          }
+        }
+        node {
+          name: "host_sink_detections"
+          calculator: "host_sink"
+          input_stream: "detection_stream"
+          node_options: {
+            [type.googleapis.com/aup.avaf.HostSourceSinkOptions]: {
+              index: 0
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+node {
+  name: "visualizer"
+  calculator: "box_visualizer"
+  input_stream: "detection_stream"
+  input_stream: "image_stream"
+  output_stream: "image_stream_viz"
+  stream_sync: {
+    drop_strategy: DROP_INCOMPLETE_PACKETS
+    timeout_ms: 5000
+  }
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+      label_name_file: "/opt/aupera/avas/example/u30_plugin_mode_inference/box_detector/label_file.txt"
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      class_color: {
+        label: 1
+        color: {
+          r: 0
+          g: 0
+          b: 0
+        }
+      }
+      class_color: {
+        label: 2
+        color: {
+          r: 0
+          g: 255
+          b: 0
+        }
+      }
+      text_offset: {
+        x: 0
+        y: 0
+      }
+      font: 0 
+      line_type: 0
+      box_thickness: 5
+      text_size: 5 
+    }
+  }
+}
+
+node {
+  name: "vfilter_node"
+  calculator: "ff_vfilter"
+  vendor: "Aupera"
+  input_stream: "image_stream_viz"
+  input_stream: "video_info_side_packet_decode"
+  output_stream: "image_stream_vfilter_node"
+  output_stream: "video_stream_info_vfilter_node"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
+      opixfmt: PIXFMT_I420
+      ow: 1280
+      oh: 720
+      ofps: 20
+    }
+  }
+}
+
+node {
+  name: "encode_node"
+  calculator: "x86_enc"
+  vendor: "Aupera"
+  input_stream: "image_stream_vfilter_node"
+  input_stream: "video_stream_info_vfilter_node"
+  output_stream: "packet_stream_encode_node"
+  output_stream: "codec_context_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+      enc: {
+        type: MPEG4
+        w: 0
+        h: 0
+      }
+    }
+  }
+}
+
+node {
+  name: "mux_node"
+  calculator: "stream_mux"
+  vendor: "Aupera"
+  input_stream: "packet_stream_encode_node"
+  input_stream: "codec_context_stream"
+  graph_output: "graph_output"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+     }
+    }
+  }
+}
+
+statistics_collector: {
+    target_file: "/tmp/stats/stats.json"
+    latency_stream_start: "video_info_side_packet_demux"
+    latency_stream_end: "packet_stream_encode_node"
+    throughput_stream_name: ["video_info_side_packet_demux", "packet_stream_encode_node"]
+    throughput_ignore_initial_packets_count: 10
+    size_stream_name: ["video_info_side_packet_demux", "packet_stream_encode_node"]
+}
+
+
+node {
+    name: "statistics_reader_node"
+    calculator: "statistics_reader"
+    output_stream: "json_notification"
+    node_options: {
+    [type.googleapis.com/aup.avaf.StatisticsReaderOptions]: {
+        interval_us: 1000000
+        input_path: "/tmp/stats/stats.json"
+        loop_over: true
+        input_type: FILE
+        only_send_throughput: true
+    }
+  }
+}
+
+node {
+  name: "notification_mongo_node"
+  calculator: "notification_mongo"
+  input_stream: "json_notification"
+  node_options: {
+    [type.googleapis.com/aup.avaf.NotificationMongoOptions]: {
+      # use real ip in vscode
+      mongodb_address: "mongodb://127.0.0.1:27019"
+      database_name: "test_db"
+      collection_name: "test_collection"
+      notification_q_size: 1
+    }
+  }
+}
+
+
+console_logging_filter: {
+  enable_all: true
+}
+file_logging_filter: {
+  enable_all: true
+}
