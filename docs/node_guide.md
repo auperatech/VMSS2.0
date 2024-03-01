@@ -39,21 +39,21 @@
 
 # Packet Table
 
-For in-depth implementation of packets for custom node developers [refer here](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
+For in-depth documentation of packets and associated objects for custom node developers, [refer here](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
 
 | Packet Type | Produced by | Consumed by |
 | ----- | ---- | ---- |
-| <a name="AVCodecContextPacket" /> AVCodecContextPacket | [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux) |
-| <a name="Classifications" /> Classifications | [box\_classifier](#box_classifier) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
-| <a name="DetectionPacket" /> DetectionPacket | [box\_detector](#box_detector) | [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json) |
-| <a name="ImagePacket" /> ImagePacket | [apl\_crowd\_flow](#apl_crowd_flow), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [video\_source](#video_source), [x86\_dec](#x86_dec) | [box\_classifier](#box_classifier), [box\_detector](#box_detector), [box\_segmentor](#box_segmentor), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [frame\_saver](#frame_saver), [landmark\_predictor](#landmark_predictor), [x86\_enc](#x86_enc) |
-| <a name="JsonPacket" /> JsonPacket | [apl\_crowd\_flow](#apl_crowd_flow), [statistics\_reader](#statistics_reader) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web), [to\_json](#to_json) |
-| <a name="LandmarksPacket" /> LandmarksPacket | [landmark\_predictor](#landmark_predictor) | [box\_visualizer](#box_visualizer) |
-| <a name="Segmentations" /> Segmentations | [box\_segmentor](#box_segmentor) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
-| <a name="TrackPacket" /> TrackPacket | [box\_tracker](#box_tracker) | [apl\_crowd\_flow](#apl_crowd_flow), (through implicit conversion to DetectionPacket: [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json)) |
-| <a name="UInt64Packet" /> UInt64Packet | [box\_detector](#box_detector) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_tracker](#box_tracker) |
-| <a name="VideoPacket" /> VideoPacket | [stream\_demux](#stream_demux), [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux), [x86\_dec](#x86_dec) |
-| <a name="VideoStreamInfoPacket" /> VideoStreamInfoPacket | [ff\_vfilter](#ff_vfilter), [stream\_demux](#stream_demux), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [ff\_vfilter](#ff_vfilter), [x86\_dec](#x86_dec), [x86\_enc](#x86_enc) |
+| <a name="AVCodecContextPacket" /> [AVCodecContextPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1AVCodecContextPacket.html) | [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux) |
+| <a name="Classifications" /> [Classifications](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1Classifications.html) | [box\_classifier](#box_classifier) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
+| <a name="DetectionPacket" /> [DetectionPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1DetectionPacket.html) | [box\_detector](#box_detector) | [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json) |
+| <a name="ImagePacket" /> [ImagePacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1ImagePacket.html) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [video\_source](#video_source), [x86\_dec](#x86_dec) | [box\_classifier](#box_classifier), [box\_detector](#box_detector), [box\_segmentor](#box_segmentor), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [frame\_saver](#frame_saver), [landmark\_predictor](#landmark_predictor), [x86\_enc](#x86_enc) |
+| <a name="JsonPacket" /> [JsonPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1JsonPacket.html) | [apl\_crowd\_flow](#apl_crowd_flow), [statistics\_reader](#statistics_reader) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web), [to\_json](#to_json) |
+| <a name="LandmarksPacket" /> [LandmarksPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1LandmarksPacket.html) | [landmark\_predictor](#landmark_predictor) | [box\_visualizer](#box_visualizer) |
+| <a name="Segmentations" /> [Segmentations](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1Segmentations.html) | [box\_segmentor](#box_segmentor) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
+| <a name="TrackPacket" /> [TrackPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1TrackPacket.html) | [box\_tracker](#box_tracker) | [apl\_crowd\_flow](#apl_crowd_flow), (through implicit conversion to DetectionPacket: [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json)) |
+| <a name="UInt64Packet" /> [UInt64Packet](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1UInt64Packet.html) | [box\_detector](#box_detector) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_tracker](#box_tracker) |
+| <a name="VideoPacket" /> [VideoPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1VideoPacket.html) | [stream\_demux](#stream_demux), [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux), [x86\_dec](#x86_dec) |
+| <a name="VideoStreamInfoPacket" /> [VideoStreamInfoPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1VideoStreamInfoPacket.html) | [ff\_vfilter](#ff_vfilter), [stream\_demux](#stream_demux), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [ff\_vfilter](#ff_vfilter), [x86\_dec](#x86_dec), [x86\_enc](#x86_enc) |
 
 # Introduction
 
@@ -74,8 +74,6 @@ Each node is configurable with a set of options which allow customization of the
 Every graph has a set of input and output streams that take raw video and pass it to the internal streams of the connected nodes. There are two ways to pass the input and output streams of a graph:
  - Provide a url for a video stream to the `node_options->demux->input_url` option of a [stream_demux](#stream_demux) node and provide a url for the output video stream to the `node_options->mux->input_url` option of a [stream_mux](#stream_mux) node
  - Provide entries at the top of the `.pbtxt` file specifying a `graph_input: "<input stream name>"` entry and a `graph_output: "<input stream name>"` entry (see example below). This will require making associated input `.pbtxt` and output `.pbtxt` files and then passing them to `avaser`, and as such is only recommended if running from the command line.
-
-*NOTE:* If using the web client, only the first option (i.e. setting `node_options->demux->input_url`) will be available
 
 **Running with graph inputs/outputs**
 
@@ -157,7 +155,7 @@ A side packet is a stream that is intended to pass a single, constant, value. Wh
 
 A stream must have packet type that is compatible with the input stream packet type for a node. For instance, a stream on which <a href="#ImagePacket">`ImagePacket`</a> objects are being produced cannot be passed to a node input requiring <a href="#VideoPacket">`VideoPacket`</a> objects. 
 
-There are two exceptions to this rule:
+There are exceptions to this rule:
 - Nodes taking an input of <a href="#DetectionPacket">`DetectionPacket`</a> can also take <a href="#TrackPacket">`TrackPacket`</a> objects, however nodes taking an input of <a href="#TrackPacket">`TrackPacket`</a> may not take <a href="#DetectionPacket">`DetectionPacket`</a> objects
 
 
