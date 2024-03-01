@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message BoxHFNetOptions {
+    string model = 1;
+}
