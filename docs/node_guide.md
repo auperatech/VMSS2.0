@@ -198,7 +198,7 @@ This node can optionally have 4 input streams to provide a video stream:
 
 ## box_classifier
 
-**Description:** Performs object classification either on an entire image or a cropped image region if cascaded with a box_detector
+**Description:** Performs object classification either on an entire image or a cropped image region if cascaded with a box_detector. If this node takes in detections, it will perform classification only on the regions contained in bounding boxes, otherwise it will perform classification on the whole image region, which can harm performance for wide fields of view.
 
 **Node Options:** [BoxClassifierOptions](avap_doc.md#boxclassifieroptions)
 
@@ -370,7 +370,7 @@ This node has one input stream:
 
 ## landmark_predictor
 
-**Description:** Calls a ML model to find supported face or body/pose landmarks within an image.
+**Description:** Calls a ML model to find supported face or body/pose landmarks within an image. If this node takes in detections, it will perform landmark detection only on the regions contained in bounding boxes, otherwise it will perform landmark detection on the whole image region, which can harm performance for wide fields of view.
 
 **Node Options:** [LandmarkPredictorOptions](avap_doc.md#landmarkpredictoroptions)
 
