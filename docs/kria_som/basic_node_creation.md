@@ -105,6 +105,7 @@
                                    "box_empty calculator by aupera.",
                                    {})
    ```
+   Please refer to the [kp_predictor](../../calculators/kp_predictor/) for a detailed example.
 4. Make it and install it. 
    ```bash
    make -j2
