@@ -63,7 +63,8 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
             return aup::avaf::ErrorCode::OK;
         }
         ```
-        2. Initialize the task in the `initialize()` function, e.g., 
+    
+    5. Initialize the task in the `initialize()` function, e.g., 
         ```cpp
         ErrorCode initialize(std::string& err_str) override
         {
@@ -88,7 +89,7 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
         }
 
         ```
-    5. Call the HFNet in the `execute()` function, e.g.,
+    6. Call the HFNet in the `execute()` function, e.g.,
         ```cpp
         ErrorCode execute()
         {
