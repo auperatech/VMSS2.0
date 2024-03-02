@@ -4,8 +4,8 @@ This document is a guide to creating a custom calculator with a model provided i
 Specifically, as a minimum example for this purposes, the calculator `kp_predictor` logs the number of keypoints predicted by a [HFNet](https://github.com/ethz-asl/hfnet/tree/master) model from input images. 
 
 ### Steps
-0. Download the [model](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo/model-list/tf_HFNet_mixed_960_960_20.09G_2.5) from the [model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo) and extract it.
-1. As instructed in [basic_node_creation.md](../../docs/kria_som/basic_node_creation.md)
+1. Download the [model](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo/model-list/tf_HFNet_mixed_960_960_20.09G_2.5) from the [model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo) and extract it.
+2. As instructed in [basic_node_creation.md](../../docs/kria_som/basic_node_creation.md)
     1. define configurable options in a PROTO file
 For example, a configurable `string` field `model` is defined in [kp_predictor.proto](./kp_predictor.proto) to specify the path to the XMODLE file.
         ```protobuf
@@ -36,7 +36,7 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
         #include "aup/avaf/packets/image_packet.h"
         #include "./hfnet.hpp"
         ```
-    2. Defining private members, e.g.,
+    3. Defining private members, e.g.,
         ```cpp
         class KPPredictorCalculator : public CalculatorBase<KPPredictorOptions>
         {
@@ -49,7 +49,7 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
             std::vector<cv::Mat> imgs;
         };
         ``` 
-    3. Define the input and output streams of the calculator in `fill_contract()` function, e.g., 
+    4. Define the input and output streams of the calculator in `fill_contract()` function, e.g., 
         ```cpp
         ErrorCode fill_contract(std::shared_ptr<Contract>& contract,
                                 std::string& err_str) override
@@ -88,7 +88,7 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
         }
 
         ```
-    4. Call the HFNet in the `execute()` function, e.g.,
+    5. Call the HFNet in the `execute()` function, e.g.,
         ```cpp
         ErrorCode execute()
         {
@@ -130,7 +130,7 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
     include /opt/aupera/Calculator.mk
     ```
 5. Compile the calculator and install with `make -j2 && make install`
-5. Construct the pipeline PBTXT, e.g., a `test_kp_predictor.pbtxt` with the following content: 
+6. Construct the pipeline PBTXT, e.g., a `test_kp_predictor.pbtxt` with the following content: 
     ```protobuf
     control_port: 51881
     node {
@@ -181,4 +181,4 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
         }
     }
     ```
-5. Run the pipeline with `avaser -c test_kp_predictor.pbtxt`
+7. Run the pipeline with `avaser -c test_kp_predictor.pbtxt`
