@@ -6,7 +6,7 @@ Specifically, as a minimum example for this purposes, the calculator `kp_predict
 ### Steps
 1. Download the [model](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo/model-list/tf_HFNet_mixed_960_960_20.09G_2.5) from the [model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo) and extract it.
 2. As instructed in [basic_node_creation.md](../../docs/kria_som/basic_node_creation.md)
-    1. define configurable options in a PROTO file
+    1. Define configurable options in a PROTO file
 For example, a configurable `string` field `model` is defined in [kp_predictor.proto](./kp_predictor.proto) to specify the path to the XMODLE file.
         ```protobuf
         syntax = "proto3";
@@ -29,7 +29,7 @@ For example, a configurable `string` field `model` is defined in [kp_predictor.p
         init_vmss_node.sh --vendor customvendor --name-snake kp_predictor --name-camel KPPredictor --options-type KPPredictorOptions --options-header kp_predictor.pb.h
         ```
 3. Referring to the [example](https://github.com/Xilinx/Vitis-AI/tree/2.5/examples/Vitis-AI-Library/samples/dpu_task/hfnet) provided by Vitis-AI 
-    1. Implement a utility class as the `HFNet` in the Vitis-AI example
+    1. Here we use the `HFNet` class in [the Vitis-AI example](https://github.com/Xilinx/Vitis-AI/tree/2.5/examples/Vitis-AI-Library/samples/dpu_task/hfnet). Alternatively, you can define your own utility library to better manage the DPU tasks and results.
     2. Include needed header files to `kp_predictor.cc`, e.g, 
         ```cpp
         //needed headers
