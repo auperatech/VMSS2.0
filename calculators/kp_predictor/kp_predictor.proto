@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package aup.avaf;
+
+message KPPredictorOptions {
+    string model_path = 1;
+}

@@ -1,40 +1,44 @@
 ### Purpose of the document
 This document is a guide to creating a custom calculator with a model provided in the [Vitis-AI model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo). 
 
-Specifically, as a minimum example for this purposes, the calculator `box_hfnet` logs the number of keypoints predicted by a [HFNet](https://github.com/ethz-asl/hfnet/tree/master) model from input images. 
+Specifically, as a minimum example for this purposes, the calculator `kp_predictor` logs the number of keypoints predicted by a [HFNet](https://github.com/ethz-asl/hfnet/tree/master) model from input images. 
 
 ### Steps
 0. Download the [model](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo/model-list/tf_HFNet_mixed_960_960_20.09G_2.5) from the [model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo) and extract it.
 1. As instructed in [basic_node_creation.md](../../docs/kria_som/basic_node_creation.md)
     1. define configurable options in a PROTO file
-For example, a configurable `string` field `model` is defined in [box_hfnet.proto](./box_hfnet.proto) to specify the model name.
+For example, a configurable `string` field `model` is defined in [kp_predictor.proto](./kp_predictor.proto) to specify the path to the XMODLE file.
         ```protobuf
         syntax = "proto3";
 
         package aup.avaf;
 
-        message BoxHFNetOptions {
-            string model = 1;
+        message KPPredictorOptions {
+            string model_path = 1;
         }
         ```
     2. Copy the file to `/opt/aupera/protos/aup/avap/` and rebuild AVAP with 
         ```bash
         cd /opt/aupera/protos
-        make clean
-        make -j2
-        make install
+        make clean && make -j2 && make install
         ``` 
     3. Create a empty directory for source code of the calculator and generate code files of the calculator with `init_vmss_node.sh`, e.g., 
         ```bash
-        mkdir -p /home/root/custom_calculators/box_hfnet
-        cd /home/root/custom_calculators/box_hfnet
-        init_vmss_node.sh --vendor customvendor --name-snake box_hfnet --name-camel BoxHFNet --options-type BoxHFNetOptions --options-header box_hfnet.pb.h
+        mkdir -p /home/root/custom_calculators/kp_predictor
+        cd /home/root/custom_calculators/kp_predictor
+        init_vmss_node.sh --vendor customvendor --name-snake kp_predictor --name-camel KPPredictor --options-type KPPredictorOptions --options-header kp_predictor.pb.h
         ```
 3. Referring to the [example](https://github.com/Xilinx/Vitis-AI/tree/2.5/examples/Vitis-AI-Library/samples/dpu_task/hfnet) provided by Vitis-AI 
     1. Implement a utility class as the `HFNet` in the Vitis-AI example
+    2. Include needed header files to `kp_predictor.cc`, e.g, 
+        ```cpp
+        //needed headers
+        #include "aup/avaf/packets/image_packet.h"
+        #include "./hfnet.hpp"
+        ```
     2. Defining private members, e.g.,
         ```cpp
-        class BoxHFNetCalculator : public CalculatorBase<BoxHFNetOptions>
+        class KPPredictorCalculator : public CalculatorBase<KPPredictorOptions>
         {
         ...
         private:
@@ -64,17 +68,17 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
         ErrorCode initialize(std::string& err_str) override
         {
             // raise an error if the model is not defined
-            if (options->model().empty()) {
+            if (options->model_path().empty()) {
                 AUP_AVAF_LOG_NODE(node, GraphConfig::LoggingFilter::SEVERITY_ERROR,
-                            "\033[33m" << __func__ << " The model should not be empty.\033[0m ");
+                            "\033[33m" << __func__ << " The model_path should not be empty.\033[0m ");
                 return ErrorCode::ERROR;
             }
-            model = vitis::ai::HFnet::create(options->model());
+            model = vitis::ai::HFnet::create(options->model_path());
 
             // raise an error if the DPU task is not created successfully
             if (model == nullptr) {
                 AUP_AVAF_LOG_NODE(node, GraphConfig::LoggingFilter::SEVERITY_ERROR,
-                            "\033[33m" << __func__ << " Failed to create DPU task with the mode "<< options->model() <<".\033[0m ");
+                            "\033[33m" << __func__ << " Failed to create DPU task with the mode "<< options->model_path() <<".\033[0m ");
                 return ErrorCode::ERROR;
             }
 
@@ -107,7 +111,7 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
             // apply the model 
             auto res = model->run(imgs);
 
-            // log the number of predicted keypoints
+            // log the number of predicted keypoints predicted by the model
             AUP_AVAF_LOG_NODE(node, GraphConfig::LoggingFilter::SEVERITY_INFO,
                                 res[0].keypoints.size() << " keypoints are predicted." );
             return ErrorCode::OK;
@@ -115,7 +119,7 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
         ```
 4. Add the depended objects and libraries to the `Makefile`
     ```Makefile
-    CALCULATOR = box_hfnet
+    CALCULATOR = kp_predictor
     VENDOR = customvendor
     WARNFLAGS += -Wno-unused-parameter
     include VERSION.mk
@@ -126,7 +130,7 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
     include /opt/aupera/Calculator.mk
     ```
 5. Compile the calculator and install with `make -j2 && make install`
-5. Construct the pipeline PBTXT, e.g., a `test_box_hfnet.pbtxt` with the following content: 
+5. Construct the pipeline PBTXT, e.g., a `test_kp_predictor.pbtxt` with the following content: 
     ```protobuf
     control_port: 51881
     node {
@@ -166,13 +170,15 @@ For example, a configurable `string` field `model` is defined in [box_hfnet.prot
     }
     node {
         name: "hfnet_node"
-        calculator: "box_hfnet"
+        calculator: "kp_predictor"
+        vendor: "customvendor"
         input_stream: "image_stream"
         node_options: {
-            [type.googleapis.com/aup.avaf.BoxHFNetOptions]: {
-                model: "./hfnet_tf/hfnet_tf.xmodel"
+            [type.googleapis.com/aup.avaf.KPPredictorOptions]: {
+                # the path to the XMODEL file
+                model_path: "./hfnet_tf/hfnet_tf.xmodel" 
             }
         }
     }
     ```
-5. Run the pipeline with `avaser -c test_box_hfnet.pbtxt`
+5. Run the pipeline with `avaser -c test_kp_predictor.pbtxt`
