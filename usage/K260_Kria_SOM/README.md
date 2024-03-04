@@ -26,7 +26,7 @@ It's time to run a test pipeline that runs a vehicle detector on a test RTSP vid
 First, let's navigate to the test directoy, then run the following command.
 <!-- # TODO Update from here -->
 ```bash
-cd /opt/aupera/vmss/test/box_detector_car/
+cd /opt/aupera/examples
 ```
 
 Before running this test pipeline, we highly recommed you to change the output stream name defined in `output.pbtxt` by appending a unique name to the end of the stream name to avoid conflicts with other users that are trying to use the same name. If the name you define in `output.ptxt` is in use, the pipeline will crash. For instance, you can change the default address in `output.pbxt` to the following value by appedning your name:
