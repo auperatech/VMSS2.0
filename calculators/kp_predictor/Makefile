@@ -1,4 +1,4 @@
-CALCULATOR = box_hfnet
+CALCULATOR = kp_predictor
 VENDOR = customvendor
 WARNFLAGS += -Wno-unused-parameter
 include VERSION.mk

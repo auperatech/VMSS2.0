@@ -1,3 +1,4 @@
+
 control_port: 51881
 node {
     name: "demux_node"
@@ -36,12 +37,13 @@ node {
 }
 node {
     name: "hfnet_node"
-    calculator: "box_hfnet"
-    input_stream: "image_stream"
+    calculator: "kp_predictor"
     vendor: "customvendor"
+    input_stream: "image_stream"
     node_options: {
-        [type.googleapis.com/aup.avaf.BoxHFNetOptions]: {
-            model: "./hfnet_tf/hfnet_tf.xmodel"
+        [type.googleapis.com/aup.avaf.KPPredictorOptions]: {
+            # the path to the XMODEL file
+            model_path: "./hfnet_tf/hfnet_tf.xmodel" 
         }
     }
 }
