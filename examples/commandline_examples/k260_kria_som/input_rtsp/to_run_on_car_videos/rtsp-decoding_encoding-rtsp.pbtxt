@@ -1,0 +1,110 @@
+# You may replace the graph below with your own design or
+# use the buttons above to insert a node, an example pipeline,
+# or a fully working model zoo pipeline. The graph will update automatically.
+
+
+control_port: 51881
+graph_input: "graph_input1"
+graph_output: "graph_output1"
+
+
+node {
+  name: "demux_node"
+  calculator: "stream_demux"
+  vendor: "Aupera"
+  graph_input: "graph_input1"
+  output_stream: "packet_stream_demux"
+  output_stream: "video_stream_info_demux"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+      demux: {
+        rtsp_transport: "tcp"  
+        iframe_extract: false
+        auto_reconnect: true
+      }
+    }
+  }
+}
+
+
+node {
+  name: "decode_node"
+  calculator: "x86_dec"
+  vendor: "Aupera"
+  input_stream: "packet_stream_demux"
+  input_stream: "video_stream_info_demux"
+  output_stream: "image_stream_decode"
+  output_stream: "video_stream_info_decode"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+      dec: {
+        ow: 1920
+        oh: 1080
+        opixfmt: PIXFMT_BGR24
+        queue_size: 12
+        low_latency: false
+      }
+    }
+  }
+}
+
+
+node {
+  name: "vfilter_node"
+  calculator: "ff_vfilter"
+  vendor: "Aupera"
+  input_stream: "image_stream_decode"
+  input_stream: "video_stream_info_decode"
+  output_stream: "image_stream_vfilter"
+  output_stream: "video_stream_info_vfilter"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
+      roi_x: 0
+      roi_y: 0
+      roi_w: 0
+      roi_h: 0
+      opixfmt: PIXFMT_I420
+      ow: 1280
+      oh: 720
+    }
+  }
+}
+
+
+node {
+  name: "encode_node"
+  calculator: "x86_enc"
+  vendor: "Aupera"
+  input_stream: "image_stream_vfilter"
+  input_stream: "video_stream_info_vfilter"
+  output_stream: "packet_stream_encode"
+  output_stream: "codec_context_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+     enc: {
+       type: H264
+       w: 0 
+       h: 0
+       fps: 0
+     }
+    }
+  }
+}
+
+
+node {
+  name: "mux_node"
+  calculator: "stream_mux"
+  vendor: "Aupera"
+  input_stream: "packet_stream_encode"
+  input_stream: "codec_context_stream"
+  graph_output: "graph_output1"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+     }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+# This pipeline will run on test images and there will be no video output.
+
+control_port: 51881
+
+node {
+  name: "img_stream"
+  calculator: "image_stream"
+  output_stream: "image_stream_1080p"
+  output_stream: "decode_vid_info_side_packet"
+  output_stream_attributes: {
+    name: "image_stream_1080p"
+    capacity: 128
+  }
+  node_options: {
+    [type.googleapis.com/aup.avaf.ImageStreamOptions]: {
+      playback_fps: 10000
+      directory: "/opt/aupera/avas/examples/images/224_224"
+      width: 224
+      height: 224
+      loop_over: true
+      pool_size: 128
+      preload_images: true
+    }
+  }
+}
+
+node {
+  name: "classifier"
+  calculator: "box_classifier"
+  input_stream: "image_stream_1080p"
+  output_stream: "classification_stream"
+  ml_model_kernel_name: "resnet18"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxClassifierOptions]: {
+      classifier_type: "General"
+      need_preprocess: false
+      run_on_letterboxed_img: false
+      batch_size: 8
+      return_in_order: false
+      classification_threads: 8
+      batch_collection_timeout_ms: 0
+      use_detections: false
+      log_performance: false
+      max_classification_lib_q_size: 500
+    }
+  }
+}
+
+statistics_collector: {
+  target_file: "/tmp/resnet18_throughput.json"
+  throughput_stream_name: "classification_stream"
+  throughput_ignore_initial_packets_count: 1000
+}
+
+node {
+    name: "statistics_reader"
+    calculator: "statistics_reader"
+    output_stream: "json_notification"
+    node_options: {
+    [type.googleapis.com/aup.avaf.StatisticsReaderOptions]: {
+        interval_us: 1000000
+        input_path: "/tmp/resnet18_throughput.json"
+        loop_over: true
+        input_type: FILE
+        only_send_throughput: true
+    }
+  }
+}
+
+node {
+    name: "notification_web"
+    calculator: "notification_web"
+    vendor: "Aupera"
+    input_stream: "json_notification"
+    node_options: {
+    [type.googleapis.com/aup.avaf.NotificationWebOptions]: {
+        notification_url: ""
+        notification_q_size: 1
+        protocol_type: HTTP
+    }
+  }
+}
