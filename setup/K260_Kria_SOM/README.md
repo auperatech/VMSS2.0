@@ -15,7 +15,7 @@ This guide provides step-by-step instructions for installing VMSS 2.0 Docker for
 Run the following command in your terminal to download and execute the installation script:
 
 ```bash
-wget -qO aup_vmss_setup.sh https://raw.githubusercontent.com/auperatech/VMSS2.0/pr_automatic_installation/setup/K260_Kria_SOM/aup_vmss_setup.sh && bash aup_vmss_setup.sh
+wget -qO aup_vmss_setup.sh https://raw.githubusercontent.com/auperatech/VMSS2.0/main/setup/K260_Kria_SOM/aup_vmss_setup.sh && bash aup_vmss_setup.sh
 ```
 Follow the on-screen prompts to:
 
