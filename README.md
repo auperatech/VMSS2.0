@@ -63,7 +63,7 @@ Here are some key resources to get started with our VMSS 2.0 release for K260 Kr
 
 * **Node (Calculator) Guide:** Learn what our suite of prebuilt nodes offer and learn about their specifications [in this document](docs/node_guide.md).
 
-* **Data Packet Guide:** Explore what packets are available in VMSS2.0 for communication between nodes [here](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
+* **Data Packet Guide:** Explore what packets are available in VMSS2.0 for communication between nodes [here](https://auperatech.github.io/VMSS2.0/packet_documentation/annotated.html).
 
 * **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/kria_som/basic_node_creation.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [kp_predictor](calculators/kp_predictor) or modify some of our nodes like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
 

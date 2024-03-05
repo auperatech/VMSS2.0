@@ -158,8 +158,8 @@ Choose the **Add by Serial Number** tab, enter an AI Host Name of your choice, a
 After device verification and the device is successful, you can go to the **AI Tasks** section to create your tasks and start to play!
 
 **_NOTE: For a video and more detailed document to guide you through AVAC and creating tasks, please refer to_** 
-[video guide](../../docs/avac/avac_user_guide.md)
-[avac user guide document](../../docs/avac/avac_user_guide.md)
+[video guide](../../docs/avac/README.md)
+[avac user guide document](../../docs/avac/README.md)
 
 <!-- 
 
