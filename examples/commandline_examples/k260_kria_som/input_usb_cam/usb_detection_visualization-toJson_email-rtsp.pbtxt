@@ -168,14 +168,14 @@ node {
     [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
       message_type: EMAIL
       sender: "xxxxxx@auperatech.com"
-      receiver: ["xxxxxxx1@gmail.com", "xxxxxxx2@gmail.com"]
+      receiver: ["xxxxxxx1@gmail.com"]
       notification_q_size: 2
       sender_username: "xxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxx"
       server_url: "smtps://mail.auperatech.com:465"
       trigger: {
         trigger_type: PACKET
-        trigger_consecutive_packet: 3
+        trigger_consecutive_packet: 10
         jq_query_string: ""
         notification_title: "email_notification_test"
         notification_body: "xxxxxxxxxxxxxxxxxx"
