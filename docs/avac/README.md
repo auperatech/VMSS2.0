@@ -52,6 +52,7 @@ After signing into VMSS2.0, you will be asked to add a video stream. Click **Add
 * rtsp://vmss.auperatechnologies.com:554/car
 * rtsp://vmss.auperatechnologies.com:554/crowd
 * rtsp://vmss.auperatechnologies.com:554/retail
+* rtsp://vmss.auperatechnologies.com:554/imagenet
 
 Enter a **Stream URL** of your choice, give it an arbitrary and click **Save** to proceed.
 
