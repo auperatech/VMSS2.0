@@ -1,6 +1,7 @@
 # This pipeline will run on test images and there will be no video output.
 
 control_port: 51881
+task_id: "DEFAULT"
 
 node {
   name: "img_stream"
@@ -74,9 +75,9 @@ node {
     input_stream: "json_notification"
     node_options: {
     [type.googleapis.com/aup.avaf.NotificationWebOptions]: {
-        notification_url: ""
+        notification_url: "udp://127.0.0.1:8888"
         notification_q_size: 1
-        protocol_type: HTTP
+        protocol_type: UDP
     }
   }
 }
