@@ -10,116 +10,29 @@ This guide provides step-by-step instructions for installing VMSS 2.0 Docker for
 
 ## Installation Steps
 
-### 1. Update System Packages
-It is recommended to update the list of packages:
-   ```bash
-   sudo apt-get update
-   ```
+### 1. Download and Execute the Installation Script
 
-Make sure to not use `sudo apt-get upgrade` after that, upgrading all the packages might casue some issues.
-
-
-<!-- ![](kernel_update.jpg) -->
-
-### 2. Installing `bootgen`
-Add the Xilinx's PPA to the list of your sources and install the `bootgen`:
-
-   ```bash
-   sudo add-apt-repository -y ppa:xilinx-apps/ppa
-   sudo apt-get install bootgen-xlnx
-   ```
-
-
-### 3. Installing Kria Starter Kit Application Firmware
-We need to clone the starter kit repository and install it, follow these:
+Run the following command in your terminal to download and execute the installation script:
 
 ```bash
-git clone --branch xlnx_rel_v2022.1 https://github.com/Xilinx/kria-apps-firmware.git
-cd kria-apps-firmware/
-sudo make -C boards/ install
-cd ..
+wget -qO aup_vmss_setup.sh https://raw.githubusercontent.com/auperatech/VMSS2.0/main/setup/K260_Kria_SOM/aup_vmss_setup.sh && bash aup_vmss_setup.sh
 ```
+Follow the on-screen prompts to:
 
-### 4. Load the Required Application
-Using `xmutil` we are going to load the `kv260-benchmark-b4096` on the DPU:
+- Specify the full path of the shared directory for Docker container access. Leave blank to use the current directory.
+- Enter the name for your Docker container. Leave blank to use the default name `vmss_docker`.
+
+### 2. Accessing Your Docker Container
+After the installation, you can access your Docker container's interactive bash session with the following command:
 
 ```bash
-sudo xmutil unloadapp
-sudo xmutil loadapp kv260-benchmark-b4096
+sudo docker container exec -ti vmss_docker bash
 ```
-
-At this stage, we need to install the follwing dependencies:  
+Replace vmss_docker with your specified container name if you did not use the default as shown below:
 
 ```bash
-sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
+sudo docker container exec -ti vmss_docker bash
 ```
-
-### 5. Preparing and Installing the Docker Engine
-Before pulling the docker image, follow these steps:
-
-```bash
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-echo   "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
-https://download.docker.com/linux/ubuntu \
-$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-```
-
-### 6. Pull the Docker Image
-VMSS is available throught the public docker repository `auperastor/kria-som-dev:<TAG>`. Currently the latest avilabe `TAG` is `latest` so you can pull the latest docker by running the following command on your Kria SOM device:
-```bash
-sudo docker pull auperastor/kria-som-dev:latest
-```
-After pulling the image, you should be able to find it in the docker images list:
-
-```bash
-sudo docker images
-```
-
-### 7. Start Docker Container
-
-Now we have the image and it is time to start a `container` using it.  
-
-This docker container ideally starts with a shared directory between the host OS and the docker. For this reason, first choose or create a directory and go there and then start the docker. Here is how:
-
-```bash
-cd <SHARED-DIR> && \
-sudo docker run \
-    --env="DISPLAY" \
-    -h "aupera-docker" \
-    --env="XDG_SESSION_TYPE" \
-    --cap-add sys_admin \
-    --cap-add NET_ADMIN \
-    --cap-add NET_RAW \
-    --network=host \
-    --privileged=true \
-    --hostname=general \
-    -v /tmp:/tmp \
-    -v /dev:/dev \
-    -v /sys:/sys \
-    -v /etc/vart.conf:/etc/vart.conf \
-    -v /lib/firmware/xilinx:/lib/firmware/xilinx \
-    -v /run:/run \
-    -v `pwd`:`pwd` \
-    -w `pwd` \
-    -e NFS_ABS_PATH=`pwd` \
-    --name=<DOCKER-NAME> \
-    -dit auperastor/kria-som-dev:latest bash
-```
-
-Note that `<SHARED-DIR>` is the directory that you share between host OS and docker. Also `<DOCKER-NAME>` is the name of the docker container that you want to create. You can verify that you have created and started a container, by running the following command:  
-
-```bash
-sudo docker ps -a
-```
-
-Now you can enter the docker:
-
-```bash
-sudo docker container exec -ti <DOCKER-NAME> bash
-```
-
 
 ## Play with Aupera Web Cloud
 
