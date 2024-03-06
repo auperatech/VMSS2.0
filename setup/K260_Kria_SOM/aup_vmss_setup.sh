@@ -3,6 +3,8 @@
 # Exit script on error
 set -e
 
+export DEBIAN_FRONTEND=noninteractive
+
 # Update system packages
 echo "Updating system packages..."
 sudo apt-get update
