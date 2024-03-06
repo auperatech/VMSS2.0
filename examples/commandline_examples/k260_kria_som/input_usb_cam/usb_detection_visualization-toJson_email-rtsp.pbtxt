@@ -174,9 +174,9 @@ node {
       sender_password: "xxxxxxxxxxxxx"
       server_url: "smtps://mail.auperatech.com:465"
       trigger: {
-        trigger_type: JQ
+        trigger_type: PACKET
         trigger_consecutive_packet: 3
-        jq_query_string: "'select(.total_persons_entering > 10 and .interval_persons_entering % 2 == 1)'"
+        jq_query_string: ""
         notification_title: "email_notification_test"
         notification_body: "xxxxxxxxxxxxxxxxxx"
         attach_json: true
