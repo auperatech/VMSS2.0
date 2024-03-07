@@ -61,6 +61,7 @@ Once you sign in with your new account, you will be asked to add a video stream.
 rtsp://vmss.auperatechnologies.com:554/crowd
 rtsp://vmss.auperatechnologies.com:554/car
 rtsp://vmss.auperatechnologies.com:554/retail
+rtsp://vmss.auperatechnologies.com:554/imagenet
 ```
 
 **Last, add the device with the unique serial number and start running tasks.**
