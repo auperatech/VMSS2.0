@@ -58,4 +58,4 @@ Change the pipeline to detect persons instead of faces and explore different mod
 - Saving detection results to a file
 - Links to example projects and additional resources
 
-Remember to replace placeholders (like RTSP URLs and model names) with actual data and add more detailed instructions and code snippets as needed. Good luck with your tutorial!
+Remember to replace placeholders (like RTSP URLs and model names) with actual data and add more detailed instructions and code snippets as needed. 
