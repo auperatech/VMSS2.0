@@ -103,8 +103,9 @@ node {
       roi_w: 0
       roi_h: 0
       opixfmt: PIXFMT_I420
-      ow: 1280
-      oh: 720
+      ow: 960
+      oh: 540
+      ofps: 12
     }
   }
 }
@@ -121,9 +122,8 @@ node {
     [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
      enc: {
        type: H264
-       w: 0 
-       h: 0
-       fps: 0
+       fps: 12
+       bitrate: 100
      }
     }
   }
