@@ -6,7 +6,7 @@
   - [Face Detection on RTSP Streams](#face-detection-on-rtsp-streams)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
-  - [Modifying Output to Send SMS](#modifying-output-to-send-sms)
+  - [Adding SMS Message Notification Alert](#adding_sms_message_notification_alert)
   - [Switching to Person Detection and Model Selection](#switching-to-person-detection-and-model-selection)
 
 ## Face Detection on RTSP Streams
@@ -549,11 +549,12 @@
   }
   ```
 
-## Modifying Output to Send SMS
+## Adding SMS Message Notification Alert
 
   ```protobuf
   control_port: 51881
   graph_output: "graph_output1"
+  task_id: "sms_test_only"
 
   node {
     name: "usb_cam"
@@ -742,13 +743,13 @@
         notification_q_size: 2
         sender_username: "xxxxxxxxxxxxxxxxxxxxx"
         sender_password: "xxxxxxxxxxxxxxxxxxxxx"
-        server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
+        server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"
         trigger: {
           trigger_type: JQ
           trigger_consecutive_packet: 3
-          jq_query_string: "'select(.average_throughput_value > 20)'"
-          notification_title: "sms_notification_test"
-          notification_body: "xxxxxxxxxxxxxxxxxx"
+          jq_query_string: "'select(.items | to_entries | map(.value | select(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)) | length >= 4)'"
+          notification_title: "sms_notification_alert"
+          notification_body: "At least 5 faces are detected in a region for consecutive 3 packets"
         }
       }
     }

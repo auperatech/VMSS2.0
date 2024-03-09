@@ -44,9 +44,28 @@ This section describes how to change the input source from an RTSP stream to a U
 
 ## Adding SMS Message Notification Alert
 
-We can also add notification_message calculator to send personalized SMS notifications. This innovative functionality is designed to cater to the specific needs of customers by enabling alerts based on custom object detection criteria. When the system identifies predefined objects in certain quantities—meticulously set by the customers themselves—it triggers an automated process to dispatch tailored SMS messages directly to the customers. This real-time notification system not only keeps customers informed about critical events as they unfold but also adds a layer of interactive and proactive communication, significantly enhancing the overall user experience. Through this feature, the pipeline transcends traditional boundaries, transforming into a dynamic tool that empowers customers with immediate insights and actionable information delivered straight to their mobile devices.
+We can also add the **notification_message** calculator to send personalized SMS/Email notifications. 
 
-What we need to do to enable this functionality is just adding the to_json calculator and notification_message calculator at the end.
+This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the customer, it triggers an automated process to send customized text messages directly to the customer. We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
+
+Let's try to start sending SMS notification alerts! To enable this functionality, we need to add the **to_json** calculator and the **notification_message** calculator at the end of the pipeline. 
+
+The **to_json** calculator is a calculator to convert metadata packets like Detection/Track Packet into JSON packets. It has 3 user-defined options: label_name_file, network, and input_type. For more details on setting the three config options, please refer to [to_json.proto](../../calculators/to_json/to_json.proto)
+
+The **notification_message** calculator is designed to send customized JSON notifications to users through emails or SMS messages. It has the following  user-defined options that need to be addressed:
+
+- **message_type**: the value is either EMAIL or SMS, which stands for the protocol to use.
+- **sender**: the value is an email address string if sending email notifications; it is a phone number string if sending SMS notifications.
+- **receiver**: the value is an array of email address strings or an array of phone number strings depending on the protocol.
+- **sender_username** and **sender_password**: the value is the credentials or authentications for connecting the server URL.
+- **server_url**: the value is the email SMTP URL or the SMS gateway API URL depending on the protocol.
+- **trigger_type**: the value is either PACKET or JQ, which stands for whether applying jq to trigger the JSON packet or not. If PACKET is selected, then the plain packet text will be sent.
+- **jq_query_string**: 
+- **trigger_consecutive_packet**: the expected value is a number > 0, which determines the number of packets to be sent when meeting the user-defined trigger query.
+- **notification_title** and **notification_body**: the values are user-defined title and body context would like to add to the notification alert
+- **attach_json**: the value is true or false, for users to choose if they want to attach the detected JSON packet contents into the SMS/Email notification or not.
+
+Here is an example of the to_json calculator and the notification_message calculator:
 
 ```
 node {
@@ -75,33 +94,23 @@ node {
       notification_q_size: 2
       sender_username: "xxxxxxxxxxxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxxxxxxxxxx"
-      server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
+      server_url: "https://api.twilio.com/2010-04-01/Accounts/xxxxxxxxx/Messages.json"
       trigger: {
         trigger_type: JQ
         trigger_consecutive_packet: 3
         jq_query_string: "'select(.average_throughput_value > 20)'"
         notification_title: "sms_notification_test"
         notification_body: "xxxxxxxxxxxxxxxxxx"
+        attach_json: true
       }
     }
   }
 }
 ```
 
-**The to_json calculator is a calculator to convert meta data packets like DetectionPacket into JSON packets.**
+Now, an example of sending the SMS to user's phone when at least 5 faces are detected in a specified region is given below.
 
-[details parameter explanation about to_json]
-
-**The notification_message calculator is a calculator designed to send customized notifications to users through emails or SMS messages.**
-
-[details parameter explanation about notification_message]
-
-
-
-Now I'm going to give an example that will send the SMS to users phone when at least 5 faces detected in a region of interest.
-
-[Check example here](./k260_kria_som_pbtxt.md#modifying-output-to-send-sms)
-
+[Check example here](./k260_kria_som_pbtxt.md#adding_sms_message_notification_alert)
 
 
 ## Switching to Person Detection and Model Selection
