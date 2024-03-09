@@ -42,7 +42,7 @@ This section describes how to change the input source from an RTSP stream to a U
 
 [Check example here](./k260_kria_som_pbtxt.md#changing-input-from-rtsp-to-usb)
 
-## Modifying Output to Send SMS
+## Adding SMS Message Notification Alert
 
 We can also add notification_message calculator to send personalized SMS notifications. This innovative functionality is designed to cater to the specific needs of customers by enabling alerts based on custom object detection criteria. When the system identifies predefined objects in certain quantities—meticulously set by the customers themselves—it triggers an automated process to dispatch tailored SMS messages directly to the customers. This real-time notification system not only keeps customers informed about critical events as they unfold but also adds a layer of interactive and proactive communication, significantly enhancing the overall user experience. Through this feature, the pipeline transcends traditional boundaries, transforming into a dynamic tool that empowers customers with immediate insights and actionable information delivered straight to their mobile devices.
 
