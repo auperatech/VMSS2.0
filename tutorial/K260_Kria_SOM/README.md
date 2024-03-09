@@ -108,9 +108,10 @@ node {
 }
 ```
 
-Now, an example of sending the SMS to user's phone when at least 5 faces are detected in a specified region is given below.
+Now, an example pipeline of sending the SMS to the user's phone when at least 4 faces are detected in a specified region is given below. This pipeline is used to detect person faces in the USB input video. 
 
-[Check example here](./k260_kria_som_pbtxt.md#adding_sms_message_notification_alert)
+As shown in the `jq_query_string` in the **notification_message** calculator, it uses JQ to trigger the JSON packet detected. The SMS message will be sent if 3 consecutive JSON packets meet the requirement that at least 4 faces(`item` ) are detected in the specified region `(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)` in the video frame. 
+[Check example here](./k260_kria_som_pbtxt.md#adding-sms-message-notification-alert)
 
 
 ## Switching to Person Detection and Model Selection
