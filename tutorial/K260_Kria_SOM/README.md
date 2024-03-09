@@ -9,7 +9,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
     - [Test RTSP Streams](#test-rtsp-streams)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
-  - [Modifying Output to Send SMS](#modifying-output-to-send-sms)
+  - [Adding SMS Message Notification Alert](#adding-sms-message-notification-alert)
   - [Switching to Person Detection and Model Selection](#switching-to-person-detection-and-model-selection)
     - [Available Models](#available-models)
   - [Tips and Tricks](#tips-and-tricks)
