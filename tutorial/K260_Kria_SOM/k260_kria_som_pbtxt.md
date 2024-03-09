@@ -6,7 +6,7 @@
   - [Face Detection on RTSP Streams](#face-detection-on-rtsp-streams)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
-  - [Adding SMS Message Notification Alert](#adding_sms_message_notification_alert)
+  - [Adding SMS Message Notification Alert](#adding-sms-message-notification-alert)
   - [Switching to Person Detection and Model Selection](#switching-to-person-detection-and-model-selection)
 
 ## Face Detection on RTSP Streams
