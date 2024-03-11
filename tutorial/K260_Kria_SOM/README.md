@@ -100,7 +100,7 @@ Take sending SMS notifications as an example and using [Twilio](https://www.twil
   ```
 
 
-Here is an example of how the to_json calculator and the notification_message calculator connect to send SMS notifications:
+An example of how the to_json calculator and the notification_message calculator connected to send SMS notifications:
 
 ```
 node {
@@ -143,12 +143,12 @@ node {
 }
 ```
 
-An example pipeline of sending the SMS to the user's phone when at least 4 faces are detected in a specified region is given here: [Check the example here](./k260_kria_som_pbtxt.md#adding-sms-message-notification-alert). This pipeline is used to detect person faces in the USB input video. Here is an example of the original JSON packet detected without any jq trigger applied:
+Here is an example of the original JSON packet detected looks like without any jq trigger applied:
 
 ```
 {
   "frame": 3,
-  "item_count": 2,
+  "item_count": 1,
   "items": {
     "item 1": {
       "box_id": 1,
@@ -164,6 +164,8 @@ An example pipeline of sending the SMS to the user's phone when at least 4 faces
   "ts_us_offset": 100100
 }
 ```
+
+Now, we will give a real pipeline example of sending the SMS to the user's phone when at least 4 faces are detected in a specified region: [Check the example here](./k260_kria_som_pbtxt.md#adding-sms-message-notification-alert). This pipeline is used to detect person faces in the USB input video. 
 
 As shown in the `jq_query_string` in the **notification_message** calculator on the example pipeline, we use JQ to trigger the JSON packet detected. In this case, the SMS message will only be sent if 3 consecutive JSON packets meet the requirement that at least 4 faces(`item` ) are detected in the specified region `(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)` in the video frame. 
 
