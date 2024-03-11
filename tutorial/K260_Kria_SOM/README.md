@@ -143,10 +143,31 @@ node {
 }
 ```
 
-An example pipeline of sending the SMS to the user's phone when at least 4 faces are detected in a specified region is given here: [Check the example here](./k260_kria_som_pbtxt.md#adding-sms-message-notification-alert).
+An example pipeline of sending the SMS to the user's phone when at least 4 faces are detected in a specified region is given here: [Check the example here](./k260_kria_som_pbtxt.md#adding-sms-message-notification-alert). This pipeline is used to detect person faces in the USB input video. Here is an example of the original JSON packet detected without any jq trigger applied:
 
-This pipeline is used to detect person faces in the USB input video. As shown in the `jq_query_string` in the **notification_message** calculator, it uses JQ to trigger the JSON packet detected. The SMS message will be sent if 3 consecutive JSON packets meet the requirement that at least 4 faces(`item` ) are detected in the specified region `(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)` in the video frame. 
+```
+{
+  "frame": 3,
+  "item_count": 2,
+  "items": {
+    "item 1": {
+      "box_id": 1,
+      "confidence": 0.9979965686798096,
+      "height": 141,
+      "width": 174,
+      "x": 1086,
+      "y": 283
+    }
+  },
+  "network": "FaceDetectDenseBox",
+  "timestamp": 3003000,
+  "ts_us_offset": 100100
+}
+```
 
+As shown in the `jq_query_string` in the **notification_message** calculator on the example pipeline, we use JQ to trigger the JSON packet detected. In this case, the SMS message will only be sent if 3 consecutive JSON packets meet the requirement that at least 4 faces(`item` ) are detected in the specified region `(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)` in the video frame. 
+
+By simply changing the `jq_query_string` input, we could achieve various jq triggers and get SMS alerts for different cases. For example, by changing the `jq_query_string` input to `'select((.items | to_entries | map(select(.value.confidence >= 1)) | length) >= 2)'`, we could achieve the case of sending SMS notifications when there are at least two faces detected with `confidence` greater or equal than one. 
 
 
 ## Switching to Person Detection and Model Selection
