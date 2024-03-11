@@ -12,7 +12,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
         - [Input `-i` :](#input--i-)
         - [Output `-o`:](#output--o)
     - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
-  - [Switching to Face Detection on RTSP Streams and Model Selection](#switching-to-face-detection-on-rtsp-streams-and-model-selection)
+  - [Reconfiguring the Pipeline to Run Face Detection](#reconfiguring-the-pipeline-to-run-face-detection)
     - [Available Models](#available-models)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
@@ -107,26 +107,45 @@ avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
 
 Now you can verify the new pipeline running on this new input by watching the address you set as your `output_urls` in `output.pbtxt` file.
 
-## Switching to Face Detection on RTSP Streams and Model Selection
+## Reconfiguring the Pipeline to Run Face Detection 
 
 In the previous step you were able to run a person detector model provided via AMD Vitis AI model zoo on two different sources of input (MP4 file and RTSP Stream). In this section, we are going to run the last pipeline you just ran but change the model from a person detector to a face detector. First, we will walk you through what's needed. Then we will explain the logic behind it futher.
 
 In order to reconfigure the pipeline for this purpose you only need to modify the following 3 values in   `assets/rtsp_persondetect_rtsp.pbtxt` pipeline that you used in the previous step:
 
-- `ml_model_kernel_name`
-- `detector_type`
-- `total_classes`
+- [`ml_model_kernel_name`](https://github.com/auperatech/VMSS2.0/blob/ee5dff5b3479efb2d03464dcd49f66ac7b1f686e/tutorial/K260_Kria_SOM/assets/rtsp_persondetect_rtsp.pbtxt#L50): "densebox_320_320"
+- [`detector_type`](https://github.com/auperatech/VMSS2.0/blob/ee5dff5b3479efb2d03464dcd49f66ac7b1f686e/tutorial/K260_Kria_SOM/assets/rtsp_persondetect_rtsp.pbtxt#L54): "FaceDetectDenseBox"
+- [`total_classes`](https://github.com/auperatech/VMSS2.0/blob/ee5dff5b3479efb2d03464dcd49f66ac7b1f686e/tutorial/K260_Kria_SOM/assets/rtsp_persondetect_rtsp.pbtxt#L63): 2
 
-
-
+Once you made the changes mentioned above, confirm your input and output urls as shown below:
+```
+root@general:/home/ubuntu# cat input.pbtxt
+input_urls: "rtsp://vmss.auperatechnologies.com:554/crowd2"
+root@general:/home/ubuntu# cat output.pbtxt
+output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
+```
+Then run the pipeline as shown before by running `avaser` and watch the results in your video player.
+```
+avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+```
 
 ### Available Models
 
-| Model Kernel Name    | Description                       | Total Classes | TYPE |
-|---------------|-----------------------------------|---------------| --------- |
-| Model A       | Suitable for general person detection | 20  | YOLOV3 |
-| Model B       | Optimized for low-light conditions  | NN  | SSD   |
-| Model C       | High accuracy for crowded scenes   | NN  | RefineDet  |
+| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link
+|---------------|-----------------------------------|---------------| --------- | --------- |
+| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| refinedet_baseline | person detector | 2  | RefineDet  | [link]() |
+| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link]() |
+| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link]() |
+| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link]() |
+| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link]() |
+| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link]() |
+| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link]() |
+
 
 [Check example here](./k260_kria_som_pbtxt.md#face-detection-on-rtsp-streams)
 
