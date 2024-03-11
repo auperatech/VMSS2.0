@@ -5,18 +5,59 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
 ## Table of Contents
 - [Aupera VMSS2.0 Tutorial](#aupera-vmss20-tutorial)
   - [Table of Contents](#table-of-contents)
-  - [Face Detection on RTSP Streams](#face-detection-on-rtsp-streams)
+  - [Download Required Assets](#download-required-assets)
+  - [Person Detection](#person-detection)
     - [Test RTSP Streams](#test-rtsp-streams)
+        - [Config `-c`:](#config--c)
+        - [Input `-i` :](#input--i-)
+        - [Output `-o`:](#output--o)
+    - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
+  - [Switching to Face Detection on RTSP Streams and Model Selection](#switching-to-face-detection-on-rtsp-streams-and-model-selection)
+    - [Available Models](#available-models)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
   - [Modifying Output to Send SMS](#modifying-output-to-send-sms)
-  - [Switching to Person Detection and Model Selection](#switching-to-person-detection-and-model-selection)
-    - [Available Models](#available-models)
   - [Tips and Tricks](#tips-and-tricks)
 
-## Face Detection on RTSP Streams
+## Download Required Assets
 
-In this section, we will set up a face detector to run on RTSP streams and visualize the results.
+Please make sure you have followed our [setup procedure](../../setup/K260_Kria_SOM/) and you have launched your own docker container before following the steps below. 
+
+First, You need to download the required assets for this tutorial. Let's starting by downloading the required zipped for this tutorial and unzip it. 
+
+```
+wget https://amd.vmaccel.com/object-store/v1/aup_releases/k260_tutorial_assets_20240310.zip && unzip k260_tutorial_assets_20240310.zip
+```
+This will produce the following directory:
+```
+./assets
+├── face_demo_82s.mp4
+├── rtsp_facedetect-tracker_rtsp.pbtxt
+├── rtsp_facedetect_rtsp.pbtxt
+├── rtsp_persondetect_rtsp.pbtxt
+├── usb_facedetect-tracker_rtsp.pbtxt
+└── usb_facedetect-tracker_sms.pbtxt
+```
+
+## Person Detection
+In this section, we will set up a person detector to run on a video file and view the results as bounding boxes drawn on the output video. To do so, we will use a video file in the assets for this totorial, a SSD based model provided by AMD, and finally we push the output to our public RTSP server and use a video player such as VLC to view the results.
+
+
+Now, let's create our `input.pbtxt` and `output.pbtxt` files that are required for running a pipeline. For the input, we are using mp4 file `face_demo_82s.mp4`. Therefore, the path should be passed as `input_urls` as shown below: 
+
+```
+echo 'input_urls: "assets/face_demo_82s.mp4"' > input.pbtxt
+```
+
+For the output, we follow the same logic, but instead of saving the ouput in a file we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do so, all you need to do is choose any unique arbitrary name and append to `rtsp://vmss.auperatechnologies.com:554/` and pass to to your `output_urls` as shown below
+
+```
+echo 'output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"' > output.pbtxt
+```
+
+***NOTE*** The RTSP server requires a unique stream to be used. Please change the "your-output-name" to your desired output name before proceeding to the next step.
+
+Finally, make sure you have a video player available to watch your output stream. We recommend using [VLC.](https://www.videolan.org/) Launche the video player and make sure you can run a test RTSP stream. You can use one of our test streams to verify this step.
 
 ### Test RTSP Streams
 
@@ -26,7 +67,66 @@ Here's a list of RTSP streams that you can use for testing:
 |-------------|----------|
 | Cars Street View   | rtsp://vmss.auperatechnologies.com:554/car |
 | Mall Surveilance View   | rtsp://vmss.auperatechnologies.com:554/crowd |
+| Hallway   | rtsp://vmss.auperatechnologies.com:554/crowd2 |
 | Compiled Subset of Imagenet Samples   | rtsp://vmss.auperatechnologies.com:554/imagenet |
+
+***NOTE:*** In VLC you can paste one of the streams above  `Media->Open Network Stream...` and press `Play`. 
+
+Now that you have created your input and output files and verified you can watch an RTSP stream, you are ready to start this example. To run this example run the following command: 
+
+```
+avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect-tracker_rtsp.pbtxt
+```
+
+Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
+
+In short, `avaser` is VMMS's command that runs a graph/pipeline. There are `3` pbtxt files that are required to pass to `avaser`:
+
+##### Config `-c`: 
+    expects a pipeline config file in `.pbtxt` format that contains your pipeline definition (the list of nodes and connections). 
+
+##### Input `-i` : 
+    expects your input(s) listed as pair(s) if `input_urls` and URL/File values passed a single `.pbtxt` file.
+
+##### Output `-o`: 
+    expects your output(s) listed as pair(s) if `output_urls` and URL/File values passed a single `.pbtxt` file.
+
+### Changing the Input to RTSP
+
+You can easily change the input stream to a live RTPS stream by changing the `input_urls`. For instance you can modify the previous `input.pbtxt` to run on a Mall RTSP stream by running the this command:
+
+```
+echo 'input_urls: "rtsp://vmss.auperatechnologies.com:554/crowd2"' > input.pbtxt
+```
+
+Now you can run the same `avaser` command you ran before by passing this new input input file:
+
+```
+avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+```
+
+Now you can verify the new pipeline running on this new input by watching the address you set as your `output_urls` in `output.pbtxt` file.
+
+## Switching to Face Detection on RTSP Streams and Model Selection
+
+In the previous step you were able to run a person detector model provided via AMD Vitis AI model zoo on two different sources of input (MP4 file and RTSP Stream). In this section, we are going to run the last pipeline you just ran but change the model from a person detector to a face detector. First, we will walk you through what's needed. Then we will explain the logic behind it futher.
+
+In order to reconfigure the pipeline for this purpose you only need to modify the following 3 values in   `assets/rtsp_persondetect_rtsp.pbtxt` pipeline that you used in the previous step:
+
+- `ml_model_kernel_name`
+- `detector_type`
+- `total_classes`
+
+
+
+
+### Available Models
+
+| Model Kernel Name    | Description                       | Total Classes | TYPE |
+|---------------|-----------------------------------|---------------| --------- |
+| Model A       | Suitable for general person detection | 20  | YOLOV3 |
+| Model B       | Optimized for low-light conditions  | NN  | SSD   |
+| Model C       | High accuracy for crowded scenes   | NN  | RefineDet  |
 
 [Check example here](./k260_kria_som_pbtxt.md#face-detection-on-rtsp-streams)
 
@@ -48,19 +148,6 @@ Instructions on how to change the output of the detection system to send SMS ale
 
 [Check example here](./k260_kria_som_pbtxt.md#modifying-output-to-send-sms)
 
-## Switching to Person Detection and Model Selection
-
-Change the pipeline to detect persons instead of faces and explore different models for detection.
-
-### Available Models
-
-| Model Kernel Name    | Description                       | Total Classes | TYPE |
-|---------------|-----------------------------------|---------------| --------- |
-| Model A       | Suitable for general person detection | 20  | YOLOV3 |
-| Model B       | Optimized for low-light conditions  | NN  | SSD   |
-| Model C       | High accuracy for crowded scenes   | NN  | RefineDet  |
-
-[Check example here](./k260_kria_som_pbtxt.md#switching-to-person-detection-and-model-selection)
 
 ## Tips and Tricks
 
