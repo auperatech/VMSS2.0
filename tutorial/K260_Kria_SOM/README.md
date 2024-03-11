@@ -67,28 +67,28 @@ The **notification_message** calculator is designed to send customized JSON noti
 - **notification_title** and **notification_body**: the values are user-defined title and body context would like to add to the notification alert
 - **attach_json**: the value is true or false, for users to choose if they want to attach the detected JSON packet contents into the SMS/Email notification or not.
 
-To fill in the **server_url**, **sender_username,** and **sender_password**, users need to set up the email SMTP server or SMS gateway server. 
+To fill in the **server_url**, **sender_username,** and **sender_password**, users need to set up the email SMTP server or SMS gateway server APIs. 
 
-Taking sending Gmail emails as an example and suppose my Gmail address is aupera1234@gmail.com, the steps to set up the STMP server are:
+Take sending Gmail emails as an example and suppose our Gmail address is aupera1234@gmail.com, the steps to set up the SMTP server are:
 
 - Log in to the Gmail account and enable the [2-Step Verification](https://myaccount.google.com/security) under the **Security** section.
 
 - At the bottom of the 2-Step Verification page, Add **APP passwords**. Please name the app according to your preference, maybe Aupera Notification, and create a new app-specific password.
-  <div align="center"> <img src="./figures/user_password.png" alt="VLC Menu"> </div>
+  <div align="center"> <img src="./figures/email_smtp.png" alt="Email SMTP" width="350" height="300"> </div>
   As shown in the figure above, the email notification information can be set as follows:
-    ```
-    server_url: "smtp.gmail.com:587"
-    sender_username: "aupera1234@gmail.com"
-    sender_password: "kfjrxtefuzibnbes"
-    ```
+  ```
+  server_url: "smtp.gmail.com:587"
+  sender_username: "aupera1234@gmail.com"
+  sender_password: "kfjrxtefuzibnbes"
+  ```
 
 Take sending SMS notifications as an example and using [Twilio](https://www.twilio.com/en-us) to set up the SMS Gateway APIs, the steps are as follows:
 
 - Sign up for a [Twilio free account](https://login.twilio.com/u/signup?state=hKFo2SBlLVRYTU1JNmQweDhELW5QRVk5MDVzYU5LZFZGMk5rSaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEk4a01NU1YzNl9MbEVKOGIyUGtMTjBJcHdNMmhuZzExo2NpZNkgTW05M1lTTDVSclpmNzdobUlKZFI3QktZYjZPOXV1cks) and get a trial Twilio phone number
 
-- Get account information for the free trial account
+- Get **Account Info** for the free trial account at bottom of the account page
 
-  <div align="center"> <img src="./figures/twilio_account.png" alt="VLC Menu"> </div>
+  <div align="center"> <img src="./figures/sms_gateway.png" alt="SMS Gateway" width="350" height="300"> </div>
 
   As shown in the figure above, the SMS notification information can be set as follows:
 
