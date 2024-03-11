@@ -28,11 +28,7 @@ After the installation, you can access your Docker container's interactive bash 
 ```bash
 sudo docker container exec -ti vmss_docker bash
 ```
-Replace vmss_docker with your specified container name if you did not use the default as shown below:
-
-```bash
-sudo docker container exec -ti vmss_docker bash
-```
+Replace `vmss_docker` with your specified container name if you did not use the default name when prompted for container name in the installation step.
 
 ## Play with Aupera Web Cloud
 
