@@ -7,17 +7,17 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Table of Contents](#table-of-contents)
   - [Download Required Assets](#download-required-assets)
   - [Person Detection](#person-detection)
-    - [Test RTSP Streams](#test-rtsp-streams)
         - [Config `-c`:](#config--c)
         - [Input `-i` :](#input--i-)
         - [Output `-o`:](#output--o)
     - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
   - [Reconfiguring the Pipeline to Run Face Detection](#reconfiguring-the-pipeline-to-run-face-detection)
-    - [Available Models](#available-models)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
   - [Modifying Output to Send SMS](#modifying-output-to-send-sms)
   - [Tips and Tricks](#tips-and-tricks)
+    - [Test RTSP Streams](#test-rtsp-streams)
+    - [Available Models](#available-models)
 
 ## Download Required Assets
 
@@ -55,22 +55,13 @@ For the output, we follow the same logic, but instead of saving the ouput in a f
 echo 'output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"' > output.pbtxt
 ```
 
-***NOTE*** The RTSP server requires a unique stream to be used. Please change the "your-output-name" to your desired output name before proceeding to the next step.
+***NOTE*** The RTSP server requires a unique stream to be used. Please change the "your-output-name" to your desired output name before proceeding to the next step. 
 
-Finally, make sure you have a video player available to watch your output stream. We recommend using [VLC.](https://www.videolan.org/) Launche the video player and make sure you can run a test RTSP stream. You can use one of our test streams to verify this step.
+Finally, make sure you have a video player available to watch your output stream. We recommend using [VLC.](https://www.videolan.org/) Launche the video player and make sure you can run a test RTSP stream. You can use one of our test streams to verify this step. You may use any of the test streams listed [here](#test-rtsp-streams) to verify this.
 
-### Test RTSP Streams
 
-Here's a list of RTSP streams that you can use for testing:
 
-| Stream Name | RTSP URL |
-|-------------|----------|
-| Cars Street View   | rtsp://vmss.auperatechnologies.com:554/car |
-| Mall Surveilance View   | rtsp://vmss.auperatechnologies.com:554/crowd |
-| Hallway   | rtsp://vmss.auperatechnologies.com:554/crowd2 |
-| Compiled Subset of Imagenet Samples   | rtsp://vmss.auperatechnologies.com:554/imagenet |
-
-***NOTE:*** In VLC you can paste one of the streams above  `Media->Open Network Stream...` and press `Play`. 
+***NOTE*** In VLC you can paste one of the streams above  `Media->Open Network Stream...` and press `Play`. 
 
 Now that you have created your input and output files and verified you can watch an RTSP stream, you are ready to start this example. To run this example run the following command: 
 
@@ -129,22 +120,7 @@ Then run the pipeline as shown before by running `avaser` and watch the results 
 avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
 ```
 
-### Available Models
 
-| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link
-|---------------|-----------------------------------|---------------| --------- | --------- |
-| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| refinedet_baseline | person detector | 2  | RefineDet  | [link]() |
-| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link]() |
-| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link]() |
-| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link]() |
-| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link]() |
-| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link]() |
-| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link]() |
 
 
 [Check example here](./k260_kria_som_pbtxt.md#face-detection-on-rtsp-streams)
@@ -169,6 +145,34 @@ Instructions on how to change the output of the detection system to send SMS ale
 
 
 ## Tips and Tricks
+
+### Test RTSP Streams
+
+Here's a list of RTSP streams that you can use for testing:
+
+| Stream Name | RTSP URL |
+|-------------|----------|
+| Cars Street View   | rtsp://vmss.auperatechnologies.com:554/car |
+| Mall Surveilance View   | rtsp://vmss.auperatechnologies.com:554/crowd |
+| Hallway   | rtsp://vmss.auperatechnologies.com:554/crowd2 |
+| Compiled Subset of Imagenet Samples   | rtsp://vmss.auperatechnologies.com:554/imagenet |
+
+### Available Models
+
+| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link
+|---------------|-----------------------------------|---------------| --------- | --------- |
+| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| refinedet_baseline | person detector | 2  | RefineDet  | [link]() |
+| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link]() |
+| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link]() |
+| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link]() |
+| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link]() |
+| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link]() |
+| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link]() |
 
 - How to read from a file
 - Saving detection results to a file
