@@ -41,7 +41,6 @@ node {
   }
 }
 
-
 node {
   name: "detector"
   calculator: "box_detector"

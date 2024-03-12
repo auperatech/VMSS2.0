@@ -28,7 +28,7 @@ Take sending Gmail emails as an example and suppose our Gmail address is aupera1
 - Log in to the Gmail account and enable the [2-Step Verification](https://myaccount.google.com/security) under the **Security** section.
 
 - At the bottom of the 2-Step Verification page, Add **APP passwords**. Please name the app according to your preference, maybe Aupera Notification, and create a new app-specific password.
-  <div align="center"> <img src="./email_smtp.png" alt="Email SMTP" width="400" height="300"> </div>
+  <div align="center"> <img src="./images/email_smtp.png" alt="Email SMTP" width="400" height="300"> </div>
   As shown in the figure above, the email notification information can be set as follows:
 
   ```
@@ -43,7 +43,7 @@ Take sending SMS notifications as an example and using [Twilio](https://www.twil
 
 - Get **Account Info** for the free trial account at bottom of the account page
 
-  <div align="center"> <img src="./sms_gateway.png" alt="SMS Gateway" width="400" height="300"> </div>
+  <div align="center"> <img src="./images/sms_gateway.png" alt="SMS Gateway" width="400" height="300"> </div>
 
   As shown in the figure above, the SMS notification information can be set as follows:
 
