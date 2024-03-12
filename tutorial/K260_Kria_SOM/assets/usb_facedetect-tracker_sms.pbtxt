@@ -2,200 +2,190 @@ control_port: 51881
 graph_output: "graph_output1"
 
 node {
-name: "usb_cam"
-calculator: "video_source"
-output_stream: "image_stream_decode"
-output_stream: "video_stream_info_decode"
-node_options: {
+  name: "usb_cam"
+  calculator: "video_source"
+  output_stream: "image_stream_decode"
+  output_stream: "video_stream_info_decode"
+  node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
     }
-}
+  }
 }
 
 node {
-name: "detector"
-calculator: "box_detector"
-input_stream: "image_stream_decode"
-output_stream: "detections_stream"
-output_stream: "detect_interval"
-ml_model_kernel_name: "densebox_320_320"
-node_options: {
+  name: "detector"
+  calculator: "box_detector"
+  input_stream: "image_stream_decode"
+  output_stream: "detections_stream"
+  output_stream: "detect_interval"
+  ml_model_kernel_name: "densebox_320_320"
+  node_options: {
     [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
-    detect_interval: 1
-    detector_type: "FaceDetectDenseBox"
-    need_preprocess: true
-    log_performance: false
-    run_on_letterboxed_img: false
-    batch_size: 1
-    return_frames_inorder: true 
-    batch_collection_timeout_ms: 0
-    ignore_black_frames: false
-    max_detection_lib_q_size: 30
-    total_classes: 2
-    default_confidence_threshold: 0.9
-    mean: {
-        r: 128.0
-        g: 128.0
-        b: 128.0
+      detect_interval: 3
+      detector_type: "FaceDetectDenseBox"
+      need_preprocess: true
+      log_performance: false
+      run_on_letterboxed_img: false
+      batch_size: 1
+      return_frames_inorder: true 
+      batch_collection_timeout_ms: 0
+      ignore_black_frames: false
+      max_detection_lib_q_size: 30
+      total_classes: 2
+      default_confidence_threshold: 0.9
     }
-    scale: {
-        ch1: 1.0
-        ch2: 1.0
-        ch3: 1.0
-    }
-    }
-}
+  }
 }
 
 node {
-name: "tracker"
-calculator: "box_tracker"
-input_stream: "detections_stream"
-input_stream: "detect_interval"
-output_stream: "tracks_stream"
-node_options: {
+  name: "tracker"
+  calculator: "box_tracker"
+  input_stream: "detections_stream"
+  input_stream: "detect_interval"
+  output_stream: "tracks_stream"
+  node_options: {
     [type.googleapis.com/aup.avaf.BoxTrackerOptions]: {
-    max_keep_alive: 5
-    min_hits: 1
-    affinity_threshold: 0.008  
-    shape_weight: 1
-    position_weight: 1
-    appearance_weight: 1
-    shape_dist_max: 1
-    position_dist_max: 1
-    use_exp_cost: true
-    tracker_type: "SORT++"
-    min_object_area_th: 200
+      max_keep_alive: 5
+      min_hits: 1
+      affinity_threshold: 0.008  
+      shape_weight: 1
+      position_weight: 1
+      appearance_weight: 1
+      shape_dist_max: 1
+      position_dist_max: 1
+      use_exp_cost: true
+      tracker_type: "SORT++"
+      min_object_area_th: 200
     }
-}
+  }
 }
 
 node {
-name: "visualizer"
-calculator: "box_visualizer"
-input_stream: "detections_stream"
-input_stream: "image_stream_decode"
-output_stream: "image_stream_viz"
-stream_sync: {
+  name: "visualizer"
+  calculator: "box_visualizer"
+  input_stream: "tracks_stream"
+  input_stream: "image_stream_decode"
+  output_stream: "image_stream_viz"
+  stream_sync: {
     drop_strategy: DROP_INCOMPLETE_PACKETS
     timeout_ms: 5000
-}
-node_options: {
+  }
+  node_options: {
     [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
-    text_color: {
+      text_color: {
         r: 255
         g: 0
         b: 0
-    }
-    box_color: {
+      }
+      box_color: {
         r: 255
         g: 0
         b: 0
-    }
-    text_offset: {
+      }
+      text_offset: {
         x: 0
         y: 0
+      }
+      font: 0 
+      line_type: 0
+      box_thickness: 3
+      text_size: 3 
     }
-    font: 0 
-    line_type: 0
-    box_thickness: 3
-    text_size: 3 
-    }
-}
+  }
 }
 
 node {
-name: "vfilter_node"
-calculator: "ff_vfilter"
-vendor: "Aupera"
-input_stream: "image_stream_viz"
-input_stream: "video_stream_info_decode"
-output_stream: "image_stream_vfilter"
-output_stream: "video_stream_info_vfilter"
-node_options: {
+  name: "vfilter_node"
+  calculator: "ff_vfilter"
+  vendor: "Aupera"
+  input_stream: "image_stream_viz"
+  input_stream: "video_stream_info_decode"
+  output_stream: "image_stream_vfilter"
+  output_stream: "video_stream_info_vfilter"
+  node_options: {
     [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
-    roi_x: 0
-    roi_y: 0
-    roi_w: 0
-    roi_h: 0
-    opixfmt: PIXFMT_I420
-    ow: 960
-    oh: 540
-    ofps: 12
+      roi_x: 0
+      roi_y: 0
+      roi_w: 0
+      roi_h: 0
+      opixfmt: PIXFMT_I420
+      ow: 960
+      oh: 540
+      ofps: 12
     }
-}
+  }
 }
 
 node {
-name: "encode_node"
-calculator: "x86_enc"
-vendor: "Aupera"
-input_stream: "image_stream_vfilter"
-input_stream: "video_stream_info_vfilter"
-output_stream: "packet_stream_encode"
-output_stream: "codec_context_stream"
-node_options: {
+  name: "encode_node"
+  calculator: "x86_enc"
+  vendor: "Aupera"
+  input_stream: "image_stream_vfilter"
+  input_stream: "video_stream_info_vfilter"
+  output_stream: "packet_stream_encode"
+  output_stream: "codec_context_stream"
+  node_options: {
     [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
-    enc: {
-    type: H264
-    fps: 12
-    bitrate: 100
+     enc: {
+       type: H264
+       fps: 12
+       bitrate: 100
+     }
     }
-    }
-}
+  }
 }
 
 node {
-name: "mux_node"
-calculator: "stream_mux"
-vendor: "Aupera"
-input_stream: "packet_stream_encode"
-input_stream: "codec_context_stream"
-graph_output: "graph_output1"
-node_options: {
+  name: "mux_node"
+  calculator: "stream_mux"
+  vendor: "Aupera"
+  input_stream: "packet_stream_encode"
+  input_stream: "codec_context_stream"
+  graph_output: "graph_output1"
+  node_options: {
     [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
-    mux: {
-    rtsp_transport: "tcp"
-    auto_reconnect: true
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+     }
     }
-    }
-}
+  }
 }
 
 node {
-name: "to_json"
-calculator: "to_json"
-input_stream: "tracks_stream"
-output_stream: "json_stream"
-node_options: {
+  name: "to_json"
+  calculator: "to_json"
+  input_stream: "tracks_stream"
+  output_stream: "json_stream"
+  node_options: {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
-    label_name_file: ""
-    network: "FaceDetectDenseBox"
-    input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      label_name_file: ""
+      network: "FaceDetectDenseBox"
+      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
     }
-}
+  }
 }
 
 node {
-name: "sms_notification"
-calculator: "notification_message"
-input_stream: "json_stream"
-node_options: {
+  name: "sms_notification"
+  calculator: "notification_message"
+  input_stream: "json_stream"
+  node_options: {
     [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
-    message_type: SMS
-    sender: "1xxxxxxxxxxx"
-    receiver: ["1xxxxxxxxxxx"]
-    sender_username: "xxxxxxxxxxxxxxxxxxxxx"
-    sender_password: "xxxxxxxxxxxxxxxxxxxxx"
-    server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
-    notification_q_size: 2
-    trigger: {
+      message_type: SMS
+      sender: "1xxxxxxxxxxx"
+      receiver: ["1xxxxxxxxxxx"]
+      notification_q_size: 2
+      sender_username: "xxxxxxxxxxxxxxxxxxxxx"
+      sender_password: "xxxxxxxxxxxxxxxxxxxxx"
+      server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
+      trigger: {
         trigger_type: JQ
         trigger_consecutive_packet: 10
         jq_query_string: "'select(.average_throughput_value > 20)'"
         notification_title: "sms_notification_test"
         notification_body: "xxxxxxxxxxxxxxxxxx"
+      }
     }
-    }
-}
+  }
 }
