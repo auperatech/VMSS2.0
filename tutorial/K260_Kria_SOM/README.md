@@ -139,9 +139,11 @@ Let's explore how to adapt our pipeline to different video input sources. Specif
 To make this transition, follow these two simple steps:
 
 - Remove RTSP Input Configuration
+  
   As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` defined in your previous pbtxt
 
 - Integrate the USB Camera Node
+  
   Next, replace the nodes that were previously handling the RTSP stream—specifically, the `stream_demux` and `x86_dec` nodes—with a single `video_source` node designed to work with USB cameras. For example:
   ```
   node {
@@ -225,6 +227,7 @@ Here's a list of RTSP streams that you can use for testing:
 | Cars Street View   | rtsp://vmss.auperatechnologies.com:554/car |
 | Mall Surveilance View   | rtsp://vmss.auperatechnologies.com:554/crowd |
 | Hallway   | rtsp://vmss.auperatechnologies.com:554/crowd2 |
+| Face   | rtsp://vmss.auperatechnologies.com:554/face |
 | Compiled Subset of Imagenet Samples   | rtsp://vmss.auperatechnologies.com:554/imagenet |
 
 ### Available Models
@@ -236,13 +239,13 @@ Here's a list of RTSP streams that you can use for testing:
 | ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
 | ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
 | ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| refinedet_baseline | person detector | 2  | RefineDet  | [link]() |
-| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link]() |
-| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link]() |
-| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link]() |
-| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link]() |
-| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link]() |
-| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link]() |
+| refinedet_baseline | person detector | 2  | RefineDet  | [link](https://www.xilinx.com/bin/public/openDownload?filename=refinedet_baseline-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc_pruned_0_66-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_bdd-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_adas_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc_tf-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
 
 - How to read from a file
 - Saving detection results to a file
