@@ -14,7 +14,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Reconfiguring the Pipeline to Run Face Detection](#reconfiguring-the-pipeline-to-run-face-detection)
   - [Adding a Tracker and Reducing Detection Interval](#adding-a-tracker-and-reducing-detection-interval)
   - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
-  - [Modifying Output to Send SMS](#modifying-output-to-send-sms)
+  - [Integrating SMS Notifications into the Pipeline](#integrating-sms-notifications-into-the-pipeline)
   - [Tips and Tricks](#tips-and-tricks)
     - [Test RTSP Streams](#test-rtsp-streams)
     - [Available Models](#available-models)
@@ -37,7 +37,7 @@ This will produce the following directory:
 ├── rtsp_facedetect_rtsp.pbtxt
 ├── rtsp_persondetect_rtsp.pbtxt
 ├── usb_facedetect-tracker_rtsp.pbtxt
-└── usb_facedetect-tracker_sms.pbtxt
+└── usb_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
 ## Person Detection
@@ -80,7 +80,7 @@ Finally, make sure you have a video player available to watch your output stream
 Now that you have created your input and output files and verified you can watch an RTSP stream, you are ready to start this example. To run this example run the following command: 
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect-tracker_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
 ```
 
 Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
@@ -166,7 +166,7 @@ That's it! With the adjustments made, your pipeline is now prepared to accept vi
 avaser -o output.pbtxt -c assets/usb_facedetect-tracker_rtsp.pbtxt
 ```
 
-## Modifying Output to Send SMS
+## Integrating SMS Notifications into the Pipeline
 
 At this stage, let's achieve a real life application using Aupera VMSS2.0! Imagine you're not at home and want immediate alerts if someone approaches your front door, or you need to monitor your backyard for security. By adding just two nodes to your previous pipeline, you can set up a system that sends you real-time SMS alerts when your camera detects persons' faces or any specific objects you're interested in.
 
@@ -208,12 +208,12 @@ After inserting the nodes, it's time to specify key parameters within the `notif
       server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
       ```
 
-You can directly adjust these parameters in [`usb_facedetect-tracker_sms.pbtxt`](./assets/usb_facedetect-tracker_sms.pbtxt) for a quick initiation.
+You can directly adjust these parameters in [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) for a quick initiation.
 
 ### Launching your notification pipeline
 Once everything is configured, launch the pipeline with the command below to start receiving SMS alerts for the detections and watch the results in your video player.
 ```
-avaser -o output.pbtxt -c assets/usb_facedetect-tracker_sms.pbtxt
+avaser -o output.pbtxt -c assets/usb_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
 ###  Expanding your setup
