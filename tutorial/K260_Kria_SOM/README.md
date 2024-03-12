@@ -47,6 +47,7 @@ In this tutorial, we are going to start with **video file** as our input. Then w
 <div align="center">
 <figure>
   <img src="../../visualizer.png" id="nodes overview" alt="vmss nodes sequence">
+    <br>
     <figcaption>VMSS2.0 Nodes Overview</figcaption>
 </figure>
 </div>
@@ -95,9 +96,11 @@ We already covered how to create the input and the output files. Now we are intr
 <div align="center">
 <figure>
   <img src="assets/detector_pipeline.png" alt="vmss nodes sequence">
+  <br>
     <figcaption>Detector Visualizer Pipeline</figcaption>
 </figure>
 </div>
+
 
 Note that in this tutorial we will be swapping the input and the output nodes. Therefore, to simplify the visualization we just show `video_in` and `video_out` as our input or output. However, keep in mind depending on the input or the ouput source type, `video_in` and `video_out` need to be swapped with the appropiate node(s). See the image ("VMSS2.0 Nodes Overview") [above](#person-detection) for more info. 
 
@@ -161,6 +164,7 @@ As you probably noticed, the output of your pipeline now only draws a bounding b
 <div align="center">
 <figure>
   <img src="assets/add_tracker.png" alt="vmss nodes sequence">
+    <br>
     <figcaption>Adding Tracker</figcaption>
 </figure>
 </div>
