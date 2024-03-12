@@ -25,7 +25,7 @@ Make sure you have followed our [setup procedure](../../setup/K260_Kria_SOM/) an
 
 ## Download the Required Assets
 
-You need to download the required assets for this tutorial. Let's starting by downloading the required zipped for this tutorial and unzip it. 
+You need to download the required assets for this tutorial. Let's start by downloading the required zipped file for this tutorial and unzip it. 
 
 ```
 wget https://amd.vmaccel.com/object-store/v1/aup_releases/k260_tutorial_assets_20240310.zip && unzip k260_tutorial_assets_20240310.zip
