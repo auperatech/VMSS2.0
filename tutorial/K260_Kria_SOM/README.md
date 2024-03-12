@@ -26,7 +26,8 @@ Please make sure you have followed our [setup procedure](../../setup/K260_Kria_S
 First, You need to download the required assets for this tutorial. Let's starting by downloading the required zipped for this tutorial and unzip it. 
 
 ```
-wget https://amd.vmaccel.com/object-store/v1/aup_releases/k260_tutorial_assets_20240310.zip && unzip k260_tutorial_assets_20240310.zip
+cd tutorial/K260_Kria_SOM
+wget https://amd.vmaccel.com/object-store/v1/aup_releases/k260_tutorial_assets_20240310.zip && unzip k260_tutorial_assets_20240310.zip && rm k260_tutorial_assets_20240310.zip
 ```
 This will produce the following directory:
 ```
@@ -40,7 +41,7 @@ This will produce the following directory:
 ```
 
 ## Person Detection
-In this section, we will set up a person detector to run on a video file and view the results as bounding boxes drawn on the output video. To do so, we will use a video file in the assets for this totorial, a SSD based model provided by AMD, and finally we push the output to our public RTSP server and use a video player such as VLC to view the results.
+In this section, we will set up a person detector to run on a video file and view the results as bounding boxes drawn on the output video. To do so, we will use a video file in the assets for this tutorial, a SSD based model provided by AMD, and finally we push the output to our public RTSP server and use a video player such as VLC to view the results.
 
 
 Now, let's create our `input.pbtxt` and `output.pbtxt` files that are required for running a pipeline. For the input, we are using mp4 file `face_demo_82s.mp4`. Therefore, the path should be passed as `input_urls` as shown below: 
@@ -139,8 +140,16 @@ This section describes how to change the input source from an RTSP stream to a U
 
 ## Modifying Output to Send SMS
 
-Instructions on how to change the output of the detection system to send SMS alerts.
+Let's achieve a real life application! Imagine you're away from home and want to be instantly notified if someone shows up at your front door, or perhaps you're monitoring your backyard for security purposes. With two additional nodes added, you can set up a system that sends you real-time SMS alerts when it detects a person face (or any specific objects you're interested) through the camera.
 
+In order to detect a person's presence and receive a SMS notification. We can easily achiveve this by adding two key nodes in our previous pipeline: 
+ - `to_json`: This node converts the detection/tracking metadata (like the presence of a person) into a JSON format. This is crucial for filtering and sending relevant information via SMS.
+
+ - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
+
+ 
+
+For more advanced parameter setup, as well as setting up email notification, please refer [here]()
 [Check example here](./k260_kria_som_pbtxt.md#modifying-output-to-send-sms)
 
 
