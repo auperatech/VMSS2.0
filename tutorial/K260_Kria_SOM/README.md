@@ -230,7 +230,6 @@ Here's a list of RTSP streams that you can use for testing:
 | Cars Street View   | rtsp://vmss.auperatechnologies.com:554/car |
 | Mall Surveilance View   | rtsp://vmss.auperatechnologies.com:554/crowd |
 | Hallway   | rtsp://vmss.auperatechnologies.com:554/crowd2 |
-| Face   | rtsp://vmss.auperatechnologies.com:554/face |
 | Compiled Subset of Imagenet Samples   | rtsp://vmss.auperatechnologies.com:554/imagenet |
 
 ### Available Models
