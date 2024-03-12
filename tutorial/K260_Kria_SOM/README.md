@@ -19,24 +19,34 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Tips and Tricks](#tips-and-tricks)
     - [Test RTSP Streams](#test-rtsp-streams)
     - [Available Models](#available-models)
+
 ## Prerequisite
 
 Make sure you have followed our [setup procedure](../../setup/K260_Kria_SOM/) and have launched your own docker container before following the steps below. This tutorial assumes you're working inside that container, so all the steps we'll be going through should be done in there.
 
 ## Download the Required Assets
 
-You need to download the required assets for this tutorial. Let's start by downloading the required zipped file for this tutorial and unzip it. 
+Once you're set up in the docker environment, the first step is to clone this repository to access initial `pbtxt` files essential for starting our journey:
 
 ```
-cd tutorial/K260_Kria_SOM
-wget https://amd.vmaccel.com/object-store/v1/aup_releases/k260_tutorial_assets_20240310.zip && unzip k260_tutorial_assets_20240310.zip && rm k260_tutorial_assets_20240310.zip
+git clone --single-branch https://github.com/auperatech/VMSS2.0.git
 ```
-This will produce the following directory:
+
+Next, let's proceed to download a demo MP4 file prepared for this tutorial:
+```
+cd VMSS2.0/tutorial/K260_Kria_SOM/assets
+wget https://amd.vmaccel.com/object-store/v1/aup_releases/K260_Kria_SOM_tutorial_video.zip && unzip K260_Kria_SOM_tutorial_video.zip && rm K260_Kria_SOM_tutorial_video.zip
+```
+
+Successfully executing these commands will create the following directory structure.
+Note that all further activities of this tutorial will take place within this assets directory.
 ```
 ./assets
 ├── face_demo_82s.mp4
-├── rtsp_facedetect-tracker_rtsp.pbtxt
+├── images
+├── notification_message_in_details.md
 ├── rtsp_facedetect_rtsp.pbtxt
+├── rtsp_facedetect-tracker_rtsp.pbtxt
 ├── rtsp_persondetect_rtsp.pbtxt
 ├── usb_facedetect-tracker_rtsp.pbtxt
 └── usb_facedetect-tracker_sms-rtsp.pbtxt
@@ -60,7 +70,7 @@ In this tutorial, we are going to start with **video file** as our input. Then w
 **Input File:** For the input, we are using the mp4 file you just downloaded `face_demo_82s.mp4`. Therefore, the path should be passed as `input_urls` as shown below: 
 
 ```
-echo 'input_urls: "assets/face_demo_82s.mp4"' > input.pbtxt
+echo 'input_urls: "face_demo_82s.mp4"' > input.pbtxt
 ```
 **Output File:** For the output, we follow the same logic, but instead of saving the ouput to a file, we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do this, simply pick any unique arbitrary name and append it to `rtsp://vmss.auperatechnologies.com:554/`, and include this full URL in your `output_urls` as shown below:
 
@@ -79,7 +89,7 @@ Finally, make sure you have a video player available to watch your output stream
 Now that your input and output are set up and you've confirmed that you can view an RTSP stream, you're all set to proceed with this example. Execute the following command to start:
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
 
@@ -121,7 +131,7 @@ echo 'input_urls: "rtsp://vmss.auperatechnologies.com:554/face"' > input.pbtxt
 Now you can run the same `avaser` command you ran before by passing this new input input file:
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 Now you can verify the new pipeline running on this new input by watching the address you set as your `output_urls` in `output.pbtxt` file.
@@ -147,12 +157,12 @@ output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
 Now, execute the modified pipeline with the following command and watch the output on your video player to see the face detection in action.
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 ***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect_rtsp.pbtxt`](./assets/rtsp_facedetect_rtsp.pbtxt) we prepared for a quick initiation.
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_facedetect_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_facedetect_rtsp.pbtxt
 ```
 
 Congratulations, you just successfully reconfigured the box_detector to use a different model. The idea behind this step is to illustrates the flexibility and configurability of VMSS2.0, allowing for easy model swaps without any coding requirement. In particular, in this step, you modified our [`box_detector`](../../docs/node_guide.md#box_detector) node to run a different model. You can try any of the models [listed here](#available-models) the same way to run on your video. 
@@ -169,7 +179,7 @@ Increasing the detection interval is straightforward: you adjust the `detect_int
 
 Now it's time to run the pipeline and watch the output just like the previous steps:
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 ### Adding a Tracker
 As you probably noticed, the output of your pipeline now only draws a bounding box on every other frame. This is the expected behaviour as the `detect_interval` is now set to **3**. Now, we will add a tracker by inserting a `box_tracker` node between the `box_detector` and `box_visualizer`. The image below illustrates what we are about to do:
@@ -213,12 +223,12 @@ Then we need to modify the connections between the nodes. Currently, the `box_vi
 
 Now you are ready to run the new pipeline as you've done before. Let's go ahead run the pipeline and visualize the output:
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 ***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect-tracker_rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation.
 ```
-avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_facedetect-tracker_rtsp.pbtxt
+avaser -i input.pbtxt -o output.pbtxt -c rtsp_facedetect-tracker_rtsp.pbtxt
 ```
 
 ## Changing Input from RTSP to USB
@@ -249,12 +259,12 @@ To make this transition, follow these two simple steps:
 
 That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. Now run the execute the pipeline again (this time without `input.pbtxt`) and watch the results in your video player:
 ```
-avaser -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 ***NOTE:*** Alternatively, you can directly execute [`usb_facedetect-tracker_rtsp.pbtxt`](./assets/usb_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation if we want to start from this step.
 ```
-avaser -o output.pbtxt -c assets/usb_facedetect-tracker_rtsp.pbtxt
+avaser -o output.pbtxt -c usb_facedetect-tracker_rtsp.pbtxt
 ```
 
 ## Integrating SMS Notifications into the Pipeline
@@ -304,12 +314,12 @@ After inserting the nodes, it's time to specify key parameters within the `notif
 ### Launching your notification pipeline
 Once everything is configured, launch the pipeline with the command below to start receiving SMS alerts for the detections and watch the results in your video player.
 ```
-avaser -o output.pbtxt -c assets/rtsp_persondetect_rtsp.pbtxt
+avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 ***NOTE:*** You can directly adjust these parameters in [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and execute this pbtxt for a quick initiation.
 ```
-avaser -o output.pbtxt -c assets/usb_facedetect-tracker_sms-rtsp.pbtxt
+avaser -o output.pbtxt -c usb_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
 ###  Expanding your setup
@@ -325,7 +335,7 @@ Here's a list of RTSP streams that you can use for testing:
 |-------------|----------|
 | Cars Street View   | rtsp://vmss.auperatechnologies.com:554/car |
 | Mall Surveilance View   | rtsp://vmss.auperatechnologies.com:554/crowd |
-| Face   | rtsp://vmss.auperatechnologies.com:554/face |
+| People's faces   | rtsp://vmss.auperatechnologies.com:554/face |
 | Compiled Subset of Imagenet Samples   | rtsp://vmss.auperatechnologies.com:554/imagenet |
 
 ### Available Models
