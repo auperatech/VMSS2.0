@@ -83,14 +83,13 @@ node {
       notification_q_size: 2
       sender_username: "xxxxxxxxxxxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxxxxxxxxxx"
-      server_url: "https://api.twilio.com/2010-04-01/Accounts/xxxxxxxxx/Messages.json"
+      server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"
       trigger: {
         trigger_type: JQ
-        trigger_consecutive_packet: 3
-        jq_query_string: "'select(.average_throughput_value > 20)'"
-        notification_title: "sms_notification_test"
-        notification_body: "xxxxxxxxxxxxxxxxxx"
-        attach_json: true
+        trigger_consecutive_packet: 5
+        jq_query_string: "'select(.items | to_entries | map(.value | select(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)) | length >= 1)'"
+        notification_title: "sms_notification_alert"
+        notification_body: "At least 1 faces are detected in a region for consecutive 3 packets"
       }
     }
   }
@@ -100,23 +99,7 @@ node {
 Here is an example of the original JSON packet detected looks like without any jq trigger applied:
 
 ```
-{
-  "frame": 3,
-  "item_count": 1,
-  "items": {
-    "item 1": {
-      "box_id": 1,
-      "confidence": 0.9979965686798096,
-      "height": 141,
-      "width": 174,
-      "x": 1086,
-      "y": 283
-    }
-  },
-  "network": "FaceDetectDenseBox",
-  "timestamp": 3003000,
-  "ts_us_offset": 100100
-}
+{"json_data":[],"notification_body":"At least 1 faces are detected in a region for consecutive 5 packets","notification_title":"sms_notification_alert","task_id":"task_1710268856873"}
 ```
 
 Now, we will give a real pipeline example of sending the SMS to the user's phone when at least 4 faces are detected in a specified region: [`usb_facedetect-tracker_sms.pbtxt`](./usb_facedetect-tracker_sms.pbtxt). This pipeline is used to detect person faces in the USB input video. 
