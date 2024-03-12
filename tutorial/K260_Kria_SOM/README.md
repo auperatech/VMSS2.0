@@ -43,8 +43,21 @@ This will produce the following directory:
 ## Person Detection
 In this section, we will set up a person detector to run on a video file and view the results as bounding boxes drawn on the output video. To do so, we will use a video file in the assets for this tutorial, a SSD based model provided by AMD, and finally we push the output to our public RTSP server and use a video player such as VLC to view the results.
 
+Before we dive into running the test pipeline with `avaser`, a command in VMSS designed for executing graphs/pipelines, it's essential to grasp the components involved. `avaser` requires specifying up to three pbtxt files during execution, with the configuration pbtxt being mandatory:
 
-Now, let's create our `input.pbtxt` and `output.pbtxt` files that are required for running a pipeline. For the input, we are using mp4 file `face_demo_82s.mp4`. Therefore, the path should be passed as `input_urls` as shown below: 
+- **Configuration pbtxt (specified with `-c`)**
+
+    This configuration pbtxt is mandatory. It contains the definition of the pipeline, detailing the nodes and their interconnections.
+
+- **Input pbtxt (specified with `-i`)**
+
+    The input pbtxt is optional and relevant only if your pipeline has RTSP(s) or video(s) as input source(s). When used, the `input_urls` in the input pbtxt should specify the RTSP or video path. The number of `input_urls` should match the number of `graph_input` defined in your configuration pbtxt.
+
+- **Output pbtxt (specified with `-o`)**
+
+    Similar to the input pbtxt, the output pbtxt is optional and dependent on your pipeline's output requirements. The number of `output_urls` should match the number of `graph_output` defined in your configuration pbtxt
+
+Now, let's create our `input.pbtxt` and `output.pbtxt` files for the pipeline. For the input, we are using mp4 file `face_demo_82s.mp4`. Therefore, the path should be passed as `input_urls` as shown below: 
 
 ```
 echo 'input_urls: "assets/face_demo_82s.mp4"' > input.pbtxt
@@ -72,16 +85,6 @@ avaser -i input.pbtxt -o output.pbtxt -c assets/rtsp_persondetect-tracker_rtsp.p
 
 Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
 
-In short, `avaser` is VMMS's command that runs a graph/pipeline. There are `3` pbtxt files that are required to pass to `avaser`:
-
-##### Config `-c`: 
-    expects a pipeline config file in `.pbtxt` format that contains your pipeline definition (the list of nodes and connections). 
-
-##### Input `-i` : 
-    expects your input(s) listed as pair(s) if `input_urls` and URL/File values passed a single `.pbtxt` file.
-
-##### Output `-o`: 
-    expects your output(s) listed as pair(s) if `output_urls` and URL/File values passed a single `.pbtxt` file.
 
 ### Changing the Input to RTSP
 
