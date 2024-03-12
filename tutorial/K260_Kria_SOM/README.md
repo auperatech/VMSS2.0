@@ -134,9 +134,32 @@ Learn how to add a tracker to the face detection pipeline and reduce the detecti
 
 ## Changing Input from RTSP to USB
 
-This section describes how to change the input source from an RTSP stream to a USB camera.
+Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera. This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
 
-[Check example here](./k260_kria_som_pbtxt.md#changing-input-from-rtsp-to-usb)
+To make this transition, follow these two simple steps:
+
+- Remove RTSP Input Configuration
+  As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` defined in your previous pbtxt
+
+- Integrate the USB Camera Node
+  Next, replace the nodes that were previously handling the RTSP stream—specifically, the `stream_demux` and `x86_dec` nodes—with a single `video_source` node designed to work with USB cameras. For example:
+  ```
+  node {
+      name: "usb_cam"
+      calculator: "video_source"
+      output_stream: "image_stream_decode"
+      output_stream: "video_stream_info_decode"
+      node_options: {
+          [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+          }
+      }
+  }
+  ```
+
+That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. Now run the execute the pipeline and watch the results in your video player.
+```
+avaser -o output.pbtxt -c assets/usb_facedetect-tracker_rtsp.pbtxt
+```
 
 ## Modifying Output to Send SMS
 
