@@ -140,18 +140,56 @@ This section describes how to change the input source from an RTSP stream to a U
 
 ## Modifying Output to Send SMS
 
-Let's achieve a real life application! Imagine you're away from home and want to be instantly notified if someone shows up at your front door, or perhaps you're monitoring your backyard for security purposes. With two additional nodes added, you can set up a system that sends you real-time SMS alerts when it detects a person face (or any specific objects you're interested) through the camera.
+At this stage, let's achieve a real life application using Aupera VMSS2.0! Imagine you're not at home and want immediate alerts if someone approaches your front door, or you need to monitor your backyard for security. By adding just two nodes to your previous pipeline, you can set up a system that sends you real-time SMS alerts when your camera detects persons' faces or any specific objects you're interested in.
 
-In order to detect a person's presence and receive a SMS notification. We can easily achiveve this by adding two key nodes in our previous pipeline: 
+To accomplish this, you will need to insert two additional nodes into your previous pipeline:
+
  - `to_json`: This node converts the detection/tracking metadata (like the presence of a person) into a JSON format. This is crucial for filtering and sending relevant information via SMS.
 
  - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
 
- 
+### Configuring your notification service
+After inserting the nodes, it's time to specify key parameters within the `notification_message` node:
 
-For more advanced parameter setup, as well as setting up email notification, please refer [here]()
-[Check example here](./k260_kria_som_pbtxt.md#modifying-output-to-send-sms)
+- **Message Type and Receiver** 
+  
+  Define the message type as an SMS and list your phone number as the recipient.
 
+    ```
+    message_type: SMS
+    receiver: ["<Your phone number>"]
+    ```
+
+- **Message Sender** 
+
+  The message will be sent via an SMS gateway service. For this guide, we'll use [Twilio](https://www.twilio.com/en-us) to illustrate the setup process:
+
+  - Sign up for a [Twilio free account](https://login.twilio.com/u/signup?state=hKFo2SBlLVRYTU1JNmQweDhELW5QRVk5MDVzYU5LZFZGMk5rSaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEk4a01NU1YzNl9MbEVKOGIyUGtMTjBJcHdNMmhuZzExo2NpZNkgTW05M1lTTDVSclpmNzdobUlKZFI3QktZYjZPOXV1cks) and get a trial Twilio phone number
+
+  - Get **Account Info** for the free trial account at bottom of the account page
+    <div align="center"> <img src="./assets/sms_gateway.png" alt="SMS Gateway" width="400" height="300"> </div>
+
+  - Configure Sender Information: 
+    
+    With your `Twilio` account details at hand (see image above), update the corresponding fields in the `notification_message` node as follows:
+
+      ```
+      sender: "19734255123"
+      sender_username: "ACf7ec64f832871ba7f8512d64bf566f68"
+      sender_password: "<Auth Token>"
+      server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
+      ```
+
+You can directly adjust these parameters in [`usb_facedetect-tracker_sms.pbtxt`](./assets/usb_facedetect-tracker_sms.pbtxt) for a quick initiation.
+
+### Launching your notification pipeline
+Once everything is configured, launch the pipeline with the command below to start receiving SMS alerts for the detections and watch the results in your video player.
+```
+avaser -o output.pbtxt -c assets/usb_facedetect-tracker_sms.pbtxt
+```
+
+###  Expanding your setup
+For more detailed adjustments, including configuring email notifications and refining parameters within the `notification_message` node, refer to the comprehensive documentation [here](./assets/notification_message_in_details.md)
 
 ## Tips and Tricks
 

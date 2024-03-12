@@ -185,13 +185,13 @@ node_options: {
     message_type: SMS
     sender: "1xxxxxxxxxxx"
     receiver: ["1xxxxxxxxxxx"]
-    notification_q_size: 2
     sender_username: "xxxxxxxxxxxxxxxxxxxxx"
     sender_password: "xxxxxxxxxxxxxxxxxxxxx"
     server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
+    notification_q_size: 2
     trigger: {
         trigger_type: JQ
-        trigger_consecutive_packet: 3
+        trigger_consecutive_packet: 10
         jq_query_string: "'select(.average_throughput_value > 20)'"
         notification_title: "sms_notification_test"
         notification_body: "xxxxxxxxxxxxxxxxxx"
