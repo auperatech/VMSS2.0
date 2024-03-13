@@ -276,16 +276,23 @@ avaser -o output.pbtxt -c usb_facedetect-tracker_rtsp.pbtxt
 
 At this stage, let's achieve a real life application using Aupera VMSS2.0! Imagine you're not at home and want immediate alerts if someone approaches your front door, or you need to monitor your backyard for security. By adding just two nodes to your previous pipeline, you can set up a system that sends you real-time SMS alerts when your camera detects persons' faces or any specific objects you're interested in.
 
-To accomplish this, you will need to insert two additional nodes into your pipeline at the end:
+To accomplish this, you will need to 
 
- - `to_json`: This node converts the detection/tracking metadata (like the presence of a person) into a JSON format. This is crucial for filtering and sending relevant information via SMS.
+1. Append two additional nodes to your pipeline at the end:
 
- - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
+    - `to_json`: This node converts the detection/tracking metadata (like the presence of a person) into a JSON format. This is crucial for filtering and sending relevant information via SMS.
 
-  For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-L192) to your pipeline.
+    - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
+
+      For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-L192) to your pipeline.
+
+2. Append a task_id field to your pipeline at the end, for example:
+    ```
+    task_id: "SMS_PIPELINE1"
+    ```
 
 ### Configuring your notification service
-After inserting the nodes, it's time to specify key parameters within the `notification_message` node:
+After inserting the nodes and `task_id`, it's time to specify key parameters within the `notification_message` node:
 
 - **Message Type and Receiver** 
   
