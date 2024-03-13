@@ -215,12 +215,12 @@ node {
   input_stream: "crowd_flow_notification"
   node_options: {
     [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
-      sender: "xxxxxx@auperatech.com"
+      sender: "xxxxxx@gmail.com"
       receiver: ["xxxxxxx@gmail.com", "xxxxxxx2@gmail.com"]
       notification_q_size: 2
       sender_username: "xxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxx"
-      server_url: "smtps://mail.auperatech.com:465"
+      server_url: "smtp.gmail.com:587"
       trigger: {
         trigger_type: JQ
         trigger_consecutive_packet: 3

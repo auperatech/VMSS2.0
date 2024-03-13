@@ -1,45 +1,14 @@
-# The recommended video for this pipeline is crowd.
-
 control_port: 51881
-graph_input: "graph_input1"
 graph_output: "graph_output1"
 task_id: "DEFAULT"
 
 node {
-  name: "demux_node"
-  calculator: "stream_demux"
-  vendor: "Aupera"
-  graph_input: "graph_input1"
-  output_stream: "packet_stream_demux"
-  output_stream: "video_stream_info_demux"
-  node_options: {
-    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
-      demux: {
-        rtsp_transport: "tcp"  
-        iframe_extract: false
-        auto_reconnect: true
-      }
-    }
-  }
-}
-
-node {
-  name: "decode_node"
-  calculator: "x86_dec"
-  vendor: "Aupera"
-  input_stream: "packet_stream_demux"
-  input_stream: "video_stream_info_demux"
+  name: "usb_cam"
+  calculator: "video_source"
   output_stream: "image_stream_decode"
   output_stream: "video_stream_info_decode"
   node_options: {
-    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
-      dec: {
-        ow: 1920
-        oh: 1080
-        opixfmt: PIXFMT_BGR24
-        queue_size: 12
-        low_latency: false
-      }
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
     }
   }
 }
@@ -50,11 +19,11 @@ node {
   input_stream: "image_stream_decode"
   output_stream: "detections_stream"
   output_stream: "detect_interval"
-  ml_model_kernel_name: "ssd_pedestrian_pruned_0_97"
+  ml_model_kernel_name: "densebox_320_320"
   node_options: {
     [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
-      detect_interval: 1
-      detector_type: "SSD"
+      detect_interval: 3
+      detector_type: "FaceDetectDenseBox"
       need_preprocess: true
       log_performance: false
       run_on_letterboxed_img: false
@@ -63,24 +32,8 @@ node {
       batch_collection_timeout_ms: 0
       ignore_black_frames: false
       max_detection_lib_q_size: 30
-      mean: {
-        r: 104.0
-        g: 117.0
-        b: 123.0
-      }
-      scale: {
-        ch1: 1.0
-        ch2: 1.0
-        ch3: 1.0
-      }
-      label_confidence: {
-        label: 0
-        confidence: 0.0
-      }
-      label_confidence: {
-        label: 1
-        confidence: 0.55
-      }
+      total_classes: 2
+      default_confidence_threshold: 0.9
     }
   }
 }
@@ -109,44 +62,35 @@ node {
 }
 
 node {
-  name: "crowd_flow"
-  calculator: "apl_crowd_flow"
+  name: "visualizer"
+  calculator: "box_visualizer"
   input_stream: "tracks_stream"
   input_stream: "image_stream_decode"
-  input_stream: "video_stream_info_demux"
-  input_stream: "detect_interval"
-  output_stream: "crowd_flow_notification"
-  output_stream: "image_stream_crowd_flow"
+  output_stream: "image_stream_viz"
   stream_sync: {
     drop_strategy: DROP_INCOMPLETE_PACKETS
     timeout_ms: 5000
   }
   node_options: {
-    [type.googleapis.com/aup.avaf.AplCrowdFlowOptions]: {
-      update_interval_seconds: 30
-      initial_entering_count: 0
-      initial_exiting_count: 0
-      max_allowed_borders: 10
-      
-      common_fields: {
-        max_file_cache: 100
-        max_cluster_size: 100
-        debug: true
-        draw: true
-        
-        border: {
-          p1: {
-            x: 0
-            y: 900
-            
-          }
-          p2: {
-            x: 1920
-            y: 900
-          }
-          threshold: 0.055
-        }
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
       }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      text_offset: {
+        x: 0
+        y: 0
+      }
+      font: 0 
+      line_type: 0
+      box_thickness: 3
+      text_size: 3 
     }
   }
 }
@@ -155,7 +99,7 @@ node {
   name: "vfilter_node"
   calculator: "ff_vfilter"
   vendor: "Aupera"
-  input_stream: "image_stream_crowd_flow"
+  input_stream: "image_stream_viz"
   input_stream: "video_stream_info_decode"
   output_stream: "image_stream_vfilter"
   output_stream: "video_stream_info_vfilter"
@@ -210,9 +154,23 @@ node {
 }
 
 node {
+  name: "to_json"
+  calculator: "to_json"
+  input_stream: "tracks_stream"
+  output_stream: "json_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.ToJsonOptions]: {
+      label_name_file: ""
+      network: "FaceDetectDenseBox"
+      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+    }
+  }
+}
+
+node {
   name: "sms_notification"
   calculator: "notification_message"
-  input_stream: "crowd_flow_notification"
+  input_stream: "json_stream"
   node_options: {
     [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
       message_type: SMS
@@ -224,10 +182,10 @@ node {
       server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"
       trigger: {
         trigger_type: JQ
-        trigger_consecutive_packet: 3
-        jq_query_string: "'select(.total_persons_entering > 10 and .interval_persons_entering % 2 == 1)'"
-        notification_title: "sms_notification_test"
-        notification_body: "xxxxxxxxxxxxxxxxxx"
+        trigger_consecutive_packet: 5
+        jq_query_string: "'select(.items | to_entries | map(.value | select(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)) | length >= 1)'"
+        notification_title: "sms_notification_alert"
+        notification_body: "At least 1 faces are detected in a region for consecutive 5 packets"
       }
     }
   }
