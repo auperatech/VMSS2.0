@@ -29,6 +29,3 @@ Packets are the primary data structure used for data transmission between nodes 
 
 For each supported device, custom node implementations can be created. With the exception of AEVA Smart Edgebox device side which is hosted [here](./smart_edge_box/basic_node_creation.md) you can follow the instructions [here](./basic_node_creation/) to create your own custom node. 
 
-## Conclusion
-
-This documentation aims to provide a clear and concise guide to understanding and utilizing the VMSS2.0 framework effectively. For further information or specific inquiries, please refer to the detailed documentation within each directory or file mentioned above.

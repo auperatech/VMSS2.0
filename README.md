@@ -59,6 +59,8 @@ Here are some key resources to get started with our VMSS 2.0 release for K260 Kr
 
 * **Setup:** Follow [these instructions](setup/K260_Kria_SOM/README.md) to set up the VMSS 2.0 docker on your SOM and leverage both the command line and our cloud AVAC.
 
+* **Tutorial:** Follow [these instructions](./tutorial/K260_Kria_SOM/) to run a simple pipeline and learn about VMSS2.0 by progressively building a more complex pipeline. 
+
 * **Running Examples:**  Learn to run examples through the VMSS 2.0 command-line interface with [this document](usage/K260_Kria_SOM/README.md).
 
 * **Node (Calculator) Guide:** Learn what our suite of prebuilt nodes offer and learn about their specifications [in this document](docs/nodes/README.md).

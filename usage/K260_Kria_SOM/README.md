@@ -26,7 +26,7 @@ It's time to run a test pipeline that runs a vehicle detector on a test RTSP vid
 First, let's navigate to the test directoy, then run the following command.
 <!-- # TODO Update from here -->
 ```bash
-cd /opt/aupera/examples
+cd /opt/aupera/examples/input_rtsp/input_rtsp_crowd/box_detector_crowd
 ```
 
 Before running this test pipeline, we highly recommed you to change the output stream name defined in `output.pbtxt` by appending a unique name to the end of the stream name to avoid conflicts with other users that are trying to use the same name. If the name you define in `output.ptxt` is in use, the pipeline will crash. For instance, you can change the default address in `output.pbxt` to the following value by appedning your name:
@@ -37,8 +37,8 @@ Before running this test pipeline, we highly recommed you to change the output s
 
 Finally, run this command:
 
-```bash
-avaser -c 1input_1output.pbtxt -i input.pbtxt -o output.pbtxt
+```
+avaser -i input_rtsp.pbtxt -o output_rtsp.pbtxt -c rtsp_detection_visualization_rtsp.pbtxt
 ```
 
 You will be able to see some logs on the console once you issue the above command. Let's take a look at the output in the next step.
