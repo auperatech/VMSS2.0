@@ -20,7 +20,7 @@ To kick off with VMSS 2.0 for running video pipelines, let's understand its core
 ***NOTE:*** For an in-depth exploration of VMSS, check out our [user guide](https://auperatechvancouver.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2Freleases%2Fvmss2%2E0%5Favaf%5Favas%5Favac%2Fuser%5Fguides&p=true&ga=1).
 
 ### avaser
-Within your Docker container, you'll use `avaser`, VMSS's dedicated tool for graph or pipeline execution. `avaser` requires up to three `pbtxt` files for operation, with the `configuration pbtxt` being mandatory. Here's a breakdown:
+Within your Docker container, you'll use `avaser`, VMSS's dedicated tool for pipeline execution. `avaser` requires up to three `pbtxt` files for operation, with the `configuration pbtxt` being mandatory. Here's a breakdown:
 
 - **Configuration pbtxt (specified with `-c`)**
 
@@ -58,13 +58,13 @@ This directory houses a structured collection of directories, each containing ne
 └── input_usb_cam
 ```
 
-Notice the three primary folders: `input_image`, `input_rtsp`, and `input_usb_cam`, each corresponding to the input types showcased in the [VMSS2.0 Nodes Overview](#vmss-2.0-diagram). 
+Notice the three primary folders: `input_image`, `input_rtsp`, and `input_usb_cam`, each corresponding to the input types showcased in the [VMSS 2.0 Nodes Overview](#vmss-20-diagram). 
 You can also find the same directories and pbtxt in this repository located [here](../../examples/commandline_examples/k260_kria_som).
 
-***NOTE:*** In line with the `VMSS2.0 Nodes Overview`, the configuration pbtxt files are named using a format that reflects their content:
+In line with the [VMSS 2.0 diagram](#vmss-20-diagram), the configuration pbtxt files are named using a format that reflects their content:
 
-`Input_(LogicOrApplication)_(PostProcessing)_Output.pbtxt`. If there're more nodes for a component, it will be named and sepreated by `-`. 
-For example, for `rtsp_detection-classification_visualization_rtsp.pbtxt`, you can infer the 4 components are:
+`Input_(LogicOrApplication)_(PostProcessing)_Output.pbtxt`. When multiple nodes are included in a single component, their names are concatenated and separated by a hyphen (`-`). 
+For example, for `rtsp_detection-classification_visualization_rtsp.pbtxt` indicates a pipeline composed of four key segments:
   - `Input`: rtsp
   - `Logic/Application`: detection & classification
   - `Post-processing`: visualization
@@ -72,7 +72,7 @@ For example, for `rtsp_detection-classification_visualization_rtsp.pbtxt`, you c
 
 ## Execute Pipelines (Input RTSP)
 
-Now let's execute examples where RTSP serves as the input type. The `input_rtsp` directory contains subdirectories each tailored to a specific RTSP stream:
+Now let's execute examples where RTSP serves as the input type. The `/opt/aupera/examples/input_rtsp` directory contains subdirectories each tailored to a specific RTSP stream:
 
 | Folder Name | RTSP input | RTSP description |
 |-------------|-------------|----------|
@@ -83,14 +83,14 @@ Now let's execute examples where RTSP serves as the input type. The `input_rtsp`
 ***NOTE:*** For more information on RTSP streams and how to view them, see [this section in K260 Kria SOM tutorial](../../tutorial/K260_Kria_SOM/README.md#setup-an-rtsp-video-player)
 
 
-Let's test a classification pipeline and observe the results via RTSP. Navigate to `input_rtsp/input_rtsp_imagenet` and assign a unique name to your RTSP stream:
+Let's test a classification pipeline and observe the results via RTSP. Navigate to `input_rtsp_imagenet` folder and assign a unique name to your RTSP stream:
 
 ```
-cd input_rtsp/input_rtsp_imagenet
+cd /opt/aupera/examples/input_rtsp/input_rtsp_imagenet
 echo 'output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"' > output_rtsp.pbtxt
 ```
 
-***NOTE:***: Be sure to change `your-output-name` to a unique name to prevent conflicts with others using the RTSP address.
+***NOTE:***: Be sure to change `your-output-name` to a unique name to prevent conflicts with others using the same RTSP address.
 
 Execute  the `avaser` with three pbtxt files:
 ```
@@ -102,7 +102,7 @@ avaser -i input_rtsp.pbtxt -o output_rtsp.pbtxt -c rtsp_classification_visualiza
 After launching, the output can be viewed using VLC or a similar application by navigating to the link set in your `output_rtsp.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). You should see classification results overlaid on the top left corner of the video stream, which is a compiled selection of Imagenet samples.
 
 
-Having learned how to execute `avaser` with an RTSP input and monitor the output, you can explore different pipelines within the `input_rtsp` directory. Remember to rename the output stream in `output_rtsp.pbtxt` to a unique identifier to avoid overlapping with other users. Below is a table with complete pipeline configurations using RTSP as the input:
+Having learned how to execute `avaser` with an RTSP input and monitor the output, you can explore different pipelines within the `/opt/aupera/examples/input_rtsp`. Remember to rename the output stream in `output_rtsp.pbtxt` for each sub-directory to your unique identifier to avoid overlapping with other users. Below is a table with complete pipeline configurations using RTSP as the input:
 
 
 | Directory                       | Config pbtxt                                               | Pipeline Note                                       |
@@ -118,7 +118,7 @@ Having learned how to execute `avaser` with an RTSP input and monitor the output
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization_images-rtsp.pbtxt            | Person detection, save result frames locally (`/tmp/saved_frames`) |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization_rtsp.pbtxt                   | Person detection                                    |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization-toJson_mongo-rtsp.pbtxt      | Person detection with MongoDB notification upon detection |
-| input_rtsp_imagenet`            | rtsp_classification_visualization_rtsp.pbtxt              | General classification                              |
+| input_rtsp_imagenet            | rtsp_classification_visualization_rtsp.pbtxt              | General classification                              |
 
 
 Try above examples via `avaser` using this format:
@@ -129,10 +129,10 @@ avaser -i input_rtsp.pbtxt -o output_rtsp.pbtxt -c <config.pbtxt>
 
 ## Execute Pipelines (Input Image)
 
-In addition to video streams, the `image_stream` node allows us to input static images into our pipeline. Within the `input_image` directory, there's a pipeline named `image_classification-throughput_udp.pbtxt`. This configuration pbtxt is designed to measure the throughput of `resnet18`, which is widely recognized as a benchmark classification model. To execute this, use the command below:
+In addition to video streams, the `image_stream` node allows us to input static images into our pipeline. Within the `/opt/aupera/examples/input_image` directory, there's a pipeline named `image_classification-throughput_udp.pbtxt`. This configuration pbtxt is designed to measure the throughput of `resnet18`, which is widely recognized as a benchmark classification model. To execute this, use the command below:
 
 ```
-cd input_image
+cd /opt/aupera/examples/input_image
 avaser -c image_classification-throughput_udp.pbtxt
 ```
 
@@ -167,7 +167,7 @@ node {
 
 ```
 
-If there's no need to select a specific camera, you can proceed with the default settings provided in the configuration files within the input_usb_cam directory.
+If there's no need to select a specific camera, you can proceed with the default settings provided in the configuration files within the `/opt/aupera/examples/input_usb_cam` directory.
 
 To execute a pipeline with a USB input, you'll need to specify the output and configuration pbtxt files as shown here:
 
@@ -176,7 +176,7 @@ avaser -o output_rtsp.pbtxt -c <config.pbtxt>
 ```
 Again, be sure to assign a unique name to your output stream in output_rtsp.pbtxt to prevent conflicts with other users.
 
-Below is a table listing the available pipelines in the `input_usb_cam` directory that utilize a USB camera
+Below is a table listing the available pipelines in `/opt/aupera/examples/input_usb_cam` that utilize USB camera as input source
 
 | Config pbtxt                                           | Pipeline Note                                                  |
 |--------------------------------------------------------|----------------------------------------------------------------|
