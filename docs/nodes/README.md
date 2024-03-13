@@ -167,9 +167,9 @@ There are exceptions to this rule:
 
 **Description:** Custom node to count detected objects crossing a border line or region of interest.
 
-**Node Options:** [AplCrowdFlowOptions](avap_doc.md#aplcrowdflowoptions)
+**Node Options:** [AplCrowdFlowOptions](../protos/README.md#aplcrowdflowoptions)
 
-**Example `.pbtxt`:** [apl_crowd_flow](avap_doc.md#aupavapapl_crowd_flowproto)
+**Example `.pbtxt`:** [apl_crowd_flow](../protos/README.md#aupavapapl_crowd_flowproto)
 
 **Basic Node IO:** 
 
@@ -200,9 +200,9 @@ This node can optionally have 4 input streams to provide a video stream:
 
 **Description:** Performs object classification either on an entire image or a cropped image region if cascaded with a box_detector. If this node takes in detections, it will perform classification only on the regions contained in bounding boxes, otherwise it will perform classification on the whole image region, which can harm performance for wide fields of view.
 
-**Node Options:** [BoxClassifierOptions](avap_doc.md#boxclassifieroptions)
+**Node Options:** [BoxClassifierOptions](../protos/README.md#boxclassifieroptions)
 
-**Example `.pbtxt`:** [box_classifier](avap_doc.md#aupavapbox_classifierproto)
+**Example `.pbtxt`:** [box_classifier](../protos/README.md#aupavapbox_classifierproto)
 
 **Basic Node IO:** 
 
@@ -242,9 +242,9 @@ We can also have multiple input video streams and corresponding output streams. 
 
 **Description:** Uses a ML model to find objects in an image, producing bounding boxes for each along with their predicted class.
 
-**Node Options** [BoxDetectorOptions](avap_doc.md#boxdetectoroptions)
+**Node Options** [BoxDetectorOptions](../protos/README.md#boxdetectoroptions)
 
-**Example `.pbtxt`:** [box_detector](avap_doc.md#aupavapbox_detectorproto)
+**Example `.pbtxt`:** [box_detector](../protos/README.md#aupavapbox_detectorproto)
 
 **Basic Node IO:** 
 
@@ -269,9 +269,9 @@ This node can be scaled to receive multiple input video streams, in which case t
 
 **Description:** Performs semantic segmentation on an image stream classifying each pixel of the input image.
 
-**Node Options:** [BoxSegmentorOptions](avap_doc.md#boxsegmentoroptions)
+**Node Options:** [BoxSegmentorOptions](../protos/README.md#boxsegmentoroptions)
 
-**Example `.pbtxt`:** [box_segmentor](avap_doc.md#aupavapbox_segmentorproto)
+**Example `.pbtxt`:** [box_segmentor](../protos/README.md#aupavapbox_segmentorproto)
 
 **Basic Node IO:** 
 
@@ -294,9 +294,9 @@ This node can be scaled to receive multiple input streams at a time and produces
 
 **Description:** Tracks detected objects coming from a detector, assigning a unique ID to each.
 
-**Node Options:** [BoxTrackerOptions](avap_doc.md#boxtrackeroptions)
+**Node Options:** [BoxTrackerOptions](../protos/README.md#boxtrackeroptions)
 
-**Example `.pbtxt`:** [box_tracker](avap_doc.md#aupavapbox_trackerproto)
+**Example `.pbtxt`:** [box_tracker](../protos/README.md#aupavapbox_trackerproto)
 
 **Basic Node IO:** 
 This node has two input streams and one output stream:
@@ -311,9 +311,9 @@ This node has two input streams and one output stream:
 
 **Description:** Renders boxes and classification results within images provided through the image stream and returns the updated images. Receives a packet containing detected bounding box information, which may be one of <a href="#DetectionPacket">`DetectionPacket`</a>, <a href="#Classifications">`Classifications`</a>, <a href="#Segmentations">`Segmentations`</a>, <a href="#LandmarksPacket">`LandmarksPacket`</a>. 
 
-**Node Options:** [BoxVisualizerOptions](avap_doc.md#boxvisualizeroptions)
+**Node Options:** [BoxVisualizerOptions](../protos/README.md#boxvisualizeroptions)
 
-**Example `.pbtxt`:** [box_visualizer](avap_doc.md#aupavapbox_visualizerproto)
+**Example `.pbtxt`:** [box_visualizer](../protos/README.md#aupavapbox_visualizerproto)
 
 **Basic Node IO:** 
 
@@ -335,9 +335,9 @@ This node has two input streams and one output stream:
 
 **Description:** Applies color space conversion, sets frame rate, and sets resolution of a video stream.
 
-**Node Options:** [VideoFilterOptions](avap_doc.md#videofilteroptions)
+**Node Options:** [VideoFilterOptions](../protos/README.md#videofilteroptions)
 
-**Example `.pbtxt`:** [ff_vfilter](avap_doc.md#aupavapvfilterproto)
+**Example `.pbtxt`:** [ff_vfilter](../protos/README.md#aupavapvfilterproto)
 
 **Basic Node IO:** 
 
@@ -354,9 +354,9 @@ This node has two input streams and two output streams:
 
 **Description:** Saves frames from a video stream to a directory.
 
-**Node Options:** [FrameSaverOptions](avap_doc.md#framesaveroptions)
+**Node Options:** [FrameSaverOptions](../protos/README.md#framesaveroptions)
 
-**Example `.pbtxt`:** [frame_saver](avap_doc.md#aupavapframe_saverproto)
+**Example `.pbtxt`:** [frame_saver](../protos/README.md#aupavapframe_saverproto)
 
 **Basic Node IO:** 
 
@@ -372,9 +372,9 @@ This node has one input stream:
 
 **Description:** Calls a ML model to find supported face or body/pose landmarks within an image. If this node takes in detections, it will perform landmark detection only on the regions contained in bounding boxes, otherwise it will perform landmark detection on the whole image region, which can harm performance for wide fields of view.
 
-**Node Options:** [LandmarkPredictorOptions](avap_doc.md#landmarkpredictoroptions)
+**Node Options:** [LandmarkPredictorOptions](../protos/README.md#landmarkpredictoroptions)
 
-**Example `.pbtxt`:** [landmark_predictor](avap_doc.md#aupavaplandmark_predictorproto)
+**Example `.pbtxt`:** [landmark_predictor](../protos/README.md#aupavaplandmark_predictorproto)
 
 **Basic Node IO:** 
 
@@ -414,9 +414,9 @@ We can also have multiple input video streams and corresponding output streams. 
 
 **Description:** Sends a notification via SMS or email.
 
-**Node Options** [NotificationMessageOptions](avap_doc.md#notificationmessageoptions)
+**Node Options** [NotificationMessageOptions](../protos/README.md#notificationmessageoptions)
 
-**Example `.pbtxt`:** [notification_message](avap_doc.md#aupavapnotification_messageproto)
+**Example `.pbtxt`:** [notification_message](../protos/README.md#aupavapnotification_messageproto)
 
 **Basic Node IO:** 
 
@@ -432,9 +432,9 @@ This node has one input stream:
 
 **Description:** Sends customized notifications to a user-specified MongoDB server.
 
-**Node Options** [NotificationMongoOptions](avap_doc.md#notificationmongooptions)
+**Node Options** [NotificationMongoOptions](../protos/README.md#notificationmongooptions)
 
-**Example `.pbtxt`:** [notification_mongo](avap_doc.md#aupavapnotification_mongoproto)
+**Example `.pbtxt`:** [notification_mongo](../protos/README.md#aupavapnotification_mongoproto)
 
 **Basic Node IO:**
 
@@ -450,7 +450,7 @@ This node has one input stream:
 
 **Description:** Sends a notification via the web
 
-**[Node Options](avap_doc.md#notificationweboptions)**
+**[Node Options](../protos/README.md#notificationweboptions)**
 
 **Basic Node IO:** 
 
@@ -466,9 +466,9 @@ This node has one input stream:
 
 **Description:** Loads statistics in the form of json files in a directory.
 
-**Node Options** [StatisticsReaderOptions](avap_doc.md#statisticsreaderoptions)
+**Node Options** [StatisticsReaderOptions](../protos/README.md#statisticsreaderoptions)
 
-**Example `.pbtxt`:** [statistics_reader](avap_doc.md#aupavapstatistics_readerproto)
+**Example `.pbtxt`:** [statistics_reader](../protos/README.md#aupavapstatistics_readerproto)
 
 **Basic Node IO:**
 
@@ -484,9 +484,9 @@ This node has one output stream
 
 **Description:** Demultiplexes a video stream.
 
-**Node Options** [StreamMuxOptions](avap_doc.md#streammuxoptions)
+**Node Options** [StreamMuxOptions](../protos/README.md#streammuxoptions)
 
-**Example `.pbtxt`:** [stream_demux](avap_doc.md#aupavapstream_muxproto)
+**Example `.pbtxt`:** [stream_demux](../protos/README.md#aupavapstream_muxproto)
 
 **Basic Node IO:** This node can have 1 or 2 output streams: 
 - The first output stream produces <a href="#VideoPacket">`VideoPacket`</a> objects
@@ -501,9 +501,9 @@ This node has one output stream
 
 **Description:** Multiplexes a video stream.
 
-**Node Options:** [StreamMuxOptions](avap_doc.md#streammuxoptions)**
+**Node Options:** [StreamMuxOptions](../protos/README.md#streammuxoptions)**
 
-**Example `.pbtxt`:** [stream_mux](avap_doc.md#aupavapstream_muxproto)
+**Example `.pbtxt`:** [stream_mux](../protos/README.md#aupavapstream_muxproto)
 
 **Basic Node IO:** This node has two input streams:
 - The first input stream takes <a href="#VideoPacket">`VideoPacket`</a> objects
@@ -518,9 +518,9 @@ This node has one output stream
 
 **Description:** Converts packets of various types to json format.
 
-**Node Options:** [ToJsonOptions](avap_doc.md#tojsonoptions)
+**Node Options:** [ToJsonOptions](../protos/README.md#tojsonoptions)
 
-**Example `.pbtxt`:** [to_json](avap_doc.md#aupavapto_jsonproto)
+**Example `.pbtxt`:** [to_json](../protos/README.md#aupavapto_jsonproto)
 
 **Basic Node IO:** 
 
@@ -540,9 +540,9 @@ This node has one input stream and one output stream:
 
 **Description:** Loads video from a camera device, such as USB.
 
-**Node Options** [VideoSourceOptions](avap_doc.md#videosourceoptions)
+**Node Options** [VideoSourceOptions](../protos/README.md#videosourceoptions)
 
-**Example `.pbtxt`:** [video_source](avap_doc.md#aupavapvideo_sourceproto)
+**Example `.pbtxt`:** [video_source](../protos/README.md#aupavapvideo_sourceproto)
 
 **Basic Node IO:** This node has two output streams:
 - The first output stream produces <a href="#ImagePacket">`ImagePacket`</a> objects
@@ -557,9 +557,9 @@ This node has one input stream and one output stream:
 
 **Description:** Decodes an incoming video stream using CPU.
 
-**Node Options:** [VideoCodecOptions](avap_doc.md#videocodecoptions)
+**Node Options:** [VideoCodecOptions](../protos/README.md#videocodecoptions)
 
-**Example `.pbtxt`:** [x86_dec](avap_doc.md#aupavapvcodecproto)
+**Example `.pbtxt`:** [x86_dec](../protos/README.md#aupavapvcodecproto)
 
 **Basic Node IO:** 
 
@@ -588,9 +588,9 @@ The order of the output streams corresponds to the order of entries in `node_opt
 
 **Description:** Encodes an outgoing video stream using CPU.
 
-**Node Options:** [VideoCodecOptions](avap_doc.md#videocodecoptions)
+**Node Options:** [VideoCodecOptions](../protos/README.md#videocodecoptions)
 
-**Example `.pbtxt`:** [x86_enc](avap_doc.md#aupavapvcodecproto)
+**Example `.pbtxt`:** [x86_enc](../protos/README.md#aupavapvcodecproto)
 
 **Basic Node IO:** 
 

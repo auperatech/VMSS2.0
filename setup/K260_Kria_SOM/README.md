@@ -30,6 +30,8 @@ sudo docker container exec -ti vmss_docker bash
 ```
 Replace `vmss_docker` with your specified container name if you did not use the default name when prompted for container name in the installation step.
 
+Now that you have completed the installation you can follow our [tutorial](../../tutorial/K260_Kria_SOM/) to run examples and learn about VMSS2.0.
+
 ## Play with Aupera Web Cloud
 
 VMSS2.0 utility consists of two major modules, Aupera Video AI Server(AVAS) and Aupera Video AI Client(AVAC). AVAS is the server that runs and manages various AI tasks, and AVAC is a web cloud application that allows users to use a friendly GUI to connect to AVAS. It only takes several simple steps to launch AVAS inside the docker and play with our AVAC after the docker is successfully built. Let's play!
