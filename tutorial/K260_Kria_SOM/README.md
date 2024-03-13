@@ -248,7 +248,7 @@ To make this transition, follow these two simple steps:
 
 - Integrate the USB Camera Node
 
-  Replace the nodes previously handling the RTSP stream (`stream_demux` and `x86_dec`) with the `video_source` node designed for USB cameras. Specifically, replace the content lines [4-42](./assets/rtsp_persondetect_rtsp.pbtxt#L4-L42) in `rtsp_persondetect_rtsp.pbtxt` with the `video_source` node as shown below:
+  Replace the nodes previously handling the RTSP stream (`stream_demux` and `x86_dec`) with the `video_source` node designed for USB cameras. Specifically, replace the content lines [5-42](./assets/rtsp_persondetect_rtsp.pbtxt#L5-L42) in `rtsp_persondetect_rtsp.pbtxt` with the `video_source` node as shown below:
   ```
   node {
       name: "usb_cam"
@@ -262,7 +262,7 @@ To make this transition, follow these two simple steps:
   }
   ```
 
-That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. Now run the execute the pipeline again (this time without `input.pbtxt`) and watch the results in your video player:
+That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. After making sure you have a USB camera setup ready, execute the pipeline again (this time without `input.pbtxt`) and watch the results in your video player:
 ```
 avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
@@ -282,7 +282,7 @@ To accomplish this, you will need to insert two additional nodes into your pipel
 
  - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
 
-  For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-192) to your pipeline.
+  For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-L192) to your pipeline.
 
 ### Configuring your notification service
 After inserting the nodes, it's time to specify key parameters within the `notification_message` node:
