@@ -67,7 +67,7 @@ In this tutorial, we are going to start with **video file** as our input. Then w
 ### Create the Input and Output
  Let's create our `input.pbtxt` and `output.pbtxt` files that are required for running a pipeline. 
  
-**Input File:** For the input, we are using the mp4 file you just downloaded `face_demo_82s.mp4`. Therefore, the path should be passed as `input_urls` as shown below: 
+**Input File:** For the input, we are using the `face_demo_82s.mp4` you just downloaded. Assuming you're in the directory `VMSS2.0/tutorial/K260_Kria_SOM/assets`, you should specify the path in the `input_urls` as below: 
 
 ```
 echo 'input_urls: "face_demo_82s.mp4"' > input.pbtxt
@@ -92,7 +92,7 @@ Now that your input and output are set up and you've confirmed that you can view
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-To stop the pipeline, press `ctrl + c`
+***NOTE:*** To stop the pipeline, press `ctrl + c`
 
 Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
 
@@ -120,7 +120,7 @@ We already covered how to create the input and the output files. Now we are intr
 </div>
 
 
-***NOTE:*** In this tutorial we will be swapping the input and the output nodes. Therefore, to simplify the visualization we just show `video_in` and `video_out` as our input or output. However, keep in mind depending on the input or the ouput source type, `video_in` and `video_out` need to be swapped with the appropiate node(s). See the image ("VMSS2.0 Nodes Overview") [above](#person-detection) for more info. 
+***NOTE:*** In this tutorial we will be swapping the input and the output nodes. Therefore, to simplify the visualization we just show `video_in` and `video_out` as our input or output. However, keep in mind depending on the input or the ouput source type, `video_in` and `video_out` need to be swapped with the appropiate node(s). See the image [VMSS2.0 Nodes Overview](#person-detection) for more info. 
 
 
 ### Changing the Input to RTSP
@@ -244,7 +244,7 @@ To make this transition, follow these two simple steps:
 
 - Remove RTSP Input Configuration
   
-  As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` in [here](./assets/rtsp_persondetect_rtsp.pbtxt#L2) in `rtsp_persondetect_rtsp.pbtxt`.
+  As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` [here](./assets/rtsp_persondetect_rtsp.pbtxt#L2) in `rtsp_persondetect_rtsp.pbtxt`.
 
 - Integrate the USB Camera Node
 
@@ -267,7 +267,7 @@ That's it! With the adjustments made, your pipeline is now prepared to accept vi
 avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** Alternatively, you can directly execute [`usb_facedetect-tracker_rtsp.pbtxt`](./assets/usb_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation if we want to start from this step.
+***NOTE:*** Alternatively, you can execute [`usb_facedetect-tracker_rtsp.pbtxt`](./assets/usb_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation if you want to start from this step directly.
 ```
 avaser -o output.pbtxt -c usb_facedetect-tracker_rtsp.pbtxt
 ```
