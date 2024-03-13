@@ -156,7 +156,7 @@ $ make avap
 
 #### Modifying C++ source code callback
 
-At this point you can modify the `execute` function to handle the histogram overlaying on the frames. This fucntion takes `PacketPtr` to [`ImagePackets`](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1ImagePacket.html) as input outputs the same type to output.
+At this point you can modify the `execute` function to handle the histogram overlaying on the frames. This fucntion takes `PacketPtr` to [`ImagePackets`](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1ImagePacket.html) as input outputs the same type to output.
 
 1. Firstly we add the `ImagePacket` header to the file
    ```cpp

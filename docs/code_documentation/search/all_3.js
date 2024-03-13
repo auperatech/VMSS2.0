@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['calc_5fapis',['calc_apis',['../classaup_1_1avaf_1_1Node.html#ab500a2354ce16dbb0da5514830fc20d9',1,'aup::avaf::Node']]],
+  ['calculator_2eh',['calculator.h',['../calculator_8h.html',1,'']]],
+  ['calculator_5fentry',['CALCULATOR_ENTRY',['../namespaceaup_1_1avaf.html#abf66ba8ee9b654414c44882965957465',1,'aup::avaf']]],
+  ['calculatorapis',['CalculatorAPIs',['../structaup_1_1avaf_1_1CalculatorAPIs.html',1,'aup::avaf::CalculatorAPIs'],['../namespaceaup_1_1avaf.html#ace2a0b76ce3d0d9d787beaa86e62bfa6',1,'aup::avaf::CalculatorAPIs()']]],
+  ['calculatorbase',['CalculatorBase',['../classaup_1_1avaf_1_1CalculatorBase.html',1,'aup::avaf::CalculatorBase&lt; OptionsType &gt;'],['../classaup_1_1avaf_1_1CalculatorBase.html#a0d9a62f1618cff450875805789dc303e',1,'aup::avaf::CalculatorBase::CalculatorBase()']]],
+  ['can_5fbe_5fcasted_5fto',['can_be_casted_to',['../classaup_1_1avaf_1_1PacketBase.html#a85a2ee8be938f5eeef763d2d938c0435',1,'aup::avaf::PacketBase::can_be_casted_to()'],['../classaup_1_1avaf_1_1TrackPacket.html#a64f59e13f2e582eeb886f202c7e7678e',1,'aup::avaf::TrackPacket::can_be_casted_to()']]],
+  ['class_5fid',['class_id',['../structaup_1_1avaf_1_1DetectionPacket_1_1DetectionObj.html#a898c84f763c194bb28cea00829fbb50f',1,'aup::avaf::DetectionPacket::DetectionObj']]],
+  ['classification_5fpacket_2eh',['classification_packet.h',['../classification__packet_8h.html',1,'']]],
+  ['classifications',['Classifications',['../classaup_1_1avaf_1_1Classifications.html',1,'aup::avaf::Classifications'],['../classaup_1_1avaf_1_1Classifications.html#a02d29295deeead476223ef75b1a3e24a',1,'aup::avaf::Classifications::Classifications(timestamp_t pts, std::vector&lt; aup::classify::Classifier::ClassifiedRes &gt; &amp;classifications, uint64_t frame_number, std::vector&lt; cv::Rect2d &gt; &amp;bboxes, uint64_t stream_idx=0)'],['../classaup_1_1avaf_1_1Classifications.html#a5039ce82b504a7e4996b4aec8bec6298',1,'aup::avaf::Classifications::Classifications(timestamp_t pts, std::vector&lt; aup::classify::Classifier::ClassifiedRes &gt; &amp;classifications, cv::Mat &amp;frame, uint64_t frame_number, uint64_t stream_idx=0)']]],
+  ['clip_5fgenerator_5fcommand_5fpacket_2eh',['clip_generator_command_packet.h',['../clip__generator__command__packet_8h.html',1,'']]],
+  ['clipgeneratorcommandpacket',['ClipGeneratorCommandPacket',['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html',1,'aup::avaf::ClipGeneratorCommandPacket'],['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html#a722b8e771986eca3d8d9993ca746e7fc',1,'aup::avaf::ClipGeneratorCommandPacket::ClipGeneratorCommandPacket(timestamp_t sync_timestamp, const Command command, const std::string &amp;filename_prefix)'],['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html#a3503df253d0a780d9caecfa45158a437',1,'aup::avaf::ClipGeneratorCommandPacket::ClipGeneratorCommandPacket(Command command, const std::string &amp;filename_prefix)'],['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html#a04c285616da8d1260da279f0fab686cd',1,'aup::avaf::ClipGeneratorCommandPacket::ClipGeneratorCommandPacket()']]],
+  ['close',['close',['../structaup_1_1avaf_1_1CalculatorAPIs.html#a25f1b9e4b9ff8a4f12485db78906b79b',1,'aup::avaf::CalculatorAPIs']]],
+  ['cmaallocatefunc',['CMAAllocateFunc',['../namespaceaup_1_1avaf.html#ade0f856d1cfad388ef30c5544d7e4f57',1,'aup::avaf']]],
+  ['codec_5ftype',['codec_type',['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a4b64399f302dd92fe913da4a7ed9763b',1,'aup::avaf::VideoStreamInfoPacket']]],
+  ['command',['Command',['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html#ad1d39049d1e57b2c6944baf750ed2a07',1,'aup::avaf::ClipGeneratorCommandPacket::Command()'],['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html#a3eaf10989d51678fa82738370e41171b',1,'aup::avaf::ClipGeneratorCommandPacket::command()']]],
+  ['confidence',['confidence',['../structaup_1_1avaf_1_1DetectionPacket_1_1DetectionObj.html#a11e46f7623f2554466d3216bbd0974e4',1,'aup::avaf::DetectionPacket::DetectionObj']]],
+  ['config',['config',['../classaup_1_1avaf_1_1Node.html#a761a6d5883d3c635f96f43916d0ba873',1,'aup::avaf::Node']]],
+  ['continue',['CONTINUE',['../classaup_1_1avaf_1_1ClipGeneratorCommandPacket.html#ad1d39049d1e57b2c6944baf750ed2a07a2f453cfe638e57e27bb0c9512436111e',1,'aup::avaf::ClipGeneratorCommandPacket']]],
+  ['contract',['Contract',['../classaup_1_1avaf_1_1Contract.html',1,'aup::avaf::Contract'],['../classaup_1_1avaf_1_1Node.html#a3556ad2faefdc942e2bc6dddb2c162ac',1,'aup::avaf::Node::contract()'],['../classaup_1_1avaf_1_1Contract.html#ad97c4c734fb0655a067a52321b8610d9',1,'aup::avaf::Contract::Contract()']]],
+  ['contract_2eh',['contract.h',['../contract_8h.html',1,'']]],
+  ['control_5fport',['control_port',['../classaup_1_1avaf_1_1Graph.html#a4e84ffbc303d42f550c2fddf6e9fadc1',1,'aup::avaf::Graph']]],
+  ['ctx',['ctx',['../classaup_1_1avaf_1_1AVCodecContextPacket.html#ace60de246d55d0c2c98e7c897cfa8044',1,'aup::avaf::AVCodecContextPacket']]],
+  ['cv_5fmat_5fwidth',['cv_mat_width',['../classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html#a39b93d677fda3e023225037f720e7f31',1,'aup::avaf::ImagePacket::Allocator']]],
+  ['cvrect2d_5fto_5fcvrect2i',['cvrect2d_to_cvrect2i',['../classaup_1_1avaf_1_1DetectionPacket.html#a2a2759e3b68f8eb32ee312369935df6b',1,'aup::avaf::DetectionPacket']]]
+];

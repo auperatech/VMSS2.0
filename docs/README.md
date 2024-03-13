@@ -9,7 +9,7 @@ The documentation is structured into several key areas:
 - [`avac/`](./avac/): Contains specific documentation related to usage of our [Web App](https://vmss.auperatechnologies.com/).
 - [`basic_node_creation/`](./basic_node_creation/): A guide to creating custom nodes for your custom logic. 
 - [`nodes`](./nodes/): A comprehensive guide to creating and managing nodes within VMSS2.0.
-- [`packet_documentation/`](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html): Includes detailed documentation on packet structure and usage. Access the documentation online at [Packet Documentation](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
+- [`code_documentation/`](https://auperatech.github.io/VMSS2.0/code_documentation/index.html): Includes detailed documentation of the code, including packet structures and calculator structure. Access the documentation online at [Packet Documentation](https://auperatech.github.io/VMSS2.0/code_documentation/index.html).
 - [`protos`](./protos/): Documentation about all the options for the available nodes.
 - [`smart_edge_box/`](./smart_edge_box/): Provides information on implementing nodes for the Smart Edge Box device.
 

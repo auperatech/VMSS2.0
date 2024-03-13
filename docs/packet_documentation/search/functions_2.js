@@ -1,5 +1,0 @@
-var searchData=
-[
-  ['detectionobj',['DetectionObj',['../structaup_1_1avaf_1_1DetectionPacket_1_1DetectionObj.html#a2d395d41418a9e798f83745f9347b6dc',1,'aup::avaf::DetectionPacket::DetectionObj']]],
-  ['detectionpacket',['DetectionPacket',['../classaup_1_1avaf_1_1DetectionPacket.html#a0cea74b5e5b520f423e594ec4c1bb91b',1,'aup::avaf::DetectionPacket::DetectionPacket(timestamp_t sts, uint16_t swidth, uint16_t sheight, uint64_t frame_number, uint64_t stream_idx=0)'],['../classaup_1_1avaf_1_1DetectionPacket.html#a65217e2fa2391c2e520c36836fe9a2c6',1,'aup::avaf::DetectionPacket::DetectionPacket(timestamp_t sts, uint16_t swidth, uint16_t sheight, const std::vector&lt; DetectionObj &gt; &amp;detections, uint64_t frame_number, uint64_t stream_idx=0)'],['../classaup_1_1avaf_1_1DetectionPacket.html#a2bcc627a426f2f8aa01fdc85f7ff9c12',1,'aup::avaf::DetectionPacket::DetectionPacket(timestamp_t sts, uint16_t swidth, uint16_t sheight, const std::vector&lt; aup::detect::Detector::DetectedObject &gt; &amp;detected_objs, uint64_t frame_number, uint64_t stream_idx=0)']]]
-];
