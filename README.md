@@ -12,7 +12,7 @@ As the diagram above indicates, VMSS2.0 empowers AMD pervasive competitors to fu
 3.  Additionally, there are various nodes that handles sending updated to web, email, sms, databases and more.
 4.  And last but not least, it also allows users to rapidly and efficiently integrate their own C++ to build a full Robotics/Computer Vision pipeline.
 
-Follow [this guide](,/setup/K260_Kria_SOM) to install VMSS2.0 on SOM. This developer version empowers you to rapidly build complex Video AI applications without writing any code. 
+Follow [this guide](./setup/K260_Kria_SOM) to install VMSS2.0 on SOM. This developer version empowers you to rapidly build complex Video AI applications without writing any code. 
 
 ## What is VMSS? 
 
