@@ -18,11 +18,10 @@ Create a folder that you wish your custom node code to be inside of, cd to it. T
 $ mkdir histogram
 $ cd histogram
 $ init_vmss_node.sh
-init_vmss_node.sh
 This script will take you through a wizard to create the boiler-plate code for a new calulator/node.
 Enter vendor name [default=aupera]:
 Enter calculator name in snake_case [default=custom_logic]:histogram_overlay
-Enter calculator class name [default=CustomLogicCalculator]:HistogramOverlayCalculator
+Enter calculator class name [default=HistogramOverlayCalculator]:
 Are you using existing options? (Y/N) [default=N]:
 Enter option name in snake_case which should NOT be in existing option list:
 apl_common              epyc_resnet             packet_simulator
@@ -37,8 +36,8 @@ box_tracker             landmark_predictor      vcodec
 box_visualizer          notification_message    vfilter
 clip_generator          notification_mongo      video_source
 empty                   notification_web
- [default=custom_logic]:histogram_overlay
-Enter options class name in [default=CustomLogicOptions]:HistogramOverlayOptions
+ [default=histogram_overlay]:
+Enter options class name in [default=HistogramOverlayOptions]:
 Enter if the calculator will have execute callback. If your calculator has inputs then answer should be Y. If not answer must be N [default=Y]:
 Generating histogram_overlay.proto ...
 Generating VERSION.mk...
@@ -46,7 +45,11 @@ Generating Makefile...
 Generating histogram_overlay boiler plate ...
 ```
 
-At this point the following things should be created in the folder
+Note that this calculator assumes the following:
+- User needs to define their own options, User can choose `N` in the prompt `Are you using existing options?` in which case she will be prompted to use an existing option from the list.
+- User may define a source node. For example a node to support a specific type of camera. In this case the node would not have any inputs and thus it cannot have `execute` callback. If this is the case she can choose `N` when prompted with `Enter if the calculator will have execute callback`
+
+Back to the example at hand, at this point the following things should be created in the folder.
 
 ```
 $ ll
