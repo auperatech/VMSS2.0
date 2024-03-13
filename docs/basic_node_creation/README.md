@@ -22,7 +22,7 @@ This script will take you through a wizard to create the boiler-plate code for a
 Enter vendor name [default=aupera]:
 Enter calculator name in snake_case [default=custom_logic]:histogram_overlay
 Enter calculator class name [default=HistogramOverlayCalculator]:
-Are you using existing options? (Y/N) [default=N]:
+Are you using existing options from other available nodes? (Y/N) [default=N]:
 Enter option name in snake_case which should NOT be in existing option list:
 apl_common              epyc_resnet             packet_simulator
 apl_crowd_flow          event_based_recorder    packet_type
