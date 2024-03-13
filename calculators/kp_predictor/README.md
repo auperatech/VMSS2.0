@@ -5,7 +5,7 @@ Specifically, as a minimum example for this purposes, the calculator `kp_predict
 
 ### Steps
 1. Download the [model](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo/model-list/tf_HFNet_mixed_960_960_20.09G_2.5) from the [model-zoo](https://github.com/Xilinx/Vitis-AI/tree/2.5/model_zoo) and extract it.
-2. As instructed in [basic_node_creation.md](../../docs/kria_som/basic_node_creation.md)
+2. As instructed in [basic_node_creation](../../docs/basic_node_creation/README.md)
     1. Define configurable options in a PROTO file
 For example, a configurable `string` field `model` is defined in [kp_predictor.proto](./kp_predictor.proto) to specify the path to the XMODLE file.
         ```protobuf
