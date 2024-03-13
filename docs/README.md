@@ -1,13 +1,13 @@
 # VMSS2.0 Documentation
 
-This documentation is organized to provide users with comprehensive guidance on the VMSS2.0 framework, focusing on avac (Aupera Video Analytics Client Web APP), nodes (also known as calculators), packets, and the implementation of custom nodes for supported devices.
+This documentation is organized to provide users with comprehensive guidance on the VMSS2.0 framework, focusing on AVAC (Aupera Video Analytics Client Web APP), nodes (also known as calculators), packets, and the implementation of custom nodes for supported devices.
 
 ## Directory Structure
 
 The documentation is structured into several key areas:
 
-- [`avac/`](./avac/): Contains specific documentation related to usage of our (Web App)[https://vmss.auperatechnologies.com/].
-- [`basic_node_creation/`](./basic_node_creation/): A guide to create custom node for your own custom logic. 
+- [`avac/`](./avac/): Contains specific documentation related to usage of our [Web App](https://vmss.auperatechnologies.com/).
+- [`basic_node_creation/`](./basic_node_creation/): A guide to creating custom nodes for your custom logic. 
 - [`nodes`](./nodes/): A comprehensive guide to creating and managing nodes within VMSS2.0.
 - [`packet_documentation/`](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html): Includes detailed documentation on packet structure and usage. Access the documentation online at [Packet Documentation](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
 - [`protos`](./protos/): AVAP-specific documentation.
@@ -27,5 +27,5 @@ Packets are the primary data structure used for data transmission between nodes 
 
 ### Custom Node Implementation
 
-For each supported device, custom node implementations can be created. With the exception of AEVA Smart Edgebox device side which is hosted [here](./smart_edge_box/basic_node_creation.md) you can follow the instructions [here](./basic_node_creation/) to create your own custom node. 
+For each supported device, custom node implementations can be created. Except AEVA Smart Edgebox device side which is hosted [here](./smart_edge_box/basic_node_creation.md) you can follow the instructions [here](./basic_node_creation/) to create your custom node. 
 
