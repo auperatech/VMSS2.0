@@ -80,7 +80,7 @@ echo 'output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"' > 
 ***NOTE:*** It's important to use a unique stream name when using the RTSP server. Ensure you replace `your-output-name` above with a name of your choosing before moving forward.
 
 ### Setup an RTSP Video Player 
-Finally, make sure you have a video player available to watch your output stream. We recommend using [VLC.](https://www.videolan.org/) Launche the video player and make sure you can run a test RTSP stream. You can use one of our test streams to verify this step. You may use any of the test streams listed [here](#test-rtsp-streams) to verify this.
+Finally, make sure you have a video player available to watch your output stream. We recommend using [VLC.](https://www.videolan.org/) Launch the video player and make sure you can run a test RTSP stream. You may use any of the test streams listed [here](#test-rtsp-streams) to verify this.
 
 ***NOTE:*** In VLC you can paste one of the streams above  `Media->Open Network Stream...` and press `Play`. 
 
@@ -91,9 +91,12 @@ Now that your input and output are set up and you've confirmed that you can view
 ```
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
+
+To stop the pipeline, press `ctrl + c`
+
 Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
 
-In essence, `avaser` is VMMS's command that runs a graph/pipeline. `avaser` requires specifying up to three pbtxt files during execution, with the configuration pbtxt being mandatory:
+In essence, `avaser` is VMMS's command that runs a graph/pipeline. `avaser` requires specifying up to three pbtxt files during execution, with the configuration pbtxt being mandatory. Here're more details about them:
 
 - **Configuration pbtxt (specified with `-c`)**
 
@@ -122,11 +125,13 @@ We already covered how to create the input and the output files. Now we are intr
 
 ### Changing the Input to RTSP
 
-Finally, we'll demonstrate how you can easily switch the input to a live RTSP stream by updating the input_urls. For example, you can modify the existing `input.pbtxt` to process the same demo video, but this time streamed from an RTSP source, by using the following command:
+Next, we'll demonstrate how you can easily switch the input to a live RTSP stream by updating the input_urls. For example, you can modify the existing `input.pbtxt` to process the same demo video, but this time streamed from an RTSP source, by using the following command:
 
 ```
 echo 'input_urls: "rtsp://vmss.auperatechnologies.com:554/face"' > input.pbtxt
 ```
+
+***NOTE:*** Optionally, feel free to experiment with different RTSP streams we've prepared [here](#test-rtsp-streams). However, in this tutorial, we'll continue to use `rtsp://vmss.auperatechnologies.com:554/face` as our go-to stream.
 
 Now you can run the same `avaser` command you ran before by passing this new input input file:
 
@@ -134,15 +139,11 @@ Now you can run the same `avaser` command you ran before by passing this new inp
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-Now you can verify the new pipeline running on this new input by watching the address you set as your `output_urls` in `output.pbtxt` file.
-
-***NOTE:*** Optionally, feel free to experiment with different RTSP streams we've prepared [here](#test-rtsp-streams). However, in this tutorial, we'll continue to use `rtsp://vmss.auperatechnologies.com:554/face` as our go-to stream.
-
 ## Reconfigure the Person Detection Pipeline to do Face Detection 
 
-In the previous step you were able to run a person detector model provided via AMD Vitis AI model zoo on two different sources of input (MP4 file and RTSP Stream). In this section, we are going to run the last pipeline you just ran but change the model from a person detector to a face detector. First, we will walk you through what's needed. Then we will explain the logic behind it futher.
+In the previous step you were able to run a person detector model provided via AMD Vitis AI model zoo on two different sources of input (MP4 file and RTSP Stream). In this section, we are going to run the last pipeline you just tested but change the model from a person detector to a face detector. First, we will walk you through what's needed. Then we will explain the logic behind it futher.
 
-To adapt the pipeline for face detection, you only need to modify the following 3 values in the `assets/rtsp_persondetect_rtsp.pbtxt` pipeline that you used in the previous step:
+To adapt the pipeline for face detection, you only need to modify the following 2 values in the `rtsp_persondetect_rtsp.pbtxt` pipeline that you used in the previous step:
 
 - [`ml_model_kernel_name`](./assets/rtsp_persondetect_rtsp.pbtxt#L50): "densebox_320_320"
 - [`detector_type`](./assets/rtsp_persondetect_rtsp.pbtxt#L54): "FaceDetectDenseBox"
@@ -160,7 +161,7 @@ Now, execute the modified pipeline with the following command and watch the outp
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect_rtsp.pbtxt`](./assets/rtsp_facedetect_rtsp.pbtxt) we prepared for a quick initiation.
+***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect_rtsp.pbtxt`](./assets/rtsp_facedetect_rtsp.pbtxt) we prepared for a quick initiation of this step.
 ```
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_facedetect_rtsp.pbtxt
 ```
@@ -169,7 +170,7 @@ Congratulations, you just successfully reconfigured the box_detector to use a di
 
 ## Increasing Detection Interval and Adding a Tracker
 
-Given some machine leraning (ML) models are computationally expensive (i.e they are too slow to run on every frame in realtime), we may need to reduce how often we run our ML model. In this step, we will show you how you can reduce the frequency of running a ML model, and then we will complement the `box_detector` with a `box_tracker` to take advantage of a tracker to reduce the ML load as well as creating a unique ID for each detected object. 
+Given some machine leraning (ML) models are computationally expensive (i.e they are too slow to run on every frame in real-time), we may need to reduce how often we run our ML model. In this step, we will show you how you can reduce the frequency of running a ML model, and then we will complement the `box_detector` with a `box_tracker` to take advantage of a tracker to reduce the ML load as well as creating a unique ID for each detected object. 
 
 ### Increasing Detction Interval
 
@@ -182,7 +183,9 @@ Now it's time to run the pipeline and watch the output just like the previous st
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 ### Adding a Tracker
-As you probably noticed, the output of your pipeline now only draws a bounding box on every other frame. This is the expected behaviour as the `detect_interval` is now set to **3**. Now, we will add a tracker by inserting a `box_tracker` node between the `box_detector` and `box_visualizer`. The image below illustrates what we are about to do:
+As you probably noticed, the output of your pipeline now only draws bounding boxes on every third frame. This is the expected behaviour as the `detect_interval` is now set to **3**. 
+
+Let's move on and add a tracker by inserting a `box_tracker` node between the `box_detector` and `box_visualizer`. The image below illustrates what we are about to do:
 <div align="center">
 <figure>
   <img src="assets/images/add_tracker.png" alt="vmss nodes sequence">
@@ -191,9 +194,9 @@ As you probably noticed, the output of your pipeline now only draws a bounding b
 </figure>
 </div>
 
-Now let's make this change. First we insert the  `box_tracker` node between our `box_detector` and our `box_visualizer`. 
+Let's make this change in the same `rtsp_persondetect_rtsp.pbtxt` we have used so far. First we insert the `box_tracker` node between the existing `box_detector` and `box_visualizer`. 
 
-The node below should be inserted after this [line.](./assets/rtsp_persondetect_rtsp.pbtxt#L68)
+That is, the `box_tracker` below should be copied and pasted after the `box_detector`, specifically, after [this line](./assets/rtsp_persondetect_rtsp.pbtxt#L68).
 
 ```
 node {
@@ -219,14 +222,16 @@ node {
   }
 }
 ```
-Then we need to modify the connections between the nodes. Currently, the `box_visualizer`'s input is expecting the packets to come directly from the `box_detector` but that's not what we want. Therefore, we need to modify the input of `box_visualizer` to be connected to the output of `box_tracker`. To achieve this we need to modify the first `input_stream` in the `box_visualizer` to the `ouput_stream` of `box_tracker` which is `"tracks_stream"`. Hence, make sure this [value](./assets/rtsp_persondetect_rtsp.pbtxt#L73) is set to `"tracks_stream"`. 
 
-Now you are ready to run the new pipeline as you've done before. Let's go ahead run the pipeline and visualize the output:
+
+Next, we need to adjust how the nodes are linked together. At the moment, the `box_visualizer` is set to receive input directly from the `box_detector`, which isn't our current goal. Instead, we want the `box_visualizer` to receive its input from the `box_tracker`. To do this, change the `box_visualizer`'s first `input_stream` to match the `box_tracker`'s output_stream. Concretely, make sure this [value](./assets/rtsp_persondetect_rtsp.pbtxt#L73) is set to `"tracks_stream"`.
+
+With these modifications in place, you're all set to launch the updated pipeline as before:
 ```
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect-tracker_rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation.
+***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect-tracker_rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation of this step.
 ```
 avaser -i input.pbtxt -o output.pbtxt -c rtsp_facedetect-tracker_rtsp.pbtxt
 ```
@@ -239,11 +244,11 @@ To make this transition, follow these two simple steps:
 
 - Remove RTSP Input Configuration
   
-  As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` [here](./assets/rtsp_persondetect_rtsp.pbtxt#L2) defined in your previous pbtxt
+  As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` in [here](./assets/rtsp_persondetect_rtsp.pbtxt#L2) in `rtsp_persondetect_rtsp.pbtxt`.
 
 - Integrate the USB Camera Node
 
-  Replace the nodes previously handling the RTSP stream (`stream_demux` and `x86_dec`) with the `video_source` node designed for USB cameras. Specifically, replace the content from lines [4](./assets/rtsp_persondetect_rtsp.pbtxt#L4) to [42](./assets/rtsp_persondetect_rtsp.pbtxt#L42) in [`rtsp_persondetect_rtsp.pbtxt`](./assets/rtsp_persondetect_rtsp.pbtxt) with the `video_source` node as shown below:
+  Replace the nodes previously handling the RTSP stream (`stream_demux` and `x86_dec`) with the `video_source` node designed for USB cameras. Specifically, replace the content lines [4-42](./assets/rtsp_persondetect_rtsp.pbtxt#L4-L42) in `rtsp_persondetect_rtsp.pbtxt` with the `video_source` node as shown below:
   ```
   node {
       name: "usb_cam"
@@ -277,7 +282,7 @@ To accomplish this, you will need to insert two additional nodes into your pipel
 
  - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
 
-  For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156) to [192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L192) to your pipeline.
+  For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-192) to your pipeline.
 
 ### Configuring your notification service
 After inserting the nodes, it's time to specify key parameters within the `notification_message` node:
@@ -317,7 +322,7 @@ Once everything is configured, launch the pipeline with the command below to sta
 avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** You can directly adjust these parameters in [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and execute this pbtxt for a quick initiation.
+***NOTE:*** You can directly adjust these parameters in [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and execute this pbtxt for a quick initiation of this step.
 ```
 avaser -o output.pbtxt -c usb_facedetect-tracker_sms-rtsp.pbtxt
 ```
