@@ -49,7 +49,7 @@ The above image indicates how different node categories connect and combine. You
 
 ## Integrate your code easily by automatic boiler-plate generator
 
-You can integrate your custom C++ logic into VMSS2.0 easily via producing boiler-plates, build and install directly on the platform. [Here is more info on this topic.](docs/kria_som/basic_node_creation.md)
+You can integrate your custom C++ logic into VMSS2.0 easily via producing boiler-plates, build and install directly on the platform. [Here is more info on this topic.](docs/basic_node_creation/README.md)
 
 ## **Resources**
 
@@ -65,7 +65,7 @@ Here are some key resources to get started with our VMSS 2.0 release for K260 Kr
 
 * **Data Packet Guide:** Explore what packets are available in VMSS2.0 for communication between nodes [here](https://auperatech.github.io/VMSS2.0/packet_documentation/annotated.html).
 
-* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/kria_som/basic_node_creation.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [kp_predictor](calculators/kp_predictor) or modify some of our nodes like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
+* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/basic_node_creation/README.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [kp_predictor](calculators/kp_predictor) or modify some of our nodes like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
 
 * **Cloud-Based UI Demo:**  Explore the capabilities of our cloud-based user interface for running RTSP-based examples [here]().
 

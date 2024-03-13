@@ -28,7 +28,7 @@ make -j4
 make install
 ```
 
-Now, avap includes the options required for the node. Note that for nodes that run inside the subgraph (running on device side) you need to take some extra steps. For that please [refer to this guide called basic_node_creation.md](../basic_node_creation.md).
+Now, avap includes the options required for the node. Note that for nodes that run inside the subgraph (running on device side) you need to take some extra steps. For that please [refer to this guide called basic_node_creation](../basic_node_creation/README.md).
 
 # Creating the Code for Node
 VMSS docker for Smart-Edge-Box has a utility to create a boilerplate for node source code. Run the following to generate the boilerplate to create [the boilerplate code](detection_visualizer_boilerplate.cc).
