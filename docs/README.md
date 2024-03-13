@@ -1,6 +1,6 @@
 # VMSS2.0 Documentation
 
-This documentation is organized to provide users with comprehensive guidance on the VMSS2.0 framework, focusing on AVAC (Aupera Video Analytics Client Web APP), nodes (also known as calculators), packets, and the implementation of custom nodes for supported devices.
+This documentation is organized to provide users with comprehensive guidance on the VMSS2.0 framework, focusing on AVAC (Aupera Video Analytics Client Web APP), nodes (also known as calculators), packets, proto files for available nodes (specifying node options), and the implementation of custom nodes for supported devices.
 
 ## Directory Structure
 
@@ -10,7 +10,7 @@ The documentation is structured into several key areas:
 - [`basic_node_creation/`](./basic_node_creation/): A guide to creating custom nodes for your custom logic. 
 - [`nodes`](./nodes/): A comprehensive guide to creating and managing nodes within VMSS2.0.
 - [`packet_documentation/`](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html): Includes detailed documentation on packet structure and usage. Access the documentation online at [Packet Documentation](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
-- [`protos`](./protos/): AVAP-specific documentation.
+- [`protos`](./protos/): Documentation about all the options for the available nodes.
 - [`smart_edge_box/`](./smart_edge_box/): Provides information on implementing nodes for the Smart Edge Box device.
 
 ## About VMSS2.0
