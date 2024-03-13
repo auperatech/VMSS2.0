@@ -12,7 +12,7 @@ As the diagram above indicates, VMSS2.0 empowers AMD pervasive competitors to fu
 3.  Additionally, there are various nodes that handles sending updated to web, email, sms, databases and more.
 4.  And last but not least, it also allows users to rapidly and efficiently integrate their own C++ to build a full Robotics/Computer Vision pipeline.
 
-Follow [this guide](https://github.com/auperatech/VMSS2.0/tree/main/setup/K260_Kria_SOM) to install VMSS2.0 on SOM. This developer version empowers you to rapidly build complex Video AI applications without writing any code. 
+Follow [this guide](,/setup/K260_Kria_SOM) to install VMSS2.0 on SOM. This developer version empowers you to rapidly build complex Video AI applications without writing any code. 
 
 ## What is VMSS? 
 
@@ -61,13 +61,13 @@ Here are some key resources to get started with our VMSS 2.0 release for K260 Kr
 
 * **Running Examples:**  Learn to run examples through the VMSS 2.0 command-line interface with [this document](usage/K260_Kria_SOM/README.md).
 
-* **Node (Calculator) Guide:** Learn what our suite of prebuilt nodes offer and learn about their specifications [in this document](docs/node_guide.md).
+* **Node (Calculator) Guide:** Learn what our suite of prebuilt nodes offer and learn about their specifications [in this document](docs/nodes/README.md).
 
 * **Data Packet Guide:** Explore what packets are available in VMSS2.0 for communication between nodes [here](https://auperatech.github.io/VMSS2.0/packet_documentation/annotated.html).
 
 * **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/basic_node_creation/README.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [kp_predictor](calculators/kp_predictor) or modify some of our nodes like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
 
-* **Cloud-Based UI Demo:**  Explore the capabilities of our cloud-based user interface for running RTSP-based examples [here]().
+* **Cloud-Based UI Demo:**  Explore the capabilities of our cloud-based user interface for running RTSP-based examples [here](https://vmss.auperatechnologies.com/).
 
 ## Reporting Bugs
 
