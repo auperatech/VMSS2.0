@@ -150,9 +150,9 @@ To adapt the pipeline for face detection, you only need to modify the following 
 
 Once you made the changes mentioned above, confirm your input and output urls as shown below:
 ```
-root@general:/home/ubuntu# cat input.pbtxt
+root@general:/home/ubuntu/VMSS2.0/tutorial/K260_Kria_SOM/assets# cat input.pbtxt
 input_urls: "rtsp://vmss.auperatechnologies.com:554/face"
-root@general:/home/ubuntu# cat output.pbtxt
+root@general:/home/ubuntu/VMSS2.0/tutorial/K260_Kria_SOM/assets# cat output.pbtxt
 output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
 ```
 Now, execute the modified pipeline with the following command and watch the output on your video player to see the face detection in action.
@@ -284,7 +284,7 @@ To accomplish this, you will need to
 
     - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
 
-      For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and past lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-L192) to your pipeline.
+      For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and paste lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-L192) to your pipeline.
 
 2. Append a task_id field to your pipeline at the end, for example:
     ```
