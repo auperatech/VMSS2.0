@@ -2,7 +2,7 @@
 
 Welcome to the VMSS 2.0 Docker usage guide, tailored for the KV260/KR260 Kria SOM platform running Ubuntu 22.04. This guide is designed to help you navigate through running examples (i.e. video AI pipelines) using the VMSS 2.0 command-line interface.
 
-- [VMS S2.0 Docker Usage Guide for KV260/KR260 Kria SOM with Ubuntu 22.04](#vmss-20-docker-usage-guide-for-kv260kr260-kria-som-with-ubuntu-2204)
+- [VMSS2.0 Docker Usage Guide for KV260/KR260 Kria SOM with Ubuntu 22.04](#vmss-20-docker-usage-guide-for-kv260kr260-kria-som-with-ubuntu-2204)
   - [Prerequisite](#prerequisite)
   - [Essentials for VMSS 2.0 and avaser](#essentials-for-vmss-20-and-avaser)
     - [VMSS 2.0 diagram](#vmss-20-diagram)
@@ -18,7 +18,7 @@ Before diving into this guide, it's crucial to ensure your setup is complete and
 
 ## Essentials for VMSS 2.0 and avaser
 ### VMSS 2.0 diagram
-To kick off with VMSS 2.0 for running video pipelines, let's understand its core components. As shown in the `VMSS2.0 Nodes Overview` below, a video pipeline in VMSS 2.0 can be divided in four components: `input`, `logic/application`, `post-processing`, and `output`. This structure underscores VMSS 2.0's flexibility, catering to a wide spectrum of input and output preferences to meet diverse operational requirements.
+To begin with VMSS 2.0 for executing video pipelines, let's understand its core components. As shown in the `VMSS2.0 Nodes Overview` below, a video pipeline in VMSS 2.0 can be divided in four components: `input`, `logic/application`, `post-processing`, and `output`. This structure underscores VMSS 2.0's flexibility, catering to a wide spectrum of input and output preferences to meet diverse operational requirements.
 
 <div align="center">
 <figure>
@@ -75,7 +75,7 @@ You can also find the same directories and pbtxt in this repository located [her
 In line with the [VMSS 2.0 diagram](#vmss-20-diagram), the configuration pbtxt files are named using a format that reflects their content:
 
 `Input_(LogicOrApplication)_(PostProcessing)_Output.pbtxt`. When multiple nodes are included in a single component, their names are concatenated and separated by a hyphen (`-`). 
-For example, for `rtsp_detection-classification_visualization_rtsp.pbtxt` indicates a pipeline composed of four key segments:
+For example, `rtsp_detection-classification_visualization_rtsp.pbtxt` indicates a pipeline composed of four key segments:
   - `Input`: rtsp
   - `Logic/Application`: detection & classification
   - `Post-processing`: visualization
@@ -185,7 +185,7 @@ To execute a pipeline with a USB input, you'll need to specify the output and co
 ```
 avaser -o output_rtsp.pbtxt -c <config.pbtxt>
 ```
-Again, be sure to assign a unique name to your output stream in output_rtsp.pbtxt to prevent conflicts with other users.
+Again, be sure to assign a unique name to your output stream in `output_rtsp.pbtxt` to prevent conflicts with other users.
 
 Below is a table listing the available pipelines in `/opt/aupera/examples/input_usb_cam` that utilize USB camera as input source
 
@@ -194,7 +194,7 @@ Below is a table listing the available pipelines in `/opt/aupera/examples/input_
 | usb_classification_visualization_rtsp.pbtxt            | General classification                                         |
 | usb_detection-classification_visualization_rtsp.pbtxt  | General detection and classification cascade                  |
 | usb_detection-landmark_visualization_rtsp.pbtxt        | Person detection, then prediction of pose landmarks            |
-| usb_detection_visualization_images-rtsp.pbtxt          | Person detection, save result frames  locally (`/tmp/saved_frames`)   |
+| usb_detection_visualization_images-rtsp.pbtxt          | Face detection, save result frames  locally (`/tmp/saved_frames`)   |
 | usb_detection_visualization_rtsp.pbtxt                 | Face detection                                                 |
 | usb_detection_visualization-toJson_email-rtsp.pbtxt    | Person detection with email notification upon detection ([Email alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))   |
 | usb_detection_visualization-toJson_mongo-rtsp.pbtxt    | Person detection with MongoDB notification upon detection  |
