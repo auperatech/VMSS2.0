@@ -39,21 +39,21 @@
 
 # Packet Table
 
-For in-depth documentation of packets and associated objects for custom node developers, [refer here](https://auperatech.github.io/VMSS2.0/packet_documentation/index.html).
+For in-depth documentation of packets and associated objects for custom node developers, [refer here](https://auperatech.github.io/VMSS2.0/code_documentation/index.html).
 
 | Packet Type | Produced by | Consumed by |
 | ----- | ---- | ---- |
-| <a name="AVCodecContextPacket" /> [AVCodecContextPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1AVCodecContextPacket.html) | [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux) |
-| <a name="Classifications" /> [Classifications](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1Classifications.html) | [box\_classifier](#box_classifier) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
-| <a name="DetectionPacket" /> [DetectionPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1DetectionPacket.html) | [box\_detector](#box_detector) | [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json) |
-| <a name="ImagePacket" /> [ImagePacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1ImagePacket.html) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_classifier](#box_classifier), [box\_detector](#box_detector), [box\_segmentor](#box_segmentor), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [frame\_saver](#frame_saver), [landmark\_predictor](#landmark_predictor), [x86\_enc](#x86_enc) |
-| <a name="JsonPacket" /> [JsonPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1JsonPacket.html) | [apl\_crowd\_flow](#apl_crowd_flow), [statistics\_reader](#statistics_reader), [to\_json](#to_json) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web) |
-| <a name="LandmarksPacket" /> [LandmarksPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1LandmarksPacket.html) | [landmark\_predictor](#landmark_predictor) | [box\_visualizer](#box_visualizer) |
-| <a name="Segmentations" /> [Segmentations](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1Segmentations.html) | [box\_segmentor](#box_segmentor) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
-| <a name="TrackPacket" /> [TrackPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1TrackPacket.html) | [box\_tracker](#box_tracker) | [apl\_crowd\_flow](#apl_crowd_flow), (through implicit conversion to DetectionPacket: [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json)) |
-| <a name="UInt64Packet" /> [UInt64Packet](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1UInt64Packet.html) | [box\_detector](#box_detector) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_tracker](#box_tracker) |
-| <a name="VideoPacket" /> [VideoPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1VideoPacket.html) | [stream\_demux](#stream_demux), [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux), [x86\_dec](#x86_dec) |
-| <a name="VideoStreamInfoPacket" /> [VideoStreamInfoPacket](https://auperatech.github.io/VMSS2.0/packet_documentation/classaup_1_1avaf_1_1VideoStreamInfoPacket.html) | [ff\_vfilter](#ff_vfilter), [stream\_demux](#stream_demux), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [ff\_vfilter](#ff_vfilter), [x86\_dec](#x86_dec), [x86\_enc](#x86_enc) |
+| <a name="AVCodecContextPacket" /> [AVCodecContextPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1AVCodecContextPacket.html) | [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux) |
+| <a name="Classifications" /> [Classifications](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1Classifications.html) | [box\_classifier](#box_classifier) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
+| <a name="DetectionPacket" /> [DetectionPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1DetectionPacket.html) | [box\_detector](#box_detector) | [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json) |
+| <a name="ImagePacket" /> [ImagePacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1ImagePacket.html) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_classifier](#box_classifier), [box\_detector](#box_detector), [box\_segmentor](#box_segmentor), [box\_visualizer](#box_visualizer), [ff\_vfilter](#ff_vfilter), [frame\_saver](#frame_saver), [landmark\_predictor](#landmark_predictor), [x86\_enc](#x86_enc) |
+| <a name="JsonPacket" /> [JsonPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1JsonPacket.html) | [apl\_crowd\_flow](#apl_crowd_flow), [statistics\_reader](#statistics_reader), [to\_json](#to_json) | [notification\_message](#notification_message), [notification\_mongo](#notification_mongo), [notification\_web](#notification_web) |
+| <a name="LandmarksPacket" /> [LandmarksPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1LandmarksPacket.html) | [landmark\_predictor](#landmark_predictor) | [box\_visualizer](#box_visualizer) |
+| <a name="Segmentations" /> [Segmentations](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1Segmentations.html) | [box\_segmentor](#box_segmentor) | [box\_visualizer](#box_visualizer), [to\_json](#to_json) |
+| <a name="TrackPacket" /> [TrackPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1TrackPacket.html) | [box\_tracker](#box_tracker) | [apl\_crowd\_flow](#apl_crowd_flow), (through implicit conversion to DetectionPacket: [box\_classifier](#box_classifier), [box\_tracker](#box_tracker), [box\_visualizer](#box_visualizer), [landmark\_predictor](#landmark_predictor), [to\_json](#to_json)) |
+| <a name="UInt64Packet" /> [UInt64Packet](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1UInt64Packet.html) | [box\_detector](#box_detector) | [apl\_crowd\_flow](#apl_crowd_flow), [box\_tracker](#box_tracker) |
+| <a name="VideoPacket" /> [VideoPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1VideoPacket.html) | [stream\_demux](#stream_demux), [x86\_enc](#x86_enc) | [stream\_mux](#stream_mux), [x86\_dec](#x86_dec) |
+| <a name="VideoStreamInfoPacket" /> [VideoStreamInfoPacket](https://auperatech.github.io/VMSS2.0/code_documentation/classaup_1_1avaf_1_1VideoStreamInfoPacket.html) | [ff\_vfilter](#ff_vfilter), [stream\_demux](#stream_demux), [video\_source](#video_source), [x86\_dec](#x86_dec) | [apl\_crowd\_flow](#apl_crowd_flow), [ff\_vfilter](#ff_vfilter), [x86\_dec](#x86_dec), [x86\_enc](#x86_enc) |
 
 # Introduction
 
@@ -530,8 +530,8 @@ This node has one input stream and one output stream:
 
 **Available Packet Types:** The input stream packet type can be one of the following, but must match the corresponding entry of `node_options->input_type`:
  - PACKET_TYPE_CLASSIFICATIONS (1): Classifications
- - PACKET_TYPE_DETECTIONS_OR_TRACKS (2): DetectionPacket
- - PACKET_TYPE_SEGMENTATIONS (4): Segmentations
+ - PACKET_TYPE_DETECTIONS (2): DetectionPacket
+ - PACKET_TYPE_SEGMENTATIONS (5): Segmentations
 
 
 <p align="right"><a href="#node_table_top">Back to Node Table</a></p>
