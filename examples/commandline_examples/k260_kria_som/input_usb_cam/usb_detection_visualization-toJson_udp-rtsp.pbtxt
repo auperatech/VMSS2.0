@@ -22,7 +22,7 @@ node {
   ml_model_kernel_name: "ssd_pedestrian_pruned_0_97"
   node_options: {
     [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
-      detect_interval: 1
+      detect_interval: 3
       detector_type: "SSD"
       need_preprocess: true
       log_performance: false
@@ -55,9 +55,32 @@ node {
 }
 
 node {
+  name: "tracker"
+  calculator: "box_tracker"
+  input_stream: "detections_stream"
+  input_stream: "detect_interval"
+  output_stream: "tracks_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxTrackerOptions]: {
+      max_keep_alive: 5
+      min_hits: 1
+      affinity_threshold: 0.008  
+      shape_weight: 1
+      position_weight: 1
+      appearance_weight: 1
+      shape_dist_max: 1
+      position_dist_max: 1
+      use_exp_cost: true
+      tracker_type: "SORT++"
+      min_object_area_th: 200
+    }
+  }
+}
+
+node {
   name: "visualizer"
   calculator: "box_visualizer"
-  input_stream: "detections_stream"
+  input_stream: "tracks_stream"
   input_stream: "image_stream_decode"
   output_stream: "image_stream_viz"
   stream_sync: {
@@ -150,13 +173,13 @@ node {
 node {
   name: "to_json"
   calculator: "to_json"
-  input_stream: "detections_stream"
+  input_stream: "tracks_stream"
   output_stream: "json_stream"
   node_options: {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
       label_name_file: "/opt/aupera/avas/label_files/pedestrain_labels.txt"
       network: "SSD"
-      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      input_type: PACKET_TYPE_TRACKS
     }
   }
 }
