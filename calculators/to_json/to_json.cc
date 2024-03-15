@@ -53,9 +53,14 @@ ErrorCode ToJsonCalculator::initialize(std::string&)
 PacketPtr<PacketBase> ToJsonCalculator::get_in_stream_packet_by_type(PacketType input_type)
 {
 	switch (input_type) {
-		case PACKET_TYPE_DETECTIONS_OR_TRACKS: { // detections
+		case PACKET_TYPE_DETECTIONS: { // detections
 			vector<aup::detect::Detector::DetectedObject> res;
 			return make_packet<DetectionPacket>(0, 0, 0, res, 0);
+		}
+		case PACKET_TYPE_TRACKS: { // tracks
+			std::pair<std::vector<aup::tracker::AupMultiTracker::track_obj_t>, 
+					  std::vector<aup::tracker::AupMultiTracker::track_obj_t>> tmp;
+			return make_packet<TrackPacket>(0, 0, 0, tmp, 0);
 		}
 		case PACKET_TYPE_CLASSIFICATIONS: { // classification
 			vector<Classifier::ClassifiedRes> res;

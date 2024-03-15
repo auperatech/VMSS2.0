@@ -54,7 +54,7 @@ node {
         entry_sz_kb: 6080
       }
       output_attrs: {
-        type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+        type: PACKET_TYPE_DETECTIONS
         pool_sz: 2
         entry_sz_kb: 64
       }
