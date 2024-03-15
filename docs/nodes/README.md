@@ -530,8 +530,8 @@ This node has one input stream and one output stream:
 
 **Available Packet Types:** The input stream packet type can be one of the following, but must match the corresponding entry of `node_options->input_type`:
  - PACKET_TYPE_CLASSIFICATIONS (1): Classifications
- - PACKET_TYPE_DETECTIONS_OR_TRACKS (2): DetectionPacket
- - PACKET_TYPE_SEGMENTATIONS (4): Segmentations
+ - PACKET_TYPE_DETECTIONS (2): DetectionPacket
+ - PACKET_TYPE_SEGMENTATIONS (5): Segmentations
 
 
 <p align="right"><a href="#node_table_top">Back to Node Table</a></p>

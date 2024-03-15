@@ -1,127 +1,131 @@
-# Protocol Documentation <!-- omit from toc -->
+# Protocol Documentation
 <a name="top"></a>
 
-## Table of Contents <!-- omit from toc -->
+## Table of Contents
 
-- [aup/avap/apl\_common.proto](#aupavapapl_commonproto)
-  - [AplCommonOptions](#aplcommonoptions)
-  - [AplCommonOptions.Border](#aplcommonoptionsborder)
-  - [AplCommonOptions.Point](#aplcommonoptionspoint)
-  - [AplCommonOptions.Roi](#aplcommonoptionsroi)
-- [aup/avap/apl\_crowd\_flow.proto](#aupavapapl_crowd_flowproto)
-  - [AplCrowdFlowOptions](#aplcrowdflowoptions)
-- [aup/avap/apl\_people\_counting.proto](#aupavapapl_people_countingproto)
-  - [AplPeopleCountingOptions](#aplpeoplecountingoptions)
-- [aup/avap/apl\_person\_attribute.proto](#aupavapapl_person_attributeproto)
-  - [AplPersonAttributeOptions](#aplpersonattributeoptions)
-- [aup/avap/apl\_vehicle\_reid.proto](#aupavapapl_vehicle_reidproto)
-  - [AplVehicleReIDOptions](#aplvehiclereidoptions)
-  - [AplVehicleReIDOptions.HaltingAlertRectsEntry](#aplvehiclereidoptionshaltingalertrectsentry)
-  - [AplVehicleReIDOptions.ParkingZoneEntry](#aplvehiclereidoptionsparkingzoneentry)
-  - [AplVehicleReIDOptions.Rect](#aplvehiclereidoptionsrect)
-  - [AplVehicleReIDOptions.Size](#aplvehiclereidoptionssize)
-  - [AplVehicleReIDOptions.ViolationRoiEntry](#aplvehiclereidoptionsviolationroientry)
-- [aup/avap/box\_classifier.proto](#aupavapbox_classifierproto)
-  - [BoxClassifierOptions](#boxclassifieroptions)
-- [aup/avap/box\_detector.proto](#aupavapbox_detectorproto)
-  - [BoxDetectorOptions](#boxdetectoroptions)
-  - [BoxDetectorOptions.InterClassNms](#boxdetectoroptionsinterclassnms)
-  - [BoxDetectorOptions.LabelConfidence](#boxdetectoroptionslabelconfidence)
-  - [BoxDetectorOptions.Mean](#boxdetectoroptionsmean)
-  - [BoxDetectorOptions.Point](#boxdetectoroptionspoint)
-  - [BoxDetectorOptions.Rect](#boxdetectoroptionsrect)
-  - [BoxDetectorOptions.Roi](#boxdetectoroptionsroi)
-  - [BoxDetectorOptions.Scale](#boxdetectoroptionsscale)
-- [aup/avap/box\_segmentor.proto](#aupavapbox_segmentorproto)
-  - [BoxSegmentorOptions](#boxsegmentoroptions)
-- [aup/avap/box\_tracker.proto](#aupavapbox_trackerproto)
-  - [BoxTrackerOptions](#boxtrackeroptions)
-  - [BoxTrackerOptions.Size](#boxtrackeroptionssize)
-- [aup/avap/box\_visualizer.proto](#aupavapbox_visualizerproto)
-  - [BoxVisualizerOptions](#boxvisualizeroptions)
-  - [BoxVisualizerOptions.ClassColor](#boxvisualizeroptionsclasscolor)
-  - [BoxVisualizerOptions.Color](#boxvisualizeroptionscolor)
-  - [BoxVisualizerOptions.Offset](#boxvisualizeroptionsoffset)
-  - [BoxVisualizerOptions.InputType](#boxvisualizeroptionsinputtype)
-- [aup/avap/clip\_generator.proto](#aupavapclip_generatorproto)
-  - [ClipGeneratorOptions](#clipgeneratoroptions)
-- [aup/avap/epyc\_resnet.proto](#aupavapepyc_resnetproto)
-  - [EpycResnetOptions](#epycresnetoptions)
-- [aup/avap/event\_based\_recorder.proto](#aupavapevent_based_recorderproto)
-  - [EventBasedRecorderOptions](#eventbasedrecorderoptions)
-- [aup/avap/file\_saver.proto](#aupavapfile_saverproto)
-  - [FileSaverOptions](#filesaveroptions)
-  - [FileSaverOptions.Target](#filesaveroptionstarget)
-- [aup/avap/frame\_saver.proto](#aupavapframe_saverproto)
-  - [FrameSaverOptions](#framesaveroptions)
-  - [FrameSaverOptions.OutputType](#framesaveroptionsoutputtype)
-- [aup/avap/graph.proto](#aupavapgraphproto)
-  - [GraphConfig](#graphconfig)
-  - [GraphConfig.LoggingFilter](#graphconfigloggingfilter)
-  - [GraphConfig.LoggingFilter.Filter](#graphconfigloggingfilterfilter)
-  - [GraphConfig.Node](#graphconfignode)
-  - [GraphConfig.Node.InputStreamAttributes](#graphconfignodeinputstreamattributes)
-  - [GraphConfig.Node.OutputStreamAttributes](#graphconfignodeoutputstreamattributes)
-  - [GraphConfig.Node.StreamSync](#graphconfignodestreamsync)
-  - [GraphConfig.StatisticsCollector](#graphconfigstatisticscollector)
-  - [GraphConfig.LoggingFilter.Entity](#graphconfigloggingfilterentity)
-  - [GraphConfig.LoggingFilter.Severity](#graphconfigloggingfilterseverity)
-  - [GraphConfig.Node.ContractNoYes](#graphconfignodecontractnoyes)
-  - [GraphConfig.Node.InputStreamAttributes.Type](#graphconfignodeinputstreamattributestype)
-  - [GraphConfig.Node.OutputStreamAttributes.OnFullAct](#graphconfignodeoutputstreamattributesonfullact)
-  - [GraphConfig.Node.StreamSync.DropStrategy](#graphconfignodestreamsyncdropstrategy)
-- [aup/avap/host\_source\_sink.proto](#aupavaphost_source_sinkproto)
-  - [HostSourceSinkOptions](#hostsourcesinkoptions)
-- [aup/avap/image\_stream.proto](#aupavapimage_streamproto)
-  - [ImageStreamOptions](#imagestreamoptions)
-- [aup/avap/json\_stream.proto](#aupavapjson_streamproto)
-  - [JsonStreamOptions](#jsonstreamoptions)
-- [aup/avap/landmark\_predictor.proto](#aupavaplandmark_predictorproto)
-  - [LandmarkPredictorOptions](#landmarkpredictoroptions)
-- [aup/avap/notification\_message.proto](#aupavapnotification_messageproto)
-  - [NotificationMessageOptions](#notificationmessageoptions)
-  - [NotificationMessageOptions.Trigger](#notificationmessageoptionstrigger)
-  - [NotificationMessageOptions.MessageType](#notificationmessageoptionsmessagetype)
-  - [NotificationMessageOptions.Trigger.Type](#notificationmessageoptionstriggertype)
-- [aup/avap/notification\_mongo.proto](#aupavapnotification_mongoproto)
-  - [NotificationMongoOptions](#notificationmongooptions)
-- [aup/avap/notification\_web.proto](#aupavapnotification_webproto)
-  - [NotificationWebOptions](#notificationweboptions)
-  - [NotificationWebOptions.ProtocolType](#notificationweboptionsprotocoltype)
-- [aup/avap/packet\_simulator.proto](#aupavappacket_simulatorproto)
-  - [PacketSimulatorOptions](#packetsimulatoroptions)
-  - [PacketSimulatorOptions.AnyOptions](#packetsimulatoroptionsanyoptions)
-  - [PacketSimulatorOptions.ClipGenOptions](#packetsimulatoroptionsclipgenoptions)
-  - [PacketSimulatorOptions.OpMode](#packetsimulatoroptionsopmode)
-- [aup/avap/packet\_type.proto](#aupavappacket_typeproto)
-  - [PacketType](#packettype)
-- [aup/avap/pixfmt.proto](#aupavappixfmtproto)
-  - [PixFmt](#pixfmt)
-- [aup/avap/statistics\_reader.proto](#aupavapstatistics_readerproto)
-  - [StatisticsReaderOptions](#statisticsreaderoptions)
-  - [StatisticsReaderOptions.InputType](#statisticsreaderoptionsinputtype)
-- [aup/avap/stream\_mux.proto](#aupavapstream_muxproto)
-  - [StreamMuxOptions](#streammuxoptions)
-  - [StreamMuxOptions.Demux](#streammuxoptionsdemux)
-  - [StreamMuxOptions.Mux](#streammuxoptionsmux)
-- [aup/avap/subgraph.proto](#aupavapsubgraphproto)
-  - [SubgraphOptions](#subgraphoptions)
-  - [SubgraphOptions.IOAttributes](#subgraphoptionsioattributes)
-- [aup/avap/to\_json.proto](#aupavapto_jsonproto)
-  - [ToJsonOptions](#tojsonoptions)
-- [aup/avap/v70\_dec.proto](#aupavapv70_decproto)
-  - [V70DecodeOptions](#v70decodeoptions)
-- [aup/avap/vcodec.proto](#aupavapvcodecproto)
-  - [VideoCodecOptions](#videocodecoptions)
-  - [VideoCodecOptions.Decoder](#videocodecoptionsdecoder)
-  - [VideoCodecOptions.Encoder](#videocodecoptionsencoder)
-  - [VideoCodecOptions.Encoder.Type](#videocodecoptionsencodertype)
-- [aup/avap/vfilter.proto](#aupavapvfilterproto)
-  - [VideoFilterOptions](#videofilteroptions)
-- [aup/avap/video\_source.proto](#aupavapvideo_sourceproto)
-  - [VideoSourceOptions](#videosourceoptions)
-  - [VideoSourceOptions.SourceType](#videosourceoptionssourcetype)
-- [Scalar Value Types](#scalar-value-types)
+- [Protocol Documentation](#protocol-documentation)
+  - [Table of Contents](#table-of-contents)
+  - [aup/avap/apl\_common.proto](#aupavapapl_commonproto)
+    - [AplCommonOptions](#aplcommonoptions)
+    - [AplCommonOptions.Border](#aplcommonoptionsborder)
+    - [AplCommonOptions.Point](#aplcommonoptionspoint)
+    - [AplCommonOptions.Roi](#aplcommonoptionsroi)
+  - [aup/avap/apl\_crowd\_flow.proto](#aupavapapl_crowd_flowproto)
+    - [AplCrowdFlowOptions](#aplcrowdflowoptions)
+  - [aup/avap/apl\_people\_counting.proto](#aupavapapl_people_countingproto)
+    - [AplPeopleCountingOptions](#aplpeoplecountingoptions)
+  - [aup/avap/apl\_person\_attribute.proto](#aupavapapl_person_attributeproto)
+    - [AplPersonAttributeOptions](#aplpersonattributeoptions)
+  - [aup/avap/apl\_vehicle\_reid.proto](#aupavapapl_vehicle_reidproto)
+    - [AplVehicleReIDOptions](#aplvehiclereidoptions)
+    - [AplVehicleReIDOptions.HaltingAlertRectsEntry](#aplvehiclereidoptionshaltingalertrectsentry)
+    - [AplVehicleReIDOptions.ParkingZoneEntry](#aplvehiclereidoptionsparkingzoneentry)
+    - [AplVehicleReIDOptions.Rect](#aplvehiclereidoptionsrect)
+    - [AplVehicleReIDOptions.Size](#aplvehiclereidoptionssize)
+    - [AplVehicleReIDOptions.ViolationRoiEntry](#aplvehiclereidoptionsviolationroientry)
+  - [aup/avap/box\_classifier.proto](#aupavapbox_classifierproto)
+    - [BoxClassifierOptions](#boxclassifieroptions)
+  - [aup/avap/box\_detector.proto](#aupavapbox_detectorproto)
+    - [BoxDetectorOptions](#boxdetectoroptions)
+    - [BoxDetectorOptions.InterClassNms](#boxdetectoroptionsinterclassnms)
+    - [BoxDetectorOptions.LabelConfidence](#boxdetectoroptionslabelconfidence)
+    - [BoxDetectorOptions.Mean](#boxdetectoroptionsmean)
+    - [BoxDetectorOptions.Point](#boxdetectoroptionspoint)
+    - [BoxDetectorOptions.Rect](#boxdetectoroptionsrect)
+    - [BoxDetectorOptions.Roi](#boxdetectoroptionsroi)
+    - [BoxDetectorOptions.Scale](#boxdetectoroptionsscale)
+  - [aup/avap/box\_segmentor.proto](#aupavapbox_segmentorproto)
+    - [BoxSegmentorOptions](#boxsegmentoroptions)
+  - [aup/avap/box\_tracker.proto](#aupavapbox_trackerproto)
+    - [BoxTrackerOptions](#boxtrackeroptions)
+    - [BoxTrackerOptions.Size](#boxtrackeroptionssize)
+  - [aup/avap/box\_visualizer.proto](#aupavapbox_visualizerproto)
+    - [BoxVisualizerOptions](#boxvisualizeroptions)
+    - [BoxVisualizerOptions.ClassColor](#boxvisualizeroptionsclasscolor)
+    - [BoxVisualizerOptions.Color](#boxvisualizeroptionscolor)
+    - [BoxVisualizerOptions.Offset](#boxvisualizeroptionsoffset)
+    - [BoxVisualizerOptions.InputType](#boxvisualizeroptionsinputtype)
+  - [aup/avap/clip\_generator.proto](#aupavapclip_generatorproto)
+    - [ClipGeneratorOptions](#clipgeneratoroptions)
+  - [aup/avap/empty.proto](#aupavapemptyproto)
+    - [EmptyOptions](#emptyoptions)
+  - [aup/avap/epyc\_resnet.proto](#aupavapepyc_resnetproto)
+    - [EpycResnetOptions](#epycresnetoptions)
+  - [aup/avap/event\_based\_recorder.proto](#aupavapevent_based_recorderproto)
+    - [EventBasedRecorderOptions](#eventbasedrecorderoptions)
+  - [aup/avap/file\_saver.proto](#aupavapfile_saverproto)
+    - [FileSaverOptions](#filesaveroptions)
+    - [FileSaverOptions.Target](#filesaveroptionstarget)
+  - [aup/avap/frame\_saver.proto](#aupavapframe_saverproto)
+    - [FrameSaverOptions](#framesaveroptions)
+    - [FrameSaverOptions.OutputType](#framesaveroptionsoutputtype)
+  - [aup/avap/graph.proto](#aupavapgraphproto)
+    - [GraphConfig](#graphconfig)
+    - [GraphConfig.LoggingFilter](#graphconfigloggingfilter)
+    - [GraphConfig.LoggingFilter.Filter](#graphconfigloggingfilterfilter)
+    - [GraphConfig.Node](#graphconfignode)
+    - [GraphConfig.Node.InputStreamAttributes](#graphconfignodeinputstreamattributes)
+    - [GraphConfig.Node.OutputStreamAttributes](#graphconfignodeoutputstreamattributes)
+    - [GraphConfig.Node.StreamSync](#graphconfignodestreamsync)
+    - [GraphConfig.StatisticsCollector](#graphconfigstatisticscollector)
+    - [GraphConfig.LoggingFilter.Entity](#graphconfigloggingfilterentity)
+    - [GraphConfig.LoggingFilter.Severity](#graphconfigloggingfilterseverity)
+    - [GraphConfig.Node.ContractNoYes](#graphconfignodecontractnoyes)
+    - [GraphConfig.Node.InputStreamAttributes.Type](#graphconfignodeinputstreamattributestype)
+    - [GraphConfig.Node.OutputStreamAttributes.OnFullAct](#graphconfignodeoutputstreamattributesonfullact)
+    - [GraphConfig.Node.StreamSync.DropStrategy](#graphconfignodestreamsyncdropstrategy)
+  - [aup/avap/host\_source\_sink.proto](#aupavaphost_source_sinkproto)
+    - [HostSourceSinkOptions](#hostsourcesinkoptions)
+  - [aup/avap/image\_stream.proto](#aupavapimage_streamproto)
+    - [ImageStreamOptions](#imagestreamoptions)
+  - [aup/avap/json\_stream.proto](#aupavapjson_streamproto)
+    - [JsonStreamOptions](#jsonstreamoptions)
+  - [aup/avap/landmark\_predictor.proto](#aupavaplandmark_predictorproto)
+    - [LandmarkPredictorOptions](#landmarkpredictoroptions)
+  - [aup/avap/notification\_message.proto](#aupavapnotification_messageproto)
+    - [NotificationMessageOptions](#notificationmessageoptions)
+    - [NotificationMessageOptions.Trigger](#notificationmessageoptionstrigger)
+    - [NotificationMessageOptions.MessageType](#notificationmessageoptionsmessagetype)
+    - [NotificationMessageOptions.Trigger.Type](#notificationmessageoptionstriggertype)
+  - [aup/avap/notification\_mongo.proto](#aupavapnotification_mongoproto)
+    - [NotificationMongoOptions](#notificationmongooptions)
+  - [aup/avap/notification\_web.proto](#aupavapnotification_webproto)
+    - [NotificationWebOptions](#notificationweboptions)
+    - [NotificationWebOptions.ProtocolType](#notificationweboptionsprotocoltype)
+  - [aup/avap/packet\_simulator.proto](#aupavappacket_simulatorproto)
+    - [PacketSimulatorOptions](#packetsimulatoroptions)
+    - [PacketSimulatorOptions.AnyOptions](#packetsimulatoroptionsanyoptions)
+    - [PacketSimulatorOptions.ClipGenOptions](#packetsimulatoroptionsclipgenoptions)
+    - [PacketSimulatorOptions.OpMode](#packetsimulatoroptionsopmode)
+  - [aup/avap/packet\_type.proto](#aupavappacket_typeproto)
+    - [PacketType](#packettype)
+  - [aup/avap/pixfmt.proto](#aupavappixfmtproto)
+    - [PixFmt](#pixfmt)
+  - [aup/avap/statistics\_reader.proto](#aupavapstatistics_readerproto)
+    - [StatisticsReaderOptions](#statisticsreaderoptions)
+    - [StatisticsReaderOptions.InputType](#statisticsreaderoptionsinputtype)
+  - [aup/avap/stream\_mux.proto](#aupavapstream_muxproto)
+    - [StreamMuxOptions](#streammuxoptions)
+    - [StreamMuxOptions.Demux](#streammuxoptionsdemux)
+    - [StreamMuxOptions.Mux](#streammuxoptionsmux)
+  - [aup/avap/subgraph.proto](#aupavapsubgraphproto)
+    - [SubgraphOptions](#subgraphoptions)
+    - [SubgraphOptions.IOAttributes](#subgraphoptionsioattributes)
+  - [aup/avap/to\_json.proto](#aupavapto_jsonproto)
+    - [ToJsonOptions](#tojsonoptions)
+  - [aup/avap/v70\_dec.proto](#aupavapv70_decproto)
+    - [V70DecodeOptions](#v70decodeoptions)
+  - [aup/avap/vcodec.proto](#aupavapvcodecproto)
+    - [VideoCodecOptions](#videocodecoptions)
+    - [VideoCodecOptions.Decoder](#videocodecoptionsdecoder)
+    - [VideoCodecOptions.Encoder](#videocodecoptionsencoder)
+    - [VideoCodecOptions.Encoder.Type](#videocodecoptionsencodertype)
+  - [aup/avap/vfilter.proto](#aupavapvfilterproto)
+    - [VideoFilterOptions](#videofilteroptions)
+  - [aup/avap/video\_source.proto](#aupavapvideo_sourceproto)
+    - [VideoSourceOptions](#videosourceoptions)
+    - [VideoSourceOptions.SourceType](#videosourceoptionssourcetype)
+  - [Scalar Value Types](#scalar-value-types)
 
 
 
@@ -1233,6 +1237,46 @@ Configures Clip Generator options
 
 
 
+<a name="aup_avap_empty-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/empty.proto
+Empty options. This option is useful for any calculator that does not require any options
+
+Example:
+```
+ node {
+   name: "custom"
+   calculator: "custom_node"
+   input_stream: "input_stream"
+   output_stream: "output_stream"
+   node_options: {
+     [type.googleapis.com/aup.avaf.EmptyOptions]: {
+     }
+   }
+ }
+```
+
+
+<a name="aup-avaf-EmptyOptions"></a>
+
+### EmptyOptions
+
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="aup_avap_epyc_resnet-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -2195,19 +2239,20 @@ PacketType enumerates different types of packets used in video and data processi
 | ---- | ------ | ----------- |
 | PACKET_TYPE_NONE | 0 | Indicates no specific packet type or the type is not applicable. |
 | PACKET_TYPE_CLASSIFICATIONS | 1 | Packet contains classification results. |
-| PACKET_TYPE_DETECTIONS_OR_TRACKS | 2 | Packet contains object detection or tracking information. |
-| PACKET_TYPE_PLATE_RECOGNITIONS | 3 | Packet contains license plate recognition data. |
-| PACKET_TYPE_SEGMENTATIONS | 4 | Packet contains image segmentation data. |
-| PACKET_TYPE_AV_CODEC_CONTEXT | 5 | Packet contains audio/video codec context or parameters. |
-| PACKET_TYPE_CLIP_GENERATOR_COMMAND | 6 | Packet contains commands or data for a clip generator. |
-| PACKET_TYPE_FILE | 7 | Packet represents a file or file data. |
-| PACKET_TYPE_IMAGE | 8 | Packet contains image data. |
-| PACKET_TYPE_JSON | 9 | Packet contains data in JSON format. |
-| PACKET_TYPE_UINT64 | 10 | Packet contains data of type uint64. |
-| PACKET_TYPE_VIDEO | 11 | Packet contains video data. |
-| PACKET_TYPE_VIDEO_STREAM_INFO | 12 | Packet contains video stream information or metadata. |
-| PACKET_TYPE_ANY | 13 | Packet can be of any type, used for generic purposes. |
-| PACKET_TYPE_MAX | 14 | Represents the maximum value in the enumeration for bounds checking. |
+| PACKET_TYPE_DETECTIONS | 2 | Packet contains object detection information. |
+| PACKET_TYPE_TRACKS | 3 | Packet contains object tracking information. |
+| PACKET_TYPE_PLATE_RECOGNITIONS | 4 | Packet contains license plate recognition data. |
+| PACKET_TYPE_SEGMENTATIONS | 5 | Packet contains image segmentation data. |
+| PACKET_TYPE_AV_CODEC_CONTEXT | 6 | Packet contains audio/video codec context or parameters. |
+| PACKET_TYPE_CLIP_GENERATOR_COMMAND | 7 | Packet contains commands or data for a clip generator. |
+| PACKET_TYPE_FILE | 8 | Packet represents a file or file data. |
+| PACKET_TYPE_IMAGE | 9 | Packet contains image data. |
+| PACKET_TYPE_JSON | 10 | Packet contains data in JSON format. |
+| PACKET_TYPE_UINT64 | 11 | Packet contains data of type uint64. |
+| PACKET_TYPE_VIDEO | 12 | Packet contains video data. |
+| PACKET_TYPE_VIDEO_STREAM_INFO | 13 | Packet contains video stream information or metadata. |
+| PACKET_TYPE_ANY | 14 | Packet can be of any type, used for generic purposes. |
+| PACKET_TYPE_MAX | 15 | Represents the maximum value in the enumeration for bounds checking. |
 
 
  
