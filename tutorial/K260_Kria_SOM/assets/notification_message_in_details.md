@@ -2,7 +2,7 @@
 
 **This is the detailed instruction on how to setup email or SMS message notification**
 
-This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the customer, it triggers an automated process to send customized text messages directly to the customer. We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
+This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the user, it triggers an automated process to send customized text messages directly to the user. We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
 
 Let's try to start sending SMS notification alerts! To enable this functionality, we need to add the **to_json** calculator and the **notification_message** calculator at the end of the pipeline. 
 
@@ -66,7 +66,7 @@ node {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
       label_name_file: ""
       network: "FaceDetectDenseBox"
-      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      input_type: PACKET_TYPE_TRACKS
     }
   }
 }
