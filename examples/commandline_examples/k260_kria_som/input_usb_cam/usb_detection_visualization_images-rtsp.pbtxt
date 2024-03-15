@@ -35,16 +35,6 @@ node {
       max_detection_lib_q_size: 30
       total_classes: 2
       default_confidence_threshold: 0.9
-      mean: {
-        r: 128.0
-        g: 128.0
-        b: 128.0
-      }
-      scale: {
-        ch1: 1.0
-        ch2: 1.0
-        ch3: 1.0
-      }
     }
   }
 }

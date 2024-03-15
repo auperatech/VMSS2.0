@@ -31,24 +31,8 @@ node {
       batch_collection_timeout_ms: 0
       ignore_black_frames: false
       max_detection_lib_q_size: 30
-      mean: {
-        r: 104.0
-        g: 117.0
-        b: 123.0
-      }
-      scale: {
-        ch1: 1.0
-        ch2: 1.0
-        ch3: 1.0
-      }
-      label_confidence: {
-        label: 0
-        confidence: 0.0
-      }
-      label_confidence: {
-        label: 1
-        confidence: 0.55
-      }
+      total_classes: 2
+      default_confidence_threshold: 0.55
     }
   }
 }
