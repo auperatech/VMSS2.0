@@ -4,7 +4,7 @@ var searchData=
   ['sample_5finput_5fpackets',['sample_input_packets',['../classaup_1_1avaf_1_1Contract.html#a24405a69172a8ceeeb516b69e719cfe9',1,'aup::avaf::Contract']]],
   ['sample_5foutput_5fpackets',['sample_output_packets',['../classaup_1_1avaf_1_1Contract.html#a77fe84e19684cdc9ac1371d45163182e',1,'aup::avaf::Contract']]],
   ['segmentation_5fpacket_2eh',['segmentation_packet.h',['../segmentation__packet_8h.html',1,'']]],
-  ['segmentations',['Segmentations',['../classaup_1_1avaf_1_1Segmentations.html',1,'aup::avaf::Segmentations'],['../classaup_1_1avaf_1_1Segmentations.html#a6b428e1ee2c68ee822ba8bacd22bdaf4',1,'aup::avaf::Segmentations::Segmentations()'],['../classaup_1_1avaf_1_1SegmentorResults.html#aa71a9e1db862122159cbb30bbcb00f77',1,'aup::avaf::SegmentorResults::segmentations()']]],
+  ['segmentations',['Segmentations',['../classaup_1_1avaf_1_1Segmentations.html',1,'aup::avaf::Segmentations'],['../classaup_1_1avaf_1_1SegmentorResults.html#aa71a9e1db862122159cbb30bbcb00f77',1,'aup::avaf::SegmentorResults::segmentations()'],['../classaup_1_1avaf_1_1Segmentations.html#a6b428e1ee2c68ee822ba8bacd22bdaf4',1,'aup::avaf::Segmentations::Segmentations()']]],
   ['segmentor_5ftype',['segmentor_type',['../classaup_1_1avaf_1_1SegmentorResults.html#acfcfede1298716ad03b7b62d3f4f8ea2',1,'aup::avaf::SegmentorResults']]],
   ['segmentorresults',['SegmentorResults',['../classaup_1_1avaf_1_1SegmentorResults.html',1,'aup::avaf::SegmentorResults'],['../classaup_1_1avaf_1_1SegmentorResults.html#a3e45f44f0d17a561431272970b2e51b1',1,'aup::avaf::SegmentorResults::SegmentorResults()']]],
   ['set_5ffps',['set_fps',['../classaup_1_1avaf_1_1ImagePacket.html#a3e10f2a15bca869ead471fb26b6c5679',1,'aup::avaf::ImagePacket']]],
