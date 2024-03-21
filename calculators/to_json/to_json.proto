@@ -26,19 +26,20 @@ import "aup/avap/packet_type.proto";
 *enum PacketType {
 *    PACKET_TYPE_NONE = 0; // Indicates no specific packet type or the type is not applicable.
 *    PACKET_TYPE_CLASSIFICATIONS = 1; // Packet contains classification results.
-*    PACKET_TYPE_DETECTIONS_OR_TRACKS = 2; // Packet contains object detection or tracking information.
-*    PACKET_TYPE_PLATE_RECOGNITIONS = 3; // Packet contains license plate recognition data.
-*    PACKET_TYPE_SEGMENTATIONS = 4; // Packet contains image segmentation data.
-*    PACKET_TYPE_AV_CODEC_CONTEXT = 5; // Packet contains audio/video codec context or parameters.
-*    PACKET_TYPE_CLIP_GENERATOR_COMMAND = 6; // Packet contains commands or data for a clip generator.
-*    PACKET_TYPE_FILE = 7; // Packet represents a file or file data.
-*    PACKET_TYPE_IMAGE = 8; // Packet contains image data.
-*    PACKET_TYPE_JSON = 9; // Packet contains data in JSON format.
-*    PACKET_TYPE_UINT64 = 10; // Packet contains data of type uint64.
-*    PACKET_TYPE_VIDEO = 11; // Packet contains video data.
-*    PACKET_TYPE_VIDEO_STREAM_INFO = 12; // Packet contains video stream information or metadata.
-*    PACKET_TYPE_ANY = 13; // Packet can be of any type, used for generic purposes.
-*    PACKET_TYPE_MAX = 14; // Represents the maximum value in the enumeration for bounds checking.
+*    PACKET_TYPE_DETECTIONS = 2; // Packet contains object detection information.
+*    PACKET_TYPE_TRACKS = 3; // Packet contains object tracking information.
+*    PACKET_TYPE_PLATE_RECOGNITIONS = 4; // Packet contains license plate recognition data.
+*    PACKET_TYPE_SEGMENTATIONS = 5; // Packet contains image segmentation data.
+*    PACKET_TYPE_AV_CODEC_CONTEXT = 6; // Packet contains audio/video codec context or parameters.
+*    PACKET_TYPE_CLIP_GENERATOR_COMMAND = 7; // Packet contains commands or data for a clip generator.
+*    PACKET_TYPE_FILE = 8; // Packet represents a file or file data.
+*    PACKET_TYPE_IMAGE = 9; // Packet contains image data.
+*    PACKET_TYPE_JSON = 10; // Packet contains data in JSON format.
+*    PACKET_TYPE_UINT64 = 11; // Packet contains data of type uint64.
+*    PACKET_TYPE_VIDEO = 12; // Packet contains video data.
+*    PACKET_TYPE_VIDEO_STREAM_INFO = 13; // Packet contains video stream information or metadata.
+*    PACKET_TYPE_ANY = 14; // Packet can be of any type, used for generic purposes.
+*    PACKET_TYPE_MAX = 15; // Represents the maximum value in the enumeration for bounds checking.
 */
 
 

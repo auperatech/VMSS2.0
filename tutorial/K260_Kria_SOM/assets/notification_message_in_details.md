@@ -2,7 +2,7 @@
 
 **This is the detailed instruction on how to setup email or SMS message notification**
 
-This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the customer, it triggers an automated process to send customized text messages directly to the customer. We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
+This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the user, it triggers an automated process to send customized text messages directly to the user. We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
 
 Let's try to start sending SMS notification alerts! To enable this functionality, we need to add the **to_json** calculator and the **notification_message** calculator at the end of the pipeline. 
 
@@ -66,7 +66,7 @@ node {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
       label_name_file: ""
       network: "FaceDetectDenseBox"
-      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      input_type: PACKET_TYPE_TRACKS
     }
   }
 }
@@ -89,7 +89,7 @@ node {
         trigger_consecutive_packet: 5
         jq_query_string: "'select(.items | to_entries | map(.value | select(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)) | length >= 1)'"
         notification_title: "sms_notification_alert"
-        notification_body: "At least 1 faces are detected in a region for consecutive 3 packets"
+        notification_body: "At least 1 faces are detected in a region for consecutive 5 packets"
       }
     }
   }
@@ -102,7 +102,7 @@ Here is an example of the original JSON packet detected looks like without any j
 {"json_data":[],"notification_body":"At least 1 faces are detected in a region for consecutive 5 packets","notification_title":"sms_notification_alert","task_id":"task_1710268856873"}
 ```
 
-Now, we will give a real pipeline example of sending the SMS to the user's phone when at least 4 faces are detected in a specified region: [`usb_facedetect-tracker_sms.pbtxt`](./usb_facedetect-tracker_sms.pbtxt). This pipeline is used to detect person faces in the USB input video. 
+Now, we will give a real pipeline example of sending the SMS to the user's phone when at least 4 faces are detected in a specified region: [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./usb_facedetect-tracker_sms-rtsp.pbtxt). This pipeline is used to detect person faces in the USB input video. 
 
 As shown in the `jq_query_string` in the **notification_message** calculator on the example pipeline, we use JQ to trigger the JSON packet detected. In this case, the SMS message will only be sent if 3 consecutive JSON packets meet the requirement that at least 4 faces(`item` ) are detected in the specified region `(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)` in the video frame. 
 

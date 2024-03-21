@@ -15,6 +15,7 @@
 #include "aup/avap/to_json.pb.h"
 
 #include "aup/avaf/packets/detection_packet.h"
+#include "aup/avaf/packets/track_packet.h"
 #include "aup/avaf/packets/classification_packet.h"
 #include "aup/avaf/packets/segmentation_packet.h"
 

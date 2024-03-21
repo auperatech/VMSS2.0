@@ -128,7 +128,7 @@ Having learned how to execute `avaser` with an RTSP input and monitor the output
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection-landmark_visualization_rtsp.pbtxt          | Person detection, then prediction of pose landmarks |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization_images-rtsp.pbtxt            | Person detection, save result frames locally (`/tmp/saved_frames`) |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization_rtsp.pbtxt                   | Person detection                                    |
-| input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization-toJson_mongo-rtsp.pbtxt      | Person detection with MongoDB notification upon detection |
+| input_rtsp_crowd/box_detector_crowd | rtsp_detection-tracking_visualization-toJson_mongo-rtsp.pbtxt      | Person detection with MongoDB notification upon detection |
 | input_rtsp_imagenet            | rtsp_classification_visualization_rtsp.pbtxt              | General classification                              |
 
 
@@ -196,8 +196,8 @@ Below is a table listing the available pipelines in `/opt/aupera/examples/input_
 | usb_detection-landmark_visualization_rtsp.pbtxt        | Person detection, then prediction of pose landmarks            |
 | usb_detection_visualization_images-rtsp.pbtxt          | Face detection, save result frames  locally (`/tmp/saved_frames`)   |
 | usb_detection_visualization_rtsp.pbtxt                 | Face detection                                                 |
-| usb_detection_visualization-toJson_email-rtsp.pbtxt    | Person detection with email notification upon detection ([Email alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))   |
-| usb_detection_visualization-toJson_mongo-rtsp.pbtxt    | Person detection with MongoDB notification upon detection  |
-| usb_detection_visualization-toJson_sms-rtsp.pbtxt      | Person detection with SMS notification upon detection ([SMS alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))     |
-| usb_detection_visualization-toJson_udp-rtsp.pbtxt      | Person detection with UDP notification upon detection      |
+| usb_detection-tracking_visualization-toJson_email-rtsp.pbtxt    | Person detection with email notification upon detection ([Email alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))   |
+| usb_detection-tracking_visualization-toJson_mongo-rtsp.pbtxt    | Person detection with MongoDB notification upon detection  |
+| usb_detection-tracking_visualization-toJson_sms-rtsp.pbtxt      | Person detection with SMS notification upon detection ([SMS alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))     |
+| usb_detection-tracking_visualization-toJson_udp-rtsp.pbtxt      | Person detection with UDP notification upon detection      |
 | usb_segmentation_visualization_rtsp.pbtxt              | Semantic segmentation on traffic frames                        |

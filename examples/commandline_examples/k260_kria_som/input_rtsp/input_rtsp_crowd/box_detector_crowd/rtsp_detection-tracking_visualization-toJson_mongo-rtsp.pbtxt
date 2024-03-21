@@ -1,14 +1,45 @@
+# The recommended video for this pipeline is crowd.
+
 control_port: 51881
+graph_input: "graph_input1"
 graph_output: "graph_output1"
 task_id: "DEFAULT"
 
 node {
-  name: "usb_cam"
-  calculator: "video_source"
+  name: "demux_node"
+  calculator: "stream_demux"
+  vendor: "Aupera"
+  graph_input: "graph_input1"
+  output_stream: "packet_stream_demux"
+  output_stream: "video_stream_info_demux"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+      demux: {
+        rtsp_transport: "tcp"  
+        iframe_extract: false
+        auto_reconnect: true
+      }
+    }
+  }
+}
+
+node {
+  name: "decode_node"
+  calculator: "x86_dec"
+  vendor: "Aupera"
+  input_stream: "packet_stream_demux"
+  input_stream: "video_stream_info_demux"
   output_stream: "image_stream_decode"
   output_stream: "video_stream_info_decode"
   node_options: {
-    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+      dec: {
+        ow: 1920
+        oh: 1080
+        opixfmt: PIXFMT_BGR24
+        queue_size: 12
+        low_latency: false
+      }
     }
   }
 }
@@ -22,7 +53,7 @@ node {
   ml_model_kernel_name: "ssd_pedestrian_pruned_0_97"
   node_options: {
     [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
-      detect_interval: 1
+      detect_interval: 3
       detector_type: "SSD"
       need_preprocess: true
       log_performance: false
@@ -32,24 +63,31 @@ node {
       batch_collection_timeout_ms: 0
       ignore_black_frames: false
       max_detection_lib_q_size: 30
-      mean: {
-        r: 104.0
-        g: 117.0
-        b: 123.0
-      }
-      scale: {
-        ch1: 1.0
-        ch2: 1.0
-        ch3: 1.0
-      }
-      label_confidence: {
-        label: 0
-        confidence: 0.0
-      }
-      label_confidence: {
-        label: 1
-        confidence: 0.55
-      }
+      total_classes: 2
+      default_confidence_threshold: 0.55
+    }
+  }
+}
+
+node {
+  name: "tracker"
+  calculator: "box_tracker"
+  input_stream: "detections_stream"
+  input_stream: "detect_interval"
+  output_stream: "tracks_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxTrackerOptions]: {
+      max_keep_alive: 5
+      min_hits: 1
+      affinity_threshold: 0.008  
+      shape_weight: 1
+      position_weight: 1
+      appearance_weight: 1
+      shape_dist_max: 1
+      position_dist_max: 1
+      use_exp_cost: true
+      tracker_type: "SORT++"
+      min_object_area_th: 200
     }
   }
 }
@@ -57,7 +95,7 @@ node {
 node {
   name: "visualizer"
   calculator: "box_visualizer"
-  input_stream: "detections_stream"
+  input_stream: "tracks_stream"
   input_stream: "image_stream_decode"
   output_stream: "image_stream_viz"
   stream_sync: {
@@ -110,7 +148,6 @@ node {
   }
 }
 
-
 node {
   name: "encode_node"
   calculator: "x86_enc"
@@ -150,27 +187,27 @@ node {
 node {
   name: "to_json"
   calculator: "to_json"
-  input_stream: "detections_stream"
+  input_stream: "tracks_stream"
   output_stream: "json_stream"
   node_options: {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
-      label_name_file: "/opt/aupera/avas/label_files/pedestrain_labels.txt"
+      label_name_file: ""
       network: "SSD"
-      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      input_type: PACKET_TYPE_TRACKS
     }
   }
 }
 
 node {
-    name: "udp_notification"
-    calculator: "notification_web"
-    vendor: "Aupera"
-    input_stream: "json_stream"
-    node_options: {
-    [type.googleapis.com/aup.avaf.NotificationWebOptions]: {
-        notification_url: "udp://127.0.0.1:8888"
-        notification_q_size: 1
-        protocol_type: UDP
+  name: "notification_mongo_node"
+  calculator: "notification_mongo"
+  input_stream: "json_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.NotificationMongoOptions]: {
+      mongodb_address: "mongodb://127.0.0.1:27019"
+      database_name: "kria_som"
+      collection_name: "test_collection"
+      notification_q_size: 2
     }
   }
 }

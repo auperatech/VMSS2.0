@@ -162,7 +162,7 @@ node {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
       label_name_file: ""
       network: "FaceDetectDenseBox"
-      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      input_type: PACKET_TYPE_TRACKS
     }
   }
 }

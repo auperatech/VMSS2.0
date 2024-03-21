@@ -22,7 +22,7 @@ node {
   ml_model_kernel_name: "ssd_pedestrian_pruned_0_97"
   node_options: {
     [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
-      detect_interval: 1
+      detect_interval: 3
       detector_type: "SSD"
       need_preprocess: true
       log_performance: false
@@ -32,24 +32,31 @@ node {
       batch_collection_timeout_ms: 0
       ignore_black_frames: false
       max_detection_lib_q_size: 30
-      mean: {
-        r: 104.0
-        g: 117.0
-        b: 123.0
-      }
-      scale: {
-        ch1: 1.0
-        ch2: 1.0
-        ch3: 1.0
-      }
-      label_confidence: {
-        label: 0
-        confidence: 0.0
-      }
-      label_confidence: {
-        label: 1
-        confidence: 0.55
-      }
+      total_classes: 2
+      default_confidence_threshold: 0.55
+    }
+  }
+}
+
+node {
+  name: "tracker"
+  calculator: "box_tracker"
+  input_stream: "detections_stream"
+  input_stream: "detect_interval"
+  output_stream: "tracks_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxTrackerOptions]: {
+      max_keep_alive: 5
+      min_hits: 1
+      affinity_threshold: 0.008  
+      shape_weight: 1
+      position_weight: 1
+      appearance_weight: 1
+      shape_dist_max: 1
+      position_dist_max: 1
+      use_exp_cost: true
+      tracker_type: "SORT++"
+      min_object_area_th: 200
     }
   }
 }
@@ -57,7 +64,7 @@ node {
 node {
   name: "visualizer"
   calculator: "box_visualizer"
-  input_stream: "detections_stream"
+  input_stream: "tracks_stream"
   input_stream: "image_stream_decode"
   output_stream: "image_stream_viz"
   stream_sync: {
@@ -149,38 +156,27 @@ node {
 node {
   name: "to_json"
   calculator: "to_json"
-  input_stream: "detections_stream"
+  input_stream: "tracks_stream"
   output_stream: "json_stream"
   node_options: {
     [type.googleapis.com/aup.avaf.ToJsonOptions]: {
-      label_name_file: "/opt/aupera/avas/label_files/pedestrain_labels.txt"
+      label_name_file: ""
       network: "SSD"
-      input_type: PACKET_TYPE_DETECTIONS_OR_TRACKS
+      input_type: PACKET_TYPE_TRACKS
     }
   }
 }
 
 node {
-  name: "email_notification"
-  calculator: "notification_message"
+  name: "notification_mongo_node"
+  calculator: "notification_mongo"
   input_stream: "json_stream"
   node_options: {
-    [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
-      message_type: EMAIL
-      sender: "xxxxxx@gmail.com"
-      receiver: ["xxxxxxx1@gmail.com"]
+    [type.googleapis.com/aup.avaf.NotificationMongoOptions]: {
+      mongodb_address: "mongodb://127.0.0.1:27019"
+      database_name: "kria_som"
+      collection_name: "test_collection"
       notification_q_size: 2
-      sender_username: "xxxxxxxxxxxx"
-      sender_password: "xxxxxxxxxxxxx"
-      server_url: "smtp.gmail.com:587"
-      trigger: {
-        trigger_type: PACKET
-        trigger_consecutive_packet: 10
-        jq_query_string: ""
-        notification_title: "email_notification_test"
-        notification_body: "xxxxxxxxxxxxxxxxxx"
-        attach_json: true
-      }
     }
   }
 }

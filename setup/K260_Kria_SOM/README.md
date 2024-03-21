@@ -60,6 +60,7 @@ rtsp://vmss.auperatechnologies.com:554/crowd
 rtsp://vmss.auperatechnologies.com:554/car
 rtsp://vmss.auperatechnologies.com:554/retail
 rtsp://vmss.auperatechnologies.com:554/imagenet
+rtsp://vmss.auperatechnologies.com:554/faces
 ```
 
 **Last, add the device with the unique serial number and start running tasks.**
