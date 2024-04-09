@@ -329,7 +329,7 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.2.8 Aupera web application page – LPR task result</strong></p>
     </div>
 
-    If you enabled the MLOps Mode during LPR task setup, there will be a different view for the results page. On top of the results page, you can switch between MLOps results and LP detection results. In the MLOps section you will see “tracklets”. Each tracklet represents a single car recognized by the AI. The tracklets page allows you to filter MLOps results by date, or select **Hour**, **Day**, **Week** button behind *Limit By Last* for quick filter by hour, day or week.
+    If you enabled the MLOps Mode during LPR task setup, there will be a different view for the results page. On top of the results page, you can switch between MLOps results and LP detection results. In the MLOps section you will see “tracklets”. Each tracklet represents a single car recognized by the AI. The tracklets page allows you to filter MLOps results by date, or select **Hour**, **Day**, **Week** button behind *Limit By Last* for quick filter by hour, day or week. Beside the date picker locates the **Download MLOps Results** button. MLOps results will be packaged into a tar file and downloaded into your computer once clicked. Please do not close the tab when preparing for download. 
     <div align="center">
         <img 
             width="80%"
@@ -339,14 +339,44 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.2.9 Aupera web application page – LPR task MLOps Mode result tracklet page</strong></p>
     </div>
 
+    If file is not downloaded, it might be because the popup is blocked on the browser. To allow popup in *Chrome*:
+    <div align="center">
+        <img 
+            width="40%"
+            src="./imgs/2.2.10.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 2.2.10 Chrome popup – Steps to allow popup on Chrome</strong></p>
+    </div>
+
+    To allow popup in *Firefox*:
+    <div align="center">
+        <img 
+            width="40%"
+            src="./imgs/2.2.11.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 2.2.11 Firefox popup - Steps to allow popup on Firefox</strong></p>
+    </div>
+
+    To allow popup in *Microsoft Edge* (after allowing popup, download MLOps results again):
+    <div align="center">
+        <img 
+            width="40%"
+            src="./imgs/2.2.12.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 2.2.12 Microsoft Edge popup - Steps to allow popup on Microsoft Edge</strong></p>
+    </div>
+
     If you click on a tracklet, you will open another page specifically designed for data labelling. On top of that page there is the “Modify License Plate” input field. The correct LP, verified by a user, can be entered here. After clicking **Submit**, the corresponding field will be updated in every MLOps result related to this tracklet. Incorrect results can be excluded by clicking on the checkbox in the bottom of the result card. Click the arrow in the top-left corner of the page to return to the tracklets list. 
     <div align="center">
         <img 
             width="80%"
-            src="./imgs/2.2.10.png" 
+            src="./imgs/2.2.13.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 2.2.10 Aupera web application page – LPR task MLOps Mode result of a specific tracklet page</strong></p>
+        <p ><strong>Figure 2.2.13 Aupera web application page – LPR task MLOps Mode result of a specific tracklet page</strong></p>
     </div>
 
 11. Results and parameters of any stopped task still can be accessed. Clicking the **Switch to Stopped Tasks** button in the AI Tasks will display previously stopped LPR tasks in the Tasks List. UI is the same as for running tasks, so to view, download or label results of a stopped tasks you can refer to the corresponding sections of this User Guide.
@@ -354,10 +384,10 @@ To return to running tasks click the same button, which will say **Switch to Act
     <div align="center">
         <img 
             width="50%"
-            src="./imgs/2.2.11.png" 
+            src="./imgs/2.2.14.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 2.2.11 Aupera web application page – Stopped Tasks button</strong></p>
+        <p ><strong>Figure 2.2.14 Aupera web application page – Stopped Tasks button</strong></p>
     </div>
 
 <br>
