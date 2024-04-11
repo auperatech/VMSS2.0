@@ -6,6 +6,7 @@ This guide provides step-by-step instructions for installing VMSS 2.0 on the Pla
 
 - PlanetSpark X7 Edge AI Box 
 - 16GB Micro SD Card
+- USB-C to USB-A Data Cable
   
 ## Installation Steps
 
@@ -22,7 +23,53 @@ This guide provides step-by-step instructions for installing VMSS 2.0 on the Pla
 - Insert the flashed SD Card from Step#1 into Slot#1 of the X7 box clearly printed as Slot #1.
 - Connect to the internet via ethernet cable connection and connect the device to power and make sure you can power on the device. If you followed the steps correctly you should not see any red LED lights on the box.
 
-### 3. Find the Device IP and Connect via SSH
+### 3. Connect to the Device via Serial port
+
+- With the USB-C to USB-A cable, insert a USB-C side into the PlanetSpark X7 Edge AI Box.
+- Insert the USB-A side into a PC with serial port connection software such as Teraterm (windows) or MiniCom (Linux).
+- In the serial port software set the connection settings to:
+  - Speed (Baud Rate): 115200
+  - Data: 8bit
+  - Parity: none
+  - Stop bits: 1 bit
+  - Flow control: none
+  
+- In the serial connection terminal you should now see a login message, the default credentials are:
+  - username: `root`
+  - password: `root`
+
+### 4. Connecting to Internet (Static IP or Dynamic IP)
+- Follow one of the steps below to configure either a Static IP or Dynamic IP.
+
+1. Static IP: If you want to force the device to have a specific IP, type these commands in the terminal:
+  
+    ```bash
+    eeprom-cfg -w with_dhcp 0
+    eeprom-cfg -w ip xxx.xxx.xxx.xxx
+    ```
+    
+    Note: Replace xxx.xxx.xxx.xxx with your desired IP address.
+    
+    ```bash
+    eeprom-cfg -w netmask 255.255.255.255
+    eeprom-cfg -w gw 255.255.255.255
+    eeprom-cfg -w dns 255.255.255.255
+    ```
+    Note: 255.255.255.255 will use defaults for your network. Only configure gateway (gw) if needed.
+  
+2. Dynamic IP: If you want the device to discover its IP through DHCP, type these commands in the terminal:
+    ```bash
+    eeprom-cfg -w with_dhcp 1
+    ```
+
+- Once you have setup either a Static IP or Dynamic IP, cold reboot the device.
+- To see if your have internet connection after powerup type: 
+```bash 
+ifconfig 
+```
+
+
+### 5. Find the Device IP and Connect via SSH
 
 - Use a third-party IP Scanner tool such as [Angry IP Scanner](https://angryip.org/) or through your router to find the X7 IP address 
 - Once you have obtained the correct IP address login into the box via `ssh`: 
@@ -36,7 +83,7 @@ username: root
 password: root
 
 
-### 4. Install DRM Package and Requeset License Key
+### 6. Install DRM Package and Requeset License Key
 
 You must have a valid license key in order to use Aupera's software. In order to activate your license you must follow the steps stated below:
 
@@ -53,7 +100,7 @@ chmod +x install
 ./install
 ```
 
-### 5. Get the Device DNA Number and Ask Aupera for Credentials
+### 7. Get the Device DNA Number and Ask Aupera for Credentials
 
 - Run the following command to get the compressed file(xxx_dna.tar.gz) that contains the device's DNA
 ```bash
@@ -67,13 +114,12 @@ device.
 
 ```bash
 cd /D0/.drm
-drm -d
 drm -a
 ```
 
 You should see a message printed on the terminal indicating succssefull activation of your device. Please contact Aupera Technologies if there is any issues with this step.
 
-### 6. Install Required Runtime Libraries
+### 8. Install Required Runtime Libraries
 
 - Download and install the libraries by running the following commands:
 
@@ -84,7 +130,7 @@ cd /D0/APP/axstream-2022.1-5.0.3
 ./install
 ```
 
-### 7. Install VMSS Package 
+### 9. Install VMSS Package 
 
 - Download and install the VMSS package by running the following commands:
 
@@ -95,7 +141,7 @@ cd /D0/APP/ai_framework
 ./install
 ```
 
-### 8. Login to VMSS Web APP and Add Your Device
+### 10. Login to VMSS Web APP and Add Your Device
 
 Now you can add the device to your account on [VMSS Web APP](https://vmss.auperatechnologies.com/) under AI Host by rerieving it's DNA number and enter as the Serial Number. You can find the DNA number by running the following command:
 
