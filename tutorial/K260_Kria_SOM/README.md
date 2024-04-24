@@ -352,17 +352,46 @@ Here's a list of RTSP streams that you can use for testing:
 
 ### Available Models
 
-| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link
-|---------------|-----------------------------------|---------------| --------- | --------- |
-| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| refinedet_baseline | person detector | 2  | RefineDet  | [link](https://www.xilinx.com/bin/public/openDownload?filename=refinedet_baseline-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc_pruned_0_66-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_bdd-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_adas_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc_tf-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+The table below displays a selection of available detection models for you to download and explore. To use the correct models with your specific hardware configuration, please follow the 2 steps at the end to select and download the appropriate model for your environment.
+
+| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link (0x101000016010407) | Download Link (0x101000016010406) |
+|----------------------|-----------------------------------|---------------|------|-----------------------------------|-----------------------------------|
+| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz)|
+| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz)|
+| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| refinedet_baseline | person detector | 2  | RefineDet  | [link](https://www.xilinx.com/bin/public/openDownload?filename=refinedet_baseline-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=refinedet_baseline-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc_pruned_0_66-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc_pruned_0_66-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) | 
+| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_bdd-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_bdd-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_adas_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_adas_pruned_0_9-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc_tf-zcu102_zcu104_kv260-r2.5.0.tar.gz) | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc_tf-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+
+
+**Step1: Check DPU Fingerprint and Select the Appropriate Model**
+
+ Note that two download links (`0x101000016010407` and `0x101000016010406`) are provided for each model to accommodate different DPU fingerprints. To ensure compatibility between models and your environment, it is important to download the correct model based on your instance's fingerprint.
+
+Run `show_dpu` in the Docker container to check the fingerprint. For example, the output might look like:
+
+```
+device_core_id=0 device= 0 core = 0 fingerprint = 0x101000016010406 batch = 1 full_cu_name=DPUCZDX8G:DPUCZDX8G_1
+```
+
+**Step2: Model Download and Installation:**
+
+Choose the appropriate download link from the table above based on the DPU fingerprint shown in the output:
+- Use the link in the **Download Link (0x101000016010407)** column for fingerprint `0x101000016010407`.
+- Use the link in the **Download Link (0x101000016010406)** column for fingerprint `0x101000016010406`.
+
+Download the model file (e.g., `MODEL.tar.gz`) in the `/usr/share/vitis_ai_library/models` directory and unzip it by executing the following commands in your Docker container:
+
+```
+cd /usr/share/vitis_ai_library/models
+wget LINKS_PROVIDED_IN_THE_TABLE -O MODEL.tar.gz
+tar -xvzf MODEL.tar.gz
+```
+
+Finally, follow the instructions in [Reconfigure the Person Detection Pipeline to do Face Detection](#reconfigure-the-person-detection-pipeline-to-do-face-detection) to replace the model in the pbtxt and explore its capabilities!
