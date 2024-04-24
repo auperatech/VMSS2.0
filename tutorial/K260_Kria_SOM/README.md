@@ -9,6 +9,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
     - [Set up the Input and Output](#set-up-the-input-and-output)
     - [Setup an RTSP Video Player](#setup-an-rtsp-video-player)
     - [Run the Pipeline \& Watch the Results](#run-the-pipeline--watch-the-results)
+    - [Providing your own Input File](#providing-your-own-input-file)
     - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
   - [Reconfigure the Person Detection Pipeline to do Face Detection](#reconfigure-the-person-detection-pipeline-to-do-face-detection)
   - [Increasing Detection Interval and Adding a Tracker](#increasing-detection-interval-and-adding-a-tracker)
@@ -17,6 +18,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Integrating SMS Notifications into the Pipeline](#integrating-sms-notifications-into-the-pipeline)
     - [Configuring your notification service](#configuring-your-notification-service)
     - [Launching your notification pipeline](#launching-your-notification-pipeline)
+  - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
     - [Expanding your setup](#expanding-your-setup)
   - [Tips and Tricks](#tips-and-tricks)
     - [Test RTSP Streams](#test-rtsp-streams)
@@ -120,6 +122,20 @@ We already covered how to setup input and output. Now lets look more at the pipe
     <figcaption>Detector Visualizer Pipeline</figcaption>
 </figure>
 </div>
+
+### Providing your own Input File
+
+If you wish to provide one of your own input files, you'll need to generate a .h264 file in NV12 format. We can do this using ffmpeg.
+
+For Linux, you can install ffmpeg with the package manager of your distribution, e.g. `sudo apt-get install ffmpeg` on ubuntu.
+For Windows, you can find install instructions on https://ffmpeg.org/download.html.
+
+Then, we can convert an mp4 file to h264 format using the following:
+```
+ffmpeg -i my_video_in.mp4 -c:v libx264 -pix_fmt nv12 -vf scale=1920:1080 -r 30 my_video_out.nv12.h264
+```
+
+We recommend performing this conversion on a device other than the Kria SOM, as it will take a long time to run on the SOM.
 
 ### Changing the Input to RTSP
 
@@ -227,42 +243,6 @@ avaser -c rtsp_persondetect_rtsp.pbtxt
 avaser -c rtsp_facedetect-tracker_rtsp.pbtxt
 ```
 
-<!-- ## Changing Input from RTSP to USB
-
-Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera. This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
-
-To make this transition, follow these two simple steps:
-
-- Remove RTSP Input Configuration
-  
-  As we are using a USB camera, we do not need receiving video/rtsp as input sources, simply remove the `graph_input: "graph_input1"` [here](./assets/rtsp_persondetect_rtsp.pbtxt#L2) in `rtsp_persondetect_rtsp.pbtxt`.
-
-- Integrate the USB Camera Node
-
-  Replace the nodes previously handling the RTSP stream (`stream_demux` and `x86_dec`) with the `video_source` node designed for USB cameras. Specifically, replace the content lines [5-42](./assets/rtsp_persondetect_rtsp.pbtxt#L5-L42) in `rtsp_persondetect_rtsp.pbtxt` with the `video_source` node as shown below:
-  ```
-  node {
-      name: "usb_cam"
-      calculator: "video_source"
-      output_stream: "image_stream_decode"
-      output_stream: "video_stream_info_decode"
-      node_options: {
-          [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
-          }
-      }
-  }
-  ```
-
-That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. After making sure you have a USB camera setup ready, execute the pipeline again (this time without `input.pbtxt`) and watch the results in your video player:
-```
-avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
-```
-
-***NOTE:*** Alternatively, you can execute [`usb_facedetect-tracker_rtsp.pbtxt`](./assets/usb_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation if you want to start from this step directly.
-```
-avaser -o output.pbtxt -c usb_facedetect-tracker_rtsp.pbtxt
-``` -->
-
 ## Integrating SMS Notifications into the Pipeline
 
 At this stage, let's achieve a real life application using Aupera VMSS2.0! Imagine you're not at home and want immediate alerts if someone approaches your front door, or you need to monitor your backyard for security. By adding just two nodes to your previous pipeline, you can set up a system that sends you real-time SMS alerts when your camera detects persons' faces or any specific objects you're interested in.
@@ -323,6 +303,39 @@ avaser -c rtsp_persondetect_rtsp.pbtxt
 ***NOTE:*** You can directly adjust these parameters in [`rtsp_facedetect-tracker_sms-rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt) and execute this pbtxt for a quick initiation of this step. Don't forget to modify the `video_source` and `video_sink` input and output paths.
 ```
 avaser -c rtsp_facedetect-tracker_sms-rtsp.pbtxt
+```
+
+## Changing Input from RTSP to USB
+
+Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera. This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
+
+To make this transition, perform the following 2 steps:
+
+- Replace the content lines [3-15](./assets/rtsp_persondetect_rtsp.pbtxt#L3-L15) in `rtsp_persondetect_rtsp.pbtxt` with the `video_source` node shown below:
+  ```
+  node {
+      name: "usb_cam"
+      calculator: "video_source"
+      output_stream: "image_stream_bgr"
+      output_stream: "bgr_infopacket"
+      node_options: {
+          [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+          }
+      }
+  }
+  ```
+
+- Remove the nodes `box_visualizer` (content lines [43-78](./assets/rtsp_persondetect_rtsp.pbtxt#L43-L78))and `video_sink` (content lines [80-96](./assets/rtsp_persondetect_rtsp.pbtxt#L80-L96)), as the `video_sink` node only accepts NV12 formatted frames, which the USB camera cannot produce at this time
+  
+
+That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. After making sure you have a USB camera setup ready, execute the pipeline again (this time without `input.pbtxt`) and watch the results in your video player:
+```
+avaser -c rtsp_persondetect_rtsp.pbtxt
+```
+
+***NOTE:*** Alternatively, you can execute [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) we prepared for a quick initiation if you want to start from this step directly.
+```
+avaser -c usb_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
 ###  Expanding your setup
