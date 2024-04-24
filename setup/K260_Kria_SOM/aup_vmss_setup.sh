@@ -19,8 +19,8 @@ else
 fi
 
 # Check for proper firmware installation
-FIRMWARE_DIR="/lib/firmware/xilinx/kv260-benchmark-b4096/"
-REQUIRED_FILES=("kv260-benchmark-b4096.bin" "kv260-benchmark-b4096.dtbo" "kv260-benchmark-b4096.xclbin" "shell.json")
+FIRMWARE_DIR="/lib/firmware/xilinx/kv260-smartcam/"
+REQUIRED_FILES=("kv260-smartcam.bin" "kv260-smartcam.dtbo" "kv260-smartcam.xclbin" "shell.json")
 
 echo "Checking for proper firmware installation..."
 if [ -d "$FIRMWARE_DIR" ]; then
@@ -52,7 +52,7 @@ fi
 
 # Function to check if app is already loaded
 isAppLoaded() {
-    loadedAppInfo=$(sudo xmutil listapps | grep kv260-benchmark-b4096)
+    loadedAppInfo=$(sudo xmutil listapps | grep kv260-smartcam)
     if [[ $loadedAppInfo == *"(0+0)                  0"* ]]; then
         echo 1
     else
@@ -60,13 +60,13 @@ isAppLoaded() {
     fi
 }
 
-# Check if the kv260-benchmark-b4096 app is already loaded
+# Check if the kv260-smartcam app is already loaded
 if [[ $(isAppLoaded) -eq 1 ]]; then
-    echo "kv260-benchmark-b4096 is already loaded. Skipping loading step."
+    echo "kv260-smartcam is already loaded. Skipping loading step."
 else
-    echo "Loading kv260-benchmark-b4096..."
+    echo "Loading kv260-smartcam..."
     sudo xmutil unloadapp || true
-    sudo xmutil loadapp kv260-benchmark-b4096
+    sudo xmutil loadapp kv260-smartcam
 fi
 
 # Install dependencies for Docker
