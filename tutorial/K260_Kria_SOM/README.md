@@ -6,7 +6,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Prerequisite](#prerequisite)
   - [Download the Required Assets](#download-the-required-assets)
   - [Person Detection](#person-detection)
-    - [Create the Input and Output](#create-the-input-and-output)
+    - [Set up the Input and Output](#set-up-the-input-and-output)
     - [Setup an RTSP Video Player](#setup-an-rtsp-video-player)
     - [Run the Pipeline \& Watch the Results](#run-the-pipeline--watch-the-results)
     - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
@@ -14,8 +14,10 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Increasing Detection Interval and Adding a Tracker](#increasing-detection-interval-and-adding-a-tracker)
     - [Increasing Detction Interval](#increasing-detction-interval)
     - [Adding a Tracker](#adding-a-tracker)
-  - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
   - [Integrating SMS Notifications into the Pipeline](#integrating-sms-notifications-into-the-pipeline)
+    - [Configuring your notification service](#configuring-your-notification-service)
+    - [Launching your notification pipeline](#launching-your-notification-pipeline)
+    - [Expanding your setup](#expanding-your-setup)
   - [Tips and Tricks](#tips-and-tricks)
     - [Test RTSP Streams](#test-rtsp-streams)
     - [Available Models](#available-models)
@@ -32,21 +34,21 @@ Once you're set up in the docker environment, the first step is to clone this re
 git clone --single-branch https://github.com/auperatech/VMSS2.0.git
 ```
 
-Next, let's proceed to download a demo MP4 file prepared for this tutorial:
+Next, let's proceed to download a demo mp4 file and prepare it for this tutorial:
 ```
-cd VMSS2.0/tutorial/K260_Kria_SOM/assets
-wget https://amd.vmaccel.com/object-store/v1/aup_releases/K260_Kria_SOM_tutorial_video.zip && unzip K260_Kria_SOM_tutorial_video.zip && rm K260_Kria_SOM_tutorial_video.zip
+cd VMSS2.0/tutorial/K260_Kria_SOM_video_source/assets
 ```
 
 Successfully executing these commands will create the following directory structure.
 Note that all further activities of this tutorial will take place within this assets directory.
 ```
 ./assets
-├── face_demo_82s.mp4
+├── face_demo_82s.nv12.mp4
 ├── images
 ├── notification_message_in_details.md
 ├── rtsp_facedetect_rtsp.pbtxt
 ├── rtsp_facedetect-tracker_rtsp.pbtxt
+├── rtsp_facedetect-tracker_sms-rtsp.pbtxt
 ├── rtsp_persondetect_rtsp.pbtxt
 ├── usb_facedetect-tracker_rtsp.pbtxt
 └── usb_facedetect-tracker_sms-rtsp.pbtxt
@@ -64,18 +66,18 @@ In this tutorial, we are going to start with **video file** as our input. Then w
 </figure>
 </div>
 
-### Create the Input and Output
+### Set up the Input and Output
  Let's create our `input.pbtxt` and `output.pbtxt` files that are required for running a pipeline. 
  
-**Input File:** For the input, we are using the `face_demo_82s.mp4` you just downloaded. Assuming you're in the directory `VMSS2.0/tutorial/K260_Kria_SOM/assets`, you should specify the path in the `input_urls` as below: 
+**Input File:** For the input, we are using the `face_demo_82s.nv12.h264` file in `VMSS2.0/tutorial/K260_Kria_SOM/assets`. By editing `rtsp_persondetect_rtsp.pbtxt`, you should specify the path [on line 12](./assets/rtsp_persondetect_rtsp.pbtxt#L12) (inside the `video_source` calculator node options) as below: 
 
 ```
-echo 'input_urls: "face_demo_82s.mp4"' > input.pbtxt
+path: "/home/ubuntu/matthew/kriasommount/h264/people_walking.nv12.h264"
 ```
-**Output File:** For the output, we follow the same logic, but instead of saving the ouput to a file, we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do this, simply pick any unique arbitrary name and append it to `rtsp://vmss.auperatechnologies.com:554/`, and include this full URL in your `output_urls` as shown below:
+**Output File:** For the output, we follow the same logic, but instead of saving the ouput to a file, we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do this, simply pick any unique arbitrary name and append it to `rtsp://vmss.auperatechnologies.com:554/`. Then, include this full URL in `rtsp_persondetect_rtsp.pbtxt` [on line 93](./assets/rtsp_persondetect_rtsp.pbtxt#L93) (inside the `video_sink` options) with your output url as shown below:
 
 ```
-echo 'output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"' > output.pbtxt
+path: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
 ```
 ***NOTE:*** It's important to use a unique stream name when using the RTSP server. Ensure you replace `your-output-name` above with a name of your choosing before moving forward.
 
@@ -89,12 +91,12 @@ Finally, make sure you have a video player available to watch your output stream
 Now that your input and output are set up and you've confirmed that you can view an RTSP stream, you're all set to proceed with this example. Execute the following command to start:
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 ***NOTE:*** To stop the pipeline, press `ctrl + c`
 
-Upon running, you can watch the output stream using VLC or an alternative by using the link you set in your `output.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
+Upon running, you can watch the output stream using VLC or an alternative by using the link you set in the `video_sink` node options (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). The output video should show a bounding box around each person.
 
 In essence, `avaser` is VMMS's command that runs a graph/pipeline. `avaser` requires specifying up to three pbtxt files during execution, with the configuration pbtxt being mandatory. Here're more details about them:
 
@@ -104,13 +106,13 @@ In essence, `avaser` is VMMS's command that runs a graph/pipeline. `avaser` requ
 
 - **Input pbtxt (specified with `-i`)**
 
-    The input pbtxt is optional and relevant only if your pipeline has RTSP(s) or video(s) as input source(s). When used, the `input_urls` in the input pbtxt should specify the RTSP or video path.
+    The input pbtxt is optional and relevant only if your pipeline has RTSP(s) or video(s) as input source(s) and a corresponding `graph_input` is specified in the configuration pbtxt. When used, the `input_urls` in the input pbtxt should specify the RTSP or video path.
 
 - **Output pbtxt (specified with `-o`)**
 
-    Similar to the input pbtxt, the output pbtxt is optional and dependent on your pipeline's output requirements. If you're streaming the output or saving it to a file, specify the RTSP address or file path in the `output_urls` within this file.
+    Similar to the input pbtxt, the output pbtxt is optional and dependent on your pipeline's output requirements. If you're streaming the output or saving it to a file, specify the RTSP address or file path in the `output_urls` within this file and set up a corresponding `graph_output` in the configuration pbtxt.
 
-We already covered how to create the input and the output files. Now we are introducing the pipeline config file. The pipeline is a graph made from the nodes that are connected to each other based on each nodes required input/output packets. The nodes are reusable and and configurable to accomadate needs. The pipeline that you just ran is outlined in the graph shown below:
+We already covered how to setup input and output. Now lets look more at the pipeline config file. The pipeline is a graph made from the nodes that are connected to each other based on each nodes required input/output packets. The nodes are reusable and and configurable to accomadate needs. The pipeline that you just ran is outlined in the graph shown below:
 <div align="center">
 <figure>
   <img src="assets/images/detector_pipeline.png" alt="vmss nodes sequence">
@@ -119,16 +121,12 @@ We already covered how to create the input and the output files. Now we are intr
 </figure>
 </div>
 
-
-***NOTE:*** In this tutorial we will be swapping the input and the output nodes. Therefore, to simplify the visualization we just show `video_in` and `video_out` as our input or output. However, keep in mind depending on the input or the ouput source type, `video_in` and `video_out` need to be swapped with the appropiate node(s). See the image [VMSS2.0 Nodes Overview](#person-detection) for more info. 
-
-
 ### Changing the Input to RTSP
 
-Next, we'll demonstrate how you can easily switch the input to a live RTSP stream by updating the input_urls. For example, you can modify the existing `input.pbtxt` to process the same demo video, but this time streamed from an RTSP source, by using the following command:
+Next, we'll demonstrate how you can easily switch the input to a live RTSP stream by updating the `video_source` path. For example, you can modify line 12 to process the same demo video, but this time streamed from an RTSP source, by using the following:
 
 ```
-echo 'input_urls: "rtsp://vmss.auperatechnologies.com:554/face"' > input.pbtxt
+path: "rtsp://vmss.auperatechnologies.com:554/face"
 ```
 
 ***NOTE:*** Optionally, feel free to experiment with different RTSP streams we've prepared [here](#test-rtsp-streams). However, in this tutorial, we'll continue to use `rtsp://vmss.auperatechnologies.com:554/face` as our go-to stream.
@@ -136,7 +134,7 @@ echo 'input_urls: "rtsp://vmss.auperatechnologies.com:554/face"' > input.pbtxt
 Now you can run the same `avaser` command you ran before by passing this new input input file:
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
 
 ## Reconfigure the Person Detection Pipeline to do Face Detection 
@@ -145,42 +143,35 @@ In the previous step you were able to run a person detector model provided via A
 
 To adapt the pipeline for face detection, you only need to modify the following 2 values in the `rtsp_persondetect_rtsp.pbtxt` pipeline that you used in the previous step:
 
-- [`ml_model_kernel_name`](./assets/rtsp_persondetect_rtsp.pbtxt#L50): "densebox_320_320"
-- [`detector_type`](./assets/rtsp_persondetect_rtsp.pbtxt#L54): "FaceDetectDenseBox"
+- [`ml_model_kernel_name`](./assets/rtsp_persondetect_rtsp.pbtxt#L23): "densebox_320_320"
+- [`detector_type`](./assets/rtsp_persondetect_rtsp.pbtxt#L27): "FaceDetectDenseBox"
 
-Once you made the changes mentioned above, confirm your input and output urls as shown below:
-```
-root@general:/home/ubuntu/VMSS2.0/tutorial/K260_Kria_SOM/assets# cat input.pbtxt
-input_urls: "rtsp://vmss.auperatechnologies.com:554/face"
-root@general:/home/ubuntu/VMSS2.0/tutorial/K260_Kria_SOM/assets# cat output.pbtxt
-output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
-```
-Now, execute the modified pipeline with the following command and watch the output on your video player to see the face detection in action.
+Once you made the changes mentioned above, execute the modified pipeline with the following command and watch the output on your video player to see the face detection in action.
 
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect_rtsp.pbtxt`](./assets/rtsp_facedetect_rtsp.pbtxt) we prepared for a quick initiation of this step.
+***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect_rtsp.pbtxt`](./assets/rtsp_facedetect_rtsp.pbtxt) we prepared for a quick initiation of this step, provided you modify the `video_source` and `video_sink` input and output paths.
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_facedetect_rtsp.pbtxt
+avaser -c rtsp_facedetect_rtsp.pbtxt
 ```
 
-Congratulations, you just successfully reconfigured the box_detector to use a different model. The idea behind this step is to illustrates the flexibility and configurability of VMSS2.0, allowing for easy model swaps without any coding requirement. In particular, in this step, you modified our [`box_detector`](../../docs/node_guide.md#box_detector) node to run a different model. You can try any of the models [listed here](#available-models) the same way to run on your video. 
+Congratulations, you just successfully reconfigured the box_detector to use a different model. The idea behind this step is to illustrates the flexibility and configurability of VMSS2.0, allowing for easy model swaps without any coding requirement. In particular, in this step, you modified our [`box_detector`](../../docs/node_guide.md#box_detector) node to run a different model. You can try any of the currently supported models [listed here](#available-models) the same way to run on your video. 
 
 ## Increasing Detection Interval and Adding a Tracker
 
-Given some machine leraning (ML) models are computationally expensive (i.e they are too slow to run on every frame in real-time), we may need to reduce how often we run our ML model. In this step, we will show you how you can reduce the frequency of running a ML model, and then we will complement the `box_detector` with a `box_tracker` to take advantage of a tracker to reduce the ML load as well as creating a unique ID for each detected object. 
+Given some machine learning (ML) models are computationally expensive (i.e they are too slow to run on every frame in real-time), we may need to reduce how often we run our ML model. In this step, we will show you how you can reduce the frequency of running a ML model, and then we will complement the `box_detector` with a `box_tracker` to take advantage of a tracker to reduce the ML load as well as creating a unique ID for each detected object. 
 
 ### Increasing Detction Interval
 
 Increasing the detection interval is straightforward: you adjust the `detect_interval` in your `box_detector` to a higher value. For instance, setting `detect_interval=3` results in running the ML model on every 3 frames. This can be done by changing the following line:
 
-- [`detect_interval`](./assets/rtsp_persondetect_rtsp.pbtxt#L53): 3 
+- [`detect_interval`](./assets/rtsp_persondetect_rtsp.pbtxt#L26): 3 
 
 Now it's time to run the pipeline and watch the output just like the previous steps:
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
 ### Adding a Tracker
 As you probably noticed, the output of your pipeline now only draws bounding boxes on every third frame. This is the expected behaviour as the `detect_interval` is now set to **3**. 
@@ -196,7 +187,7 @@ Let's move on and add a tracker by inserting a `box_tracker` node between the `b
 
 Let's make this change in the same `rtsp_persondetect_rtsp.pbtxt` we have used so far. First we insert the `box_tracker` node between the existing `box_detector` and `box_visualizer`. 
 
-That is, the `box_tracker` below should be copied and pasted after the `box_detector`, specifically, after [this line](./assets/rtsp_persondetect_rtsp.pbtxt#L68).
+That is, the `box_tracker` below should be copied and pasted after the `box_detector`, specifically, after [this line](./assets/rtsp_persondetect_rtsp.pbtxt#L41).
 
 ```
 node {
@@ -224,19 +215,19 @@ node {
 ```
 
 
-Next, we need to adjust how the nodes are linked together. At the moment, the `box_visualizer` is set to receive input directly from the `box_detector`, which isn't our current goal. Instead, we want the `box_visualizer` to receive its input from the `box_tracker`. To do this, change the `box_visualizer`'s first `input_stream` to match the `box_tracker`'s output_stream. Concretely, make sure this [value](./assets/rtsp_persondetect_rtsp.pbtxt#L73) is set to `"tracks_stream"`.
+Next, we need to adjust how the nodes are linked together. At the moment, the `box_visualizer` is set to receive input directly from the `box_detector`, which isn't our current goal. Instead, we want the `box_visualizer` to receive its input from the `box_tracker`. To do this, change the `box_visualizer`'s first `input_stream` to match the `box_tracker`'s output_stream. Concretely, make sure this [value](./assets/rtsp_persondetect_rtsp.pbtxt#L46) is set to `"tracks_stream"`.
 
 With these modifications in place, you're all set to launch the updated pipeline as before:
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect-tracker_rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation of this step.
+***NOTE:*** Alternatively, you can directly execute [`rtsp_facedetect-tracker_rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation of this step. Don't forget to modify the `video_source` and `video_sink` input and output paths.
 ```
-avaser -i input.pbtxt -o output.pbtxt -c rtsp_facedetect-tracker_rtsp.pbtxt
+avaser -c rtsp_facedetect-tracker_rtsp.pbtxt
 ```
 
-## Changing Input from RTSP to USB
+<!-- ## Changing Input from RTSP to USB
 
 Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera. This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
 
@@ -270,7 +261,7 @@ avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
 ***NOTE:*** Alternatively, you can execute [`usb_facedetect-tracker_rtsp.pbtxt`](./assets/usb_facedetect-tracker_rtsp.pbtxt) we prepared for a quick initiation if you want to start from this step directly.
 ```
 avaser -o output.pbtxt -c usb_facedetect-tracker_rtsp.pbtxt
-```
+``` -->
 
 ## Integrating SMS Notifications into the Pipeline
 
@@ -284,7 +275,7 @@ To accomplish this, you will need to
 
     - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
 
-      For these two nodes, you can refer to [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and copy and paste lines from [156-192](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt#L156-L192) to your pipeline.
+      For these two nodes, you can refer to [`rtsp_facedetect-tracker_sms-rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt) and copy and paste lines from [140-176](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt#L140-L176) to your pipeline.
 
 2. Append a task_id field to your pipeline at the end, for example:
     ```
@@ -326,12 +317,12 @@ After inserting the nodes and `task_id`, it's time to specify key parameters wit
 ### Launching your notification pipeline
 Once everything is configured, launch the pipeline with the command below to start receiving SMS alerts for the detections and watch the results in your video player.
 ```
-avaser -o output.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
 
-***NOTE:*** You can directly adjust these parameters in [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) and execute this pbtxt for a quick initiation of this step.
+***NOTE:*** You can directly adjust these parameters in [`rtsp_facedetect-tracker_sms-rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt) and execute this pbtxt for a quick initiation of this step. Don't forget to modify the `video_source` and `video_sink` input and output paths.
 ```
-avaser -o output.pbtxt -c usb_facedetect-tracker_sms-rtsp.pbtxt
+avaser -c rtsp_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
 ###  Expanding your setup
@@ -352,17 +343,29 @@ Here's a list of RTSP streams that you can use for testing:
 
 ### Available Models
 
-| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link
-|---------------|-----------------------------------|---------------| --------- | --------- |
-| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| refinedet_baseline | person detector | 2  | RefineDet  | [link](https://www.xilinx.com/bin/public/openDownload?filename=refinedet_baseline-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc_pruned_0_66-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_bdd-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_adas_pruned_0_9-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
-| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc_tf-zcu102_zcu104_kv260-r2.5.0.tar.gz) |
+The table below displays a selection of available detection models for you to download and explore. To use the correct models with your specific hardware configuration, please follow the 2 steps at the end to select and download the appropriate model for your environment.
+
+| Model Kernel Name    | Description                       | Total Classes | TYPE | Download Link |
+|----------------------|-----------------------------------|---------------|------|-----------------------------------|
+| densebox_320_320 | face detector | 2  | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_320_320-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| densebox_640_360 | face detector  | 2 | FaceDetectDenseBox | [link](https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz)|
+| ssd_pedestrian_pruned_0_97 | person detector | 2  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_pedestrian_pruned_0_97-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz)|
+| ssd_traffic_pruned_0_9 | vehicle detector | 4  | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_traffic_pruned_0_9-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| ssd_mobilenet_v2 | person + vehicle detector | 11 | SSD  | [link](https://www.xilinx.com/bin/public/openDownload?filename=ssd_mobilenet_v2-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| refinedet_baseline | person detector | 2  | RefineDet  | [link](https://www.xilinx.com/bin/public/openDownload?filename=refinedet_baseline-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov2_voc | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov2_voc_pruned_0_66 | VOC Dataset objects | 20  | YoloV2  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov2_voc_pruned_0_66-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov3_voc | VOC Dataset objects | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) | 
+| yolov3_bdd | person + vehicle detector | 10  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_bdd-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov3_adas_pruned_0_9 | person + vehicle detector | 10 | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_adas_pruned_0_9-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+| yolov3_voc_tf | VOC Dataset object | 20  | YoloV3  | [link](https://www.xilinx.com/bin/public/openDownload?filename=yolov3_voc_tf-kv260_DPUCZDX8G_ISA1_B3136-r2.5.0.tar.gz) |
+
+Download the model file (e.g., `MODEL.tar.gz`) in the `/usr/share/vitis_ai_library/models` directory and unzip it by executing the following commands in your Docker container:
+
+```
+cd /usr/share/vitis_ai_library/models
+wget LINKS_PROVIDED_IN_THE_TABLE -O MODEL.tar.gz
+tar -xvzf MODEL.tar.gz
+```
+
+Finally, follow the instructions in [Reconfigure the Person Detection Pipeline to do Face Detection](#reconfigure-the-person-detection-pipeline-to-do-face-detection) to replace the model in the pbtxt and explore its capabilities!
