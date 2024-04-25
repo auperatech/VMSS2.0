@@ -74,7 +74,7 @@ In this tutorial, we are going to start with **video file** as our input. Then w
 **Input File:** For the input, we are using the `face_demo_82s.nv12.h264` file in `VMSS2.0/tutorial/K260_Kria_SOM/assets`. By editing `rtsp_persondetect_rtsp.pbtxt`, you should specify the path [on line 12](./assets/rtsp_persondetect_rtsp.pbtxt#L12) (inside the `video_source` calculator node options) as below: 
 
 ```
-path: "/home/ubuntu/matthew/kriasommount/h264/people_walking.nv12.h264"
+path: "/<path to>/face_demo_82s.nv12.h264"
 ```
 **Output File:** For the output, we follow the same logic, but instead of saving the ouput to a file, we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do this, simply pick any unique arbitrary name and append it to `rtsp://vmss.auperatechnologies.com:554/`. Then, include this full URL in `rtsp_persondetect_rtsp.pbtxt` [on line 93](./assets/rtsp_persondetect_rtsp.pbtxt#L93) (inside the `video_sink` options) with your output url as shown below:
 

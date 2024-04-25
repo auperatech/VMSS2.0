@@ -112,7 +112,7 @@ node {
       gop_mode: "low-latency-P"
       bitrate: 3000
       rc_mode: "Low Latency"
-      path: "rtsp://10.53.170.132:554/car_out_test"
+      path: "<!! output path goes here !!>"
     }
   }
 }

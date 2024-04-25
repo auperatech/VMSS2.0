@@ -8,6 +8,12 @@ This guide provides step-by-step instructions for installing VMSS 2.0 Docker for
 - 32GB storage or more (We used 128GB SanDisk Extreme PLUS 200MB/s Read SD card).
 - Follow the initial setup instructions from Xilinx: [Setting up the SD Card Image](https://www.xilinx.com/products/som/kria/kv260-vision-starter-kit/kv260-getting-started-ubuntu/setting-up-the-sd-card-image.html).
 
+***NOTE:*** On preparation of the Kria SOM, ensure that the date is correct otherwise the license may register as expired:
+```
+ubuntu@kria:~$ date
+Thu Apr 25 03:02:42 UTC 2024
+```
+
 ## Installation Steps
 
 ### 1. Download and Execute the Installation Script
