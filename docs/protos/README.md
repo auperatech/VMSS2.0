@@ -45,6 +45,10 @@
   - [BoxVisualizerOptions.InputType](#boxvisualizeroptionsinputtype)
 - [aup/avap/clip\_generator.proto](#aupavapclip_generatorproto)
   - [ClipGeneratorOptions](#clipgeneratoroptions)
+- [aup/avap/codec\_type.proto](#aupavapcodec_typeproto)
+  - [CodecType](#codectype)
+- [aup/avap/empty.proto](#aupavapemptyproto)
+  - [EmptyOptions](#emptyoptions)
 - [aup/avap/epyc\_resnet.proto](#aupavapepyc_resnetproto)
   - [EpycResnetOptions](#epycresnetoptions)
 - [aup/avap/event\_based\_recorder.proto](#aupavapevent_based_recorderproto)
@@ -115,9 +119,10 @@
   - [VideoCodecOptions](#videocodecoptions)
   - [VideoCodecOptions.Decoder](#videocodecoptionsdecoder)
   - [VideoCodecOptions.Encoder](#videocodecoptionsencoder)
-  - [VideoCodecOptions.Encoder.Type](#videocodecoptionsencodertype)
 - [aup/avap/vfilter.proto](#aupavapvfilterproto)
   - [VideoFilterOptions](#videofilteroptions)
+- [aup/avap/video\_sink.proto](#aupavapvideo_sinkproto)
+  - [VideoSinkOptions](#videosinkoptions)
 - [aup/avap/video\_source.proto](#aupavapvideo_sourceproto)
   - [VideoSourceOptions](#videosourceoptions)
   - [VideoSourceOptions.SourceType](#videosourceoptionssourcetype)
@@ -1124,6 +1129,8 @@ BoxVisualizerOptions configures the visual aspects of bounding boxes and classif
 | connect_landmarks | [bool](#bool) |  | When set to true, this feature is activated for Movenet, Hourglass, and Openpose models where it connects detected landmark points in a predefined order. |
 | apply_filter_on_landmarks | [string](#string) |  | Option for application of various filters (options include "mask", "bbox", "hat") on a detected face landmark |
 | arm_raise_check | [string](#string) |  | Supplementary feature for apply_filter_on_landmarks in conjunction with human pose estimators (options include "angles" and "height" to determine if an arm is raised), which applies the filter to the face if either or both arms are detected as raised. |
+| render_on_nv12 | [bool](#bool) |  | Is rendering done on NV12 image |
+| ttf_file_path_for_nv12 | [string](#string) |  | file path to true type font file |
 
 
 
@@ -1218,6 +1225,76 @@ Configures Clip Generator options
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name_prefix | [string](#string) |  | name prefix for the clip file name |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="aup_avap_codec_type-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/codec_type.proto
+
+
+ 
+
+
+<a name="aup-avaf-CodecType"></a>
+
+### CodecType
+Codec Type enumeration for supported codec types
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| CODEC_TYPE_NONE | 0 | Codec type not specified |
+| CODEC_TYPE_H264 | 1 | Codec type is H264 |
+| CODEC_TYPE_H265 | 2 | Codec type is H265 |
+| CODEC_TYPE_MPEG4 | 3 | Codec type is MPEG4 |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="aup_avap_empty-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/empty.proto
+Empty options. This option is useful for any calculator that does not require any options
+
+Example:
+```
+ node {
+   name: "custom"
+   calculator: "custom_node"
+   input_stream: "input_stream"
+   output_stream: "output_stream"
+   node_options: {
+     [type.googleapis.com/aup.avaf.EmptyOptions]: {
+     }
+   }
+ }
+```
+
+
+<a name="aup-avaf-EmptyOptions"></a>
+
+### EmptyOptions
+
 
 
 
@@ -1382,6 +1459,7 @@ Options for frame saver node which saves frames to disk for specific interval
 | save_limit | [uint32](#uint32) |  | Maximum number of files that can be saved |
 | save_offset | [uint32](#uint32) |  | Number of initial frames to be ignored from being saved |
 | output_type | [FrameSaverOptions.OutputType](#aup-avaf-FrameSaverOptions-OutputType) |  | Output type of the saved frames |
+| save_skip | [uint32](#uint32) |  | How many frames to skip between each write |
 
 
 
@@ -2669,7 +2747,7 @@ Encoder specifies the settings for video encoding.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [VideoCodecOptions.Encoder.Type](#aup-avaf-VideoCodecOptions-Encoder-Type) |  | Encoding type (H264, H265, MPEG4). |
+| codec_type | [CodecType](#aup-avaf-CodecType) |  | Encoding type (H264, H265, MPEG4). |
 | w | [uint32](#uint32) |  | Encoder width, 0 to use input stream resolution. |
 | h | [uint32](#uint32) |  | Encoder height, 0 to use input stream resolution. |
 | fps | [float](#float) |  | Frame rate for the encoded video. |
@@ -2687,19 +2765,6 @@ Encoder specifies the settings for video encoding.
 
 
  
-
-
-<a name="aup-avaf-VideoCodecOptions-Encoder-Type"></a>
-
-### VideoCodecOptions.Encoder.Type
-Type enumerates the video codec types for encoding.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| H264 | 0 | H.264/AVC codec, widely used for high definition video. |
-| H265 | 1 | H.265/HEVC codec, known for efficient compression of HD video. |
-| MPEG4 | 2 | MPEG-4 codec, an older standard for digital video. |
-
 
  
 
@@ -2767,21 +2832,115 @@ VideoFilterOptions configures the settings for various video filtering operation
 
 
 
+<a name="aup_avap_video_sink-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/video_sink.proto
+These are the options for video_sink calculator which is a calculator to output video via rtsp
+Here as example of usage of this node
+```
+node {
+  calculator: "video_sink"
+  name: "sink"
+  input_stream: "nv12"
+  input_stream: "nv12_infopacket"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
+      codec_type: CODEC_TYPE_H264
+      bframes: 0
+      gop_size: 60
+      gop_mode: "low-latency-P"
+      bitrate: 3000
+      rc_mode: "Low Latency"
+      path: "rtsp://127.0.0.1:554/my_car_stream"
+    }
+  }
+}
+```
+
+
+<a name="aup-avaf-VideoSinkOptions"></a>
+
+### VideoSinkOptions
+Options for video_sink calculator
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| codec_type | [CodecType](#aup-avaf-CodecType) |  | Encoding type (H264, H265, MPEG4). |
+| bframes | [uint32](#uint32) |  | Number of B-frames between I and P. |
+| gop_size | [uint32](#uint32) |  | Group of Pictures size, affects compression and quality |
+| gop_mode | [string](#string) |  | GOP mode ("default", "low-latency-B", "low-latency-P", "adaptive-B"). |
+| bitrate | [uint32](#uint32) |  | Bitrate for the video in bits per second. |
+| rc_mode | [string](#string) |  | Rate control mode ("CBR", "VBR"). |
+| udp_port | [uint32](#uint32) |  | UDP port of rtsp pipeline, for dev only (set internally, recommend user to not specify this) |
+| path | [string](#string) |  | Path to video rtsp output |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="aup_avap_video_source-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## aup/avap/video_source.proto
 These are the options for video_source calculator which is a calculator for reading any kind of video
-For now it only support USB cameras
+This calculator supports USB cameras as well as RTSP streams.
+For the case of USB cameras, the calculator has two outputs
 Here as example of usage of this node
 ```
 node {
   name: "usb_cam"
   calculator: "video_source"
-  output_stream: "image_stream_decode"
-  output_stream: "video_stream_info_decode"
+  output_stream: "image_stream_bgr"
+  output_stream: "video_stream_info_bgr"
+  node_options: {
+  output_stream: "video_stream_info_nv12"
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+    }
+  }
+}
+```
+For the case of RTSP, the calculator has three outputs
+Here is an exaple of usage of this node
+```
+node {
+  name: "rtsp_in"
+  calculator: "video_source"
+  output_stream: "image_stream_bgr"
+  output_stream: "video_stream_info_bgr"
+  output_stream: "image_stream_nv12"
+  output_stream: "video_stream_info_nv12"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+      path: "rtsp://localhost:554/mystream"
+    }
+  }
+}
+```
+For the case of Video, the calculator has three outputs
+Here is an exaple of usage of this node
+```
+node {
+  name: "video_in"
+  calculator: "video_source"
+  output_stream: "image_stream_bgr"
+  output_stream: "video_stream_info_bgr"
+  output_stream: "image_stream_nv12"
+  output_stream: "video_stream_info_nv12"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+      path: "/home/me/my_video.264"
     }
   }
 }
@@ -2797,11 +2956,15 @@ Options for video_source calculator
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source_type | [VideoSourceOptions.SourceType](#aup-avaf-VideoSourceOptions-SourceType) |  | type of video source |
+| codec_type | [CodecType](#aup-avaf-CodecType) |  | Codec type of the video |
 | path | [string](#string) |  | Path to video source |
 | width | [uint32](#uint32) |  | width of video source. Will select the best value for width if not specified based on combination of resoltion and framerates available |
 | height | [uint32](#uint32) |  | height of the video source. Will select best value for height if not specificed based on combination of resoltion and framerates available |
-| framerate | [float](#float) |  | framerate of the video. Will select best framerate if not specified based on combination of resoltion and framerates available |
+| framerate_numerator | [uint32](#uint32) |  | framerate of the video. Will select best framerate if not specified based on combination of resoltion and framerates available |
+| framerate_denominator | [uint32](#uint32) |  | framerate of the video. Will select best framerate if not specified based on combination of resoltion and framerates available |
 | pool_size | [uint32](#uint32) |  | Number of frames in the frame pool. Larger value will allow more frames to flow in the pipeline but will use more memory |
+| drop_packet_on_full_data_stream | [bool](#bool) |  | Drop image packet in case that the data stream is full. More accurately, drop the packet in the case that the image allocator does not have any more room |
+| play_file_once | [bool](#bool) |  | If set to false, it will only play the file once. otherwise it will loop over the file |
 
 
 
@@ -2817,8 +2980,10 @@ Type of source
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| AUTO | 0 | Auto-detect the source type |
+| AUTO_SOURCE_TYPE | 0 | Auto-detect the source type |
 | USB | 1 | USB |
+| RTSP | 2 | RTSP (rtsp://....) |
+| FILE | 3 | VIDEO FILE |
 
 
  
