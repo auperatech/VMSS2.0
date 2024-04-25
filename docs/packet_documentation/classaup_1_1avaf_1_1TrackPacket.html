@@ -116,6 +116,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a64f59e13f2e582eeb886f202c7e7678e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1TrackPacket.html#a64f59e13f2e582eeb886f202c7e7678e">can_be_casted_to</a> (PacketPtr&lt; const <a class="el" href="classaup_1_1avaf_1_1PacketBase.html">PacketBase</a> &gt; &amp;other) const override</td></tr>
 <tr class="memdesc:a64f59e13f2e582eeb886f202c7e7678e"><td class="mdescLeft">&#160;</td><td class="mdescRight">determines if the packet can be converted to another packet type  <a href="#a64f59e13f2e582eeb886f202c7e7678e">More...</a><br /></td></tr>
 <tr class="separator:a64f59e13f2e582eeb886f202c7e7678e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7050e39a622a7c0559902fd18d8192"><td class="memItemLeft" align="right" valign="top">virtual ErrorCode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1TrackPacket.html#a5f7050e39a622a7c0559902fd18d8192">to_json_packet</a> (PacketPtr&lt; <a class="el" href="classaup_1_1avaf_1_1JsonPacket.html">JsonPacket</a> &gt; &amp;packet) const override</td></tr>
+<tr class="memdesc:a5f7050e39a622a7c0559902fd18d8192"><td class="mdescLeft">&#160;</td><td class="mdescRight">converts a <code><a class="el" href="classaup_1_1avaf_1_1TrackPacket.html" title="TrackPacket: packet to contain objects being tracked through a video stream. ">aup::avaf::TrackPacket</a></code> to a <code><a class="el" href="classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. ">aup::avaf::JsonPacket</a></code>  <a href="#a5f7050e39a622a7c0559902fd18d8192">More...</a><br /></td></tr>
+<tr class="separator:a5f7050e39a622a7c0559902fd18d8192"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classaup_1_1avaf_1_1DetectionPacket')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html">aup::avaf::DetectionPacket</a></td></tr>
 <tr class="memitem:a0cea74b5e5b520f423e594ec4c1bb91b inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a0cea74b5e5b520f423e594ec4c1bb91b">DetectionPacket</a> (timestamp_t sts, uint16_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#abc776044e96e4bedc3432c89dbc10411">swidth</a>, uint16_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#af85e2b52f26a729a553b10f432075243">sheight</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a1f8499826c6f059d2a4709df3260b0df">frame_number</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a03cf01a6e382df9b86509df25c86d1f1">stream_idx</a>=0)</td></tr>
 <tr class="memdesc:a0cea74b5e5b520f423e594ec4c1bb91b inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Detection Packet object.  <a href="classaup_1_1avaf_1_1DetectionPacket.html#a0cea74b5e5b520f423e594ec4c1bb91b">More...</a><br /></td></tr>
@@ -126,9 +129,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2bcc627a426f2f8aa01fdc85f7ff9c12 inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a2bcc627a426f2f8aa01fdc85f7ff9c12">DetectionPacket</a> (timestamp_t sts, uint16_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#abc776044e96e4bedc3432c89dbc10411">swidth</a>, uint16_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#af85e2b52f26a729a553b10f432075243">sheight</a>, const std::vector&lt; aup::detect::Detector::DetectedObject &gt; &amp;detected_objs, uint64_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a1f8499826c6f059d2a4709df3260b0df">frame_number</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a03cf01a6e382df9b86509df25c86d1f1">stream_idx</a>=0)</td></tr>
 <tr class="memdesc:a2bcc627a426f2f8aa01fdc85f7ff9c12 inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Detection Packet object with DetectedObject detections.  <a href="classaup_1_1avaf_1_1DetectionPacket.html#a2bcc627a426f2f8aa01fdc85f7ff9c12">More...</a><br /></td></tr>
 <tr class="separator:a2bcc627a426f2f8aa01fdc85f7ff9c12 inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82d125e00c4afa6471230b47ee9018d2 inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memItemLeft" align="right" valign="top">virtual ErrorCode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a82d125e00c4afa6471230b47ee9018d2">to_json_packet</a> (PacketPtr&lt; <a class="el" href="classaup_1_1avaf_1_1JsonPacket.html">JsonPacket</a> &gt; &amp;packet) const override</td></tr>
-<tr class="memdesc:a82d125e00c4afa6471230b47ee9018d2 inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="mdescLeft">&#160;</td><td class="mdescRight">converts a <code><a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html" title="DetectionPacket: packet to contain detections determined from an image. This includes the bounding bo...">aup::avaf::DetectionPacket</a></code> to a <code><a class="el" href="classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. ">aup::avaf::JsonPacket</a></code>  <a href="classaup_1_1avaf_1_1DetectionPacket.html#a82d125e00c4afa6471230b47ee9018d2">More...</a><br /></td></tr>
-<tr class="separator:a82d125e00c4afa6471230b47ee9018d2 inherit pub_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classaup_1_1avaf_1_1PacketBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classaup_1_1avaf_1_1PacketBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classaup_1_1avaf_1_1PacketBase.html">aup::avaf::PacketBase</a></td></tr>
 <tr class="memitem:a79bc76d15cc9494ec7573c50e5b51397 inherit pub_methods_classaup_1_1avaf_1_1PacketBase"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1PacketBase.html#a79bc76d15cc9494ec7573c50e5b51397">PacketBase</a> (timestamp_t sync_timestamp, bool to_be_continued)</td></tr>
 <tr class="memdesc:a79bc76d15cc9494ec7573c50e5b51397 inherit pub_methods_classaup_1_1avaf_1_1PacketBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a packet which is timestamped with absolute timestamp which is contructed via.  <a href="classaup_1_1avaf_1_1PacketBase.html#a79bc76d15cc9494ec7573c50e5b51397">More...</a><br /></td></tr>
@@ -194,6 +194,9 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a2a2759e3b68f8eb32ee312369935df6b inherit pub_static_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memItemLeft" align="right" valign="top">static cv::Rect2i&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a2a2759e3b68f8eb32ee312369935df6b">cvrect2d_to_cvrect2i</a> (const cv::Rect2d &amp;class_bbox, const cv::Size &amp;img_size)</td></tr>
 <tr class="memdesc:a2a2759e3b68f8eb32ee312369935df6b inherit pub_static_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="mdescLeft">&#160;</td><td class="mdescRight">converts a bounding box of relative size and location to a bounding box listing specific image indices of the bounding box within the image  <a href="classaup_1_1avaf_1_1DetectionPacket.html#a2a2759e3b68f8eb32ee312369935df6b">More...</a><br /></td></tr>
 <tr class="separator:a2a2759e3b68f8eb32ee312369935df6b inherit pub_static_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classaup_1_1avaf_1_1DetectionPacket"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classaup_1_1avaf_1_1DetectionPacket')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html">aup::avaf::DetectionPacket</a></td></tr>
+<tr class="memitem:a95c9d651353f4ff41c3fb0fbc278a1fa inherit pro_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a95c9d651353f4ff41c3fb0fbc278a1fa">detect_obj_to_json</a> (nlohmann::json &amp;j, const <a class="el" href="structaup_1_1avaf_1_1DetectionPacket_1_1DetectionObj.html">DetectionObj</a> &amp;obj) const</td></tr>
+<tr class="separator:a95c9d651353f4ff41c3fb0fbc278a1fa inherit pro_methods_classaup_1_1avaf_1_1DetectionPacket"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="classaup_1_1avaf_1_1TrackPacket.html" title="TrackPacket: packet to contain objects being tracked through a video stream. ">TrackPacket</a>: packet to contain objects being tracked through a video stream. </p>
@@ -251,7 +254,12 @@ Additional Inherited Members</h2></td></tr>
 <p>Construct a new Track Packet object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">sts</td><td>synchronization timestamp </td></tr>
+    <tr><td class="paramname">swidth</td><td>source image width </td></tr>
+    <tr><td class="paramname">sheight</td><td>source image height </td></tr>
+    <tr><td class="paramname">tracks</td><td></td></tr>
+    <tr><td class="paramname">frame_number</td><td>index keeps track of the frame id for which the classification was performed </td></tr>
+    <tr><td class="paramname">stream_idx</td><td>identifies which stream the detection came from, in the case of multiple video input streams to the detector node </td></tr>
   </table>
   </dd>
 </dl>
@@ -286,10 +294,13 @@ Additional Inherited Members</h2></td></tr>
 <p>determines if the packet can be converted to another packet type </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">other</td><td></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classaup_1_1avaf_1_1PacketBase.html#a85a2ee8be938f5eeef763d2d938c0435">aup::avaf::PacketBase</a>.</p>
 
@@ -322,6 +333,43 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>const std::string containing "TRACKS" </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#afd106ddd88ece5e302ecad7895bd4154">aup::avaf::DetectionPacket</a>.</p>
+
+</div>
+</div>
+<a id="a5f7050e39a622a7c0559902fd18d8192"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f7050e39a622a7c0559902fd18d8192">&#9670;&nbsp;</a></span>to_json_packet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual ErrorCode aup::avaf::TrackPacket::to_json_packet </td>
+          <td>(</td>
+          <td class="paramtype">PacketPtr&lt; <a class="el" href="classaup_1_1avaf_1_1JsonPacket.html">JsonPacket</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>packet</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>converts a <code><a class="el" href="classaup_1_1avaf_1_1TrackPacket.html" title="TrackPacket: packet to contain objects being tracked through a video stream. ">aup::avaf::TrackPacket</a></code> to a <code><a class="el" href="classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. ">aup::avaf::JsonPacket</a></code> </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">packet</td><td>refers to an empty <code><a class="el" href="classaup_1_1avaf_1_1JsonPacket.html" title="This class is responsilbe to hold a json standard data to be transmitted. ">aup::avaf::JsonPacket</a></code> object </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>ErrorCode </dd></dl>
+
+<p>Reimplemented from <a class="el" href="classaup_1_1avaf_1_1DetectionPacket.html#a82d125e00c4afa6471230b47ee9018d2">aup::avaf::DetectionPacket</a>.</p>
 
 </div>
 </div>

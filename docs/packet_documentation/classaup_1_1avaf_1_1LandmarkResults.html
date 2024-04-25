@@ -78,7 +78,7 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac7e5e259ede0d5c08c6d6767ae5ce240"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#ac7e5e259ede0d5c08c6d6767ae5ce240">LandmarkResults</a> (std::vector&lt; std::vector&lt; aup::landmark_predict::LandmarkPredictor::PredictedRes &gt;&gt; &amp;<a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a60dccb45100b026bc6b3adce8dd164f1">landmarks</a>, uint64_t pts, uint64_t <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a39da46fd20abaada7a5a34d7b24a6cfb">frame_number</a>, std::vector&lt; cv::Rect2d &gt; &amp;bboxes, std::string <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#af699b50959da6028e46e00baec4d878b">landmark_predictor_type</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a9a9e520a4a43b096af346513bb68ac65">stream_idx</a>=0)</td></tr>
+<tr class="memitem:ac7e5e259ede0d5c08c6d6767ae5ce240"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#ac7e5e259ede0d5c08c6d6767ae5ce240">LandmarkResults</a> (std::vector&lt; std::vector&lt; aup::landmark_predict::LandmarkPredictor::PredictedRes &gt;&gt; &amp;<a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a60dccb45100b026bc6b3adce8dd164f1">landmarks</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a050dcbf36d408b8da10c11546fd2e275">pts</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a39da46fd20abaada7a5a34d7b24a6cfb">frame_number</a>, std::vector&lt; cv::Rect2d &gt; &amp;<a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a24fe4ca8b07c309f486d080823040d5d">bboxes</a>, std::string <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#af699b50959da6028e46e00baec4d878b">landmark_predictor_type</a>, uint64_t <a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a9a9e520a4a43b096af346513bb68ac65">stream_idx</a>=0)</td></tr>
 <tr class="memdesc:ac7e5e259ede0d5c08c6d6767ae5ce240"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Landmark Results object.  <a href="#ac7e5e259ede0d5c08c6d6767ae5ce240">More...</a><br /></td></tr>
 <tr class="separator:ac7e5e259ede0d5c08c6d6767ae5ce240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad63db28c8ef76ca256c7a480c4c1564f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#ad63db28c8ef76ca256c7a480c4c1564f">~LandmarkResults</a> ()=default</td></tr>
@@ -89,11 +89,15 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a60dccb45100b026bc6b3adce8dd164f1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::vector&lt; aup::landmark_predict::LandmarkPredictor::PredictedRes &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a60dccb45100b026bc6b3adce8dd164f1">landmarks</a></td></tr>
 <tr class="memdesc:a60dccb45100b026bc6b3adce8dd164f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">a list of predicted landmarks for each bounding box provided to the landmark predictor, each landmark specifying a point in the image with a confidence level  <a href="#a60dccb45100b026bc6b3adce8dd164f1">More...</a><br /></td></tr>
 <tr class="separator:a60dccb45100b026bc6b3adce8dd164f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a050dcbf36d408b8da10c11546fd2e275"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a050dcbf36d408b8da10c11546fd2e275">pts</a></td></tr>
+<tr class="separator:a050dcbf36d408b8da10c11546fd2e275"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39da46fd20abaada7a5a34d7b24a6cfb"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a39da46fd20abaada7a5a34d7b24a6cfb">frame_number</a></td></tr>
 <tr class="memdesc:a39da46fd20abaada7a5a34d7b24a6cfb"><td class="mdescLeft">&#160;</td><td class="mdescRight">index keeps track of the frame id for which the classification was performed  <a href="#a39da46fd20abaada7a5a34d7b24a6cfb">More...</a><br /></td></tr>
 <tr class="separator:a39da46fd20abaada7a5a34d7b24a6cfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fe4ca8b07c309f486d080823040d5d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; cv::Rect2d &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a24fe4ca8b07c309f486d080823040d5d">bboxes</a></td></tr>
+<tr class="memdesc:a24fe4ca8b07c309f486d080823040d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">the type of landmark predictor ml model being used for the prediction  <a href="#a24fe4ca8b07c309f486d080823040d5d">More...</a><br /></td></tr>
+<tr class="separator:a24fe4ca8b07c309f486d080823040d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af699b50959da6028e46e00baec4d878b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#af699b50959da6028e46e00baec4d878b">landmark_predictor_type</a></td></tr>
-<tr class="memdesc:af699b50959da6028e46e00baec4d878b"><td class="mdescLeft">&#160;</td><td class="mdescRight">the type of landmark predictor ml model being used for the prediction  <a href="#af699b50959da6028e46e00baec4d878b">More...</a><br /></td></tr>
 <tr class="separator:af699b50959da6028e46e00baec4d878b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a9e520a4a43b096af346513bb68ac65"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1LandmarkResults.html#a9a9e520a4a43b096af346513bb68ac65">stream_idx</a></td></tr>
 <tr class="memdesc:a9a9e520a4a43b096af346513bb68ac65"><td class="mdescLeft">&#160;</td><td class="mdescRight">indicates which input video stream the classification belongs to, for a classifier node with multiple video input streams  <a href="#a9a9e520a4a43b096af346513bb68ac65">More...</a><br /></td></tr>
@@ -155,7 +159,12 @@ Public Attributes</h2></td></tr>
 <p>Construct a new Landmark Results object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">landmarks</td><td>list of predicted landmarks for each bounding box </td></tr>
+    <tr><td class="paramname">pts</td><td>is the presentation timestamp </td></tr>
+    <tr><td class="paramname">frame_number</td><td>index keeps track of the frame id for which the classification was performed </td></tr>
+    <tr><td class="paramname">bboxes</td><td>list of bounding boxes </td></tr>
+    <tr><td class="paramname">landmark_predictor_type</td><td>the type of landmark predictor ml model being used for the prediction </td></tr>
+    <tr><td class="paramname">stream_idx</td><td>indicates which input video stream the classification belongs to, for a classifier node with multiple video input streams </td></tr>
   </table>
   </dd>
 </dl>
@@ -188,6 +197,22 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="a24fe4ca8b07c309f486d080823040d5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24fe4ca8b07c309f486d080823040d5d">&#9670;&nbsp;</a></span>bboxes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;cv::Rect2d&gt; aup::avaf::LandmarkResults::bboxes</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>the type of landmark predictor ml model being used for the prediction </p>
+
+</div>
+</div>
 <a id="a39da46fd20abaada7a5a34d7b24a6cfb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a39da46fd20abaada7a5a34d7b24a6cfb">&#9670;&nbsp;</a></span>frame_number</h2>
 
@@ -216,8 +241,6 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>the type of landmark predictor ml model being used for the prediction </p>
-
 </div>
 </div>
 <a id="a60dccb45100b026bc6b3adce8dd164f1"></a>
@@ -233,6 +256,20 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>a list of predicted landmarks for each bounding box provided to the landmark predictor, each landmark specifying a point in the image with a confidence level </p>
+
+</div>
+</div>
+<a id="a050dcbf36d408b8da10c11546fd2e275"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a050dcbf36d408b8da10c11546fd2e275">&#9670;&nbsp;</a></span>pts</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t aup::avaf::LandmarkResults::pts</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

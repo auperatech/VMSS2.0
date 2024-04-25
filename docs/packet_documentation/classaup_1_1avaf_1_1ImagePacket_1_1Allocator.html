@@ -177,7 +177,10 @@ Protected Attributes</h2></td></tr>
 <p>Construct a new <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html" title="Base class for image memory allocator. ">Allocator</a></code> object. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">width</td><td>of each image </td></tr>
+    <tr><td class="paramname">height</td><td></td></tr>
+    <tr><td class="paramname">pixfmt</td><td></td></tr>
+    <tr><td class="paramname">pool_cap</td><td></td></tr>
   </table>
   </dd>
 </dl>
@@ -435,10 +438,11 @@ Protected Attributes</h2></td></tr>
 <p><code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> release memory </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">image_packet</td><td>pointer to occupy one of the allocator entries </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>ErrorCode see aup/avaf/error.h aup::avaf::ErrorCode. On success return aup::avaf::ErrorCode::OK </dd></dl>
 
 </div>
 </div>
@@ -469,10 +473,11 @@ Protected Attributes</h2></td></tr>
 <p><code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> release memory </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">image_packet</td><td>pointer to release the occupied entry from the allocator </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>ErrorCode see aup/avaf/error.h <code>aup::avaf::ErrorCode</code>. On success return <code>aup::avaf::ErrorCode::OK</code> </dd></dl>
 
 </div>
 </div>

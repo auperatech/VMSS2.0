@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['iframe_5fextract',['iframe_extract',['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#ac9442fc0a4825f48b7c3102b3e035790',1,'aup::avaf::VideoStreamInfoPacket']]]
+  ['get_5fcontract',['get_contract',['../structaup_1_1avaf_1_1CalculatorAPIs.html#aef25e8b079e46a91f0dc44644882f51a',1,'aup::avaf::CalculatorAPIs']]]
 ];

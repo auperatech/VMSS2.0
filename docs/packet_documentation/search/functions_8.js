@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['new_5fnormal_5fallocator',['new_normal_allocator',['../classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html#ae03f557c08b0f214c91b8ec8c4b3850a',1,'aup::avaf::ImagePacket::Allocator']]]
+  ['jsonpacket',['JsonPacket',['../classaup_1_1avaf_1_1JsonPacket.html#a6f817363a449603116987cf3623373d6',1,'aup::avaf::JsonPacket::JsonPacket(timestamp_t sts, const nlohmann::json &amp;json_object, std::string usr_source=&quot;&quot;)'],['../classaup_1_1avaf_1_1JsonPacket.html#acfe0b0fed2a29bf738636c720ce58eb0',1,'aup::avaf::JsonPacket::JsonPacket(timestamp_t sts, const std::vector&lt; std::filesystem::path &gt;::iterator &amp;json_fs_path, std::string usr_source=&quot;&quot;)']]]
 ];

@@ -1,4 +1,8 @@
 <map id="framework/include/aup/avaf/packets/detection_packet.h" name="framework/include/aup/avaf/packets/detection_packet.h">
-<area shape="rect" id="node7" href="$json__packet_8h.html" title="aup/avaf/packets/json\l_packet.h" alt="" coords="812,109,963,151"/>
-<area shape="rect" id="node9" href="$packet__base_8h.html" title="aup/avaf/packets/packet\l_base.h" alt="" coords="581,199,746,240"/>
+<area shape="rect" id="node4" href="$calculator_8h.html" title="aup/avaf/calculator.h" alt="" coords="1990,109,2133,136"/>
+<area shape="rect" id="node22" href="$node_8h.html" title="aup/avaf/node.h" alt="" coords="919,184,1033,211"/>
+<area shape="rect" id="node31" href="$graph_8h.html" title="aup/avaf/graph.h" alt="" coords="1691,266,1810,293"/>
+<area shape="rect" id="node40" href="$json__packet_8h.html" title="aup/avaf/packets/json\l_packet.h" alt="" coords="2886,259,3037,300"/>
+<area shape="rect" id="node7" href="$contract_8h.html" title="aup/avaf/contract.h" alt="" coords="1379,355,1514,382"/>
+<area shape="rect" id="node9" href="$packet__base_8h.html" title="aup/avaf/packets/packet\l_base.h" alt="" coords="1372,437,1537,479"/>
 </map>

@@ -1,13 +1,8 @@
 var searchData=
 [
-  ['idevicetohostpacketcomm',['IDeviceToHostPacketComm',['../classaup_1_1avaf_1_1packet_1_1IDeviceToHostPacketComm.html',1,'aup::avaf::packet']]],
-  ['idevicetohostpacketcommfast',['IDeviceToHostPacketCommFast',['../classaup_1_1avaf_1_1packet_1_1IDeviceToHostPacketCommFast.html',1,'aup::avaf::packet']]],
-  ['iframe_5fextract',['iframe_extract',['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#ac9442fc0a4825f48b7c3102b3e035790',1,'aup::avaf::VideoStreamInfoPacket']]],
-  ['ihosttodevicepacketcomm',['IHostToDevicePacketComm',['../classaup_1_1avaf_1_1packet_1_1IHostToDevicePacketComm.html',1,'aup::avaf::packet']]],
-  ['ihosttodevicepacketcommfast',['IHostToDevicePacketCommFast',['../classaup_1_1avaf_1_1packet_1_1IHostToDevicePacketCommFast.html',1,'aup::avaf::packet']]],
-  ['image_5fpacket_2eh',['image_packet.h',['../image__packet_8h.html',1,'']]],
-  ['imagepacket',['ImagePacket',['../classaup_1_1avaf_1_1ImagePacket.html',1,'aup::avaf::ImagePacket'],['../classaup_1_1avaf_1_1ImagePacket.html#a2a500afbbfe03e8ed50d641e399f3e38',1,'aup::avaf::ImagePacket::ImagePacket()'],['../classaup_1_1avaf_1_1ImagePacket.html#a059fe1baa9c10df532d25323d8665a87',1,'aup::avaf::ImagePacket::ImagePacket(timestamp_t sync_timestamp, bool to_be_continued, cv::Mat &amp;mat, ErrorCode &amp;ec)'],['../classaup_1_1avaf_1_1ImagePacket.html#a7d8438328640150324e34fa1ad9ced1c',1,'aup::avaf::ImagePacket::ImagePacket(timestamp_t sync_timestamp, bool to_be_continued, std::shared_ptr&lt; Allocator &gt; &amp;allocator, ErrorCode &amp;ec)'],['../classaup_1_1avaf_1_1ImagePacket.html#aff0428c9b3e8aa2e8c2be62acb94f4aa',1,'aup::avaf::ImagePacket::ImagePacket(timestamp_t sync_timestamp, bool to_be_continued, PacketPtr&lt; ImagePacket &gt; &amp;parent, ROI_WRT roi_wrt, cv::Rect2f &amp;roi, ErrorCode &amp;ec)'],['../classaup_1_1avaf_1_1ImagePacket.html#a35cb14eac913c3c6655ac660ab19be41',1,'aup::avaf::ImagePacket::ImagePacket(timestamp_t sync_timestamp, bool to_be_continued, PacketPtr&lt; ImagePacket &gt; &amp;parent, ROI_WRT roi_wrt, cv::Rect2f &amp;roi, cv::InterpolationFlags interpolation, bool letterbox, std::shared_ptr&lt; Allocator &gt; &amp;allocator, ErrorCode &amp;ec)'],['../classaup_1_1avaf_1_1ImagePacket.html#a949057c3ab36c44f52e2c80e4bd0c98a',1,'aup::avaf::ImagePacket::ImagePacket(const ImagePacket &amp;)=delete']]],
-  ['is_5fcontinued',['is_continued',['../classaup_1_1avaf_1_1PacketBase.html#a2c1b257a8c37c9ac520ebe25cb77dd7e',1,'aup::avaf::PacketBase']]],
-  ['is_5fowner',['is_owner',['../classaup_1_1avaf_1_1ImagePacket.html#a56459344d46cbb9bd47c70bfb92e00bd',1,'aup::avaf::ImagePacket']]],
-  ['itojsonpacket',['IToJsonPacket',['../classaup_1_1avaf_1_1packet_1_1IToJsonPacket.html',1,'aup::avaf::packet']]]
+  ['h',['h',['../classaup_1_1avaf_1_1VideoStreamInfoPacket.html#ae41864fb29409e8882c9e8ecdb853ba1',1,'aup::avaf::VideoStreamInfoPacket']]],
+  ['has_5fexecute',['has_execute',['../structaup_1_1avaf_1_1CalculatorAPIs.html#ab86dd58f5f34562f2d7787a8b46501f6',1,'aup::avaf::CalculatorAPIs::has_execute()'],['../classaup_1_1avaf_1_1CalculatorBase.html#a94b587cf3b3eb0ef8eed256b3a8ecf5c',1,'aup::avaf::CalculatorBase::has_execute()']]],
+  ['has_5fsync_5ffailure',['has_sync_failure',['../classaup_1_1avaf_1_1Node.html#acb80a42d6c4243ecca70e97dabc8d62c',1,'aup::avaf::Node']]],
+  ['height',['height',['../classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html#a584f48f45191ff45a4ace2d2b04bd525',1,'aup::avaf::ImagePacket::Allocator']]],
+  ['hw_5ftype_5fmasks',['hw_type_masks',['../structaup_1_1avaf_1_1CalculatorAPIs.html#a330ff3738d36dff120fee8b34aef8d26',1,'aup::avaf::CalculatorAPIs']]]
 ];
