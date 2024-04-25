@@ -1,22 +1,16 @@
-# The recommended video for this pipeline is crowd.
-
 control_port: 51881
 task_id: "DEFAULT"
 
 node {
+  name: "usb_cam"
   calculator: "video_source"
-  name: "source"
   output_stream: "image_stream_bgr"
   output_stream: "bgr_infopacket"
-  output_stream: "image_stream_nv12"
-  output_stream: "nv12_infopacket"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
-      path: "rtsp://vmss.auperatechnologies.com:554/crowd"
     }
   }
 }
-
 
 node {
   name: "detector"
@@ -67,58 +61,6 @@ node {
 }
 
 node {
-  name: "visualizer"
-  calculator: "box_visualizer"
-  input_stream: "tracks_stream"
-  input_stream: "image_stream_nv12"
-  output_stream: "image_stream_nv12_viz"
-  stream_sync: {
-    drop_strategy: DROP_INCOMPLETE_PACKETS
-    timeout_ms: 5000
-  }
-  node_options: {
-    [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
-      text_color: {
-        r: 255
-        g: 0
-        b: 0
-      }
-      box_color: {
-        r: 255
-        g: 0
-        b: 0
-      }
-      text_offset: {
-        x: 0
-        y: 0
-      }
-      font: 0 
-      line_type: 0
-      box_thickness: 3
-      text_size: 3 
-    }
-  }
-}
-
-node {
-  calculator: "video_sink"
-  name: "sink"
-  input_stream: "image_stream_nv12_viz"
-  input_stream: "nv12_infopacket"
-  node_options: {
-    [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
-      codec_type: CODEC_TYPE_H264
-      bframes: 0
-      gop_size: 60
-      gop_mode: "low-latency-P"
-      bitrate: 3000
-      rc_mode: "Low Latency"
-      path: "rtsp://vmss.auperatechnologies.com:554/crowd-som-out-your-name"
-    }
-  }
-}
-
-node {
   name: "to_json"
   calculator: "to_json"
   input_stream: "tracks_stream"
@@ -133,15 +75,15 @@ node {
 }
 
 node {
-  name: "notification_mongo_node"
-  calculator: "notification_mongo"
-  input_stream: "json_stream"
-  node_options: {
-    [type.googleapis.com/aup.avaf.NotificationMongoOptions]: {
-      mongodb_address: "mongodb://127.0.0.1:27019"
-      database_name: "kria_som"
-      collection_name: "test_collection"
-      notification_q_size: 2
+    name: "udp_notification"
+    calculator: "notification_web"
+    vendor: "Aupera"
+    input_stream: "json_stream"
+    node_options: {
+    [type.googleapis.com/aup.avaf.NotificationWebOptions]: {
+        notification_url: "udp://127.0.0.1:8888"
+        notification_q_size: 1
+        protocol_type: UDP
     }
   }
 }

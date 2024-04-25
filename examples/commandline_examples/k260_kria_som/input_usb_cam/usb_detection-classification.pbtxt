@@ -1,17 +1,12 @@
-# The recommended video for this pipeline is car.
-
 control_port: 51881
- 
+
 node {
+  name: "usb_cam"
   calculator: "video_source"
-  name: "source"
   output_stream: "image_stream_bgr"
   output_stream: "bgr_infopacket"
-  output_stream: "image_stream_nv12"
-  output_stream: "nv12_infopacket"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
-      path: "rtsp://vmss.auperatechnologies.com:554/car"
     }
   }
 }
@@ -62,63 +57,6 @@ node {
       use_detections: true
       log_performance: false
       max_classification_lib_q_size: 200
-    }
-  }
-}
-
-
-node {
-  name: "visualizer"
-  calculator: "box_visualizer"
-  input_stream: "classification_stream"
-  input_stream: "image_stream_nv12"
-  output_stream: "image_stream_nv12_viz"
-  stream_sync: {
-    drop_strategy: DROP_INCOMPLETE_PACKETS
-    timeout_ms: 5000
-  }
-  node_options: {
-    [type.googleapis.com/aup.avaf.BoxVisualizerOptions] {
-      input_type: INPUT_TYPE_CLASSIFICATION
-      label_name_file: "/opt/aupera/avas/etc/default_imagenet_classification.labels"
-      text_color: {
-        r: 255
-        g: 0
-        b: 0
-      }
-      box_color: {
-        r: 255
-        g: 0
-        b: 0
-      }
-      text_offset: {
-        x: 0
-        y: 0
-      }
-      box_thickness: 5
-      font_thickness: 4
-      font_scale: 1.2
-      font: 0
-      line_type: 0
-    }
-  }
-}
-
-
-node {
-  calculator: "video_sink"
-  name: "sink"
-  input_stream: "image_stream_nv12_viz"
-  input_stream: "nv12_infopacket"
-  node_options: {
-    [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
-      codec_type: CODEC_TYPE_H264
-      bframes: 0
-      gop_size: 60
-      gop_mode: "low-latency-P"
-      bitrate: 3000
-      rc_mode: "Low Latency"
-      path: "rtsp://vmss.auperatechnologies.com:554/car-som-out-your-name"
     }
   }
 }
