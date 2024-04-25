@@ -2,7 +2,7 @@
 
 Welcome to the VMSS 2.0 Docker usage guide, tailored for the KV260/KR260 Kria SOM platform running Ubuntu 22.04. This guide is designed to help you navigate through running examples (i.e. video AI pipelines) using the VMSS 2.0 command-line interface.
 
-- [VMSS2.0 Docker Usage Guide for KV260/KR260 Kria SOM with Ubuntu 22.04](#vmss-20-docker-usage-guide-for-kv260kr260-kria-som-with-ubuntu-2204)
+- [VMSS 2.0 Docker usage guide for KV260/KR260 Kria SOM with Ubuntu 22.04](#vmss-20-docker-usage-guide-for-kv260kr260-kria-som-with-ubuntu-2204)
   - [Prerequisite](#prerequisite)
   - [Essentials for VMSS 2.0 and avaser](#essentials-for-vmss-20-and-avaser)
     - [VMSS 2.0 diagram](#vmss-20-diagram)
@@ -14,7 +14,7 @@ Welcome to the VMSS 2.0 Docker usage guide, tailored for the KV260/KR260 Kria SO
     - [Choosing a Camera](#choosing-a-camera)
 
 ## Prerequisite
-Before diving into this guide, it's crucial to ensure your setup is complete and correct.  Please follow our [setup procedure](../../setup/K260_Kria_SOM) to get started with the Kria SOM platform. This includes launching a Docker container that has been specifically prepared for VMSS 2.0. This tutorial will take place entirely within this Docker container, so make sure you are working inside the container for all the following steps.
+Before diving into this guide, it's crucial to ensure your setup is complete and correct.  Please follow our [setup procedure](../../setup/K260_Kria_SOM/README.md) to get started with the Kria SOM platform. This includes launching a Docker container that has been specifically prepared for VMSS 2.0. This tutorial will take place entirely within this Docker container, so make sure you are working inside the container for all the following steps.
 
 ## Essentials for VMSS 2.0 and avaser
 ### VMSS 2.0 diagram
@@ -94,38 +94,35 @@ Now let's execute examples where RTSP serves as the input type. The `/opt/aupera
 ***NOTE:*** For more information on RTSP streams and how to view them, see [this section in K260 Kria SOM tutorial](../../tutorial/K260_Kria_SOM/README.md#setup-an-rtsp-video-player)
 
 
-Let's test a classification pipeline and observe the results via RTSP. Navigate to `input_rtsp_imagenet` folder and assign a unique name to your RTSP stream:
+Let's test a classification pipeline and observe the results via RTSP. Navigate to `input_rtsp_imagenet` folder and assign a unique name to your RTSP stream by editing the `video_sink` node path option in `rtsp_classification_visualization_rtsp.pbtxt`:
 
 ```
-cd /opt/aupera/examples/input_rtsp/input_rtsp_imagenet
-echo 'output_urls: "rtsp://vmss.auperatechnologies.com:554/your-output-name"' > output_rtsp.pbtxt
+path: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
 ```
 
 ***NOTE:***: Be sure to change `your-output-name` to a unique name to prevent conflicts with others using the same RTSP address.
 
-Execute  the `avaser` with three pbtxt files:
+Execute the `avaser` with the config pbtxt file:
 ```
-avaser -i input_rtsp.pbtxt -o output_rtsp.pbtxt -c rtsp_classification_visualization_rtsp.pbtxt
+avaser -c rtsp_classification_visualization_rtsp.pbtxt
 ```
 
 ***NOTE:*** To terminate the pipeline, press `ctrl + c`
 
-After launching, the output can be viewed using VLC or a similar application by navigating to the link set in your `output_rtsp.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). You should see classification results overlaid on the top left corner of the video stream, which is a compiled selection of Imagenet samples.
+After launching, the output can be viewed using VLC or a similar application by navigating to the link set in `rtsp_classification_visualization_rtsp.pbtxt` (i.e `rtsp://vmss.auperatechnologies.com:554/your-output-name`). You should see classification results overlaid on the top left corner of the video stream, which is a compiled selection of Imagenet samples.
 
 
-Having learned how to execute `avaser` with an RTSP input and monitor the output, you can explore different pipelines within the `/opt/aupera/examples/input_rtsp`. Remember to rename the output stream in `output_rtsp.pbtxt` for each sub-directory to your unique identifier to avoid overlapping with other users. Below is a table with complete pipeline configurations using RTSP as the input:
+Having learned how to execute `avaser` with an RTSP input and monitor the output, you can explore different pipelines within the `/opt/aupera/examples/input_rtsp`. Remember to rename the output stream path in the config pbtxt file for each sub-directory to your unique identifier to avoid overlapping with other users. Below is a table with complete pipeline configurations using RTSP as the input:
 
 
 | Directory                       | Config pbtxt                                               | Pipeline Note                                       |
 |---------------------------------|------------------------------------------------------------|-----------------------------------------------------|
 | input_rtsp_car                | rtsp_detection-classification_visualization_rtsp.pbtxt   | General detection and classification cascade       |
 | input_rtsp_car                | rtsp_rtsp.pbtxt`                                          | Decoding and encoding of rtsp without ML models    |
-| input_rtsp_car                | rtsp_segmentation_visualization_rtsp.pbtxt               | Semantic segmentation on traffic frames            |
 | input_rtsp_crowd/app_crowd_flow | rtsp_detection-tracking-crowdFlowApp_visualization_email-rtsp.pbtxt | Crowd flow application with email notification ([Email alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))    |
 | input_rtsp_crowd/app_crowd_flow | rtsp_detection-tracking-crowdFlowApp_visualization_mongo-rtsp.pbtxt | Crowd flow application with mongo notification    |
 | input_rtsp_crowd/app_crowd_flow | rtsp_detection-tracking-crowdFlowApp_visualization_sms-rtsp.pbtxt | Crowd flow application with SMS notification ([SMS alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))    |
 | input_rtsp_crowd/app_crowd_flow | rtsp_detection-tracking-crowdFlowApp_visualization_udp-rtsp.pbtxt | Crowd flow application with UDP notification       |
-| input_rtsp_crowd/box_detector_crowd | rtsp_detection-landmark_visualization_rtsp.pbtxt          | Person detection, then prediction of pose landmarks |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization_images-rtsp.pbtxt            | Person detection, save result frames locally (`/tmp/saved_frames`) |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection_visualization_rtsp.pbtxt                   | Person detection                                    |
 | input_rtsp_crowd/box_detector_crowd | rtsp_detection-tracking_visualization-toJson_mongo-rtsp.pbtxt      | Person detection with MongoDB notification upon detection |
@@ -134,9 +131,9 @@ Having learned how to execute `avaser` with an RTSP input and monitor the output
 
 Try above examples via `avaser` using this format:
 ```
-avaser -i input_rtsp.pbtxt -o output_rtsp.pbtxt -c <config.pbtxt>
+avaser -c <config.pbtxt>
 ```
-
+Be sure to modify the `video_sink` path to your output url and assign it a unique name to prevent conflicts with other users.
 
 ## Execute Pipelines (Input Image)
 
@@ -180,12 +177,12 @@ node {
 
 If there's no need to select a specific camera, you can proceed with the default settings provided in the configuration files within the `/opt/aupera/examples/input_usb_cam` directory.
 
-To execute a pipeline with a USB input, you'll need to specify the output and configuration pbtxt files as shown here:
+To execute a pipeline with a USB input, you'll need to specify the configuration pbtxt files as shown here:
 
 ```
-avaser -o output_rtsp.pbtxt -c <config.pbtxt>
+avaser -c <config.pbtxt>
 ```
-Again, be sure to assign a unique name to your output stream in `output_rtsp.pbtxt` to prevent conflicts with other users.
+Again, be sure to modify the `video_sink` path to your output url and assign it a unique name to prevent conflicts with other users.
 
 Below is a table listing the available pipelines in `/opt/aupera/examples/input_usb_cam` that utilize USB camera as input source
 
@@ -193,11 +190,9 @@ Below is a table listing the available pipelines in `/opt/aupera/examples/input_
 |--------------------------------------------------------|----------------------------------------------------------------|
 | usb_classification_visualization_rtsp.pbtxt            | General classification                                         |
 | usb_detection-classification_visualization_rtsp.pbtxt  | General detection and classification cascade                  |
-| usb_detection-landmark_visualization_rtsp.pbtxt        | Person detection, then prediction of pose landmarks            |
 | usb_detection_visualization_images-rtsp.pbtxt          | Face detection, save result frames  locally (`/tmp/saved_frames`)   |
 | usb_detection_visualization_rtsp.pbtxt                 | Face detection                                                 |
 | usb_detection-tracking_visualization-toJson_email-rtsp.pbtxt    | Person detection with email notification upon detection ([Email alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))   |
 | usb_detection-tracking_visualization-toJson_mongo-rtsp.pbtxt    | Person detection with MongoDB notification upon detection  |
 | usb_detection-tracking_visualization-toJson_sms-rtsp.pbtxt      | Person detection with SMS notification upon detection ([SMS alert setup guide](../../tutorial/K260_Kria_SOM/assets/notification_message_in_details.md))     |
 | usb_detection-tracking_visualization-toJson_udp-rtsp.pbtxt      | Person detection with UDP notification upon detection      |
-| usb_segmentation_visualization_rtsp.pbtxt              | Semantic segmentation on traffic frames                        |
