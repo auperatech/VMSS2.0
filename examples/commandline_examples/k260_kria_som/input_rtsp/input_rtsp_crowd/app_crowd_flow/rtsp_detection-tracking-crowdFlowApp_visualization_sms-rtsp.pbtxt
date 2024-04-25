@@ -74,9 +74,9 @@ node {
 node {
   name: "crowd_flow"
   calculator: "apl_crowd_flow"
+  input_stream: "tracks_stream"
   input_stream: "image_stream_nv12"
   input_stream: "nv12_infopacket"
-  input_stream: "video_stream_info_demux"
   input_stream: "detect_interval"
   output_stream: "crowd_flow_notification"
   output_stream: "image_stream_crowd_flow"
