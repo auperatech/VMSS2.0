@@ -1,0 +1,147 @@
+# The recommended video for this pipeline is crowd.
+
+control_port: 51881
+task_id: "DEFAULT"
+
+node {
+  calculator: "video_source"
+  name: "source"
+  output_stream: "image_stream_bgr"
+  output_stream: "bgr_infopacket"
+  output_stream: "image_stream_nv12"
+  output_stream: "nv12_infopacket"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+      path: "rtsp://vmss.auperatechnologies.com:554/crowd"
+    }
+  }
+}
+
+
+node {
+  name: "detector"
+  calculator: "box_detector"
+  input_stream: "image_stream_bgr"
+  output_stream: "detections_stream"
+  output_stream: "detect_interval"
+  ml_model_kernel_name: "ssd_pedestrian_pruned_0_97"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxDetectorOptions]: {
+      detect_interval: 3
+      detector_type: "SSD"
+      need_preprocess: true
+      log_performance: false
+      run_on_letterboxed_img: false
+      batch_size: 1
+      return_frames_inorder: true 
+      batch_collection_timeout_ms: 0
+      ignore_black_frames: false
+      max_detection_lib_q_size: 30
+      total_classes: 2
+      default_confidence_threshold: 0.55
+    }
+  }
+}
+
+node {
+  name: "tracker"
+  calculator: "box_tracker"
+  input_stream: "detections_stream"
+  input_stream: "detect_interval"
+  output_stream: "tracks_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxTrackerOptions]: {
+      max_keep_alive: 5
+      min_hits: 1
+      affinity_threshold: 0.008  
+      shape_weight: 1
+      position_weight: 1
+      appearance_weight: 1
+      shape_dist_max: 1
+      position_dist_max: 1
+      use_exp_cost: true
+      tracker_type: "SORT++"
+      min_object_area_th: 200
+    }
+  }
+}
+
+node {
+  name: "visualizer"
+  calculator: "box_visualizer"
+  input_stream: "tracks_stream"
+  input_stream: "image_stream_nv12"
+  output_stream: "image_stream_nv12_viz"
+  stream_sync: {
+    drop_strategy: DROP_INCOMPLETE_PACKETS
+    timeout_ms: 5000
+  }
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      text_offset: {
+        x: 0
+        y: 0
+      }
+      font: 0 
+      line_type: 0
+      box_thickness: 3
+      text_size: 3 
+    }
+  }
+}
+
+node {
+  calculator: "video_sink"
+  name: "sink"
+  input_stream: "image_stream_nv12_viz"
+  input_stream: "nv12_infopacket"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
+      codec_type: CODEC_TYPE_H264
+      bframes: 0
+      gop_size: 60
+      gop_mode: "low-latency-P"
+      bitrate: 3000
+      rc_mode: "Low Latency"
+      path: "rtsp://vmss.auperatechnologies.com:554/crowd-som-out-your-name"
+    }
+  }
+}
+
+node {
+  name: "to_json"
+  calculator: "to_json"
+  input_stream: "tracks_stream"
+  output_stream: "json_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.ToJsonOptions]: {
+      label_name_file: ""
+      network: "SSD"
+      input_type: PACKET_TYPE_TRACKS
+    }
+  }
+}
+
+node {
+  name: "notification_mongo_node"
+  calculator: "notification_mongo"
+  input_stream: "json_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.NotificationMongoOptions]: {
+      mongodb_address: "mongodb://127.0.0.1:27019"
+      database_name: "kria_som"
+      collection_name: "test_collection"
+      notification_q_size: 2
+    }
+  }
+}
