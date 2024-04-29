@@ -72,7 +72,9 @@ node {
       font: 0 
       line_type: 0
       box_thickness: 3
-      text_size: 3 
+      text_size: 3
+      render_on_nv12: true
+      ttf_file_path_for_nv12: "./"
     }
   }
 }
