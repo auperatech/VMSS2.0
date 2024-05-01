@@ -80,6 +80,7 @@ node {
   input_stream: "detect_interval"
   output_stream: "crowd_flow_notification"
   output_stream: "image_stream_crowd_flow"
+  output_stream: "crowd_flow_notification_extra"
   stream_sync: {
     drop_strategy: DROP_INCOMPLETE_PACKETS
     timeout_ms: 5000
@@ -140,7 +141,6 @@ node {
     [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
       sender: "xxxxxx@gmail.com"
       receiver: ["xxxxxxx@gmail.com", "xxxxxxx2@gmail.com"]
-      notification_q_size: 2
       sender_username: "xxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxx"
       server_url: "smtp.gmail.com:587"

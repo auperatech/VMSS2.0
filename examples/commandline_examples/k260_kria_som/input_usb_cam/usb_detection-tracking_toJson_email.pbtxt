@@ -83,7 +83,6 @@ node {
       message_type: EMAIL
       sender: "xxxxxx@gmail.com"
       receiver: ["xxxxxxx1@gmail.com"]
-      notification_q_size: 2
       sender_username: "xxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxx"
       server_url: "smtp.gmail.com:587"

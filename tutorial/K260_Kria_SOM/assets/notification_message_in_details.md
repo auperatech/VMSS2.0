@@ -80,7 +80,6 @@ node {
       message_type: SMS
       sender: "1xxxxxxxxxxx"
       receiver: ["1xxxxxxxxxxx"]
-      notification_q_size: 2
       sender_username: "xxxxxxxxxxxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxxxxxxxxxx"
       server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"

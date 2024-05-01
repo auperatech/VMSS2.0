@@ -80,6 +80,7 @@ node {
   input_stream: "detect_interval"
   output_stream: "crowd_flow_notification"
   output_stream: "image_stream_crowd_flow"
+  output_stream: "crowd_flow_notification_extra"
   stream_sync: {
     drop_strategy: DROP_INCOMPLETE_PACKETS
     timeout_ms: 5000
@@ -141,7 +142,6 @@ node {
       message_type: SMS
       sender: "1xxxxxxxxxxx"
       receiver: ["1xxxxxxxxxxx"]
-      notification_q_size: 2
       sender_username: "xxxxxxxxxxxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxxxxxxxxxx"
       server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"
