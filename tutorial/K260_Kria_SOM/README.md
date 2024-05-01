@@ -1,28 +1,27 @@
-# Aupera VMSS2.0 Tutorial
+# Aupera VMSS2.0 Tutorial <!-- omit from toc -->
 
 Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting up a face detection system that can run on RTSP streams, incorporating tracking and detection interval adjustments, changing input types, modifying output actions, and switching detection models. In this tutorial our goal is to show how you can construct a pipeline based on the input and output type we select and then modify that pipeline to satisfy different needs.  
 
-- [Aupera VMSS2.0 Tutorial](#aupera-vmss20-tutorial)
-  - [Prerequisite](#prerequisite)
-  - [Download the Required Assets](#download-the-required-assets)
-  - [Person Detection](#person-detection)
-    - [Set up the Input and Output](#set-up-the-input-and-output)
-    - [Setup an RTSP Video Player](#setup-an-rtsp-video-player)
-    - [Run the Pipeline \& Watch the Results](#run-the-pipeline--watch-the-results)
-    - [Providing your own Input File](#providing-your-own-input-file)
-    - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
-  - [Reconfigure the Person Detection Pipeline to do Face Detection](#reconfigure-the-person-detection-pipeline-to-do-face-detection)
-  - [Increasing Detection Interval and Adding a Tracker](#increasing-detection-interval-and-adding-a-tracker)
-    - [Increasing Detction Interval](#increasing-detction-interval)
-    - [Adding a Tracker](#adding-a-tracker)
-  - [Integrating SMS Notifications into the Pipeline](#integrating-sms-notifications-into-the-pipeline)
-    - [Configuring your notification service](#configuring-your-notification-service)
-    - [Launching your notification pipeline](#launching-your-notification-pipeline)
-  - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
-    - [Expanding your setup](#expanding-your-setup)
-  - [Tips and Tricks](#tips-and-tricks)
-    - [Test RTSP Streams](#test-rtsp-streams)
-    - [Available Models](#available-models)
+- [Prerequisite](#prerequisite)
+- [Download the Required Assets](#download-the-required-assets)
+- [Person Detection](#person-detection)
+  - [Set up the Input and Output](#set-up-the-input-and-output)
+  - [Setup an RTSP Video Player](#setup-an-rtsp-video-player)
+  - [Run the Pipeline \& Watch the Results](#run-the-pipeline--watch-the-results)
+  - [Providing your own Input File](#providing-your-own-input-file)
+  - [Changing the Input to RTSP](#changing-the-input-to-rtsp)
+- [Reconfigure the Person Detection Pipeline to do Face Detection](#reconfigure-the-person-detection-pipeline-to-do-face-detection)
+- [Increasing Detection Interval and Adding a Tracker](#increasing-detection-interval-and-adding-a-tracker)
+  - [Increasing Detection Interval](#increasing-detection-interval)
+  - [Adding a Tracker](#adding-a-tracker)
+- [Integrating SMS Notifications into the Pipeline](#integrating-sms-notifications-into-the-pipeline)
+  - [Configuring your notification service](#configuring-your-notification-service)
+  - [Launching your notification pipeline](#launching-your-notification-pipeline)
+- [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
+  - [Expanding your setup](#expanding-your-setup)
+- [Tips and Tricks](#tips-and-tricks)
+  - [Test RTSP Streams](#test-rtsp-streams)
+  - [Available Models](#available-models)
 
 ## Prerequisite
 
@@ -179,7 +178,7 @@ Congratulations, you just successfully reconfigured the box_detector to use a di
 
 Given some machine learning (ML) models are computationally expensive (i.e they are too slow to run on every frame in real-time), we may need to reduce how often we run our ML model. In this step, we will show you how you can reduce the frequency of running a ML model, and then we will complement the `box_detector` with a `box_tracker` to take advantage of a tracker to reduce the ML load as well as creating a unique ID for each detected object. 
 
-### Increasing Detction Interval
+### Increasing Detection Interval
 
 Increasing the detection interval is straightforward: you adjust the `detect_interval` in your `box_detector` to a higher value. For instance, setting `detect_interval=3` results in running the ML model on every 3 frames. This can be done by changing the following line:
 
@@ -255,12 +254,14 @@ To accomplish this, you will need to
 
     - `notification_message`: This is where you set up the actual sending of SMS. You can customize various aspects, such as the message type, sender, receiver, and the conditions under which the message is sent. 
 
-      For these two nodes, you can refer to [`rtsp_facedetect-tracker_sms-rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt) and copy and paste lines from [140-176](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt#L140-L176) to your pipeline.
+      For these two nodes, you can refer to [`rtsp_facedetect-tracker_sms-rtsp.pbtxt`](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt) and copy and paste lines from [118-162](./assets/rtsp_facedetect-tracker_sms-rtsp.pbtxt#L118-L162) to your pipeline.
 
 2. Append a task_id field to your pipeline at the end, for example:
     ```
     task_id: "SMS_PIPELINE1"
     ```
+
+**NOTE:** For an in-depth walkthrough of setting up the sms/email notification, please refer to our [detailed guide here](./assets/notification_message_in_details.md).
 
 ### Configuring your notification service
 After inserting the nodes and `task_id`, it's time to specify key parameters within the `notification_message` node:
@@ -293,6 +294,7 @@ After inserting the nodes and `task_id`, it's time to specify key parameters wit
       sender_password: "<Auth Token>"
       server_url: "https://api.twilio.com/2010-04-01/Accounts/ACf7ec64f832871ba7f8512d64bf566f68/Messages.json"
       ```
+    With the url, replace the section after `/Accounts/` with your username.
 
 ### Launching your notification pipeline
 Once everything is configured, launch the pipeline with the command below to start receiving SMS alerts for the detections and watch the results in your video player.

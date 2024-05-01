@@ -1,25 +1,65 @@
-## Adding Email or SMS Message Notification Alert
+## Adding Email or SMS Message Notification Alert <!-- omit from toc -->
+- [Overview of the calculators and options](#overview-of-the-calculators-and-options)
+- [Filtering Options](#filtering-options)
+- [Setting up the server connection](#setting-up-the-server-connection)
+- [Examples](#examples)
 
 **This is the detailed instruction on how to setup email or SMS message notification**
 
-This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the user, it triggers an automated process to send customized text messages directly to the user. We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
+This functionality is designed to cater to the specific needs of users by enabling alerts based on custom object detection criteria. For example, when the system recognizes a certain number of predefined objects set by the user, it triggers an automated process to send customized text messages directly to the user. This real-time notification system not only keeps users informed of critical events; but also adds a layer of interactivity and proactive communication.
+
+### Overview of the calculators and options
 
 Let's try to start sending SMS notification alerts! To enable this functionality, we need to add the **to_json** calculator and the **notification_message** calculator at the end of the pipeline. 
 
-The **to_json** calculator is a calculator to convert metadata packets like Detection/Track Packet into JSON packets. It has 3 user-defined options: label_name_file, network, and input_type. For more details on setting the three config options, please refer to [to_json.proto](../../../calculators/to_json/to_json.proto)
+The **to_json** calculator is a calculator to convert metadata packets like Detection/Track Packet into JSON packets. It has 3 user-defined options: label_name_file, network, and input_type. For more details on setting the three config options, please refer to [to_json](../../../docs/protos/README.md#tojsonoptions)
 
-The **notification_message** calculator is designed to send customized JSON notifications to users through emails or SMS messages. It has the following user-defined options that need to be addressed:
+The **notification_message** calculator is designed to send customized JSON notifications to users through emails or SMS messages. It has the following user-defined [options](../../../docs/protos/README.md#notificationmessageoptions) that need to be addressed:
 
 - **message_type**: the value is either EMAIL or SMS, which stands for the protocol to use.
+- **server_url**: the value is the email SMTP URL or the SMS gateway API URL depending on the protocol.
 - **sender**: the value is an email address string if sending email notifications; it is a phone number string if sending SMS notifications.
 - **receiver**: the value is an array of email address strings or an array of phone number strings depending on the protocol.
-- **server_url**: the value is the email SMTP URL or the SMS gateway API URL depending on the protocol.
 - **sender_username** and **sender_password**: the value is the credentials or authentications for connecting the server URL.
-- **trigger_type**: the value is either PACKET or JQ, which stands for whether applying jq to trigger the JSON packet or not. If PACKET is selected, then the plain packet text will be sent.
-- **jq_query_string**: 
+- **trigger**: a list of triggers which will send notifications when certain conditions pass
+
+For a given notification_message calculator we can also define a list of objects in the **trigger** option. These objects have the following user-specified [options](../../../docs/protos/README.md#notificationmessageoptionstrigger):
+
+- **trigger_type**: the value is one of PACKET, JQ, JSON_DETECTION, JSON_TRACK, or JSON_CROWD_FLOW. This tells the trigger what type of filtering approach to use. If PACKET is selected, then the plain packet text will be sent. If JQ is selected, the jq_query_string will be used for filtering. If JSON_DETECTION, JSON_TRACK, or JSON_CROWD_FLOW are specified, then the corresponding manual options will be used for filtering.
+- **jq_query_string**: The jq query that will be applied to the json packet
+- **manual_detect_options**: Manual options for detection json packets
+- **manual_track_options**: Manual options for tracked object json packets
+- **manual_crowd_options**: Manual options for crowd flow json packets
 - **trigger_consecutive_packet**: the expected value is a number > 0, which determines the number of packets to be sent when meeting the user-defined trigger query.
 - **notification_title** and **notification_body**: the values are user-defined title and body context would like to add to the notification alert
 - **attach_json**: the value is true or false, for users to choose if they want to attach the detected JSON packet contents into the SMS/Email notification or not.
+
+### Filtering Options
+
+**JQ Filtering**
+
+We use **[jq](https://jqlang.github.io/jq/)**, a lightweight and flexible command-line JSON processor, for users to filter the information they want based on the detected JSON packet from the running pipeline. Take a look at the jq language to learn how to create custom strings for filtering specific notification packets. For instance, here is a jq query string that will filter a detected box notification based on whether it is within a specific region of the video frame:
+
+```
+'select(.items | to_entries | map(.value | select(.x >= 400 and .y >= 300 and (.x + .width) <= 800 and (.y + .height) <= 600)) | length >= 1)'
+```
+
+**Manual Filtering**
+
+We also provide manual filtering options which specify a set of pre-defined filters. These options replace the jq filter and can run faster than JQ, but with limited flexibility in terms of filtering options. Here is an example of manual filtering options for a detected box that implements the same functionality as the earlier jq example:
+
+```
+manual_detect_options {
+  min_objects: 1
+  roi_x: 400
+  roi_w: 400
+  roi_y: 300
+  roi_h: 300
+}
+```
+Take a look at [manual_detect_options](../../../docs/protos/README.md#notificationmessageoptionstriggermanualdetectoptions), [manual_track_options](../../../docs/protos/README.md#notificationmessageoptionstriggermanualtrackoptions), and [manual_crowd_options](../../../docs/protos/README.md#notificationmessageoptionstriggermanualcrowdflowoptions) for more information on manual options.
+
+### Setting up the server connection
 
 To fill in the **server_url**, **sender_username,** and **sender_password**, users need to set up the email SMTP server or SMS gateway server APIs. 
 
@@ -53,6 +93,7 @@ Take sending SMS notifications as an example and using [Twilio](https://www.twil
   sender_password: "<Auth Token>"
   ```
 
+### Examples
 
 An example of how the to_json calculator and the notification_message calculator connected to send SMS notifications:
 
@@ -84,11 +125,19 @@ node {
       sender_password: "xxxxxxxxxxxxxxxxxxxxx"
       server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"
       trigger: {
-        trigger_type: JQ
-        trigger_consecutive_packet: 5
-        jq_query_string: "'select(.items | to_entries | map(.value | select(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)) | length >= 1)'"
+        trigger_type: JSON_TRACK
+        trigger_consecutive_packet: 30
+        jq_query_string: ""
         notification_title: "sms_notification_alert"
-        notification_body: "At least 1 faces are detected in a region for consecutive 5 packets"
+        notification_body: "At least 1 faces are tracked for a long period of time for consecutive 30 packets"
+        manual_track_options {
+          min_objects: 1
+          roi_x: 0
+          roi_w: 1920
+          roi_y: 0
+          roi_h: 1080
+          min_track_age: 1200
+        }
       }
     }
   }

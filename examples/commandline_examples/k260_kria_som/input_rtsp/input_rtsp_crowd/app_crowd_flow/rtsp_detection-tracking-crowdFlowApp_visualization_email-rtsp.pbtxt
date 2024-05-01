@@ -150,7 +150,7 @@ node {
       trigger: {
         trigger_type: JQ
         trigger_consecutive_packet: 3
-        jq_query_string: "'select(.total_persons_entering > 10 and .interval_persons_entering % 2 == 1)'"
+        jq_query_string: "'select(.total_persons_entering > 10)'"
         notification_title: "email_notification_test"
         notification_body: "xxxxxxxxxxxxxxxxxx"
         attach_json: true
