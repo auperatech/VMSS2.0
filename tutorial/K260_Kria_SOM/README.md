@@ -19,6 +19,7 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
   - [Launching your notification pipeline](#launching-your-notification-pipeline)
   - [Expanding your setup](#expanding-your-setup)
 - [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
+  - [Visualizing USB](#visualizing-usb)
 - [Working with Graph Inputs and Outputs for AVAC](#working-with-graph-inputs-and-outputs-for-avac)
   - [Setting up AVAC pipelines](#setting-up-avac-pipelines)
 - [Tips and Tricks](#tips-and-tricks)
@@ -70,14 +71,13 @@ In this tutorial, we are going to start with **video file** as our input. Then w
 </div>
 
 ### Set up the Input and Output
- Let's create our `input.pbtxt` and `output.pbtxt` files that are required for running a pipeline. 
  
 **Input File:** For the input, we are using the `face_demo_82s.nv12.h264` file in `VMSS2.0/tutorial/K260_Kria_SOM/assets`. By editing `rtsp_persondetect_rtsp.pbtxt`, you should specify the path [on line 12](./assets/rtsp_persondetect_rtsp.pbtxt#L12) (inside the `video_source` calculator node options) as below: 
 
 ```
 path: "/<path to>/face_demo_82s.nv12.h264"
 ```
-**Output File:** For the output, we follow the same logic, but instead of saving the ouput to a file, we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do this, simply pick any unique arbitrary name and append it to `rtsp://vmss.auperatechnologies.com:554/`. Then, include this full URL in `rtsp_persondetect_rtsp.pbtxt` [on line 93](./assets/rtsp_persondetect_rtsp.pbtxt#L93) (inside the `video_sink` options) with your output url as shown below:
+**Output Stream:** For the output, we follow the same logic, but instead of saving the ouput to a file, we are going to stream the results live by pushing the output to Aupera's public RTSP server. To do this, simply pick any unique arbitrary name and append it to `rtsp://vmss.auperatechnologies.com:554/`. Then, include this full URL in `rtsp_persondetect_rtsp.pbtxt` [on line 93](./assets/rtsp_persondetect_rtsp.pbtxt#L93) (inside the `video_sink` options) with your output url as shown below:
 
 ```
 path: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
@@ -335,7 +335,7 @@ To make this transition, perform the following 2 steps:
 - Remove the nodes `box_visualizer` (content lines [43-78](./assets/rtsp_persondetect_rtsp.pbtxt#L43-L78))and `video_sink` (content lines [80-96](./assets/rtsp_persondetect_rtsp.pbtxt#L80-L96)), as the `video_sink` node only accepts NV12 formatted frames, which the USB camera cannot produce at this time
   
 
-That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. After making sure you have a USB camera setup ready, execute the pipeline again (this time without `input.pbtxt`) and watch the results in your video player:
+That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. After making sure you have a USB camera setup ready, execute the pipeline again and watch the results in your video player:
 ```
 avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
@@ -343,6 +343,114 @@ avaser -c rtsp_persondetect_rtsp.pbtxt
 ***NOTE:*** Alternatively, you can execute [`usb_facedetect-tracker_sms-rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms-rtsp.pbtxt) we prepared for a quick initiation if you want to start from this step directly.
 ```
 avaser -c usb_facedetect-tracker_sms-rtsp.pbtxt
+```
+
+### Visualizing USB
+
+As noted above, we cannot use `video_sink` to visualize bgr frames, but we can use a software encoder via our `x86_enc` pipeline to do so. To do this, lets add back in `box_visualizer` and add `vfilter_node`, `x86_enc`, and `stream_mux` to our pipeline after the visualizer. Make sure to edit the output width [here](./assets/usb_facedetect-tracker_sms_visualization_rtsp.pbtxt#L112), the output height [here](./assets/usb_facedetect-tracker_sms_visualization_rtsp.pbtxt#L113), and the output fps [here](./assets/usb_facedetect-tracker_sms_visualization_rtsp.pbtxt#L114) and [here](./assets/usb_facedetect-tracker_sms_visualization_rtsp.pbtxt#L131) to match the parameters supported by your camera.
+
+```
+node {
+  name: "visualizer"
+  calculator: "box_visualizer"
+  input_stream: "tracks_stream"
+  input_stream: "image_stream_bgr"
+  output_stream: "image_stream_bgr_viz"
+  stream_sync: {
+    drop_strategy: DROP_INCOMPLETE_PACKETS
+    timeout_ms: 5000
+  }
+  node_options: {
+    [type.googleapis.com/aup.avaf.BoxVisualizerOptions]: {
+      text_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      box_color: {
+        r: 255
+        g: 0
+        b: 0
+      }
+      text_offset: {
+        x: 0
+        y: 0
+      }
+      font: 0
+      line_type: 0
+      box_thickness: 3
+      text_size: 3
+    }
+  }
+}
+
+node {
+  name: "vfilter_node"
+  calculator: "ff_vfilter"
+  vendor: "Aupera"
+  input_stream: "image_stream_bgr_viz"
+  input_stream: "bgr_infopacket"
+  output_stream: "image_stream_vfilter"
+  output_stream: "video_stream_info_vfilter"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
+      roi_x: 0
+      roi_y: 0
+      roi_w: 0
+      roi_h: 0
+      opixfmt: PIXFMT_I420
+      ow: 960
+      oh: 540
+      ofps: 12
+    }
+  }
+}
+
+node {
+  name: "encode_node"
+  calculator: "x86_enc"
+  vendor: "Aupera"
+  input_stream: "image_stream_vfilter"
+  input_stream: "video_stream_info_vfilter"
+  output_stream: "packet_stream_encode"
+  output_stream: "codec_context_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
+     enc: {
+       codec_type: CODEC_TYPE_H264
+       fps: 12
+       bitrate: 100
+     }
+    }
+  }
+}
+
+node {
+  name: "mux_node"
+  calculator: "stream_mux"
+  vendor: "Aupera"
+  input_stream: "packet_stream_encode"
+  input_stream: "codec_context_stream"
+  node_options: {
+    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
+     mux: {
+       rtsp_transport: "tcp"
+       auto_reconnect: true
+       output_url: "<!! output path goes here !!>"
+     }
+    }
+  }
+}
+```
+
+With these adjustments, your pipeline is now prepared to stream the processed input from your USB camera. Execute the pipeline again and watch the results in your video player:
+```
+avaser -c rtsp_persondetect_rtsp.pbtxt
+```
+
+***NOTE:*** Alternatively, you can execute [`usb_facedetect-tracker_sms_visualization_rtsp.pbtxt`](./assets/usb_facedetect-tracker_sms_visualization_rtsp.pbtxt) we prepared for a quick initiation if you want to start from this step directly. (Be sure to adjust the output path and width/height/fps parameters beforehand):
+```
+avaser -c usb_facedetect-tracker_sms_visualization_rtsp.pbtxt
 ```
 
 ## Working with Graph Inputs and Outputs for AVAC
