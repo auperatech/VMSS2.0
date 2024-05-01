@@ -17,8 +17,10 @@ Welcome to the Aupera VMSS2.0 Tutorial. This guide will walk you through setting
 - [Integrating SMS Notifications into the Pipeline](#integrating-sms-notifications-into-the-pipeline)
   - [Configuring your notification service](#configuring-your-notification-service)
   - [Launching your notification pipeline](#launching-your-notification-pipeline)
-- [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
   - [Expanding your setup](#expanding-your-setup)
+- [Changing Input from RTSP to USB](#changing-input-from-rtsp-to-usb)
+- [Working with Graph Inputs and Outputs for AVAC](#working-with-graph-inputs-and-outputs-for-avac)
+  - [Setting up AVAC pipelines](#setting-up-avac-pipelines)
 - [Tips and Tricks](#tips-and-tricks)
   - [Test RTSP Streams](#test-rtsp-streams)
   - [Available Models](#available-models)
@@ -307,6 +309,9 @@ avaser -c rtsp_persondetect_rtsp.pbtxt
 avaser -c rtsp_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
+###  Expanding your setup
+For more detailed adjustments, including configuring email notifications and refining parameters within the `notification_message` node, refer to the comprehensive tutorial [here](./assets/notification_message_in_details.md)
+
 ## Changing Input from RTSP to USB
 
 Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera. This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
@@ -340,8 +345,72 @@ avaser -c rtsp_persondetect_rtsp.pbtxt
 avaser -c usb_facedetect-tracker_sms-rtsp.pbtxt
 ```
 
-###  Expanding your setup
-For more detailed adjustments, including configuring email notifications and refining parameters within the `notification_message` node, refer to the comprehensive documentation [here](./assets/notification_message_in_details.md)
+## Working with Graph Inputs and Outputs for AVAC
+
+In addition to specifying an input path and output path in your pbtxt file, we give the option of using graph input and graph output files to allow for runtime-configurable input and output targets. This is done in the following steps:
+
+1. Edit `rtsp_persondetect_rtsp.pbtxt` to accept graph inputs by adding the following lines after the control port:
+   ```
+   control_port: 51881
+   graph_input: "graph_input"
+   graph_output: "graph_output"
+   ```
+   Edit the `video_source` calculator to accept a graph input:
+   ```
+   node {
+      calculator: "video_source"
+      name: "source"
+      graph_input: "graph_input"
+      output_stream: "image_stream_bgr"
+      output_stream: "bgr_infopacket"
+      output_stream: "image_stream_nv12"
+      output_stream: "nv12_infopacket"
+      node_options: {
+        [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+          # path: "<no need for path anymore so comment it out>"
+        }
+      }
+   }
+   ```
+   Edit the `video_sink` calculator to accept a graph output:
+   ```
+   node {
+      calculator: "video_sink"
+      name: "sink"
+      input_stream: "image_stream_nv12_viz"
+      input_stream: "nv12_infopacket"
+      graph_output: "graph_output"
+      node_options: {
+        [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
+          codec_type: CODEC_TYPE_H264
+          bframes: 0
+          gop_size: 60
+          gop_mode: "low-latency-P"
+          bitrate: 3000
+          rc_mode: "Low Latency"
+          # path: "<no need for path anymore so comment it or remove it>"
+        }
+      }
+   }
+   ```
+2. Make an input pbtxt file (i.e. `myinput.pbtxt`) with the following contents:
+   ```
+   input_urls: "<your path here i.e. rtsp://vmss.auperatechnologies.com:554/car>"
+   ```
+3. Make an output pbtxt file (i.e. `myoutput.pbtxt`) with the following contents:
+   ```
+   output_urls: "<your path here i.e. rtsp://vmss.auperatechnologies.com:554/my_car_test_1234>"
+   ```
+4. Run with:
+   ```
+   avaser -i myinput.pbtxt -o myoutput.pbtxt -c rtsp_persondetect_rtsp.pbtxt
+   ```
+
+You will notice that many of the commandline examples in `examples/commandline_examples/k260_kria_som` have `input.pbtxt` and `output.pbtxt` files which you can edit.
+
+### Setting up AVAC pipelines
+
+Any pipelines run on AVAC (our client UI for connecting to and running/monitoring pipelines on devices) always have a graph input and graph output, which must be specified in order to the input and output streams to properly connect. Ensure that any pipelines you attempt to run on AVAC have properly specified and connected the `graph_input` and `graph_output` to the `video_source` and `video_sink` respectively.
 
 ## Tips and Tricks
 
