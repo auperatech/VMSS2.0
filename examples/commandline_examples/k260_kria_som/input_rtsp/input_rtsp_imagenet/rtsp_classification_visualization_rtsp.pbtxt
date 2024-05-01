@@ -67,6 +67,8 @@ node {
       font_scale: 1.4
       font: 0
       line_type: 0
+      render_on_nv12: true
+      ttf_file_path_for_nv12: "./"
     }
   }
 }
