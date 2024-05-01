@@ -1,18 +1,21 @@
 # The recommended video for this pipeline is crowd.
 
 control_port: 51881
+graph_input: "graph_input"
+graph_output: "graph_output"
 task_id: "DEFAULT"
 
 node {
   calculator: "video_source"
   name: "source"
+  graph_input: "graph_input"
   output_stream: "image_stream_bgr"
   output_stream: "bgr_infopacket"
   output_stream: "image_stream_nv12"
   output_stream: "nv12_infopacket"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
-      path: "rtsp://vmss.auperatechnologies.com:554/crowd"
+      # path: "rtsp://vmss.auperatechnologies.com:554/crowd"
     }
   }
 }
@@ -120,6 +123,7 @@ node {
   name: "sink"
   input_stream: "image_stream_crowd_flow"
   input_stream: "nv12_infopacket"
+  graph_output: "graph_output"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
       codec_type: CODEC_TYPE_H264
@@ -128,7 +132,6 @@ node {
       gop_mode: "low-latency-P"
       bitrate: 3000
       rc_mode: "Low Latency"
-      path: "rtsp://vmss.auperatechnologies.com:554/crowd-som-out-your-name"
     }
   }
 }
