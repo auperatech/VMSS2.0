@@ -95,6 +95,7 @@ path: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
 ```
 path: "rtsp://<SOM-IP>:554/
 ```
+***NOTE:*** in the case of using SOM as RTSP server, you may need to wait several seconds before watching the RTSP out.
 
 ***NOTE:*** It's important to use a unique stream name when using the RTSP server. Ensure you replace `your-output-name` above with a name of your choosing before moving forward.
 
