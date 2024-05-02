@@ -46,16 +46,23 @@ cd VMSS2.0/tutorial/K260_Kria_SOM/assets
 Successfully executing these commands will create the following directory structure.
 Note that all further activities of this tutorial will take place within this assets directory.
 ```
-./assets
-├── face_demo_82s.nv12.mp4
-├── images
-├── notification_message_in_details.md
-├── rtsp_facedetect_rtsp.pbtxt
-├── rtsp_facedetect-tracker_rtsp.pbtxt
-├── rtsp_facedetect-tracker_sms-rtsp.pbtxt
-├── rtsp_persondetect_rtsp.pbtxt
-├── usb_facedetect-tracker_rtsp.pbtxt
-└── usb_facedetect-tracker_sms-rtsp.pbtxt
+root@general:.../VMSS2.0/tutorial/K260_Kria_SOM# tree assets/
+assets/
+|-- face_demo_82s.nv12.h264
+|-- images
+|   |-- add_tracker.png
+|   |-- box_detector_visualizer.png
+|   |-- detector_pipeline.png
+|   |-- email_smtp.png
+|   `-- sms_gateway.png
+|-- notification_message_in_details.md
+|-- rtsp_facedetect-tracker_rtsp.pbtxt
+|-- rtsp_facedetect-tracker_sms-rtsp.pbtxt
+|-- rtsp_facedetect_rtsp.pbtxt
+|-- rtsp_persondetect_rtsp.pbtxt
+|-- usb_facedetect-tracker_rtsp.pbtxt
+|-- usb_facedetect-tracker_sms-rtsp.pbtxt
+`-- usb_facedetect-tracker_sms_visualization_rtsp.pbtxt
 ```
 
 ## Person Detection
