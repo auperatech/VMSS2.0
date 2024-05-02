@@ -1,42 +1,15 @@
 control_port: 51881
-graph_input: "graph_input1"
-graph_output: "graph_output1"
 
 node {
-  name: "demux_node"
-  calculator: "stream_demux"
-  vendor: "Aupera"
-  graph_input: "graph_input1"
-  output_stream: "packet_stream_demux"
-  output_stream: "video_stream_info_demux"
+  calculator: "video_source"
+  name: "source"
+  output_stream: "image_stream_bgr"
+  output_stream: "bgr_infopacket"
+  output_stream: "image_stream_nv12"
+  output_stream: "nv12_infopacket"
   node_options: {
-    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
-      demux: {
-        rtsp_transport: "tcp"  
-        iframe_extract: false
-        auto_reconnect: true
-      }
-    }
-  }
-}
-
-node {
-  name: "decode_node"
-  calculator: "x86_dec"
-  vendor: "Aupera"
-  input_stream: "packet_stream_demux"
-  input_stream: "video_stream_info_demux"
-  output_stream: "image_stream_decode"
-  output_stream: "video_stream_info_decode"
-  node_options: {
-    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
-      dec: {
-        ow: 1920
-        oh: 1080
-        opixfmt: PIXFMT_BGR24
-        queue_size: 12
-        low_latency: false
-      }
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+      path: "<!! input path goes here !!>"
     }
   }
 }
@@ -44,7 +17,7 @@ node {
 node {
   name: "detector"
   calculator: "box_detector"
-  input_stream: "image_stream_decode"
+  input_stream: "image_stream_bgr"
   output_stream: "detections_stream"
   output_stream: "detect_interval"
   ml_model_kernel_name: "densebox_320_320"
@@ -68,11 +41,11 @@ node {
 
 
 node {
-  name: "visualizer"
+  name: "visualizer_nv12"
   calculator: "box_visualizer"
   input_stream: "detections_stream"
-  input_stream: "image_stream_decode"
-  output_stream: "image_stream_viz"
+  input_stream: "image_stream_nv12"
+  output_stream: "image_stream_nv12_viz"
   stream_sync: {
     drop_strategy: DROP_INCOMPLETE_PACKETS
     timeout_ms: 5000
@@ -93,68 +66,31 @@ node {
         x: 0
         y: 0
       }
-      font: 0 
+      font: 1
       line_type: 0
-      box_thickness: 3
-      text_size: 3 
+      box_thickness: 5
+      text_size: 2
+      render_on_nv12: true
+      ttf_file_path_for_nv12: "./"
+      input_type: 0
     }
   }
 }
 
 node {
-  name: "vfilter_node"
-  calculator: "ff_vfilter"
-  vendor: "Aupera"
-  input_stream: "image_stream_viz"
-  input_stream: "video_stream_info_decode"
-  output_stream: "image_stream_vfilter"
-  output_stream: "video_stream_info_vfilter"
+  calculator: "video_sink"
+  name: "sink"
+  input_stream: "image_stream_nv12_viz"
+  input_stream: "nv12_infopacket"
   node_options: {
-    [type.googleapis.com/aup.avaf.VideoFilterOptions]: {
-      roi_x: 0
-      roi_y: 0
-      roi_w: 0
-      roi_h: 0
-      opixfmt: PIXFMT_I420
-      ow: 960
-      oh: 540
-      ofps: 12
-    }
-  }
-}
-
-node {
-  name: "encode_node"
-  calculator: "x86_enc"
-  vendor: "Aupera"
-  input_stream: "image_stream_vfilter"
-  input_stream: "video_stream_info_vfilter"
-  output_stream: "packet_stream_encode"
-  output_stream: "codec_context_stream"
-  node_options: {
-    [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
-     enc: {
-       type: H264
-       fps: 12
-       bitrate: 100
-     }
-    }
-  }
-}
-
-node {
-  name: "mux_node"
-  calculator: "stream_mux"
-  vendor: "Aupera"
-  input_stream: "packet_stream_encode"
-  input_stream: "codec_context_stream"
-  graph_output: "graph_output1"
-  node_options: {
-    [type.googleapis.com/aup.avaf.StreamMuxOptions]: {
-     mux: {
-       rtsp_transport: "tcp"
-       auto_reconnect: true
-     }
+    [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
+      codec_type: CODEC_TYPE_H264
+      bframes: 0
+      gop_size: 60
+      gop_mode: "low-latency-P"
+      bitrate: 3000
+      rc_mode: "Low Latency"
+      path: "<!! output path goes here !!>"
     }
   }
 }

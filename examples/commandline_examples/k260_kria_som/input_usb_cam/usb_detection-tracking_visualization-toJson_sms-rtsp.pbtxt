@@ -128,7 +128,7 @@ node {
   node_options: {
     [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
      enc: {
-       type: H264
+       codec_type: CODEC_TYPE_H264
        fps: 12
        bitrate: 100
      }
@@ -176,16 +176,23 @@ node {
       message_type: SMS
       sender: "1xxxxxxxxxxx"
       receiver: ["1xxxxxxxxxxx"]
-      notification_q_size: 2
       sender_username: "xxxxxxxxxxxxxxxxxxxxx"
       sender_password: "xxxxxxxxxxxxxxxxxxxxx"
       server_url: "https://api.twilio.com/2010-04-01/Accounts/<sender_username>/Messages.json"
       trigger: {
-        trigger_type: JQ
-        trigger_consecutive_packet: 5
-        jq_query_string: "'select(.items | to_entries | map(.value | select(.x >= 0 and .y >= 0 and (.x + .width) <= 1920 and (.y + .height) <= 1080)) | length >= 1)'"
+        trigger_type: JSON_TRACK
+        trigger_consecutive_packet: 30
+        jq_query_string: ""
         notification_title: "sms_notification_alert"
-        notification_body: "At least 1 person are detected in a region for consecutive 5 packets"
+        notification_body: "xxxxxxxxxxxxxxxxxxx"
+        manual_track_options {
+          min_objects: 1
+          roi_x: 0
+          roi_w: 1920
+          roi_y: 0
+          roi_h: 1080
+          min_track_age: 1200
+        }
       }
     }
   }

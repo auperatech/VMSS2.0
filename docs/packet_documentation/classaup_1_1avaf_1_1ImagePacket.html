@@ -105,6 +105,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html">Allocator</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for image memory allocator.  <a href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1TextRenderer.html">TextRenderer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -126,6 +128,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a059fe1baa9c10df532d25323d8665a87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html#a059fe1baa9c10df532d25323d8665a87">ImagePacket</a> (timestamp_t sync_timestamp, bool to_be_continued, cv::Mat &amp;mat, ErrorCode &amp;ec)</td></tr>
 <tr class="memdesc:a059fe1baa9c10df532d25323d8665a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct an <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> on a <code>cv::Mat</code>. This <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> keeps a shallow copt of <code>cv::Mat</code> inside of itself.  <a href="#a059fe1baa9c10df532d25323d8665a87">More...</a><br /></td></tr>
 <tr class="separator:a059fe1baa9c10df532d25323d8665a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a239597b22a07365f22801caf76bae25a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html#a239597b22a07365f22801caf76bae25a">ImagePacket</a> (GstBuffer *buffer, int width, int height, ErrorCode &amp;ec)</td></tr>
+<tr class="memdesc:a239597b22a07365f22801caf76bae25a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Image Packet object for GStreamer plugin sample appsinks.  <a href="#a239597b22a07365f22801caf76bae25a">More...</a><br /></td></tr>
+<tr class="separator:a239597b22a07365f22801caf76bae25a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d8438328640150324e34fa1ad9ced1c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html#a7d8438328640150324e34fa1ad9ced1c">ImagePacket</a> (timestamp_t sync_timestamp, bool to_be_continued, std::shared_ptr&lt; <a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html">Allocator</a> &gt; &amp;allocator, ErrorCode &amp;ec)</td></tr>
 <tr class="memdesc:a7d8438328640150324e34fa1ad9ced1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> object and occupies one <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html" title="Base class for image memory allocator. ">aup::avaf::ImagePacket::Allocator</a></code> entry.  <a href="#a7d8438328640150324e34fa1ad9ced1c">More...</a><br /></td></tr>
 <tr class="separator:a7d8438328640150324e34fa1ad9ced1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -291,7 +296,7 @@ Friends</h2></td></tr>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2a500afbbfe03e8ed50d641e399f3e38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a500afbbfe03e8ed50d641e399f3e38">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[1/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a500afbbfe03e8ed50d641e399f3e38">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -310,7 +315,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a059fe1baa9c10df532d25323d8665a87"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a059fe1baa9c10df532d25323d8665a87">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[2/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a059fe1baa9c10df532d25323d8665a87">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -350,7 +355,61 @@ Friends</h2></td></tr>
 <p>Construct an <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> on a <code>cv::Mat</code>. This <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> keeps a shallow copt of <code>cv::Mat</code> inside of itself. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">sync_timestamp</td><td>is the synchronization timestamp </td></tr>
+    <tr><td class="paramname">to_be_continued</td><td>determines if packet is continued or not </td></tr>
+    <tr><td class="paramname">mat</td><td>is the <code>cv::Mat</code> </td></tr>
+    <tr><td class="paramname">ec</td><td>is the <code>aup::avaf::ErrorCode</code> which is <code>aup::avaf::ErrorCode::OK</code> in case of success </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a239597b22a07365f22801caf76bae25a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a239597b22a07365f22801caf76bae25a">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">aup::avaf::ImagePacket::ImagePacket </td>
+          <td>(</td>
+          <td class="paramtype">GstBuffer *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ErrorCode &amp;&#160;</td>
+          <td class="paramname"><em>ec</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct a new Image Packet object for GStreamer plugin sample appsinks. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>Gstreamer buffer </td></tr>
+    <tr><td class="paramname">width</td><td>width of the image </td></tr>
+    <tr><td class="paramname">height</td><td>height of the image </td></tr>
+    <tr><td class="paramname">ec</td><td>is the <code>aup::avaf::ErrorCode</code> which is <code>aup::avaf::ErrorCode::OK</code> in case of success </td></tr>
   </table>
   </dd>
 </dl>
@@ -358,7 +417,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a7d8438328640150324e34fa1ad9ced1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7d8438328640150324e34fa1ad9ced1c">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[3/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d8438328640150324e34fa1ad9ced1c">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[4/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -398,7 +457,10 @@ Friends</h2></td></tr>
 <p>Construct a new <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> object and occupies one <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html" title="Base class for image memory allocator. ">aup::avaf::ImagePacket::Allocator</a></code> entry. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">sync_timestamp</td><td>is the synchronization timestamp </td></tr>
+    <tr><td class="paramname">to_be_continued</td><td>determines if packet is continued or not </td></tr>
+    <tr><td class="paramname">allocator</td><td>is the <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket_1_1Allocator.html" title="Base class for image memory allocator. ">aup::avaf::ImagePacket::Allocator</a></code> object which is used to fill the <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> </td></tr>
+    <tr><td class="paramname">ec</td><td>is the <code>aup::avaf::ErrorCode</code> which is <code>aup::avaf::ErrorCode::OK</code> in case of success </td></tr>
   </table>
   </dd>
 </dl>
@@ -406,7 +468,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="aff0428c9b3e8aa2e8c2be62acb94f4aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff0428c9b3e8aa2e8c2be62acb94f4aa">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[4/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aff0428c9b3e8aa2e8c2be62acb94f4aa">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[5/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -458,7 +520,12 @@ Friends</h2></td></tr>
 <p>Construct a new <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> using an <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html#a21d5564b5330dd909bc1d7fa789f4292" title="Region of Interest (ROI) With Regards To (WRT) this determines from which perspective ROI should be c...">ImagePacket::ROI_WRT</a></code> on another <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> This does not do any scaling and does not allocate more memory. It reuses the memory that is shared by its <code>parent</code>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">sync_timestamp</td><td>is the synchronization timestamp </td></tr>
+    <tr><td class="paramname">to_be_continued</td><td>determines if packet is continued or not </td></tr>
+    <tr><td class="paramname">parent</td><td>is the <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> object used to generate this <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> on </td></tr>
+    <tr><td class="paramname">roi_wrt</td><td>determines what the <code>roi</code> is regarding to. Refer to <code>ROI_WRT</code> for more info </td></tr>
+    <tr><td class="paramname">roi</td><td>is normalized Region of Interest </td></tr>
+    <tr><td class="paramname">ec</td><td>is the <code>aup::avaf::ErrorCode</code> which is <code>aup::avaf::ErrorCode::OK</code> in case of success </td></tr>
   </table>
   </dd>
 </dl>
@@ -466,7 +533,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a35cb14eac913c3c6655ac660ab19be41"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a35cb14eac913c3c6655ac660ab19be41">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[5/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a35cb14eac913c3c6655ac660ab19be41">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -536,7 +603,15 @@ Friends</h2></td></tr>
 <p>Construct a new <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> using an <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html#a21d5564b5330dd909bc1d7fa789f4292" title="Region of Interest (ROI) With Regards To (WRT) this determines from which perspective ROI should be c...">ImagePacket::ROI_WRT</a></code> on another <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> This scales and uses an entry in <code>allocator</code> more memory. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">sync_timestamp</td><td>is the synchronization timestamp </td></tr>
+    <tr><td class="paramname">to_be_continued</td><td>determines if packet is continued or not </td></tr>
+    <tr><td class="paramname">parent</td><td>is the <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> object used to generate this <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> on </td></tr>
+    <tr><td class="paramname">roi_wrt</td><td>determines what the <code>roi</code> is regarding to. Refer to <code>ROI_WRT</code> for more info </td></tr>
+    <tr><td class="paramname">roi</td><td>is normalized Region of Interest </td></tr>
+    <tr><td class="paramname">interpolation</td><td>any <code>cv::InterpolationFlags</code> interpolation techniques to use if there is resizing </td></tr>
+    <tr><td class="paramname">letterbox</td><td>whether to apply letterboxing when converting the image size </td></tr>
+    <tr><td class="paramname">allocator</td><td>is used to allocate space for the <code><a class="el" href="classaup_1_1avaf_1_1ImagePacket.html" title="ImagePacket: packet to contain image, manage its memory-life-cycle and allow for cross-image memory h...">ImagePacket</a></code> </td></tr>
+    <tr><td class="paramname">ec</td><td>is the <code>aup::avaf::ErrorCode</code> which is <code>aup::avaf::ErrorCode::OK</code> in case of success </td></tr>
   </table>
   </dd>
 </dl>
@@ -544,7 +619,7 @@ Friends</h2></td></tr>
 </div>
 </div>
 <a id="a949057c3ab36c44f52e2c80e4bd0c98a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a949057c3ab36c44f52e2c80e4bd0c98a">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[6/6]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a949057c3ab36c44f52e2c80e4bd0c98a">&#9670;&nbsp;</a></span>ImagePacket() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

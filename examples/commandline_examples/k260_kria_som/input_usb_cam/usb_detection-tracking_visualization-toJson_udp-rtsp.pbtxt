@@ -129,7 +129,7 @@ node {
   node_options: {
     [type.googleapis.com/aup.avaf.VideoCodecOptions]: {
      enc: {
-       type: H264
+       codec_type: CODEC_TYPE_H264
        fps: 12
        bitrate: 100
      }

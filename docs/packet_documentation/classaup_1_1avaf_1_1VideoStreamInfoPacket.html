@@ -156,6 +156,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:a970697bd54ab65da8fbff309a6a1b620"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a970697bd54ab65da8fbff309a6a1b620">fps</a> = 0</td></tr>
 <tr class="memdesc:a970697bd54ab65da8fbff309a6a1b620"><td class="mdescLeft">&#160;</td><td class="mdescRight">variable representing the frames per second (fps) of the video stream. Using a floating-point number for fps is common, as video frame rates can be fractional (e.g., 29.97 fps)  <a href="#a970697bd54ab65da8fbff309a6a1b620">More...</a><br /></td></tr>
 <tr class="separator:a970697bd54ab65da8fbff309a6a1b620"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a712f6a81c0436706bae26625cbd6b341"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a712f6a81c0436706bae26625cbd6b341">framerate_numerator</a> = 0</td></tr>
+<tr class="memdesc:a712f6a81c0436706bae26625cbd6b341"><td class="mdescLeft">&#160;</td><td class="mdescRight">for more precise representation of framerate, we can use the combination of numerator and denominator This will be used by gstreamer which requires these two numbers essentially making gstreamer and i/o a must have together  <a href="#a712f6a81c0436706bae26625cbd6b341">More...</a><br /></td></tr>
+<tr class="separator:a712f6a81c0436706bae26625cbd6b341"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10ba44bcb0eab27cd345c023c46e30c4"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a10ba44bcb0eab27cd345c023c46e30c4">framerate_denominator</a> = 1</td></tr>
+<tr class="memdesc:a10ba44bcb0eab27cd345c023c46e30c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">for more precise representation of framerate, we can use the combination of numerator and denominator This will be used by gstreamer which requires these two numbers essentially making gstreamer and i/o a must have together  <a href="#a10ba44bcb0eab27cd345c023c46e30c4">More...</a><br /></td></tr>
+<tr class="separator:a10ba44bcb0eab27cd345c023c46e30c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0a349e5f5cafdd6438768e5a57bbebc"><td class="memItemLeft" align="right" valign="top">PixFmt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#ad0a349e5f5cafdd6438768e5a57bbebc">pixfmt</a> = PIXFMT_NONE</td></tr>
 <tr class="memdesc:ad0a349e5f5cafdd6438768e5a57bbebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">This indicates the pixel format of the video stream, which is critical for decoding and rendering video data.  <a href="#ad0a349e5f5cafdd6438768e5a57bbebc">More...</a><br /></td></tr>
 <tr class="separator:ad0a349e5f5cafdd6438768e5a57bbebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,7 +171,7 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ac9442fc0a4825f48b7c3102b3e035790"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#ac9442fc0a4825f48b7c3102b3e035790">iframe_extract</a> = false</td></tr>
 <tr class="memdesc:ac9442fc0a4825f48b7c3102b3e035790"><td class="mdescLeft">&#160;</td><td class="mdescRight">indicating whether I-frame extraction is enabled or not. I-frames (intra-coded frames) are keyframes that contain complete image data and are crucial for seeking and error recovery in video streams.  <a href="#ac9442fc0a4825f48b7c3102b3e035790">More...</a><br /></td></tr>
 <tr class="separator:ac9442fc0a4825f48b7c3102b3e035790"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b64399f302dd92fe913da4a7ed9763b"><td class="memItemLeft" align="right" valign="top">CodecType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a4b64399f302dd92fe913da4a7ed9763b">codec_type</a> = CodecType::NONE</td></tr>
+<tr class="memitem:a4b64399f302dd92fe913da4a7ed9763b"><td class="memItemLeft" align="right" valign="top">CodecType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classaup_1_1avaf_1_1VideoStreamInfoPacket.html#a4b64399f302dd92fe913da4a7ed9763b">codec_type</a> = CODEC_TYPE_NONE</td></tr>
 <tr class="memdesc:a4b64399f302dd92fe913da4a7ed9763b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This specifies the codec used for encoding or decoding the video stream. The codec type affects compatibility, quality, and compression efficiency.  <a href="#a4b64399f302dd92fe913da4a7ed9763b">More...</a><br /></td></tr>
 <tr class="separator:a4b64399f302dd92fe913da4a7ed9763b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -340,7 +346,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">CodecType aup::avaf::VideoStreamInfoPacket::codec_type = CodecType::NONE</td>
+          <td class="memname">CodecType aup::avaf::VideoStreamInfoPacket::codec_type = CODEC_TYPE_NONE</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -362,6 +368,38 @@ Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>variable representing the frames per second (fps) of the video stream. Using a floating-point number for fps is common, as video frame rates can be fractional (e.g., 29.97 fps) </p>
+
+</div>
+</div>
+<a id="a10ba44bcb0eab27cd345c023c46e30c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10ba44bcb0eab27cd345c023c46e30c4">&#9670;&nbsp;</a></span>framerate_denominator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t aup::avaf::VideoStreamInfoPacket::framerate_denominator = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>for more precise representation of framerate, we can use the combination of numerator and denominator This will be used by gstreamer which requires these two numbers essentially making gstreamer and i/o a must have together </p>
+
+</div>
+</div>
+<a id="a712f6a81c0436706bae26625cbd6b341"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a712f6a81c0436706bae26625cbd6b341">&#9670;&nbsp;</a></span>framerate_numerator</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t aup::avaf::VideoStreamInfoPacket::framerate_numerator = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>for more precise representation of framerate, we can use the combination of numerator and denominator This will be used by gstreamer which requires these two numbers essentially making gstreamer and i/o a must have together </p>
 
 </div>
 </div>

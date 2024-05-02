@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['packetbase',['PacketBase',['../classaup_1_1avaf_1_1PacketBase.html',1,'aup::avaf']]],
-  ['packetbasepts',['PacketBasePTS',['../classaup_1_1avaf_1_1PacketBasePTS.html',1,'aup::avaf']]]
+  ['landmarkresults',['LandmarkResults',['../classaup_1_1avaf_1_1LandmarkResults.html',1,'aup::avaf']]],
+  ['landmarkspacket',['LandmarksPacket',['../classaup_1_1avaf_1_1LandmarksPacket.html',1,'aup::avaf']]]
 ];

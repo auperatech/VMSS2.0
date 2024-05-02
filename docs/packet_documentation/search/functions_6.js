@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['jsonpacket',['JsonPacket',['../classaup_1_1avaf_1_1JsonPacket.html#a6f817363a449603116987cf3623373d6',1,'aup::avaf::JsonPacket::JsonPacket(timestamp_t sts, const nlohmann::json &amp;json_object, std::string usr_source=&quot;&quot;)'],['../classaup_1_1avaf_1_1JsonPacket.html#acfe0b0fed2a29bf738636c720ce58eb0',1,'aup::avaf::JsonPacket::JsonPacket(timestamp_t sts, const std::vector&lt; std::filesystem::path &gt;::iterator &amp;json_fs_path, std::string usr_source=&quot;&quot;)']]]
+  ['has_5fsync_5ffailure',['has_sync_failure',['../classaup_1_1avaf_1_1Node.html#acb80a42d6c4243ecca70e97dabc8d62c',1,'aup::avaf::Node']]]
 ];

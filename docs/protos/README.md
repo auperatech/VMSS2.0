@@ -45,6 +45,10 @@
   - [BoxVisualizerOptions.InputType](#boxvisualizeroptionsinputtype)
 - [aup/avap/clip\_generator.proto](#aupavapclip_generatorproto)
   - [ClipGeneratorOptions](#clipgeneratoroptions)
+- [aup/avap/codec\_type.proto](#aupavapcodec_typeproto)
+  - [CodecType](#codectype)
+- [aup/avap/empty.proto](#aupavapemptyproto)
+  - [EmptyOptions](#emptyoptions)
 - [aup/avap/epyc\_resnet.proto](#aupavapepyc_resnetproto)
   - [EpycResnetOptions](#epycresnetoptions)
 - [aup/avap/event\_based\_recorder.proto](#aupavapevent_based_recorderproto)
@@ -81,6 +85,9 @@
 - [aup/avap/notification\_message.proto](#aupavapnotification_messageproto)
   - [NotificationMessageOptions](#notificationmessageoptions)
   - [NotificationMessageOptions.Trigger](#notificationmessageoptionstrigger)
+  - [NotificationMessageOptions.Trigger.ManualCrowdFlowOptions](#notificationmessageoptionstriggermanualcrowdflowoptions)
+  - [NotificationMessageOptions.Trigger.ManualDetectOptions](#notificationmessageoptionstriggermanualdetectoptions)
+  - [NotificationMessageOptions.Trigger.ManualTrackOptions](#notificationmessageoptionstriggermanualtrackoptions)
   - [NotificationMessageOptions.MessageType](#notificationmessageoptionsmessagetype)
   - [NotificationMessageOptions.Trigger.Type](#notificationmessageoptionstriggertype)
 - [aup/avap/notification\_mongo.proto](#aupavapnotification_mongoproto)
@@ -115,9 +122,10 @@
   - [VideoCodecOptions](#videocodecoptions)
   - [VideoCodecOptions.Decoder](#videocodecoptionsdecoder)
   - [VideoCodecOptions.Encoder](#videocodecoptionsencoder)
-  - [VideoCodecOptions.Encoder.Type](#videocodecoptionsencodertype)
 - [aup/avap/vfilter.proto](#aupavapvfilterproto)
   - [VideoFilterOptions](#videofilteroptions)
+- [aup/avap/video\_sink.proto](#aupavapvideo_sinkproto)
+  - [VideoSinkOptions](#videosinkoptions)
 - [aup/avap/video\_source.proto](#aupavapvideo_sourceproto)
   - [VideoSourceOptions](#videosourceoptions)
   - [VideoSourceOptions.SourceType](#videosourceoptionssourcetype)
@@ -397,15 +405,15 @@ Options for the vehicle ReID calculator
 | traffic_plate_update_threshold | [int32](#int32) |  | If the Levenshtein distance between the incoming verified plate and the previous one is smaller or equal to this threshold, the pipeline will pick the best one from all verified candidates. Otherwise, the incoming one is assumed to be the plate of another vehicle and gets ignored. The recommended value is 8. |
 | traffic_plate_min_history | [uint32](#uint32) |  | The minimum number of recognized plate number before we pick the most frequent one as the plate number of a tracklet. |
 | traffic_vehicle_pad_plate_bbox | [AplVehicleReIDOptions.Size](#aup-avaf-AplVehicleReIDOptions-Size) |  | The rectangle size for padding the detected license plate for cropping if the model in the box_detector node is set as a plate detector. |
-| traffic_plate_cluster_distance_threshold | [uint32](#uint32) |  | A verified plate is only eligible for the final result when it&#39;s there are similar plates (Levenshtein distance &lt;= traffic_plate_cluster_distance_threshold) recognized. The suggested value is 3. |
-| traffic_plate_min_count | [uint32](#uint32) |  | A verified plate is only eligible for the final result when it&#39;s recognized at least traffic_plate_min_count times, The suggested value is 2. |
+| traffic_plate_cluster_distance_threshold | [uint32](#uint32) |  | A verified plate is only eligible for the final result when it's there are similar plates (Levenshtein distance &lt;= traffic_plate_cluster_distance_threshold) recognized. The suggested value is 3. |
+| traffic_plate_min_count | [uint32](#uint32) |  | A verified plate is only eligible for the final result when it's recognized at least traffic_plate_min_count times, The suggested value is 2. |
 | traffic_class_min_history | [uint32](#uint32) |  | The pipeline will decide the class of a tracklet after this number of detections. |
-| traffic_check_plate_detection_in_parking_zone | [bool](#bool) |  | When set to &#39;true&#39;, the pipeline considers the presence and location of the plate detection in relation to the parking zone when determining the validity of the vehicle detection. This parameter is used to assist in the filtering of false positive vehicle detections occurring within the RoI. |
+| traffic_check_plate_detection_in_parking_zone | [bool](#bool) |  | When set to 'true', the pipeline considers the presence and location of the plate detection in relation to the parking zone when determining the validity of the vehicle detection. This parameter is used to assist in the filtering of false positive vehicle detections occurring within the RoI. |
 | object_movement_iou_threshold | [float](#float) |  | Only when the IoU of a detected objects and the matching tracklet below this threshold, it will be encoded. |
 | traffic_parking_alert_alarm_time_in_sec | [float](#float) |  | If a tracked vehicle stays in the parking violation zone more than this time, a notification will be sent. |
-| traffic_parking_zone_notify_time_in_sec | [float](#float) |  | A vehicle is considered parked in a parking zone if it&#39;s constantly detected inside it for at least that long after it&#39;s inside the parking zone for `alarm_clear_frame_delay` frames consecutively. |
+| traffic_parking_zone_notify_time_in_sec | [float](#float) |  | A vehicle is considered parked in a parking zone if it's constantly detected inside it for at least that long after it's inside the parking zone for `alarm_clear_frame_delay` frames consecutively. |
 | tracklet_reporting_interval_in_sec | [float](#float) |  | LPR notification of the alive tracklets will be sent for every specified interval. |
-| alarm_clear_frame_delay | [float](#float) |  | The number of consecutive frames for considering a vehicle&#39;s parking status change |
+| alarm_clear_frame_delay | [float](#float) |  | The number of consecutive frames for considering a vehicle's parking status change |
 | halting_alert_len_in_sec | [float](#float) |  | If a tracked vehicle stays in a parking zone with a low average liveness value for this period of time, it will be considered as halting |
 | active_alert_len_in_sec | [float](#float) |  | If a halted vehicle stays in a parking zone with a high average liveness value for this period of time, it will be considered as active. |
 | owner_left_alert_len_in_sec | [float](#float) |  | If a halted vehicle stays in a parking zone with a low average liveness value for this period of time, it will be considered as its owner has been left. |
@@ -426,7 +434,7 @@ Options for the vehicle ReID calculator
 | traffic_only_send_new_image | [bool](#bool) |  | If it’s set to true, the pipeline will only send the cropped image of the tracklet in the message if it’s not sent before to save the bandwidth. It’s recommended to set it to true for LPR when the reporting interval is small. |
 | traffic_only_notify_vehicle_with_LP | [bool](#bool) |  | If it’s set to true, tracklets without an LPR number will not be notified. It’s recommended to set it to true for LPR and VIP parking to avoid irrelevant detections. |
 | traffic_notify_reporting_interval | [bool](#bool) |  | When it is set to false, the message "REPORTING_INTERVAL" is disabled. T |
-| traffic_update_image_mode | [string](#string) |  | a. if it&#39;s specified as "plate", the images will be updated in the following way as before: If the LPR of a tracklet has not been unverified, the image is updated when it gets a reading with a higher confidence. If the LPR of a tracklet is verified for the first time, the image is initialized with the current crop. If the LPR of a tracklet has been verified, the image is updated when its LPR gets updated or the same reading gets one with higher confidence. b. If it&#39;s specified as "parking", the images will be updated when the tracklet&#39;s halting status changes from or to HaltingStatus::NA, indicating that it enters or exits a parking zone. c. if it&#39;s specified as `"detection"`, the images will be updated when the tracklet has higher detection confidence as in the vehicle ReID scenario |
+| traffic_update_image_mode | [string](#string) |  | a. if it's specified as "plate", the images will be updated in the following way as before: If the LPR of a tracklet has not been unverified, the image is updated when it gets a reading with a higher confidence. If the LPR of a tracklet is verified for the first time, the image is initialized with the current crop. If the LPR of a tracklet has been verified, the image is updated when its LPR gets updated or the same reading gets one with higher confidence. b. If it's specified as "parking", the images will be updated when the tracklet's halting status changes from or to HaltingStatus::NA, indicating that it enters or exits a parking zone. c. if it's specified as `"detection"`, the images will be updated when the tracklet has higher detection confidence as in the vehicle ReID scenario |
 | send_mlops_notifications | [bool](#bool) |  | If we also send MLOps notifications |
 | save_eval_results | [bool](#bool) |  | If it’s set to true, the pipeline will save the tracking results to a pred.txt for evaluation purposes. |
 | camera_id | [uint32](#uint32) |  | The camera ID of the video stream. |
@@ -438,9 +446,9 @@ Options for the vehicle ReID calculator
 | curve_fitting_method | [string](#string) |  | The form of the curve. If it’s set to “parametric” (default), the curve will be represented in the form of y=f(x). If it’s set to “implicit”, the curve will be represented in the form of f(x,y) = 0 |
 | curve_fitting_var | [string](#string) |  | The variables in the curve. If it’s set to “xy” (default), only the coordinates will be used to fit the curve If it’s set to “xyt”, the time will also be used to fit the curve |
 | homography_file | [string](#string) |  | The path to the homography file. If the file exists, the pipeline will load the homography matrix from the file so that the fitted curve is in the converted coordnate system (e.g. GPS). |
-| vehicle_color_classifier_model | [string](#string) |  | The kernel name of the vehicle color classicifation model if it&#39;s not an empty string. |
-| vehicle_make_classifier_model | [string](#string) |  | The kernel name of the vehicle make classicifation model if it&#39;s not an empty string. |
-| vehicle_type_classifier_model | [string](#string) |  | The kernel name of the vehicle type classicifation model if it&#39;s not an empty string. |
+| vehicle_color_classifier_model | [string](#string) |  | The kernel name of the vehicle color classicifation model if it's not an empty string. |
+| vehicle_make_classifier_model | [string](#string) |  | The kernel name of the vehicle make classicifation model if it's not an empty string. |
+| vehicle_type_classifier_model | [string](#string) |  | The kernel name of the vehicle type classicifation model if it's not an empty string. |
 
 
 
@@ -590,7 +598,7 @@ and performance logging options.
 | batch_collection_timeout_ms | [uint64](#uint64) |  | The maximum time in milliseconds to wait for a full batch before processing. |
 | use_detections | [bool](#bool) |  | If true, uses detection results as input for classification, otherwise uses raw images. |
 | log_performance | [bool](#bool) |  | Enables logging of performance metrics, this will print on the termianl screen. |
-| max_classification_lib_q_size | [int32](#int32) |  | The maximum size of the classification library&#39;s queue. |
+| max_classification_lib_q_size | [int32](#int32) |  | The maximum size of the classification library's queue. |
 | max_frame_cache_size | [int32](#int32) |  | The maximum size of the frame cache. Helps manage memory usage. |
 
 
@@ -669,7 +677,7 @@ OBoxDetectorOptionsptions for detector calculator mean substraction
 | mean | [BoxDetectorOptions.Mean](#aup-avaf-BoxDetectorOptions-Mean) |  | Mean values for preprocessing. (Optional as typically this is available in model prototxt) |
 | scale | [BoxDetectorOptions.Scale](#aup-avaf-BoxDetectorOptions-Scale) |  | Scale values for preprocessing. |
 | label_confidence | [BoxDetectorOptions.LabelConfidence](#aup-avaf-BoxDetectorOptions-LabelConfidence) | repeated | Specific label confidence thresholds. This is to filter all the objects in the scene except the ones provide by this value. You can provide one or more pairs of label/confidence if at least one label_confidence is provided, total classes and default_confidence_threshold is ignored This means that the detector only considers the labels that label_confidence provide if there is no label_confidence defined, then detector will use total_classes and default_confidence_thresh if no label_confidence is defined and total_classes=0, then an error will be returned |
-| total_classes | [uint32](#uint32) |  | Total number of classes. It will be ignored if label_confidence is provided. Otherwise, it&#39;s REQUIRED, and its expected value range is &gt; 0. |
+| total_classes | [uint32](#uint32) |  | Total number of classes. It will be ignored if label_confidence is provided. Otherwise, it's REQUIRED, and its expected value range is &gt; 0. |
 | default_confidence_threshold | [float](#float) |  | The default value is set to default confidence threshold. It is REQUIRED if label_confidence is not provided and its expected value range is (0, 1). |
 | inter_class_nms | [BoxDetectorOptions.InterClassNms](#aup-avaf-BoxDetectorOptions-InterClassNms) | repeated | Settings for inter-class NMS. |
 | run_on_letterboxed_img | [bool](#bool) |  | Whether to run detection on letterboxed images. This means resizing by keeping the original aspect ratio and black padding the image |
@@ -1124,6 +1132,8 @@ BoxVisualizerOptions configures the visual aspects of bounding boxes and classif
 | connect_landmarks | [bool](#bool) |  | When set to true, this feature is activated for Movenet, Hourglass, and Openpose models where it connects detected landmark points in a predefined order. |
 | apply_filter_on_landmarks | [string](#string) |  | Option for application of various filters (options include "mask", "bbox", "hat") on a detected face landmark |
 | arm_raise_check | [string](#string) |  | Supplementary feature for apply_filter_on_landmarks in conjunction with human pose estimators (options include "angles" and "height" to determine if an arm is raised), which applies the filter to the face if either or both arms are detected as raised. |
+| render_on_nv12 | [bool](#bool) |  | Is rendering done on NV12 image |
+| ttf_file_path_for_nv12 | [string](#string) |  | file path to true type font file |
 
 
 
@@ -1218,6 +1228,76 @@ Configures Clip Generator options
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | name_prefix | [string](#string) |  | name prefix for the clip file name |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="aup_avap_codec_type-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/codec_type.proto
+
+
+ 
+
+
+<a name="aup-avaf-CodecType"></a>
+
+### CodecType
+Codec Type enumeration for supported codec types
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| CODEC_TYPE_NONE | 0 | Codec type not specified |
+| CODEC_TYPE_H264 | 1 | Codec type is H264 |
+| CODEC_TYPE_H265 | 2 | Codec type is H265 |
+| CODEC_TYPE_MPEG4 | 3 | Codec type is MPEG4 |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="aup_avap_empty-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/empty.proto
+Empty options. This option is useful for any calculator that does not require any options
+
+Example:
+```
+ node {
+   name: "custom"
+   calculator: "custom_node"
+   input_stream: "input_stream"
+   output_stream: "output_stream"
+   node_options: {
+     [type.googleapis.com/aup.avaf.EmptyOptions]: {
+     }
+   }
+ }
+```
+
+
+<a name="aup-avaf-EmptyOptions"></a>
+
+### EmptyOptions
+
 
 
 
@@ -1382,6 +1462,7 @@ Options for frame saver node which saves frames to disk for specific interval
 | save_limit | [uint32](#uint32) |  | Maximum number of files that can be saved |
 | save_offset | [uint32](#uint32) |  | Number of initial frames to be ignored from being saved |
 | output_type | [FrameSaverOptions.OutputType](#aup-avaf-FrameSaverOptions-OutputType) |  | Output type of the saved frames |
+| save_skip | [uint32](#uint32) |  | How many frames to skip between each write |
 
 
 
@@ -1490,7 +1571,7 @@ process them and send packets to output streams.
 | name | [string](#string) |  | This denotes the calculator name. This can be an arbitrary string determined by graph author in order to uniquely identify the node by. |
 | vendor | [string](#string) |  | the vendor of the calculator. This determines who/what company wrote the node this is useful to differentiate same calculators via different vendors. If not specified, it will default to Aupera. |
 | calculator | [string](#string) |  | This denotes the calculator name a.k.a. the type of node. |
-| input_stream | [string](#string) | repeated | node input stream name. this is connected to another node&#39;s output stream. |
+| input_stream | [string](#string) | repeated | node input stream name. this is connected to another node's output stream. |
 | input_stream_attributes | [GraphConfig.Node.InputStreamAttributes](#aup-avaf-GraphConfig-Node-InputStreamAttributes) | repeated | list of attributes for all the input streams that may need to be |
 | output_stream | [string](#string) | repeated | node output stream name, can be multiple, each stream should be unique for current graph |
 | output_stream_attributes | [GraphConfig.Node.OutputStreamAttributes](#aup-avaf-GraphConfig-Node-OutputStreamAttributes) | repeated | list of attributes for all the output streams that may need to be |
@@ -1508,7 +1589,7 @@ process them and send packets to output streams.
 <a name="aup-avaf-GraphConfig-Node-InputStreamAttributes"></a>
 
 ### GraphConfig.Node.InputStreamAttributes
-ADVANCED: Attributes that are related to a node&#39;s input stream.
+ADVANCED: Attributes that are related to a node's input stream.
 
 
 | Field | Type | Label | Description |
@@ -1525,7 +1606,7 @@ ADVANCED: Attributes that are related to a node&#39;s input stream.
 <a name="aup-avaf-GraphConfig-Node-OutputStreamAttributes"></a>
 
 ### GraphConfig.Node.OutputStreamAttributes
-ADVANCED: Attributes that are related to a node&#39;s output stream.
+ADVANCED: Attributes that are related to a node's output stream.
 
 
 | Field | Type | Label | Description |
@@ -1633,14 +1714,14 @@ the following conditions is met:
 - any unsynchronzed input stream has a new packet
 - all synchronized streams have new packets before sychronization
   timeout
-- some synchronzied streams have new packets but some don&#39;t.
+- some synchronzied streams have new packets but some don't.
   synchronization timeout is reached
 Side packets are static data which are not removed from the stream when
 dequeued. They only maintain their last value
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CONTRACT | 0 | Input stream type is determined by node&#39;s contract implementation. This is the default value |
+| CONTRACT | 0 | Input stream type is determined by node's contract implementation. This is the default value |
 | SYNCED_IMMUTABLE | 1 | Stream is synchronized with other SYNCED_IMMUTABLE and SYNCED_MUTABLE inputs of the node. Synchronization happens with regards to synchoronization timestamp of the packets. Node is not allowed to modify the packet. Meaning that the packet is treated as const. Direction of this stream can only be foreward. |
 | SYNCED_MUTABLE | 2 | Stream is synchronized with other SYNCED_IMMUTABLE and SYNCED_MUTABLE inputs of the node. Synchronization happens with regards to synchoronization timestamp of the packets. Node is allowed to modify the packet. Meaning that the packet is not treated as const Direction of this stream can only be foreward. |
 | UNSYNCED_IMMUTABLE | 3 | Stream is not synchronized with any other streams. Node is not allowed to modify these packets which means that these are const packets.option These packets can travel either forward or backward |
@@ -1652,7 +1733,7 @@ dequeued. They only maintain their last value
 
 ### GraphConfig.Node.OutputStreamAttributes.OnFullAct
 This determines the behavior of aup::avaf::Node::enqueue member
-function in the case that stream&#39;s full capacity is reached
+function in the case that stream's full capacity is reached
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
@@ -1858,7 +1939,7 @@ Options for the landmark predictor
 | force_batch_size | [bool](#bool) |  | Forces the landmark predictor to wait for a full batch before processing. |
 | batch_collection_timeout_ms | [uint64](#uint64) |  | The maximum time in milliseconds to wait for a full batch before processing. |
 | log_performance | [bool](#bool) |  | Enables logging of performance metrics, this will print on the termianl screen. |
-| max_landmark_prediction_lib_q_size | [int32](#int32) |  | The maximum size of the landmark prediction library&#39;s queue. |
+| max_landmark_prediction_lib_q_size | [int32](#int32) |  | The maximum size of the landmark prediction library's queue. |
 | use_detections | [bool](#bool) |  | If true, uses detection results as input for landmark prediction, otherwise uses raw images. |
 | max_frame_cache_size | [int32](#int32) |  | The maximum size of the frame cache. Helps manage memory usage. |
 
@@ -1891,14 +1972,13 @@ node {
    [type.googleapis.com/aup.avaf.NotificationMessageOptions]: {
      sender: "xxxxxx@auperatech.com"
      receiver: ["xxxxxxx1@gmail.com", "xxxxxxx2@gmail.com"]
-     notification_q_size: 2
      sender_username: "xxxxxxxxxxxx"
      sender_password: "xxxxxxxxxxxxx"
      server_url: "smtps://mail.auperatech.com:465"
      trigger: {
        trigger_type: JQ
        trigger_consecutive_packet: 3
-       jq_query_string: "&#39;select(.total_persons_entering &gt; 10 and .interval_persons_entering % 2 == 1)&#39;"
+       jq_query_string: "'select(.total_persons_entering &gt; 10 and .interval_persons_entering % 2 == 1)'"
        notification_title: "email_notification_test"
        notification_body: "xxxxxxxxxxxxxxxxxx"
        attach_json: true
@@ -1922,9 +2002,8 @@ Options for the notification_mongo calculator
 | server_url | [string](#string) |  | _**REQUIRED**_. The expected value is a string. If send email notification, this is email SMTP URL, eg: "smtps://mail.auperatech.com:465" If send SMS notification, this is SMS gateway API URL, eg: "https://api.twilio.com/2010-04-01/Accounts/&lt;Account-SID&gt;/Messages.json" |
 | sender | [string](#string) |  | _**REQUIRED**_. The expected value is a string. / If send notification via email, the value should be an email address; if send notification via SMS, the value should be a phone number. |
 | receiver | [string](#string) | repeated | _**REQUIRED**_. The expected value is an array of strings. / If send notification via email, the value should be an array of email address; if send notification via SMS, the value should be an array of phone number. |
-| sender_username | [string](#string) |  | _**REQUIRED**_. The expected value is a string. / The credentials or authentications for connecting the server url / If send email notification, username and password are sender&#39;s email credentials / If send SMS notification, username and password are account&#39;s ID and token for authentications |
+| sender_username | [string](#string) |  | _**REQUIRED**_. The expected value is a string. / The credentials or authentications for connecting the server url / If send email notification, username and password are sender's email credentials / If send SMS notification, username and password are account's ID and token for authentications |
 | sender_password | [string](#string) |  |  |
-| notification_q_size | [uint32](#uint32) |  | The expected value is a number &gt; 0, suggest range is [1, 4]. The size of the queue for holding pending notifications before they are sent. |
 | trigger | [NotificationMessageOptions.Trigger](#aup-avaf-NotificationMessageOptions-Trigger) | repeated | _**REQUIRED**_. The expected value is user-defiend trigger object as listed in example / The jq trigger to select and filter messages sent |
 
 
@@ -1941,11 +2020,78 @@ Triggers to specify user-defiend notifications and jq filters.
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | trigger_type | [NotificationMessageOptions.Trigger.Type](#aup-avaf-NotificationMessageOptions-Trigger-Type) |  | The expected value is PACKET or JQ, the default value is PACKET. Device if apply jq_query_string to filter the packet; otherwise we keep the packet as is. |
-| jq_query_string | [string](#string) |  | REQUIRED when trigger_type is JQ. The expected value is a string. The jq string to filter the contents, eg: "jq &#39;.detections | any(.[]; (.h * .w &gt; 200) and .class == \"bear\")&#39; example.json" |
+| jq_query_string | [string](#string) |  | REQUIRED when trigger_type is JQ. The expected value is a string. The jq string to filter the contents, eg: "jq '.detections | any(.[]; (.h * .w &gt; 200) and .class == \"bear\")' example.json" |
+| manual_detect_options | [NotificationMessageOptions.Trigger.ManualDetectOptions](#aup-avaf-NotificationMessageOptions-Trigger-ManualDetectOptions) |  | Manual filtering options for detections NOTE: trigger_type must be JSON_DETECTION |
+| manual_track_options | [NotificationMessageOptions.Trigger.ManualTrackOptions](#aup-avaf-NotificationMessageOptions-Trigger-ManualTrackOptions) |  | Manual filtering options for detections NOTE: trigger_type must be JSON_TRACK |
+| manual_crowd_options | [NotificationMessageOptions.Trigger.ManualCrowdFlowOptions](#aup-avaf-NotificationMessageOptions-Trigger-ManualCrowdFlowOptions) |  | Manual filtering options for crowd flow tracking NOTE: trigger_type must be JSON_CROWD_FLOW |
 | trigger_consecutive_packet | [uint32](#uint32) |  | _**REQUIRED**_. The expected value is a number &gt; 0. Sent notification when the previously received packet numbers meet the trigger_consecutive_packet value. |
 | notification_title | [string](#string) |  | _**REQUIRED**_. The expected value is a string. User-defined notification_title. |
 | notification_body | [string](#string) |  | The expected value is a string. User-defined notification_body. |
 | attach_json | [bool](#bool) |  | The expected value is a boolean and it defaults to false. Choose to attach the packets into the notification or not. |
+
+
+
+
+
+
+<a name="aup-avaf-NotificationMessageOptions-Trigger-ManualCrowdFlowOptions"></a>
+
+### NotificationMessageOptions.Trigger.ManualCrowdFlowOptions
+ManualCrowdFlowOptions to specify options for incoming crowd flow frames instead of using jq_query_string
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| min_total_entering | [uint32](#uint32) |  | Minimum total number of people who must have entered |
+| min_total_exiting | [uint32](#uint32) |  | Minimum total number of people who must have exited |
+| min_total_persons | [uint32](#uint32) |  | Minimum total people detected to pass filters |
+| max_total_persons | [uint32](#uint32) |  | Maximum total people detected to pass filters |
+| min_crowd_density | [float](#float) |  | Minimum crowd density to pass filters |
+| max_crowd_density | [float](#float) |  | Maximum crowd density to pass filters |
+
+
+
+
+
+
+<a name="aup-avaf-NotificationMessageOptions-Trigger-ManualDetectOptions"></a>
+
+### NotificationMessageOptions.Trigger.ManualDetectOptions
+ManualDetectOptions to specify filter options for incoming detection frames instead of using jq_query_string
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| min_objects | [uint32](#uint32) |  | REQUIRED Minimum number of objects that must be detected in an image and pass filters |
+| min_confidence | [float](#float) |  | Minimum confidence score of object to pass filters (between 0.0 and 1.0) |
+| roi_x | [uint32](#uint32) |  | REQUIRED Minimum x location in pixels (from top-left corner) of left-most region of roi bounding box |
+| roi_y | [uint32](#uint32) |  | REQUIRED Minimum y location in pixels (from top-left corner) of top-most region of roi bounding box |
+| roi_w | [uint32](#uint32) |  | REQUIRED width of roi bounding box |
+| roi_h | [uint32](#uint32) |  | REQUIRED height of roi bounding box |
+| object_id | [uint32](#uint32) |  | Classification id of object to pass filters |
+
+
+
+
+
+
+<a name="aup-avaf-NotificationMessageOptions-Trigger-ManualTrackOptions"></a>
+
+### NotificationMessageOptions.Trigger.ManualTrackOptions
+ManualTrackOptions to specify filter options for incoming tracked frames instead of using jq_query_string
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| min_objects | [uint32](#uint32) |  | REQUIRED Minimum number of objects that must be detected in an image and pass filters |
+| min_confidence | [float](#float) |  | Minimum confidence score of object to pass filters (between 0.0 and 1.0) |
+| roi_x | [uint32](#uint32) |  | REQUIRED Minimum x location in pixels (from top-left corner) of left-most region of roi bounding box |
+| roi_y | [uint32](#uint32) |  | REQUIRED Minimum y location in pixels (from top-left corner) of top-most region of roi bounding box |
+| roi_w | [uint32](#uint32) |  | REQUIRED width of roi bounding box |
+| roi_h | [uint32](#uint32) |  | REQUIRED height of roi bounding box |
+| object_id | [uint32](#uint32) |  | Classification id of object to pass filters |
+| min_track_age | [uint32](#uint32) |  | Minimum tracking age of an object to pass filters NOTE: only use when tracking objects |
+| max_track_age | [uint32](#uint32) |  | Maximum tracking age of an object to pass filters NOTE: only use when tracking objects |
 
 
 
@@ -1975,6 +2121,9 @@ Type defines the supported notifications types.
 | ---- | ------ | ----------- |
 | PACKET | 0 | Send plain notification packet text. |
 | JQ | 1 | Send notification after jq filter process |
+| JSON_DETECTION | 2 | Send notification after manual detection filter process. |
+| JSON_TRACK | 3 | Send notification after manual tracked detection filter process. |
+| JSON_CROWD_FLOW | 4 | Send notification after manual crowd flow filter process. |
 
 
  
@@ -2669,7 +2818,7 @@ Encoder specifies the settings for video encoding.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| type | [VideoCodecOptions.Encoder.Type](#aup-avaf-VideoCodecOptions-Encoder-Type) |  | Encoding type (H264, H265, MPEG4). |
+| codec_type | [CodecType](#aup-avaf-CodecType) |  | Encoding type (H264, H265, MPEG4). |
 | w | [uint32](#uint32) |  | Encoder width, 0 to use input stream resolution. |
 | h | [uint32](#uint32) |  | Encoder height, 0 to use input stream resolution. |
 | fps | [float](#float) |  | Frame rate for the encoded video. |
@@ -2687,19 +2836,6 @@ Encoder specifies the settings for video encoding.
 
 
  
-
-
-<a name="aup-avaf-VideoCodecOptions-Encoder-Type"></a>
-
-### VideoCodecOptions.Encoder.Type
-Type enumerates the video codec types for encoding.
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| H264 | 0 | H.264/AVC codec, widely used for high definition video. |
-| H265 | 1 | H.265/HEVC codec, known for efficient compression of HD video. |
-| MPEG4 | 2 | MPEG-4 codec, an older standard for digital video. |
-
 
  
 
@@ -2767,21 +2903,115 @@ VideoFilterOptions configures the settings for various video filtering operation
 
 
 
+<a name="aup_avap_video_sink-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## aup/avap/video_sink.proto
+These are the options for video_sink calculator which is a calculator to output video via rtsp
+Here as example of usage of this node
+```
+node {
+  calculator: "video_sink"
+  name: "sink"
+  input_stream: "nv12"
+  input_stream: "nv12_infopacket"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoSinkOptions]: {
+      codec_type: CODEC_TYPE_H264
+      bframes: 0
+      gop_size: 60
+      gop_mode: "low-latency-P"
+      bitrate: 3000
+      rc_mode: "Low Latency"
+      path: "rtsp://127.0.0.1:554/my_car_stream"
+    }
+  }
+}
+```
+
+
+<a name="aup-avaf-VideoSinkOptions"></a>
+
+### VideoSinkOptions
+Options for video_sink calculator
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| codec_type | [CodecType](#aup-avaf-CodecType) |  | Encoding type (H264, H265, MPEG4). |
+| bframes | [uint32](#uint32) |  | Number of B-frames between I and P. |
+| gop_size | [uint32](#uint32) |  | Group of Pictures size, affects compression and quality |
+| gop_mode | [string](#string) |  | GOP mode ("default", "low-latency-B", "low-latency-P", "adaptive-B"). |
+| bitrate | [uint32](#uint32) |  | Bitrate for the video in bits per second. |
+| rc_mode | [string](#string) |  | Rate control mode ("CBR", "VBR"). |
+| udp_port | [uint32](#uint32) |  | UDP port of rtsp pipeline, for dev only (set internally, recommend user to not specify this) |
+| path | [string](#string) |  | Path to video rtsp output |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="aup_avap_video_source-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## aup/avap/video_source.proto
 These are the options for video_source calculator which is a calculator for reading any kind of video
-For now it only support USB cameras
+This calculator supports USB cameras as well as RTSP streams.
+For the case of USB cameras, the calculator has two outputs
 Here as example of usage of this node
 ```
 node {
   name: "usb_cam"
   calculator: "video_source"
-  output_stream: "image_stream_decode"
-  output_stream: "video_stream_info_decode"
+  output_stream: "image_stream_bgr"
+  output_stream: "video_stream_info_bgr"
+  node_options: {
+  output_stream: "video_stream_info_nv12"
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+    }
+  }
+}
+```
+For the case of RTSP, the calculator has three outputs
+Here is an exaple of usage of this node
+```
+node {
+  name: "rtsp_in"
+  calculator: "video_source"
+  output_stream: "image_stream_bgr"
+  output_stream: "video_stream_info_bgr"
+  output_stream: "image_stream_nv12"
+  output_stream: "video_stream_info_nv12"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+      path: "rtsp://localhost:554/mystream"
+    }
+  }
+}
+```
+For the case of Video, the calculator has three outputs
+Here is an exaple of usage of this node
+```
+node {
+  name: "video_in"
+  calculator: "video_source"
+  output_stream: "image_stream_bgr"
+  output_stream: "video_stream_info_bgr"
+  output_stream: "image_stream_nv12"
+  output_stream: "video_stream_info_nv12"
+  node_options: {
+    [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
+      path: "/home/me/my_video.264"
     }
   }
 }
@@ -2797,11 +3027,15 @@ Options for video_source calculator
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | source_type | [VideoSourceOptions.SourceType](#aup-avaf-VideoSourceOptions-SourceType) |  | type of video source |
+| codec_type | [CodecType](#aup-avaf-CodecType) |  | Codec type of the video |
 | path | [string](#string) |  | Path to video source |
 | width | [uint32](#uint32) |  | width of video source. Will select the best value for width if not specified based on combination of resoltion and framerates available |
 | height | [uint32](#uint32) |  | height of the video source. Will select best value for height if not specificed based on combination of resoltion and framerates available |
-| framerate | [float](#float) |  | framerate of the video. Will select best framerate if not specified based on combination of resoltion and framerates available |
+| framerate_numerator | [uint32](#uint32) |  | framerate of the video. Will select best framerate if not specified based on combination of resoltion and framerates available |
+| framerate_denominator | [uint32](#uint32) |  | framerate of the video. Will select best framerate if not specified based on combination of resoltion and framerates available |
 | pool_size | [uint32](#uint32) |  | Number of frames in the frame pool. Larger value will allow more frames to flow in the pipeline but will use more memory |
+| drop_packet_on_full_data_stream | [bool](#bool) |  | Drop image packet in case that the data stream is full. More accurately, drop the packet in the case that the image allocator does not have any more room |
+| play_file_once | [bool](#bool) |  | If set to false, it will only play the file once. otherwise it will loop over the file |
 
 
 
@@ -2817,8 +3051,10 @@ Type of source
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| AUTO | 0 | Auto-detect the source type |
+| AUTO_SOURCE_TYPE | 0 | Auto-detect the source type |
 | USB | 1 | USB |
+| RTSP | 2 | RTSP (rtsp://....) |
+| FILE | 3 | VIDEO FILE |
 
 
  

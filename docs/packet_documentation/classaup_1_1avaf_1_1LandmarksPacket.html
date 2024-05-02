@@ -199,7 +199,12 @@ Public Attributes</h2></td></tr>
 <p>Construct a new Landmarks Packet objects. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname"></td><td></td></tr>
+    <tr><td class="paramname">pts</td><td>is the presentation timestamp </td></tr>
+    <tr><td class="paramname">landmarks</td><td>list of predicted landmarks for each bounding box </td></tr>
+    <tr><td class="paramname">frame_number</td><td>index keeps track of the frame id for which the classification was performed </td></tr>
+    <tr><td class="paramname">bboxes</td><td>list of bounding boxes </td></tr>
+    <tr><td class="paramname">landmark_predictor_type</td><td>the type of landmark predictor ml model being used for the prediction </td></tr>
+    <tr><td class="paramname">stream_idx</td><td>indicates which input video stream the classification belongs to, for a classifier node with multiple video input streams </td></tr>
   </table>
   </dd>
 </dl>
