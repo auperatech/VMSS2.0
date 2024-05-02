@@ -40,7 +40,7 @@ git clone --single-branch https://github.com/auperatech/VMSS2.0.git
 
 Next, let's proceed to download a demo mp4 file and prepare it for this tutorial:
 ```
-cd VMSS2.0/tutorial/K260_Kria_SOM_video_source/assets
+cd VMSS2.0/tutorial/K260_Kria_SOM/assets
 ```
 
 Successfully executing these commands will create the following directory structure.
