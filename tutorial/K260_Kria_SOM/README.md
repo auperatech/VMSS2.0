@@ -89,6 +89,13 @@ path: "/<path to>/face_demo_82s.nv12.h264"
 ```
 path: "rtsp://vmss.auperatechnologies.com:554/your-output-name"
 ```
+
+`video_sink` can act as an RTSP server as well. If you want to use this feature, you can set the output url as follows:
+
+```
+path: "rtsp://<SOM-IP>:554/
+```
+
 ***NOTE:*** It's important to use a unique stream name when using the RTSP server. Ensure you replace `your-output-name` above with a name of your choosing before moving forward.
 
 ### Setup an RTSP Video Player 
