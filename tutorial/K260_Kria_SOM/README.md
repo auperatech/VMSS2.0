@@ -314,7 +314,7 @@ For more detailed adjustments, including configuring email notifications and ref
 
 ## Changing Input from RTSP to USB
 
-Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera. This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
+Let's explore how to adapt our pipeline to different video input sources. Specifically, we will transition from using an RTSP/video stream to capturing video directly from a USB camera (exposed on the som via `/dev/video0`). This opens up a realm of possibilities for different operational scenarios. Whether you're looking to monitor a live feed from a remote camera or capture video directly from a camera connected locally, this adjustment allows your pipeline to be versatile and adaptable to specific needs.
 
 To make this transition, perform the following 2 steps:
 
@@ -335,7 +335,7 @@ To make this transition, perform the following 2 steps:
 - Remove the nodes `box_visualizer` (content lines [43-78](./assets/rtsp_persondetect_rtsp.pbtxt#L43-L78))and `video_sink` (content lines [80-96](./assets/rtsp_persondetect_rtsp.pbtxt#L80-L96)), as the `video_sink` node only accepts NV12 formatted frames, which the USB camera cannot produce at this time
   
 
-That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. After making sure you have a USB camera setup ready, execute the pipeline again and watch the results in your video player:
+That's it! With the adjustments made, your pipeline is now prepared to accept video input straight from a USB camera. The `video_source` calculator will now look for and attempt to connect to a webcam device on `/dev/video0` on the SOM. After making sure you have a USB camera setup ready, execute the pipeline again and watch the results in your video player:
 ```
 avaser -c rtsp_persondetect_rtsp.pbtxt
 ```
