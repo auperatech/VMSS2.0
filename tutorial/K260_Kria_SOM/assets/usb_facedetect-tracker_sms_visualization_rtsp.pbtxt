@@ -5,7 +5,7 @@ node {
   name: "usb_cam"
   calculator: "video_source"
   output_stream: "image_stream_bgr"
-  output_stream: "bgr_infopacket""
+  output_stream: "bgr_infopacket"
   node_options: {
     [type.googleapis.com/aup.avaf.VideoSourceOptions]: {
     }
