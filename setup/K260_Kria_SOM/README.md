@@ -28,6 +28,14 @@ Follow the on-screen prompts to:
 - Specify the full path of the shared directory for Docker container access. Leave blank to use the current directory.
 - Enter the name for your Docker container. Leave blank to use the default name `vmss_docker`.
 
+  
+#### ***NOTE*** case of reboot or power off/on after running this script
+In real scenarios, you would need to reboot, turn off and on the SOM for multiple occasions. rebooting will stop the docker. In this case, it is important to not run the setup script again. Instead just run the following command:
+
+```bash
+sudo xmutil unloadapp; sudo xmutil loadapp kv260-smartcam
+```
+
 ### 2. Accessing Your Docker Container
 After the installation, you can access your Docker container's interactive bash session with the following command:
 
