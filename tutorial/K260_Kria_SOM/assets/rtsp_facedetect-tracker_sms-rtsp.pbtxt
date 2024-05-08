@@ -154,6 +154,7 @@ node {
           roi_y: 0
           roi_h: 1080
           min_track_age: 900
+          max_track_age: 950
         }
       }
     }
