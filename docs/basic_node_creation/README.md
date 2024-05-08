@@ -4,6 +4,10 @@ This document goes through creation of custom nodes which enables users to embed
 
 User can embed their custom logic into VMSS2.0 by creating node/calculators. This guide will walk you through the creation of custom node and running a pipeline that uses that custom logic.
 
+## Example Calculators
+
+If you need to refer to an example calculator durng this tutorial, please take a look at our open source calculators which may be [found here](https://github.com/auperatech/vmss_calculators)
+
 ## Start and execute the docker container
 1. Please refer to the [setup documentation](../../setup/K260_Kria_SOM/README.md) for enviroment setup of Kria SOM
 

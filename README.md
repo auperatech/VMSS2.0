@@ -65,15 +65,30 @@ Here are some key resources to get started with our VMSS 2.0 release for K260 Kr
 
 * **Node (Calculator) Guide:** Learn what our suite of prebuilt nodes offer and learn about their specifications [in this document](docs/nodes/README.md).
 
+* **Open Source Calculator Code:** Download, edit, and build our calculators on your SOM [from this repo](https://github.com/auperatech/vmss_calculators)
+
 * **Data Packet Guide:** Explore what packets are available in VMSS2.0 for communication between nodes [here](https://auperatech.github.io/VMSS2.0/packet_documentation/annotated.html).
 
-* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/basic_node_creation/README.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [kp_predictor](calculators/kp_predictor) or modify some of our nodes like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json).
+* **Custom Logic:** Build your own custom logic and integrate it with VMSS 2.0 using [these instructions](docs/basic_node_creation/README.md). Also, check out open-sourced such as how to create a an inference node for a Vitis AI model zoo mode like [kp_predictor](calculators/kp_predictor) or modify some of our nodes like [box_visualizer](calculators/box_visualizer) and [to_json](calculators/to_json). Also take a look at the full list of our open-sourced calculators [here](https://github.com/auperatech/vmss_calculators).
 
 * **Cloud-Based UI Demo:**  Explore the capabilities of our cloud-based user interface for running RTSP-based examples [here](https://vmss.auperatechnologies.com/).
 
 ## Reporting Bugs
 
 In case that you try our solution and find any bugs, please create and issue [here](https://github.com/auperatech/VMSS2.0/issues/new)
+
+## Known issues
+
+**VMSS2.0**
+- Infrequent ungraceful exit: 
+  
+  `omx gstomx.c:2710:gst_omx_port_set_flushing:<omxh264dec-omxh264dec9> Timeout while flushing decoder port 0`
+- box_visualizer issue drawing correct color for classifications and landmarks when using NV12 frames
+- box_visualizer issue drawing boxes using a detection-classifier cascade pipeline when box_visualizer node option `render_on_nv12: true`
+- long connection time with VLC when using local RTSP server (may need to try multiple times)
+
+**Kria SOM**
+- Unkown infrequent SOM timeout issue (can ping, but can't connect via ssh)
 
 ## Other supported platforms for VMSS2.0
 
