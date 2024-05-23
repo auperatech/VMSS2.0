@@ -19,7 +19,8 @@
 - [5 RUNNING YOUR OWN (CUSTOM) PIPELINE](#5-running-your-own-custom-pipeline)
 - [6 USING VIDEO STREAMS TO ADD NEW STREAM, PLAY VIDEOS OR CHANGE SNAPSHOTS](#6-using-video-streams-to-add-new-stream-play-videos-or-change-snapshots)
 - [7 AI HOSTS PAGE](#7-ai-hosts-page)
-- [8 USEFUL TOOLS](#8-useful-tools)
+- [8 MODEL REDEPLOYMENT](#8-model-redeployment)
+- [9 USEFUL TOOLS](#9-useful-tools)
 
 <br>
 <br>
@@ -329,45 +330,46 @@ In this section, we will describe the steps to run the Aupera’s Proprietary Pi
         <p ><strong>Figure 2.2.8 Aupera web application page – LPR task result</strong></p>
     </div>
 
-    If you enabled the MLOps Mode during LPR task setup, there will be a different view for the results page. On top of the results page, you can switch between MLOps results and LP detection results. In the MLOps section you will see “tracklets”. Each tracklet represents a single car recognized by the AI. The tracklets page allows you to filter MLOps results by date, or select **Hour**, **Day**, **Week** button behind *Limit By Last* for quick filter by hour, day or week. Beside the date picker locates the **Download MLOps Results** button. MLOps results will be packaged into a tar file and downloaded into your computer once clicked. Please do not close the tab when preparing for download. 
-    <div align="center">
-        <img 
-            width="80%"
-            src="./imgs/2.2.9.png" 
-            alt="Alt text"
-        >
-        <p ><strong>Figure 2.2.9 Aupera web application page – LPR task MLOps Mode result tracklet page</strong></p>
-    </div>
+    If you enabled the MLOps Mode during LPR task setup, there will be a different view for the results page. On top of the results page, you can switch between MLOps results and LP detection results. In the MLOps section you will see “tracklets”. Each tracklet represents a single car recognized by the AI. The tracklets page allows you to filter MLOps results by date, or select **Hour**, **Day**, **Week** button behind *Limit By Last* for quick filter by hour, day or week. Beside the date picker locates the **Download** dropdown, hover dropdown will provide two options, Accuracy Report and MLOps Image. 
+        <div align="center">
+            <img 
+                width="80%"
+                src="./imgs/2.2.9.png" 
+                alt="Alt text"
+            >
+            <p ><strong>Figure 2.2.9 Aupera web application page – LPR task MLOps Mode result tracklet page</strong></p>
+        </div>
+    * **Accuracy Report** option: All tracklets with annotated licence plate will be organized into an excelsheet, with data on model's accuracy calculated based on what user annotated. Clicking this button will download excelsheet to user's computer.
+    * **MLOps Image** option: MLOps results will be packaged into a tar file and downloaded into your computer once clicked. Please do not close the tab when preparing for download. 
+        If file is not downloaded, it might be because the popup is blocked on the browser. To allow popup in *Chrome*:
+        <div align="center">
+            <img 
+                width="40%"
+                src="./imgs/2.2.10.png" 
+                alt="Alt text"
+            >
+            <p ><strong>Figure 2.2.10 Chrome popup – Steps to allow popup on Chrome</strong></p>
+        </div>
 
-    If file is not downloaded, it might be because the popup is blocked on the browser. To allow popup in *Chrome*:
-    <div align="center">
-        <img 
-            width="40%"
-            src="./imgs/2.2.10.png" 
-            alt="Alt text"
-        >
-        <p ><strong>Figure 2.2.10 Chrome popup – Steps to allow popup on Chrome</strong></p>
-    </div>
+        To allow popup in *Firefox*:
+        <div align="center">
+            <img 
+                width="40%"
+                src="./imgs/2.2.11.png" 
+                alt="Alt text"
+            >
+            <p ><strong>Figure 2.2.11 Firefox popup - Steps to allow popup on Firefox</strong></p>
+        </div>
 
-    To allow popup in *Firefox*:
-    <div align="center">
-        <img 
-            width="40%"
-            src="./imgs/2.2.11.png" 
-            alt="Alt text"
-        >
-        <p ><strong>Figure 2.2.11 Firefox popup - Steps to allow popup on Firefox</strong></p>
-    </div>
-
-    To allow popup in *Microsoft Edge* (after allowing popup, download MLOps results again):
-    <div align="center">
-        <img 
-            width="40%"
-            src="./imgs/2.2.12.png" 
-            alt="Alt text"
-        >
-        <p ><strong>Figure 2.2.12 Microsoft Edge popup - Steps to allow popup on Microsoft Edge</strong></p>
-    </div>
+        To allow popup in *Microsoft Edge* (after allowing popup, download MLOps results again):
+        <div align="center">
+            <img 
+                width="40%"
+                src="./imgs/2.2.12.png" 
+                alt="Alt text"
+            >
+            <p ><strong>Figure 2.2.12 Microsoft Edge popup - Steps to allow popup on Microsoft Edge</strong></p>
+        </div>
 
     If you click on a tracklet, you will open another page specifically designed for data labelling. On top of that page there is the “Modify License Plate” input field. The correct LP, verified by a user, can be entered here. After clicking **Submit**, the corresponding field will be updated in every MLOps result related to this tracklet. Incorrect results can be excluded by clicking on the checkbox in the bottom of the result card. Click the arrow in the top-left corner of the page to return to the tracklets list. 
     <div align="center">
@@ -754,15 +756,15 @@ After clicking the **Submit** button, the new added AI host will appear in the A
 <br>
 <br>
 
-## 8 USEFUL TOOLS
-1. Filter located at the top of the task list can filter items in task list. To use Filter, simply type in the input field or select an item by clicking the input field or the arrow button to filter the task list item by Video Stream, AI Application, Task Status, or AI Hosts
+## 8 MODEL REDEPLOYMENT
+1. After a host is added, user can upload model on a host by clicking cloud upload button. After button is clicked, there will be a Host LPR Model Management popup, allowing user to upload a model.
     <div align="center">
         <img 
             width="80%"
             src="./imgs/8.1.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 8.1 Aupera web application page – AI Tasks Hub, filter by Video Stream</strong></p>
+        <p ><strong>Figure 8.1 Aupera web application page – AI Hosts Page, one host added</strong></p>
     </div>
     <div align="center">
         <img 
@@ -770,40 +772,88 @@ After clicking the **Submit** button, the new added AI host will appear in the A
             src="./imgs/8.2.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 8.2 Aupera web application page – AI Tasks Hub, filter by AI Application</strong></p>
+        <p ><strong>Figure 8.2 Aupera web application page – AI Hosts Page, cloud upload clicked, Host LPR Model Management popup</strong></p>
     </div>
+2. User can also upload a model when starting/configuring a LPR task
     <div align="center">
         <img 
             width="80%"
             src="./imgs/8.3.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 8.3 Aupera web application page – AI Tasks Hub, filter by AI Host</strong></p>
+        <p ><strong>Figure 8.3 Aupera web application page – LPR task setup </strong></p>
     </div>
-2. Arrow buttons in the middle of the AI Tasks Hub page help adjust the ratio of the screen for a more convenient and customized view. Right arrow can be clicked to extend the table view. Left arrow can be clicked to extend what exists on the right side of the screen. When one view is extended, a bar will appear to help collapse the screen.
     <div align="center">
         <img 
             width="80%"
             src="./imgs/8.4.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 8.4. Aupera web application page – AI Tasks Hub view on smaller screen</strong></p>
+        <p ><strong>Figure 8.4 Aupera web application page – LPR Task setup, Models Management clicked, Host LPR Model Management popup</strong></p>
     </div>
+3. Uploaded models can be used/applied in LPR task setup Advanced AI Parameters popup (Popup will appear after Change Task Parameter button is clicked).
     <div align="center">
         <img 
             width="80%"
             src="./imgs/8.5.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 8.5. Aupera web application page – AI Tasks Hub, table(left) view extended</strong></p>
+        <p ><strong>Figure 8.5 Aupera web application page – LPR Task setup, Change Task Parameter clicked, Advanced AI Parameter Popup</strong></p>
+    </div>
+
+
+
+
+## 9 USEFUL TOOLS
+1. Filter located at the top of the task list can filter items in task list. To use Filter, simply type in the input field or select an item by clicking the input field or the arrow button to filter the task list item by Video Stream, AI Application, Task Status, or AI Hosts
+    <div align="center">
+        <img 
+            width="80%"
+            src="./imgs/9.1.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 9.1 Aupera web application page – AI Tasks Hub, filter by Video Stream</strong></p>
     </div>
     <div align="center">
         <img 
             width="80%"
-            src="./imgs/8.6.png" 
+            src="./imgs/9.2.png" 
             alt="Alt text"
         >
-        <p ><strong>Figure 8.6. Aupera web application page – AI Tasks Hub, right view extended</strong></p>
+        <p ><strong>Figure 9.2 Aupera web application page – AI Tasks Hub, filter by AI Application</strong></p>
+    </div>
+    <div align="center">
+        <img 
+            width="80%"
+            src="./imgs/9.3.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 9.3 Aupera web application page – AI Tasks Hub, filter by AI Host</strong></p>
+    </div>
+2. Arrow buttons in the middle of the AI Tasks Hub page help adjust the ratio of the screen for a more convenient and customized view. Right arrow can be clicked to extend the table view. Left arrow can be clicked to extend what exists on the right side of the screen. When one view is extended, a bar will appear to help collapse the screen.
+    <div align="center">
+        <img 
+            width="80%"
+            src="./imgs/9.4.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 9.4. Aupera web application page – AI Tasks Hub view on smaller screen</strong></p>
+    </div>
+    <div align="center">
+        <img 
+            width="80%"
+            src="./imgs/9.5.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 9.5. Aupera web application page – AI Tasks Hub, table(left) view extended</strong></p>
+    </div>
+    <div align="center">
+        <img 
+            width="80%"
+            src="./imgs/9.6.png" 
+            alt="Alt text"
+        >
+        <p ><strong>Figure 9.6. Aupera web application page – AI Tasks Hub, right view extended</strong></p>
     </div>
 
 
