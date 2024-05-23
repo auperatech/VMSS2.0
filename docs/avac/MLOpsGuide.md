@@ -25,23 +25,6 @@ Click on the **Download** dropdown beside the date picker and select **MLOps Res
     - You can download archives up to 10GB. If you get an error indicating that the archive is larger, consider specifying a narrower time range.
     - Download will start automatically when the archive is ready, it may take some time to prepare the archive. **Do not close the tab while preparing the archive**.
 
-# Monitor LPR Model Performance using Accuracy Reports
-
-1. Follow the steps 1 and 2 from the previous section to create an LPR task with MLOps enabled and collect some MLOps data.
-
-2. [Optional] Under the "MLOps Data" tab you can filter MLOps results by date. 
-Choose a date range or select **Hour**, **Day**, **Week** buttons for quick filters. 
-    - You can do this step and the next steps in a stopped task as well. If you collected enough data, you can stop the task and find this task in the "Archived Tasks" tab.
-3. Clean up and label tracklet data. Go through the tracklets one by one and do the following:
-    1. Click on the **exclude** checkbox on the images where the car or license plate are not clearly visible.
-    2. Type the correct license plate number in the "Modify Licence Plate" input and click submit.
-    4. Do this for as many tracklets as you can. These cleaned up tracklets will be used to generate accuracy report. Ignore the tracklets that don't contain any images with a clear license plate.
-4. Click on the **Download** dropdown beside the date picker and select **Accuracy Report** to start downloading the excelsheet in your selected time range.
-    - If no date range is selected, all cleaned up data will be considered for the report.
-    - If it's the first time using this feature, you may need to enable popups for this website to be able to download the excelsheet. See the screenshot in previous section.
-    - Download will start automatically when the excel report is ready, it may take some time to prepare the excel report. **Do not close the tab while preparing the report**.
-    - In some cases, after opening the excel report you may need to "enable editing" so that the formulas are calculated.
-
 # Upload and Deploy the Re-trained Model on a Host
 
 Follow the procedure below to deploy the .tar model that you obtained from the training server to your desired host and use it in an LPR task.
@@ -59,3 +42,24 @@ Follow the procedure below to deploy the .tar model that you obtained from the t
 4. After you uploaded your re-trained model successfully, you can select this model
    when creating a new task. In the LPR task configuration page, click on "Change 
    Task Parameters" and select your model from the "Model" dropdown.
+
+# Monitor LPR Model Performance using Accuracy Reports
+
+1. Follow the steps 1 and 2 from the first section to create an LPR task with MLOps enabled and collect some MLOps data.
+
+2. [Optional] Under the "MLOps Data" tab you can filter MLOps results by date. 
+Choose a date range or select **Hour**, **Day**, **Week** buttons for quick filters. 
+    - You can do this step and the next steps in a stopped task as well. If you collected enough data, you can stop the task and find this task in the "Archived Tasks" tab.
+3. Clean up and label tracklet data. Go through the tracklets one by one and do the following:
+    1. Click on the **exclude** checkbox on the images where the car or license plate are not clearly visible.
+    2. Type the correct license plate number in the "Modify Licence Plate" input and click submit.
+    4. Do this for as many tracklets as you can. These cleaned up tracklets will be used to generate accuracy report. Ignore the tracklets that don't contain any images with a clear license plate.
+4. Click on the **Download** dropdown beside the date picker and select **Accuracy Report** to start downloading the excelsheet in your selected time range.
+    - If no date range is selected, all cleaned up data will be considered for the report.
+    - If it's the first time using this feature, you may need to enable popups for this website to be able to download the excelsheet. See the screenshot in the first section.
+    - Download will start automatically when the excel report is ready, it may take some time to prepare the excel report. **Do not close the tab while preparing the report**.
+    - In some cases, after opening the excel report you may need to "enable editing" so that the formulas are calculated.
+
+5. The downloaded excelsheet will look like the image below, with highlighted cells and reference images for wrong license plate detections
+
+![image](https://github.com/auperatech/VMSS2.0/assets/23494593/9c78ab50-d2a3-4963-9934-1c369a34b799)
